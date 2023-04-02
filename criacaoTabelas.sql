@@ -39,7 +39,7 @@ CREATE TABLE InfraCamp.Usuario (
 	email VARCHAR(50) NOT NULL UNIQUE,
 	telefone VARCHAR(20) NOT NULL,
 	senha VARCHAR(30) NOT NULL,
-	urlImagem TEXT NOT NULL,
+	urlImagem TEXT NULL,
 	isFunc BIT NOT NULL
 );
 
@@ -68,7 +68,7 @@ CREATE TABLE InfraCamp.Opiniao (
 	CONSTRAINT fkIdUsuarioOpiniao FOREIGN KEY(idUsuario) REFERENCES InfraCamp.Usuario(cpf)
 		ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT pkOpiniao PRIMARY KEY (idDenuncia, idUsuario),
-	dataInteracao DATETIME NOT NULL,
+	dataOpiniao DATETIME NOT NULL,
 	isCurtida BIT NOT NULL
 );
 
