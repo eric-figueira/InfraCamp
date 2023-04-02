@@ -1,0 +1,17 @@
+button {
+  border-radius: 30px;
+
+  padding-inline: 2.5rem;
+  padding-block: 0.35rem;
+
+  cursor: pointer;
+  text-align: center;
+
+  min-width: 2rem;
+
+  font-size: 1.25rem;
+  font-weight: bold;
+  letter-spacing: 0.050rem;
+
+  outline: 0;
+}

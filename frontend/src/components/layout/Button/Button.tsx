@@ -1,0 +1,28 @@
+import React from 'react';
+
+import "./Button.css"
+
+interface ButtonProps {
+  text: string,
+  backgroundColor: string,
+  fontColor: string,
+  fontSize?: number,
+  borderColor?: string,
+  eventHandler: () => void;
+}
+
+const Button: React.FC<ButtonProps> = (props) => {
+  return (
+    <div>
+      <button 
+        style={{ backgroundColor: props.backgroundColor, 
+                 color: props.fontColor, 
+                 fontSize: props.fontSize,
+                 borderColor: props.borderColor }} 
+        onClick={props.eventHandler}
+      >{props.text}</button>
+    </div>
+  );
+}
+
+export default Button;
