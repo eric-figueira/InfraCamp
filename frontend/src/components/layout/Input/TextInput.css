@@ -1,0 +1,19 @@
+div.textinput-wrapper {
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+  width: fit-content;
+
+  display: flex;
+  align-items: center;
+
+  border-radius: 15px;
+}
+
+input.textinput {
+  outline: 0;
+  border: none;
+  padding-inline: 1.5rem;
+  padding-block: 0.55rem;
+
+  background: transparent;
+}

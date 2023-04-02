@@ -13,7 +13,7 @@ interface ButtonProps {
 
 const Button: React.FC<ButtonProps> = (props) => {
   return (
-    <div>
+    <div className='button-wrapper'>
       <button 
         style={{ backgroundColor: props.backgroundColor, 
                  color: props.fontColor, 
