@@ -8,7 +8,8 @@ interface InputProps {
   fontColor: string,
   fontSize?: number,
   icon?: React.ElementType,
-  iconSize?: number
+  iconSize?: number,
+  iconColor?: string
 }
 
 const TextInput: React.FC<InputProps> = (props) => {
@@ -16,7 +17,7 @@ const TextInput: React.FC<InputProps> = (props) => {
     <div className='textinput-wrapper' style={{
       backgroundColor: props.backgroundColor
     }}>
-      {props.icon && <props.icon size={props.iconSize}/>}
+      {props.icon && <props.icon size={props.iconSize} color={props.iconColor}/>}
       <input className='textinput'
         placeholder={props.placeholder}
         style={{ 

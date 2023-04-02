@@ -16,7 +16,7 @@ function App() {
     <div className="App">
       <Button text='Entrar' backgroundColor='#000000' fontColor='#FFFFFF' eventHandler={Test} />
       <Button text='Logar' backgroundColor='#FFF' fontColor='#000' borderColor='#000' eventHandler={Test} />
-      <TextInput placeholder='Senha' backgroundColor='#d4d4d4' fontColor='#000' fontSize={20} icon={House} iconSize={34}/>
+      <TextInput placeholder='Senha' backgroundColor='#d4d4d4' fontColor='#000' fontSize={20} icon={House} iconSize={34} iconColor='#fff'/>
     </div>
   );
 }
