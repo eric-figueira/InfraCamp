@@ -14,5 +14,7 @@ input.textinput {
   padding-inline: 1.5rem;
   padding-block: 0.55rem;
 
+  font-weight: 600;
+
   background: transparent;
 }

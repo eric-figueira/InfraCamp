@@ -1,0 +1,44 @@
+div.wrapper {
+  display: flex;
+  position: relative;
+  background: #DADADA;
+  height: 100vh;
+  overflow: hidden;
+}
+
+
+div.wrapper::after {
+  content: '';
+  width: 1550px;
+  height: 1550px;
+  border-radius: 50%;
+  background: #1F2026;
+
+  position: fixed;
+  right: 45px;
+  top: -700px;
+
+  z-index: 0;
+}
+
+
+div.img-container {
+  position: relative;
+  width: 50%;
+
+  z-index: 1;
+}
+
+div.img-container .senha-img {
+  position: absolute;
+  bottom: -15%;
+  width: 75%;
+}
+
+div.info-container {
+  position: relative;
+  width: 50%;
+
+  z-index: 1;
+}
+
