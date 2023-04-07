@@ -4,6 +4,7 @@ import "./RecuperacaoSenha.css"
 
 import { ReactComponent as ImagemRecuperacaoSenha } from "../../assets/imgs/imgRecSenha.svg"
 
+
 import Button from '../layout/Button/Button';
 import TextInput from '../layout/Input/TextInput';
 
@@ -11,7 +12,8 @@ import { EnvelopeSimple, Key  } from 'phosphor-react'
 
 const RecuperacaoSenha: React.FC = () => {
 
-  function Test() {}
+  function Test() {
+  }
 
   return (
     <div className='wrapper'>
