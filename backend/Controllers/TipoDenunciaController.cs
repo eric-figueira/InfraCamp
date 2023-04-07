@@ -13,11 +13,23 @@ namespace backend.Controllers
 {
     [Route("api/tiposDenuncia")]
     [ApiController]
-    public class TipoDenunciaController : Controller
+    public class TipoDenunciaController : ControllerBase
     {
         private InfraCampContext _context;
-        public AtualizacaoController(InfraCampContext ctx) {
+        public TipoDenunciaController(InfraCampContext ctx) {
             this._context = ctx;
+        }
+
+        /*
+            GET de lista dos tipos de denúncia - usos:
+                - Filtrar denúncias por tipo
+                - Criar uma denúncia
+            
+            Obs: Não precisa de PUT, POST ou DELETE
+        */
+        [HttpGet]
+        public ActionResult<List<TipoDenuncia>> GetAll() {
+            return this._context.TipoDenuncia.ToList();
         }
     }
 }

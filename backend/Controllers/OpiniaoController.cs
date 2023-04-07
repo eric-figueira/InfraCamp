@@ -15,7 +15,7 @@ namespace backend.Controllers
     public class OpiniaoController : Controller
     {
         private InfraCampContext _context;
-        public AtualizacaoController(InfraCampContext ctx) {
+        public OpiniaoController(InfraCampContext ctx) {
             this._context = ctx;
         }
     }

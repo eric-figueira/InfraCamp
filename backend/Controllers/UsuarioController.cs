@@ -16,7 +16,7 @@ namespace backend.Controllers
     public class UsuarioController : Controller
     {
         private InfraCampContext _context;
-        public AtualizacaoController(InfraCampContext ctx) {
+        public UsuarioController(InfraCampContext ctx) {
             this._context = ctx;
         }
     }

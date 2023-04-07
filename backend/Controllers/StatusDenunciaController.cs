@@ -13,11 +13,23 @@ namespace backend.Controllers
 {
     [Route("api/statusDenuncia")]
     [ApiController]
-    public class StatusDenunciaController : Controller
+    public class StatusDenunciaController : ControllerBase
     {
         private InfraCampContext _context;
-        public AtualizacaoController(InfraCampContext ctx) {
+        public StatusDenunciaController(InfraCampContext ctx) {
             this._context = ctx;
+        }
+
+        /*
+            GET de lista dos status possíveis - usos:
+                - Filtrar denúncias por status
+                - Setar um status para uma denúncia
+            
+            Obs: Não precisa de PUT, POST ou DELETE. PUT acontecerá na denúncia em si, e não na tabela de StatusDenuncia
+        */
+        [HttpGet]
+        public ActionResult<List<StatusDenuncia>> GetAll() {
+            return this._context.StatusDenuncia.ToList();
         }
     }
 }
