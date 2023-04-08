@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import './Map.css'
 import * as maptilersdk from '@maptiler/sdk';
-import SearchBar from './SearchBar';
+import searchControl from './SearchControl';
+import "@maptiler/sdk/dist/maptiler-sdk.css";
 
 const Map: React.FC = () => {
     const [KEY] = useState('61IAJkR9OhCFaMNRNeOn');
-    const [map, setMap] = useState<maptilersdk.Map>();
+    const map = useRef<maptilersdk.Map | undefined>();
     const [lat, setLat] = useState<number>(-22.9064);
     const [lng, setLng] = useState<number>(-47.0616);
     const [zoom] = useState(10);
@@ -17,42 +19,31 @@ const Map: React.FC = () => {
         }
         navigator.geolocation.getCurrentPosition(getPosition);
 
-        // creates a map in the div with id="map"
-        setMap(new maptilersdk.Map({
+        if (map.current) return;
+        map.current = new maptilersdk.Map({
             container: "map",
             style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${KEY}`,
+            terrainControl: false,
+            scaleControl: true,
+            navigationControl: true,
             center: [lng, lat],
             zoom: zoom,
-        }));
+        })
 
-        // adds a navigation control so then the user can navigate through the map
-        setMap(map?.addControl(new maptilersdk.NavigationControl({
-            showCompass: true,
-            showZoom: true,
-            visualizePitch: true
-        }), 'top-right'));
+        map.current.setStyle(maptilersdk.MapStyle.STREETS);
+        maptilersdk.config.primaryLanguage = maptilersdk.Language.PORTUGUESE;
 
-        setMap(map?.addControl(new maptilersdk.GeolocateControl({
-            positionOptions: { enableHighAccuracy: true },
-            trackUserLocation: true
-        }), 'top-right'));
+        map.current.addControl(searchControl);
+    });
 
-        try {
-            // adds a pin showing your current location
-            if (map != null && lat != null && lng != null)
-                new maptilersdk.Marker({ color: "#21275F" }).setLngLat([lng, lat]).addTo(map);
-        } catch (ex) { }
-
-    }, [KEY, lng, lat, zoom, map]);
-
-    const handleLoad = (_map: maptilersdk.Map | undefined) => {
-        setMap(_map);
-    }
+    useEffect(() => {
+        let button: HTMLButtonElement | null = document.getElementsByClassName('maplibregl-ctrl-geolocate').item(0) as HTMLButtonElement;
+        if (button != null)
+            button.click();
+    })
 
     return (
-        <div id="map">
-            <SearchBar map={map} onLoad={handleLoad}/>
-        </div>
+        <div id="map"/>
     )
 }
 

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import * as maptilersdk from '@maptiler/sdk';
-declare var maplibreglMaptilerGeocoder: any;
 import "https://unpkg.com/@maptiler/geocoding-control@latest/maplibregl.umd.js";
+import * as maptilersdk from '@maptiler/sdk';
+import map from '@maptiler/sdk/dist/maptiler-sdk';
+import './SearchControl.css';
+declare var maplibreglMaptilerGeocoder: any;
 
 class searchControl implements maptilersdk.IControl {
     private KEY: string = "61IAJkR9OhCFaMNRNeOn";
@@ -13,7 +14,7 @@ class searchControl implements maptilersdk.IControl {
     })
     private _container: HTMLElement = document.createElement("div");
 
-    onAdd(map: any) {
+    onAdd(map: maptilersdk.Map) {
         this._map = map;
         this._container = document.createElement('div');
         this._container.className = 'maplibregl-ctrl';
@@ -43,27 +44,13 @@ class searchControl implements maptilersdk.IControl {
         })
         return this._container;
     }
-    onRemove() {
+    onRemove(map: map.Map) {
         if (this._container.parentNode != null)
             this._container.parentNode.removeChild(this._container);
         this._map = undefined;
     }
 }
 
-interface SearchBarProps {
-    map: maptilersdk.Map | undefined,
-    onLoad: (_map: maptilersdk.Map | undefined) => void;
-}
+console.log(typeof searchControl) 
 
-const SearchBar: React.FC<SearchBarProps> = (props) => {
-    const handleLoad = () => {
-        const mapa = props.map?.addControl(new searchControl());
-        props.onLoad(mapa);
-    }
-
-    return (
-        <div onLoad={handleLoad}></div>
-    )
-}
-
-export default SearchBar;
+export default searchControl;

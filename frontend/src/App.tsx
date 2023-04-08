@@ -14,8 +14,7 @@ function App() {
       {/* <RecuperacaoSenha /> */}
       {/* <Login /> */}
       {/* <Cadastro> */}
-      {/* <Map/> */}
-      <Navbar />
+      {<Map/>}
     </div>
   );
 }
