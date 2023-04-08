@@ -8,7 +8,7 @@ import { ReactComponent as ImagemRecuperacaoSenha } from "../../assets/imgs/imgR
 import Button from '../layout/Button/Button';
 import TextInput from '../layout/Input/TextInput';
 
-import { EnvelopeSimple, Key  } from 'phosphor-react'
+import { EnvelopeSimple, Key } from 'phosphor-react'
 
 const RecuperacaoSenha: React.FC = () => {
 

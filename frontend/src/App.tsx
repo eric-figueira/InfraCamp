@@ -4,6 +4,7 @@ import './App.css';
 import RecuperacaoSenha from './components/pages/RecuperacaoSenha';
 import Login from './components/pages/Login';
 import Cadastro from './components/pages/Cadastro';
+import Map from './components/containers/Map';
 
 function App() {
 
@@ -11,7 +12,8 @@ function App() {
     <div className="App">
       {/* <RecuperacaoSenha /> */}
       {/* <Login /> */}
-      <Cadastro />
+      {/* <Cadastro> */}
+      <Map/>
     </div>
   );
 }
