@@ -1,15 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './Map.css'
 import * as maptilersdk from '@maptiler/sdk';
-import searchControl from './SearchControl';
+import { GeocodingControl } from '@maptiler/geocoding-control/react';
 import "@maptiler/sdk/dist/maptiler-sdk.css";
+import { MapController } from '@maptiler/geocoding-control/types';
+import { createMapLibreGlMapController } from "@maptiler/geocoding-control/maplibregl-controller";
+import maplibregl from 'maplibre-gl';
+import * as maplibre from "maplibre-gl/dist/maplibre-gl";
 
 const Map: React.FC = () => {
     const [KEY] = useState('61IAJkR9OhCFaMNRNeOn');
-    const map = useRef<maptilersdk.Map | undefined>();
+    const map = useRef<maplibre.Map | undefined>();
     const [lat, setLat] = useState<number>(-22.9064);
     const [lng, setLng] = useState<number>(-47.0616);
     const [zoom] = useState(10);
+    const [mapController, setMapController] = useState<MapController>();
 
     useEffect(() => {
         // sets the current position of the user to the lat and lng states
@@ -20,20 +25,23 @@ const Map: React.FC = () => {
         navigator.geolocation.getCurrentPosition(getPosition);
 
         if (map.current) return;
-        map.current = new maptilersdk.Map({
+        map.current = new maplibre.Map({
             container: "map",
             style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${KEY}`,
-            terrainControl: false,
-            scaleControl: true,
-            navigationControl: true,
             center: [lng, lat],
             zoom: zoom,
         })
 
-        map.current.setStyle(maptilersdk.MapStyle.STREETS);
+        map.current.addControl(new maplibre.NavigationControl({
+            showZoom: true,
+            showCompass: true,
+            visualizePitch: true
+        }));
+        map.current.addControl(new maplibregl.ScaleControl({}), 'bottom-left');
+        map.current.addControl(new maplibre.GeolocateControl({}));
         maptilersdk.config.primaryLanguage = maptilersdk.Language.PORTUGUESE;
 
-        map.current.addControl(searchControl);
+        setMapController(createMapLibreGlMapController(map.current, maplibregl));
     });
 
     useEffect(() => {
@@ -43,7 +51,11 @@ const Map: React.FC = () => {
     })
 
     return (
-        <div id="map"/>
+        <div id="map">
+            <div className="searchBar">
+                <GeocodingControl language={'pt'} showResultsWhileTyping={true} placeholder='Digite o nome da rua onde se encontra o problema' apiKey={KEY} mapController={mapController} />
+            </div>
+        </div>
     )
 }
 

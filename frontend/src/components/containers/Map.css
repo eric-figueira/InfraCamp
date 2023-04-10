@@ -3,4 +3,35 @@
     width: 80%;
     height: 100%;
     left: 20%;
+    z-index: 1;
+}
+
+.searchBar {
+    z-index: 10;
+    position: relative;
+    width: 80%;
+}
+
+button.svelte-p509gh {
+    --a: 30px;
+
+    width: var(--a);
+    height: var(--a);
+    border: 2px solid #e2dddd;
+    margin: 5px;
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 5px;
+}
+
+input.svelte-p509gh {
+    --a: 30px;
+
+    height: var(--a);
+    width: 80%;
+    padding: 10px;
+    border-radius: var(--a);
+    outline-style: none;
+    border: 2px solid #e2dddd;
+    background-color: #e7e7e7;
 }
