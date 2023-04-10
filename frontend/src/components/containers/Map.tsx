@@ -7,6 +7,7 @@ import { MapController } from '@maptiler/geocoding-control/types';
 import { createMapLibreGlMapController } from "@maptiler/geocoding-control/maplibregl-controller";
 import maplibregl from 'maplibre-gl';
 import * as maplibre from "maplibre-gl/dist/maplibre-gl";
+import { Feature } from '@maptiler/geocoding-control/types';
 
 const Map: React.FC = () => {
     const [KEY] = useState('61IAJkR9OhCFaMNRNeOn');
@@ -53,7 +54,10 @@ const Map: React.FC = () => {
     return (
         <div id="map">
             <div className="searchBar">
-                <GeocodingControl language={'pt'} showResultsWhileTyping={true} placeholder='Digite o nome da rua onde se encontra o problema' apiKey={KEY} mapController={mapController} />
+                <GeocodingControl language='pt' country='br' showResultsWhileTyping={true} placeholder='Digite o nome da rua onde se encontra o problema' apiKey={KEY} mapController={mapController} onResponse={(e => {
+                    let arrayFeatures = e.featureCollection.features.filter((item: Feature) => item.place_name.includes("Campinas, São Paulo"))
+                    e.featureCollection.features = arrayFeatures;
+                })} errorMessage={"Falha ao buscar dados"}  />
             </div>
         </div>
     )
