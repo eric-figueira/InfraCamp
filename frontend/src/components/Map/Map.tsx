@@ -10,11 +10,9 @@ import * as maplibre from "maplibre-gl/dist/maplibre-gl";
 import { Feature } from '@maptiler/geocoding-control/types';
 
 const Map: React.FC = () => {
-    const [KEY] = useState('61IAJkR9OhCFaMNRNeOn');
     const map = useRef<maplibre.Map | undefined>();
     const [lat, setLat] = useState<number>(-22.9064);
     const [lng, setLng] = useState<number>(-47.0616);
-    const [zoom] = useState(10);
     const [mapController, setMapController] = useState<MapController>();
 
     useEffect(() => {
@@ -28,9 +26,9 @@ const Map: React.FC = () => {
         if (map.current) return;
         map.current = new maplibre.Map({
             container: "map",
-            style: `https://api.maptiler.com/maps/streets-v2/style.json?key=${KEY}`,
+            style: `https://api.maptiler.com/maps/streets-v2/style.json?key=61IAJkR9OhCFaMNRNeOn`,
             center: [lng, lat],
-            zoom: zoom,
+            zoom: 10,
         })
 
         map.current.addControl(new maplibre.NavigationControl({
@@ -54,10 +52,19 @@ const Map: React.FC = () => {
     return (
         <div id="map">
             <div className="searchBar">
-                <GeocodingControl language='pt' country='br' showResultsWhileTyping={true} placeholder='Digite o nome da rua onde se encontra o problema' apiKey={KEY} mapController={mapController} onResponse={(e => {
+                <GeocodingControl 
+                language='pt' 
+                country='br' 
+                showResultsWhileTyping={true} 
+                placeholder='Digite o nome da rua onde se encontra o problema' apiKey={'61IAJkR9OhCFaMNRNeOn'} 
+                mapController={mapController} 
+                onResponse={(e => {
                     let arrayFeatures = e.featureCollection.features.filter((item: Feature) => item.place_name.includes("Campinas, São Paulo"))
                     e.featureCollection.features = arrayFeatures;
-                })} errorMessage={"Falha ao buscar dados"}  />
+                })} 
+                errorMessage={"Falha ao buscar dados"}
+                noResultsMessage="Sem resultados para a busca"
+                clearButtonTitle="Limpar"/>
             </div>
         </div>
     )
