@@ -5,8 +5,8 @@ import "./RecuperacaoSenha.css"
 import { ReactComponent as ImagemRecuperacaoSenha } from "../../assets/imgs/imgRecSenha.svg"
 
 
-import Button from '../layout/Button/Button';
-import TextInput from '../layout/Input/TextInput';
+import Button from '../../components/Button/Button';
+import TextInput from '../../components/Input/TextInput';
 
 import { EnvelopeSimple, Key } from 'phosphor-react'
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
 
-import RecuperacaoSenha from './components/pages/RecuperacaoSenha';
-import Login from './components/pages/Login';
-import Cadastro from './components/pages/Cadastro';
-import Map from './components/containers/Map';
-import Navbar from './components/layout/Navbar/Navbar';
+import RecuperacaoSenha from './pages/RecuperacaoSenha/RecuperacaoSenha';
+import Login from './pages/Login/Login';
+import Cadastro from './pages/Cadastro/Cadastro';
+import Map from './components/Map/Map';
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
 
