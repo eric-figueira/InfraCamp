@@ -2,12 +2,14 @@ import React from 'react';
 
 import "./RecuperacaoSenha.css"
 
+import { colorPallete } from "../../styles/colors"
+import { Input } from "./styled"
+
 import { ReactComponent as ImagemRecuperacaoSenha } from "../../assets/imgs/imgRecSenha.svg"
+import { EnvelopeSimple, Key } from 'phosphor-react'
 
 import Button from '../../components/Button/Button';
 
-
-import { EnvelopeSimple, Key } from 'phosphor-react'
 
 const RecuperacaoSenha: React.FC = () => {
 
@@ -23,10 +25,37 @@ const RecuperacaoSenha: React.FC = () => {
         <div className="form-wrapper">
           <h1>Recupere sua senha</h1>
           <form>
-            {/* <TextInput placeholder='Email' backgroundColor='#F2F2F2' fontColor='#C1C2BD' fontSize={25} icon={EnvelopeSimple} iconSize={34} iconColor='#C1C2BD'/> */}
-            {/* <TextInput placeholder='Nova Senha' backgroundColor='#F2F2F2' fontColor='#C1C2BD' fontSize={25} icon={Key} iconSize={34} iconColor='#C1C2BD'/> */}
-            {/* <TextInput placeholder='Confirme a Senha' backgroundColor='#F2F2F2' fontColor='#C1C2BD' fontSize={25} icon={Key} iconSize={34} iconColor='#C1C2BD'/> */}
-            {/* <Button text='Recuperar' backgroundColor='#1F2026' fontColor='#FFF' fontSize={25} eventHandler={Test} /> */}
+            <Input 
+              backgroundColor="#FFF"
+              placeholderColor={colorPallete.fontGray}
+              fontColor={colorPallete.fontBlack}
+              >
+              <div className='icon-container'>
+                <EnvelopeSimple />
+              </div>
+              <input type="text" placeholder='Digite seu email' />
+            </Input>
+            <Input 
+              backgroundColor="#FFF"
+              placeholderColor={colorPallete.fontGray}
+              fontColor={colorPallete.fontBlack}
+              >
+              <div className='icon-container'>
+                <Key />
+              </div>
+              <input type="text" placeholder='Digite uma nova senha' />
+            </Input>
+            <Input 
+              backgroundColor="#FFF"
+              placeholderColor={colorPallete.fontGray}
+              fontColor={colorPallete.fontBlack}
+              >
+              <div className='icon-container'>
+                <Key />
+              </div>
+              <input type="text" placeholder='Confirme sua senha' />
+            </Input>
+            <Button text='Recuperar' backgroundColor='#1F2026' fontColor='#FFF' fontSize={25} eventHandler={Test} />
           </form>
         </div>
       </div>
