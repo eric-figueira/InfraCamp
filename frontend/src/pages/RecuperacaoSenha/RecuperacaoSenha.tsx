@@ -6,7 +6,7 @@ import { ReactComponent as ImagemRecuperacaoSenha } from "../../assets/imgs/imgR
 
 
 import Button from '../../components/Button/Button';
-import TextInput from '../../components/Input/TextInput';
+//import TextInput from '../../components/Input/TextInput';
 
 import { EnvelopeSimple, Key } from 'phosphor-react'
 
@@ -24,9 +24,9 @@ const RecuperacaoSenha: React.FC = () => {
         <div className="form-wrapper">
           <h1>Recupere sua senha</h1>
           <form>
-            <TextInput placeholder='Email' backgroundColor='#F2F2F2' fontColor='#C1C2BD' fontSize={25} icon={EnvelopeSimple} iconSize={34} iconColor='#C1C2BD'/>
-            <TextInput placeholder='Nova Senha' backgroundColor='#F2F2F2' fontColor='#C1C2BD' fontSize={25} icon={Key} iconSize={34} iconColor='#C1C2BD'/>
-            <TextInput placeholder='Confirme a Senha' backgroundColor='#F2F2F2' fontColor='#C1C2BD' fontSize={25} icon={Key} iconSize={34} iconColor='#C1C2BD'/>
+            {/* <TextInput placeholder='Email' backgroundColor='#F2F2F2' fontColor='#C1C2BD' fontSize={25} icon={EnvelopeSimple} iconSize={34} iconColor='#C1C2BD'/> */}
+            {/* <TextInput placeholder='Nova Senha' backgroundColor='#F2F2F2' fontColor='#C1C2BD' fontSize={25} icon={Key} iconSize={34} iconColor='#C1C2BD'/> */}
+            {/* <TextInput placeholder='Confirme a Senha' backgroundColor='#F2F2F2' fontColor='#C1C2BD' fontSize={25} icon={Key} iconSize={34} iconColor='#C1C2BD'/> */}
             <Button text='Recuperar' backgroundColor='#1F2026' fontColor='#FFF' fontSize={25} eventHandler={Test} />
           </form>
         </div>
