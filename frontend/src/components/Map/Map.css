@@ -18,10 +18,17 @@ button.svelte-p509gh {
     width: var(--a);
     height: var(--a);
     border: 2px solid #e2dddd;
+    border-radius: --a;
     margin: 5px;
     margin-top: 10px;
     margin-left: 10px;
     padding: 5px;
+    position: relative;
+    float: left;
+}
+
+button.svelte-p509gh:hover {
+    cursor: pointer;
 }
 
 input.svelte-p509gh {
@@ -34,4 +41,24 @@ input.svelte-p509gh {
     outline-style: none;
     border: 2px solid #e2dddd;
     background-color: #e7e7e7;
+    position: relative;
+    float: left;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-size: 14px;
+}
+
+li.svelte-p509gh, div.no-results.svelte-p509gh  {
+    padding: 5px;
+    font-size: 14px;
+    background-color: ivory;
+}
+
+ul.svelte-p509gh, div.no-results.svelte-p509gh {
+    margin-left: 55px;
+    width: 80%;
+}
+
+li.svelte-p509gh:hover {
+    cursor: pointer;
 }

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 using backend.Data;
@@ -16,7 +17,8 @@ namespace backend.Controllers
     public class DenunciaController : ControllerBase
     {
         private InfraCampContext _context;
-        public DenunciaController(InfraCampContext ctx) {
+        public DenunciaController(InfraCampContext ctx)
+        {
             this._context = ctx;
         }
 
@@ -32,13 +34,25 @@ namespace backend.Controllers
         */
 
         [HttpGet]
-        public ActionResult<List<Denuncia>> GetAll() {
+        public ActionResult<List<Denuncia>> GetAll()
+        {
             return this._context.Denuncia.ToList();
         }
 
-        [HttpGet("/cpf")]
-        public ActionResult<List<Denuncia>> GetDenunciasUsuario(String cpf) {
-            // ? 
+        [HttpGet("{cpf}")]
+        public ActionResult<List<Denuncia>> GetDenunciasUsuario(String cpf)
+        {
+            try
+            {
+                var result = this._context.Denuncia.Find(cpf);
+                if (result == null)
+                    return NotFound();
+                return Ok(result);
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no acesso ao banco de dados.");
+            }
         }
     }
 }
