@@ -18,5 +18,10 @@ namespace backend.Controllers
         public OpiniaoController(InfraCampContext ctx) {
             this._context = ctx;
         }
+
+        [HttpGet] 
+        public List<ActionResult<Opiniao>> GetAll() {
+            this._context = TaskExtensions;
+        }
     }
 }

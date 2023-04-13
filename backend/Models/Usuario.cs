@@ -17,5 +17,8 @@ namespace backend.Models
         public string Senha { get; set => value.Substring(0, 30); }
         public string? UrlImagem { get; set; }
         public Byte IsFunc { get; set; }
+
+        public ICollection<Opiniao> Opinioes { get; } = new List<Opiniao>(); // Collection navigation containing dependents
+        public ICollection<Opiniao> Denuncias { get; } = new List<Denuncia>();
     }
 }

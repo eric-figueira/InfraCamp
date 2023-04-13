@@ -64,7 +64,8 @@ const Map: React.FC = () => {
                 })} 
                 errorMessage={"Falha ao buscar dados"}
                 noResultsMessage="Sem resultados para a busca"
-                clearButtonTitle="Limpar"/>
+                clearButtonTitle="Limpar"
+                enableReverse={true}/>
             </div>
         </div>
     )

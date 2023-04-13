@@ -7,8 +7,9 @@ namespace backend.Models
 {
     public class StatusDenuncia
     {
-        enum Status : String {
-            NaoVisualizado = "Não Visulizado", 
+        enum Status : String
+        {
+            NaoVisualizado = "Não Visulizado",
             EmAnalise = "Em análise",
             Fechado = "Fechado",
             EmProcessoDeResolucao = "Em processo de resolução",
@@ -16,5 +17,7 @@ namespace backend.Models
         }
         public int IdStatus { get; set; }
         public Status Status { get; set; }
+
+        public ICollection<Opiniao> Denuncias { get; } = new List<Denuncia>();
     }
 }

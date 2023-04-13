@@ -1,0 +1,7 @@
+C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\backend.csproj.AssemblyReference.cache
+C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\backend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\backend.AssemblyInfoInputs.cache
+C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\backend.AssemblyInfo.cs
+C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\backend.csproj.CoreCompileInputs.cache
+C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\backend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\backend.MvcApplicationPartsAssemblyInfo.cache

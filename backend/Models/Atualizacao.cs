@@ -7,7 +7,9 @@ namespace backend.Models
 {
     public class Atualizacao
     {
+        [PrimaryKey(nameof(IdDenuncia), nameof(IdUsuario), nameof(StatusDenuncia))]
         public int IdDenuncia { get; set; }
+        
         public int IdUsuario { get; set; }
         public int StatusDenuncia { get; set; }
         [DataType(DataType.Date)]
