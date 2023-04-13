@@ -1,21 +1,22 @@
 import React from 'react';
-import './App.css';
+
+import './styles/globalStyles.css'
 
 import RecuperacaoSenha from './pages/RecuperacaoSenha/RecuperacaoSenha';
 import Login from './pages/Login/Login';
 import Cadastro from './pages/Cadastro/Cadastro';
-import Map from './components/Map/Map';
+//import Map from './components/Map/Map';
 import Navbar from './components/Navbar/Navbar';
 
 function App() {
 
   return (
     <div className="App">
-      {/* <RecuperacaoSenha /> */}
+      <RecuperacaoSenha />
       {/* <Login /> */}
       {/* <Cadastro> */}
       {/* <Navbar /> */}
-      {<Map/>}
+      {/* {<Map/>} */}
     </div>
   );
 }

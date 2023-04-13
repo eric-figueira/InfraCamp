@@ -56,7 +56,7 @@
     text-align: right;
 }
 
-.sidebar i {
+.sidebar .icon {
     color: #fff;
     height: 60px;
     min-width: 50px;
