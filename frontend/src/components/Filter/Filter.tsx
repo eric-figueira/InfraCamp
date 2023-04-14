@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
+import { useGet } from "../../hooks/useGet";
+import axios from "axios";
 
 type Tipo = {
     idTipo: Number;
@@ -15,8 +16,11 @@ const Filter: React.FC = () => {
     const [tipos, setTipos] = useState<Tipo[]>([{idTipo: 0, tipo: ''}]);
     const [status, setStatus] = useState<Status[]>([{idStatus: 0, status: ''}]);
 
+    //const { tipos } = useGet<Tipo[]>("api/tiposDenuncia")
+   // const { status } = useGet<Status[]>("api/statusDenuncia")
+
     useEffect(() => {
-        axios.get("http://localhost:5164/api/tiposDenuncia").then(resp => {
+        axios.get("http://localhost:5164/").then(resp => {
             setTipos(resp.data);
         })
     })
