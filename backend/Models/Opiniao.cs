@@ -1,20 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Models
-{
+{   
+    // primary key composta
+    [PrimaryKey(nameof(IdDenuncia), nameof(IdUsuario))]
     public class Opiniao
     {
-        [PrimaryKey(nameof(IdDenuncia), nameof(IdUsuario))]
-        public int IdDenuncia { get; set; } // Required foreign key property
-        public Denuncia Denuncia { get; set; } = null!; // Required reference navigation to principal
-        public string IdUsuario { get; set => value.Substring(0, 14); }
-        public Usuario Usuario { get; set; } = null!;
+        public int IdDenuncia { get; set; } // Chave estrangeira
+        public Denuncia Denuncia { get; set; } = null!; // Referência de navegação para a principal
+        public string? IdUsuario { get; set; } // chave estrangeira
+        public Usuario Usuario { get; set; } = null!; // referência de navegação para a principal
         
         [DataType(DataType.Date)]
         public DateTime DataInteracao { get; set; }
-        public Byte IsCurtida { get; set; }
+        public bool IsCurtida { get; set; }
     }
 }

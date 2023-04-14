@@ -39,7 +39,7 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCode.Status500InternalServerError, "Falha ao acesso no banco de dados.");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha ao acesso no banco de dados.");
             }
         }
 
@@ -50,13 +50,11 @@ namespace backend.Controllers
             {
                 this._context.Usuario.Add(usuario);
                 if (await _context.SaveChangesAsync() == 1)
-                {
                     return Created("api/usuarios/" + usuario.Cpf, usuario);
-                }
             }
             catch (Exception ex)
             {
-                return this.StatusCode(StatusCode.Status500InternalServerError, "Falha ao acesso no banco de dados.");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha ao acesso no banco de dados.");
             }
             return BadRequest();
         }
@@ -69,13 +67,13 @@ namespace backend.Controllers
                 var resultado = await this._context.Usuario.FindAsync(cpf);
                 if (resultado == null)
                     return NotFound();
-                this._context.Usuario.Remove(cpf);
+                this._context.Usuario.Remove(resultado);
                 await this._context.SaveChangesAsync();
                 return NoContent();
             }
             catch (Exception erro)
             {
-                return this.StatusCode(StatusCode.Status500InternalServerError, "Falha ao acesso ao banco de dados.");
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha ao acesso ao banco de dados.");
             }
         }
 
@@ -87,7 +85,7 @@ namespace backend.Controllers
                 var resultado = await this._context.Usuario.FindAsync(cpf);
                 if (resultado == null)
                     return NotFound();
-                    
+
                 resultado.Cpf = usuario.Cpf;
                 resultado.Nome = usuario.Nome;
                 resultado.DataNascimento = usuario.DataNascimento;
@@ -103,7 +101,7 @@ namespace backend.Controllers
             }
             catch (Exception erro)
             {
-                return this.StatusCode(StatusCode.Status500InternalServerError, 
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
                 "Falha no acesso aos dados.");
             }
         }

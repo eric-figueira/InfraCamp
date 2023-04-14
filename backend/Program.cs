@@ -27,7 +27,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<InfraCampContext>(options =>
 {
-  options.useSqlServer(builder.Configuration.GetConnectionString("StringConexaoSQLServer"));
+  options.UseSqlServer(builder.Configuration.GetConnectionString("StringConexaoSQLServer"));
 });
 
 var app = builder.Build();

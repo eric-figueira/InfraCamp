@@ -1,19 +1,24 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace backend.Models
 {
+    [PrimaryKey(nameof(IdDenuncia), nameof(IdUsuario), nameof(IdStatusDenuncia))]
     public class Atualizacao
     {
-        [PrimaryKey(nameof(IdDenuncia), nameof(IdUsuario), nameof(StatusDenuncia))]
         public int IdDenuncia { get; set; }
-        
+        public Denuncia Denuncia { get; set; } = null!;
         public int IdUsuario { get; set; }
-        public int StatusDenuncia { get; set; }
+        public Usuario Usuario { get; set; } = null!;
+        public int IdStatusDenuncia { get; set; }
+        public StatusDenuncia StatusDenuncia { get; set; } = null!;
+       
         [DataType(DataType.Date)]
         public DateTime DataAtualizacao { get; set; }
-        public string? Comentario { get; set => value.Substring(0, 14); }
+        public string? Comentario { get; set; }
     }
 }

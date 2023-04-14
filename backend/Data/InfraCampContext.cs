@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameWorkCore;
+using Microsoft.EntityFrameworkCore;
 using backend.Models;
 
 namespace backend.Data
@@ -16,9 +16,9 @@ namespace backend.Data
             this.Configuration = configuration;
         }
 
-        protected override OnConfiguring(DbContextOptionsBuilder options)
+        protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-            options.useSqlServer(Configuration.GetConnectionString("StringConexaoSQLServer"));
+            options.UseSqlServer(Configuration.GetConnectionString("StringConexaoSQLServer"));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

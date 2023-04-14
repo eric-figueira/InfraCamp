@@ -2,23 +2,29 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace backend.Models
 {
     public class Usuario
     {
-        public string Cpf { get; set => value.Substring(0, 14); }
-        public string Nome { get; set => value.Substring(0, 30); }
+        public string? Cpf { get; set; }
+        public string? Nome { get; set; }
+
         [DataType(DataType.Date)]
         public DateTime DataNascimento { get; set; }
-        public string Endereco { get; set => value.Substring(0, 100); }
-        public string Email { get; set => value.Substring(0, 50); }
-        public string Telefone { get; set => value.Substring(0, 20); }
-        public string Senha { get; set => value.Substring(0, 30); }
+        public string? Endereco { get; set; }
+        public string? Email { get; set; }
+        public string? Telefone { get; set; }
+        public string? Senha { get; set; }
         public string? UrlImagem { get; set; }
-        public Byte IsFunc { get; set; }
+        public bool IsFunc { get; set; }
 
-        public ICollection<Opiniao> Opinioes { get; } = new List<Opiniao>(); // Collection navigation containing dependents
-        public ICollection<Opiniao> Denuncias { get; } = new List<Denuncia>();
+        // Coleções contendo dependentes (foreign key)
+        public ICollection<Opiniao> Opinioes { get; } = new List<Opiniao>(); 
+
+        public ICollection<Denuncia> Denuncias { get; } = new List<Denuncia>();
+
+        public ICollection<Atualizacao> Atualizacoes { get; } = new List<Atualizacao>();
     }
 }

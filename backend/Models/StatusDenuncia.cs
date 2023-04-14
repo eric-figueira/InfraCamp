@@ -7,17 +7,11 @@ namespace backend.Models
 {
     public class StatusDenuncia
     {
-        enum Status : String
-        {
-            NaoVisualizado = "Não Visulizado",
-            EmAnalise = "Em análise",
-            Fechado = "Fechado",
-            EmProcessoDeResolucao = "Em processo de resolução",
-            Resolvido = "Resolvido"
-        }
         public int IdStatus { get; set; }
-        public Status Status { get; set; }
+        public string? Status { get; set; }
 
-        public ICollection<Opiniao> Denuncias { get; } = new List<Denuncia>();
+        // Coleções para indicar tabelas dependentes
+        public ICollection<Denuncia> Denuncias { get; } = new List<Denuncia>();
+        public ICollection<Atualizacao> Atualizacoes { get; } = new List<Atualizacao>();
     }
 }

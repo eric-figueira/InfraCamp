@@ -8,7 +8,7 @@ namespace backend.Models
     public class TipoDenuncia
     {
         public int IdTipo { get; set; }
-        public string Tipo { get; set => value.Substring(0, 30); }
-        public ICollection<Opiniao> Denuncias { get; } = new List<Denuncia>();
+        public string? Tipo { get; set; }
+        public ICollection<Denuncia> Denuncias { get; } = new List<Denuncia>();
     }
 }
