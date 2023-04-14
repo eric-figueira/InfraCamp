@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useGet } from "../../hooks/useGet";
-import axios from "axios";
 
 type Tipo = {
     idTipo: Number;
@@ -13,30 +12,17 @@ type Status = {
 }
 
 const Filter: React.FC = () => {
-    const [tipos, setTipos] = useState<Tipo[]>([{idTipo: 0, tipo: ''}]);
-    const [status, setStatus] = useState<Status[]>([{idStatus: 0, status: ''}]);
 
-    //const { tipos } = useGet<Tipo[]>("api/tiposDenuncia")
-   // const { status } = useGet<Status[]>("api/statusDenuncia")
-
-    useEffect(() => {
-        axios.get("http://localhost:5164/").then(resp => {
-            setTipos(resp.data);
-        })
-    })
-
-    useEffect(() => {
-        axios.get("http://localhost:5164/api/statusDenuncia").then(resp => {
-            setStatus(resp.data);
-        })
-    })
+    // São constantes, não vão sofrer reatribuição
+    const { data: tipos }  = useGet<Tipo[]>("api/tiposDenuncia")
+    const { data: status } = useGet<Status[]>("api/statusDenuncia")
 
     return (
         <div>
             <label>Status:
                 <select name="status">
                     {
-                        tipos.map(tipo => {
+                        tipos?.map(tipo => {
                             return <option value={tipo.tipo}>{tipo.tipo}</option>
                         })
                     }
@@ -45,7 +31,7 @@ const Filter: React.FC = () => {
             <label>Tipo:
                 <select name="tipo">
                     {
-                        status.map(status => {
+                        status?.map(status => {
                             return <option value={status.status}>{status.status}</option>
                         })
                     }
