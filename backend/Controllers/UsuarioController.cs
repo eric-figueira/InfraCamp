@@ -71,22 +71,21 @@ namespace backend.Controllers
                 await this._context.SaveChangesAsync();
                 return NoContent();
             }
-            catch (Exception erro)
+            catch 
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha ao acesso ao banco de dados.");
             }
         }
 
-        [HttpPut("{cpf}")]
-        public async Task<ActionResult<Usuario>> Put(string cpf, Usuario usuario)
+        [HttpPut]
+        public async Task<ActionResult<Usuario>> Put(Usuario usuario)
         {
             try
             {
-                var resultado = await this._context.Usuario.FindAsync(cpf);
+                var resultado = await this._context.Usuario.FindAsync(usuario.Cpf);
                 if (resultado == null)
                     return NotFound();
 
-                resultado.Cpf = usuario.Cpf;
                 resultado.Nome = usuario.Nome;
                 resultado.DataNascimento = usuario.DataNascimento;
                 resultado.Endereco = usuario.Endereco;
@@ -99,7 +98,7 @@ namespace backend.Controllers
                 await this._context.SaveChangesAsync();
                 return Created("api/alunos/" + usuario.Cpf, usuario);
             }
-            catch (Exception erro)
+            catch 
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError,
                 "Falha no acesso aos dados.");

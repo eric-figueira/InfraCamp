@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+
 using backend.Models;
 
 namespace backend.Data
@@ -32,12 +33,14 @@ namespace backend.Data
             modelBuilder.Entity<TipoDenuncia>()
                 .HasMany(e => e.Denuncias)
                 .WithOne(e => e.TipoDenuncia)
-                .HasForeignKey(e => e.TipoDenuncia);
+                .HasForeignKey(e => e.IdTipoDenuncia)
+                .IsRequired();
 
             modelBuilder.Entity<StatusDenuncia>()
                 .HasMany(e => e.Denuncias)
                 .WithOne(e => e.StatusDenuncia)
-                .HasForeignKey(e => e.StatusDenuncia);
+                .HasForeignKey(e => e.IdStatusDenuncia)
+                .IsRequired();
         }
 
         public DbSet<Atualizacao>? Atualizacao { get; set; }

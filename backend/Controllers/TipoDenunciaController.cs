@@ -17,7 +17,8 @@ namespace backend.Controllers
     public class TipoDenunciaController : ControllerBase
     {
         private InfraCampContext _context;
-        public TipoDenunciaController(InfraCampContext ctx) {
+        public TipoDenunciaController(InfraCampContext ctx)
+        {
             this._context = ctx;
         }
 
@@ -29,8 +30,25 @@ namespace backend.Controllers
             Obs: Não precisa de PUT, POST ou DELETE
         */
         [HttpGet]
-        public ActionResult<List<TipoDenuncia>> GetAll() {
+        public ActionResult<List<TipoDenuncia>> GetAll()
+        {
             return this._context.TipoDenuncia.ToList();
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<TipoDenuncia> GetTipoDenuncia(int id)
+        {
+            try
+            {
+                var resultado = _context.TipoDenuncia.Find(id);
+                if (resultado == null)
+                    return NotFound();
+                return Ok(resultado);
+            }
+            catch 
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "Falha no acesso ao banco de dados.");
+            }
         }
     }
 }

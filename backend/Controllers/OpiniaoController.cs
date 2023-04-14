@@ -37,7 +37,62 @@ namespace backend.Controllers
                     return NotFound();
                 return Ok(result);
             }
-            catch (Exception erro)
+            catch 
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no acesso ao banco de dados.");
+            }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Opiniao>> Post(Opiniao opiniao)
+        {
+            try
+            {
+                _context.Opiniao.Add(opiniao);
+                if (await _context.SaveChangesAsync() == 1)
+                    return Created($"api/opinioes/{opiniao.IdDenuncia}/{opiniao.IdUsuario}/", opiniao);
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no acesso ao banco de dados.");
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete("{idDenuncia}/{idUsuario}")] 
+        public async Task<ActionResult<Opiniao>> Delete(int idDenuncia, int idUsuario) {
+            try 
+            {
+                var resultado = await _context.Opiniao.FindAsync(idDenuncia, idUsuario);
+                if (resultado == null)
+                    return NotFound();
+                
+                _context.Opiniao.Remove(resultado);
+                await _context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch 
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no acesso ao banco de dados.");
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<Opiniao>> Put(Opiniao opiniao) 
+        {
+            try 
+            {
+                var resultado = await _context.Opiniao.FindAsync(opiniao.IdDenuncia, opiniao.IdUsuario);
+                if (resultado == null)
+                    return NotFound();
+                
+                resultado.DataInteracao = opiniao.DataInteracao;
+                resultado.IsCurtida = opiniao.IsCurtida;
+                
+                await _context.SaveChangesAsync();
+                return Created($"api/opinioes/{opiniao.IdDenuncia}/{opiniao.IdUsuario}/", opiniao);
+            }
+            catch 
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no acesso ao banco de dados.");
             }

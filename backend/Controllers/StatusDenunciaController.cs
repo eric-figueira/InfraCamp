@@ -16,7 +16,8 @@ namespace backend.Controllers
     public class StatusDenunciaController : ControllerBase
     {
         private InfraCampContext _context;
-        public StatusDenunciaController(InfraCampContext ctx) {
+        public StatusDenunciaController(InfraCampContext ctx)
+        {
             this._context = ctx;
         }
 
@@ -28,8 +29,25 @@ namespace backend.Controllers
             Obs: Não precisa de PUT, POST ou DELETE. PUT acontecerá na denúncia em si, e não na tabela de StatusDenuncia
         */
         [HttpGet]
-        public ActionResult<List<StatusDenuncia>> GetAll() {
+        public ActionResult<List<StatusDenuncia>> GetAll()
+        {
             return this._context.StatusDenuncia.ToList();
+        }
+
+        [HttpGet("{idStatus}")]
+        public ActionResult<StatusDenuncia> GetStatusDenuncia(int idStatus)
+        {
+            try
+            {
+                var resultado = _context.StatusDenuncia.Find(idStatus);
+                if (resultado == null)
+                    return NotFound();
+                return Ok(resultado);
+            }
+            catch 
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha ao acesso ao banco de dados.");
+            }
         }
     }
 }
