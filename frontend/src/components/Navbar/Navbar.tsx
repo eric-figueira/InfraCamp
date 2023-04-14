@@ -14,14 +14,16 @@ const Navbar: React.FC = () => {
   return (
     <div className={isSidebarOpen ? "sidebar open" : "sidebar"}>
         <div className="logo-details">
-            <Icon><ChatCircle rotate={100} /></Icon>
-            <div className="logo_name">InfraCamp</div>
-            <Icon><List id="btn" onClick={() => setIsSidebarOpen(!isSidebarOpen)} /></Icon>
+            {/* <Icon className='infracamp-icon'><ChatCircle /></Icon> */}
+            {/* <i className='bx bxl-c-plus-plus infracamp-icon'></i> */}
+            <div className="infracamp-name">Camper</div>
+            {/* <Icon><List id='btn' /></Icon> */}
+            {/* <i className='bx bx-menu' id="btn"></i> */}
         </div>
         <ul className="nav-list">
             <li>
                 <a href="#">
-                    <Icon><MapPin /></Icon> 
+                    <Icon><MapPin /></Icon>
                     <span className="links_name">Mapa</span>
                 </a>
                 <span className="tooltip">Mapa</span>
@@ -38,7 +40,7 @@ const Navbar: React.FC = () => {
                     <Icon><ChartBar /></Icon>
                     <span className="links_name">Denúnicas</span>
                 </a>
-                <span className="tooltip">Denúncias</span>
+                <span className="tooltip">Denúnias</span>
             </li>
             <li>
                 <a href="#">
@@ -54,7 +56,8 @@ const Navbar: React.FC = () => {
                         <div className="job">Servidor Publico</div>
                     </div>
                 </div>
-                <Icon><SignOut id="log_out" /></Icon>
+                {/* <Icon><SignOut id='log_out' /></Icon> */}
+                <i className='bx bx-log-out' id="log_out"></i>
             </li>
         </ul>
     </div>
