@@ -1,13 +1,13 @@
- import React, { useEffect, useState, useRef } from 'react';
- import './Map.css'
- import * as maptilersdk from '@maptiler/sdk';
- import { GeocodingControl } from '@maptiler/geocoding-control/react';
- import "@maptiler/sdk/dist/maptiler-sdk.css";
- import { MapController } from '@maptiler/geocoding-control/types';
- import { createMapLibreGlMapController } from "@maptiler/geocoding-control/maplibregl-controller";
- import maplibregl from 'maplibre-gl';
- import * as maplibre from "maplibre-gl/dist/maplibre-gl";
- import { Feature } from '@maptiler/geocoding-control/types';
+import React, { useEffect, useState, useRef } from 'react';
+import './Map.css'
+import * as maptilersdk from '@maptiler/sdk';
+import "@maptiler/sdk/dist/maptiler-sdk.css";
+import { MapController } from '@maptiler/geocoding-control/types';
+import { createMapLibreGlMapController } from "@maptiler/geocoding-control/maplibregl-controller";
+import maplibregl from 'maplibre-gl';
+import * as maplibre from "maplibre-gl/dist/maplibre-gl";
+//  import { GeocodingControl } from '@maptiler/geocoding-control/react';
+//  import { Feature } from '@maptiler/geocoding-control/types';
 
 const Map: React.FC = () => {
     const map = useRef<maplibre.Map | undefined>();
@@ -15,13 +15,13 @@ const Map: React.FC = () => {
     const [lng, setLng] = useState<number>(-47.0616);
     const [mapController, setMapController] = useState<MapController>();
 
-     useEffect(() => {
-          //sets the current position of the user to the lat and lng states
-         const getPosition = (position: GeolocationPosition) => {
-             setLat(position.coords.latitude);
-             setLng(position.coords.longitude);
-         }
-         navigator.geolocation.getCurrentPosition(getPosition);
+    useEffect(() => {
+        //sets the current position of the user to the lat and lng states
+        const getPosition = (position: GeolocationPosition) => {
+            setLat(position.coords.latitude);
+            setLng(position.coords.longitude);
+        }
+        navigator.geolocation.getCurrentPosition(getPosition);
 
         if (map.current) return;
         map.current = new maplibre.Map({
@@ -31,27 +31,27 @@ const Map: React.FC = () => {
             zoom: 10,
         })
 
-         map.current.addControl(new maplibre.NavigationControl({
-             showZoom: true,
-             showCompass: true,
-             visualizePitch: true
-         }));
-         map.current.addControl(new maplibregl.ScaleControl({}), 'bottom-left');
-         map.current.addControl(new maplibre.GeolocateControl({}));
-         maptilersdk.config.primaryLanguage = maptilersdk.Language.PORTUGUESE;
+        map.current.addControl(new maplibre.NavigationControl({
+            showZoom: true,
+            showCompass: true,
+            visualizePitch: true
+        }));
+        map.current.addControl(new maplibregl.ScaleControl({}), 'bottom-left');
+        map.current.addControl(new maplibre.GeolocateControl({}));
+        maptilersdk.config.primaryLanguage = maptilersdk.Language.PORTUGUESE;
 
-         setMapController(createMapLibreGlMapController(map.current, maplibregl));
-     });
+        setMapController(createMapLibreGlMapController(map.current, maplibregl));
+    });
 
-     useEffect(() => {
-         let button: HTMLButtonElement | null = document.getElementsByClassName('maplibregl-ctrl-geolocate').item(0) as HTMLButtonElement;
-         if (button != null)
-             button.click();
-     })
+    useEffect(() => {
+        let button: HTMLButtonElement | null = document.getElementsByClassName('maplibregl-ctrl-geolocate').item(0) as HTMLButtonElement;
+        if (button != null)
+            button.click();
+    })
 
     return (
         <div id="map">
-            <div className="searchBar">
+            {/* <div className="searchBar">
                 <GeocodingControl 
                 language='pt' 
                 country='br' 
@@ -66,21 +66,9 @@ const Map: React.FC = () => {
                 noResultsMessage="Sem resultados para a busca"
                 clearButtonTitle="Limpar"
                 enableReverse={true}/>
-            </div>
+            </div> */}
         </div>
     )
 }
 
- export default Map;
-
-//  import React, { useEffect, useState, useRef } from 'react';
-
-//  const Map: React.FC = () => {
-//      return (
-//          <div>
-//              Hello world!
-//          </div>
-//      )
-//  }
-
-//  export default Map;
+export default Map;
