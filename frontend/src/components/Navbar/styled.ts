@@ -7,4 +7,8 @@ export const Icon = styled.div`
   font-size: 28px;
   text-align: center;
   line-height: 60px;
+
+  :hover {
+    color: #000;
+  }
 `

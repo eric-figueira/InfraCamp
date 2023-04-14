@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 import { List, MapPin, Info, User, SignOut, ChartBar, ChatCircle } from 'phosphor-react'
 
 import "./Navbar.css"
@@ -8,21 +9,20 @@ import { Icon } from './styled';
 
 const Navbar: React.FC = () => {
 
-  function openCloseSidebar() {
-
-  }
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="sidebar">
+    <div className={isSidebarOpen ? "sidebar open" : "sidebar"}>
         <div className="logo-details">
-            <ChatCircle rotate={100} />
+            <Icon><ChatCircle rotate={100} /></Icon>
             <div className="logo_name">InfraCamp</div>
-            <Icon><List id="btn" onClick={openCloseSidebar} /></Icon>
+            <Icon><List id="btn" onClick={() => setIsSidebarOpen(!isSidebarOpen)} /></Icon>
         </div>
         <ul className="nav-list">
             <li>
                 <a href="#">
-                    <MapPin />
+                    <Icon><MapPin /></Icon> 
+                    <span className="links_name">Mapa</span>
                 </a>
                 <span className="tooltip">Mapa</span>
             </li>
@@ -54,7 +54,7 @@ const Navbar: React.FC = () => {
                         <div className="job">Servidor Publico</div>
                     </div>
                 </div>
-                <SignOut id="log_out" />
+                <Icon><SignOut id="log_out" /></Icon>
             </li>
         </ul>
     </div>

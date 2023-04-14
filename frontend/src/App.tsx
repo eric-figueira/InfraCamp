@@ -12,10 +12,10 @@ function App() {
 
   return (
     <div className="App">
-      <RecuperacaoSenha />
+      {/* <RecuperacaoSenha /> */}
       {/* <Login /> */}
       {/* <Cadastro> */}
-      {/* <Navbar /> */}
+      <Navbar />
       {/* {<Map/>} */}
     </div>
   );
