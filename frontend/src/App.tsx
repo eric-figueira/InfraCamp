@@ -8,16 +8,20 @@ import Cadastro from './pages/Cadastro/Cadastro';
 //import Map from './components/Map/Map';
 import Navbar from './components/Navbar/Navbar';
 
+import { AuthProvider } from './contexts/authContext';
+
 function App() {
 
   return (
-    <div className="App">
-      {/* <RecuperacaoSenha /> */}
-      {/* <Login /> */}
-      {/* <Cadastro> */}
-      <Navbar />
-      {/* {<Map/>} */}
-    </div>
+    <AuthProvider>
+      <div className="App">
+        {/* <RecuperacaoSenha /> */}
+        {/* <Login /> */}
+        {/* <Cadastro> */}
+        <Navbar />
+        {/* {<Map/>} */}
+      </div>
+    </AuthProvider>
   );
 }
 
