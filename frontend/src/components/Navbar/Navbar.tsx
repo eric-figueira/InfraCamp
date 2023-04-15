@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
         <div className="logo-details">
             {/* <Icon className='infracamp-icon'><ChatCircle /></Icon> */}
             {/* <i className='bx bxl-c-plus-plus infracamp-icon'></i> */}
-            <div className="infracamp-name">Camper</div>
+            <div className="infracamp-name">Infracamp</div>
             {/* <Icon><List id='btn' /></Icon> */}
             {/* <i className='bx bx-menu' id="btn"></i> */}
         </div>

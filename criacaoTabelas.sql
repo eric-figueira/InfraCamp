@@ -6,16 +6,16 @@ CREATE TABLE InfraCamp.TipoDenuncia (
 );
 
 INSERT INTO InfraCamp.TipoDenuncia (tipo) VALUES 
-	('Buraco na rua/calçada'), 
-	('Poste caído'),
+	('Buraco na rua/calï¿½ada'), 
+	('Poste caï¿½do'),
 	('Grama/mato alto'),
 	('Lixo'),
 	('Fios soltos'),
-	('Árvore caída'),
+	('ï¿½rvore caï¿½da'),
 	('Bueiro entupido'),
-	('Infraestrutura precária'),
+	('Infraestrutura precï¿½ria'),
 	('Falta de energia'),
-	('Falta de água'); -- etc
+	('Falta de ï¿½gua'); -- etc
 
 CREATE TABLE InfraCamp.StatusDenuncia ( 
 	idStatus INT PRIMARY KEY IDENTITY(1, 1),
@@ -23,10 +23,10 @@ CREATE TABLE InfraCamp.StatusDenuncia (
 );
 
 INSERT INTO InfraCamp.StatusDenuncia (tipo) VALUES 
-	('Não visualizado'),
-	('Em análise'),
+	('Nï¿½o visualizado'),
+	('Em anï¿½lise'),
 	('Fechado'),
-	('Em processo de resolução'),
+	('Em processo de resoluï¿½ï¿½o'),
 	('Resolvido');
 
 CREATE TABLE InfraCamp.Usuario (
@@ -34,8 +34,6 @@ CREATE TABLE InfraCamp.Usuario (
 		cpf LIKE '[0-9][0-9][0-9].[0-9][0-9][0-9].[0-9][0-9][0-9]-[0-9][0-9]'
 	),
 	nome VARCHAR(30) NOT NULL,
-	dataNascimento DATETIME NOT NULL CHECK (dataNascimento >= '1900-01-01'),
-	endereco VARCHAR(100) NOT NULL,
 	email VARCHAR(50) NOT NULL UNIQUE,
 	telefone VARCHAR(20) NOT NULL,
 	senha VARCHAR(30) NOT NULL,
@@ -59,7 +57,7 @@ CREATE TABLE InfraCamp.Denuncia (
 	dataDenuncia DATETIME NOT NULL
 );
 
--- likes ou dislikes do usuário
+-- likes ou dislikes do usuï¿½rio
 CREATE TABLE InfraCamp.Opiniao (
 	idDenuncia INT NOT NULL,
 	CONSTRAINT fkIdDenuncia FOREIGN KEY(idDenuncia) REFERENCES InfraCamp.Denuncia(idDenuncia)
@@ -72,7 +70,7 @@ CREATE TABLE InfraCamp.Opiniao (
 	isCurtida BIT NOT NULL
 );
 
--- atualizações do moderador no status de alguma denúncia
+-- atualizaï¿½ï¿½es do moderador no status de alguma denï¿½ncia
 CREATE TABLE InfraCamp.Atualizacao (
 	idDenuncia INT NOT NULL,
 	CONSTRAINT fkIdDenunciaAtualizacao FOREIGN KEY(idDenuncia) REFERENCES InfraCamp.Denuncia(idDenuncia)

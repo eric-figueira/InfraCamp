@@ -87,8 +87,6 @@ namespace backend.Controllers
                     return NotFound();
 
                 resultado.Nome = usuario.Nome;
-                resultado.DataNascimento = usuario.DataNascimento;
-                resultado.Endereco = usuario.Endereco;
                 resultado.Email = usuario.Email;
                 resultado.Telefone = usuario.Telefone;
                 resultado.Senha = usuario.Senha;

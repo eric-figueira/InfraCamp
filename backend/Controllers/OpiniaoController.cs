@@ -26,6 +26,19 @@ namespace backend.Controllers
             return this._context.Opiniao.ToList();
         }
 
+        [HttpGet("{idDenuncia}")]
+        public ActionResult<List<Opiniao>> GetOpinioesDenuncia(int idDenuncia)
+        {
+            List<Opiniao> lista = this._context.Opiniao.ToList();
+            List<Opiniao> retorno = new List<Opiniao>();
+            foreach (Opiniao item in lista)
+            {
+                if (item.IdDenuncia == idDenuncia)
+                    retorno.Add(item);
+            }
+            return retorno;
+        }
+
         // chave primária composta
         [HttpGet("{idDenuncia}/{idUsuario}", Name = "GetUserPermissionByID")]
         public ActionResult<Opiniao> GetOpiniao(int idDenuncia, string idUsuario)
@@ -37,7 +50,7 @@ namespace backend.Controllers
                     return NotFound();
                 return Ok(result);
             }
-            catch 
+            catch
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no acesso ao banco de dados.");
             }
@@ -59,40 +72,41 @@ namespace backend.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("{idDenuncia}/{idUsuario}")] 
-        public async Task<ActionResult<Opiniao>> Delete(int idDenuncia, int idUsuario) {
-            try 
+        [HttpDelete("{idDenuncia}/{idUsuario}")]
+        public async Task<ActionResult<Opiniao>> Delete(int idDenuncia, int idUsuario)
+        {
+            try
             {
                 var resultado = await _context.Opiniao.FindAsync(idDenuncia, idUsuario);
                 if (resultado == null)
                     return NotFound();
-                
+
                 _context.Opiniao.Remove(resultado);
                 await _context.SaveChangesAsync();
                 return NoContent();
             }
-            catch 
+            catch
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no acesso ao banco de dados.");
             }
         }
 
         [HttpPut]
-        public async Task<ActionResult<Opiniao>> Put(Opiniao opiniao) 
+        public async Task<ActionResult<Opiniao>> Put(Opiniao opiniao)
         {
-            try 
+            try
             {
                 var resultado = await _context.Opiniao.FindAsync(opiniao.IdDenuncia, opiniao.IdUsuario);
                 if (resultado == null)
                     return NotFound();
-                
+
                 resultado.DataInteracao = opiniao.DataInteracao;
                 resultado.IsCurtida = opiniao.IsCurtida;
-                
+
                 await _context.SaveChangesAsync();
                 return Created($"api/opinioes/{opiniao.IdDenuncia}/{opiniao.IdUsuario}/", opiniao);
             }
-            catch 
+            catch
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no acesso ao banco de dados.");
             }
