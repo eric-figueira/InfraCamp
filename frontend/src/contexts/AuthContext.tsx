@@ -38,11 +38,11 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   }, [])
 
 
-  async function signUp() {
+  async function signUp(data: SignUpData) {
 
   }
 
-  async function signIn({ email, senha }) {
+  async function signIn({ email, senha }: SignInData) {
     // Chama a api passando os dados e recebe o token JWT
 
     // Seta o token como cookie
