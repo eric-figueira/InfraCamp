@@ -8,7 +8,7 @@ import Cadastro from './pages/Cadastro/Cadastro';
 //import Map from './components/Map/Map';
 import Navbar from './components/Navbar/Navbar';
 
-import { AuthProvider } from './contexts/authContext';
+import { AuthProvider } from './contexts/AuthContext';
 
 function App() {
 
