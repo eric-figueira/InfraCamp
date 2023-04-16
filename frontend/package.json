@@ -13,6 +13,7 @@
     "@types/node": "^16.18.21",
     "@types/react": "^18.0.31",
     "@types/react-dom": "^18.0.11",
+    "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.26",
     "axios": "^1.3.5",
     "babel-preset-es2015": "^6.24.1",

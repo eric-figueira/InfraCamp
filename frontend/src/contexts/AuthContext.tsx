@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useEffect } from "react";
 
-interface AuthContextType {
+// We need to export the interface below in order to use this context in routes
+export interface AuthContextType {
   isAuthenticated: boolean;
 }
 
