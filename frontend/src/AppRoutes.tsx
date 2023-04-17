@@ -8,12 +8,12 @@ import Cadastro from "./pages/Cadastro/Cadastro";
 import Map from "./components/Map/Map";
 
 
-import { AuthContext, AuthContextType } from "./contexts/AuthContext";
+import { AuthContext } from "./contexts/AuthContext";
 
 
 const AppRoutes: React.FC = () => {
 
-  const { isAuthenticated } = useContext(AuthContext) as AuthContextType;
+  const { isAuthenticated } = useContext(AuthContext);
 
   return (
     <Routes>

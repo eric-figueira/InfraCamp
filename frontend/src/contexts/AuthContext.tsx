@@ -1,49 +1,61 @@
-import { createContext, ReactNode, useEffect } from "react";
+import { createContext, ReactNode, useEffect, useState } from "react";
 
-// We need to export the interface below in order to use this context in routes
-export interface AuthContextType {
-  isAuthenticated: boolean;
-}
-
-export const AuthContext = createContext({} as AuthContextType)
 
 interface IProps {
   children? : ReactNode
 }
 
-interface SignInData {
+interface ISignIn {
   email: string,
   senha: string
 }
 
-interface SignUpData {
+interface IRecoverPassword {
+  email: string,
+  novaSenha: string
+}
+
+interface ISignUp {
   nome: string,
   email: string,
   senha: string
 }
 
-interface RecoverPasswordData {
+interface IUser {
+  nome: string,
   email: string,
-  novaSenha: string
+  senha: string,
+  avatar_url: string
 }
+
+interface AuthContextType {
+  isAuthenticated: boolean,
+  user: IUser,
+  signUp: (data: ISignUp) => Promise<void>,
+  signIn: (data: ISignIn) => Promise<void>,
+  recoverPassword: (data: IRecoverPassword) => Promise<void>
+}
+
+export const AuthContext = createContext({} as AuthContextType)
 
 
 export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
-  const isAuthenticated = false;
+  const [user, setUser] = useState<IUser | null>(null);
 
+  // Se usuário não existe, não está autenticado
+  const isAuthenticated = !!null;
 
+  // Quando for carregado, verificará se já existe cookies salvos
   useEffect(() => {
-    // Quando esse componente for carregado, testar se existe um cookie salvo, se existir
-    // busco as informações do usuário no banco de dados
+
   }, [])
 
-
-  async function signUp(data: SignUpData) {
+  async function signUp(data: ISignUp) {
 
   }
 
-  async function signIn({ email, senha }: SignInData) {
+  async function signIn({ email, senha }: ISignIn) {
     // Chama a api passando os dados e recebe o token JWT
 
     // Seta o token como cookie
@@ -51,11 +63,15 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     // Retornamos informações do usuário
   }
 
-  // Criamos todo um componente AuthProvider, pois precisamos passar os valores em 'value' que os elementos de dentro terão acesso,
-  // se colocassemos o codigo abaixo em App, nao conseguiriamos ter esses values, pois App nao é responsavel por pegar essas
-  // informacoes
+  async function recoverPassword({ email, novaSenha }: IRecoverPassword) {
+
+  }
+
+  // Criamos todo um componente AuthProvider, pois precisamos passar os valores em 'value' 
+  // que os elementos de dentro terão acesso, se colocassemos o codigo abaixo em App, nao 
+  // conseguiriamos ter esses values, pois App nao é responsavel por pegar essas informacoes
   return (
-    <AuthContext.Provider value={{ isAuthenticated }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, signUp, signIn, recoverPassword }}>
       {children}
     </AuthContext.Provider>
   )

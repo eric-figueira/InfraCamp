@@ -7,17 +7,17 @@ import Navbar from './components/Navbar/Navbar';
 
 import Routes from './AppRoutes';
 
-import { AuthProvider, AuthContext, AuthContextType } from './contexts/AuthContext';
+import { AuthProvider, AuthContext } from './contexts/AuthContext';
 
 function App() {
 
-  const { isAuthenticated } = useContext(AuthContext) as AuthContextType;
+  const { isAuthenticated } = useContext(AuthContext)
 
   return (
     <AuthProvider>
       <BrowserRouter>
         <div className="App">
-          {isAuthenticated ? <Navbar /> : null}
+          { isAuthenticated ? <Navbar /> : null }
           <Routes />
         </div>
       </BrowserRouter>

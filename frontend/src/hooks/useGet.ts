@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { api } from "../services/api";
 
-export function useGet<T = unknown>(url: string) {
+export async function useGet<T = unknown>(url: string) {
 
   const [data, setData] = useState<T | null>(null)
   const [isGetting, setIsGetting] = useState(true)
