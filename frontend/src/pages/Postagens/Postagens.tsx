@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Post from '../../components/Post/Post';
 import { useGet } from '../../hooks/useGet';
+import { usePost } from '../../hooks/usePost';
 import Denuncia from '../../types/Denuncia';
 import Opiniao from '../../types/Opiniao';
 import Usuario from '../../types/Usuario';
 import { data } from '@maptiler/sdk';
+import myContext from '../../contexts/postContext'
 
 const Postagens: React.FC = () => {
     const { data: denuncias } = useGet<Denuncia[]>("api/denuncias");
-    let opinioes = useGet<Opiniao[]>("api/opinioes");
+    const { data: opiniao } = usePost<Opiniao[]>("api/opinioes");
+    let [ opinioes, setOpinioes ] = useState()
     let usuarios = useGet<Usuario[]>("api/usuarios");
-
+    
     return (
-        <div>
+        <myContext.Provider value={[opinioes, setOpinioes]}>
             <h1>Postagens</h1>
             <div className="header">
                 <div className="statistics">
@@ -29,9 +32,16 @@ const Postagens: React.FC = () => {
                 </div>
             </div>
             <div className="posts">
-                {}
+                {
+                    denuncias?.map(denuncia => {
+                        let array = usuarios?.data?.map(usuario => 
+                            usuario.cpf === denuncia.idUsuario ? usuario : denuncia)
+
+                        <Post cpf={denuncia.idUsuario} userName={} />
+                    )})
+                }
             </div>
-        </div>
+        </myContext.Provider>      
     )
 }
 
