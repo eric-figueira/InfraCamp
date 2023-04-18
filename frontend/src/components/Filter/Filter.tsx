@@ -10,7 +10,7 @@ type Status = {
     idStatus: Number;
     status: string;
 }
-
+/*
 const Filter: React.FC = () => {
 
     // São constantes, não vão sofrer reatribuição
@@ -49,4 +49,4 @@ const Filter: React.FC = () => {
     )
 }
 
-export default Filter;
+export default Filter;*/
