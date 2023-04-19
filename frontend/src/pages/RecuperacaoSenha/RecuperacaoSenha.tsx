@@ -1,23 +1,36 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 
 import "./RecuperacaoSenha.css"
 
 import { colorPallete } from "../../styles/colors"
-import { Input } from "./styled"
+import { Input } from "../../styles/styled-components"
 
 import { ReactComponent as ImagemRecuperacaoSenha } from "../../assets/imgs/imgRecSenha.svg"
 import { EnvelopeSimple, Key } from 'phosphor-react'
 
 import Button from '../../components/Button/Button';
 
+import { AuthContext } from '../../contexts/AuthContext';
+
 
 const RecuperacaoSenha: React.FC = () => {
 
-  function Test() {
+  const { recoverPassword } = useContext(AuthContext)
+
+  const [email, setEmail] = useState<string>()
+  const [senha, setSenha] = useState<string>()
+  const [novaSenha, setNovaSenha] = useState<string>()
+
+  function RecoverPassword() {
+    try {
+    }
+    catch {
+
+    }
   }
 
   return (
-    <div className='wrapper'>
+    <div className='recover-password-wrapper'>
       <div className="img-container">
         <ImagemRecuperacaoSenha className='senha-img'/>
       </div>
@@ -55,7 +68,7 @@ const RecuperacaoSenha: React.FC = () => {
               </div>
               <input type="text" placeholder='Confirme sua senha' />
             </Input>
-            <Button text='Recuperar' backgroundColor='#1F2026' fontColor='#FFF' fontSize={25} eventHandler={Test} />
+            <Button text='Recuperar' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={25} eventHandler={RecoverPassword} />
           </form>
         </div>
       </div>

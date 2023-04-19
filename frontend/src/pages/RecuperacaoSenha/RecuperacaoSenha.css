@@ -1,4 +1,4 @@
-div.wrapper {
+.recover-password-wrapper {
   background: #DADADA;
   position: relative;
   overflow: hidden;
@@ -10,22 +10,21 @@ div.wrapper {
 }
 
 
-div.wrapper::before {
+.recover-password-wrapper::before {
   content: "";
   position: absolute;
   height: 180%;
   width: 1800px;
   top: -95%;
   right: 1.5%;
-  background-image: linear-gradient(-45deg, #11101D, 0%, #05081f 100%);
-  transition: 1.8s ease-in-out;
+  background-color: #05081f;
   border-radius: 50%;
 
   z-index: 0;
 }
 
 
-div.img-container {
+.recover-password-wrapper .img-container {
   position: relative;
 
   width: 50vw;
@@ -37,14 +36,14 @@ div.img-container {
   z-index: 1;
 }
 
-div.img-container .senha-img {
+.recover-password-wrapper .img-container .senha-img {
   position: absolute;
   width: 35rem;
 
   bottom: -10%;
 }
 
-div.info-container {
+.recover-password-wrapper .info-container {
   position: relative;
 
   width: 50vw;
@@ -58,13 +57,13 @@ div.info-container {
   z-index: 1;
 }
 
-div.info-container h1 {
+.recover-password-wrapper .info-container h1 {
   color: #FFF;
   font-size: 3.5rem;
   text-align: center;
 }
 
-div.info-container .form-wrapper {
+.recover-password-wrapper .info-container .form-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,7 +71,7 @@ div.info-container .form-wrapper {
   gap: 5rem;
 }
 
-div.info-container .form-wrapper form {
+.recover-password-wrapper .info-container .form-wrapper form {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -80,12 +79,8 @@ div.info-container .form-wrapper form {
   gap: 1rem;
 }
 
-div.info-container .form-wrapper form .textinput {
-  width: 100%;
-}
-
 @media (max-width: 660px) {
-  div.img-container { display: none; }
-  div.info-container { width: 100vw; padding: 2rem; }
-  div.info-container h1 { font-size: 2.5rem; }
+  .recover-password-wrapper .img-container { display: none; }
+  .recover-password-wrapper .info-container { width: 100vw; padding: 2rem; }
+  .recover-password-wrapper .info-container h1 { font-size: 2.5rem; }
 }

@@ -1,5 +1,3 @@
-import styled from "styled-components";
-
 export const colorPallete = {
   bgBlack  : '#1F2026',
   bgWhite  : '#DADADA',
