@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-import axios from "axios";
 import { api } from "../services/api";
 
 import Cookies from "universal-cookie"
@@ -54,7 +53,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
 
   // Se usuário não existe, não está autenticado
-  const isAuthenticated = !!null;
+  const isAuthenticated = true;
 
   // Quando for carregado, verificará se já existe cookies salvos
   useEffect(() => {
@@ -96,9 +95,16 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   // Criamos todo um componente AuthProvider, pois precisamos passar os valores em 'value' 
   // que os elementos de dentro terão acesso, se colocassemos o codigo abaixo em App, nao 
   // conseguiriamos ter esses values, pois App nao é responsavel por pegar essas informacoes
-  // value={{ isAuthenticated, user, signUp, signIn, recoverPassword, logOut }
+  // value={{ isAuthenticated: isAuthenticated, user, signIn, signUp, recoverPassword, logOut }}
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, signIn, signUp, recoverPassword, logOut }}>
+    <AuthContext.Provider 
+      value={{ 
+          isAuthenticated: isAuthenticated, 
+          user: user, 
+          signIn: signIn, 
+          signUp: signUp, 
+          recoverPassword: recoverPassword, 
+          logOut: logOut }}>
       {children}
     </AuthContext.Provider>
   )
