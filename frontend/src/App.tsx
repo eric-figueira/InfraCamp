@@ -1,23 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 import './styles/globalStyles.css'
 
-import RecuperacaoSenha from './pages/RecuperacaoSenha/RecuperacaoSenha';
-import Login from './pages/Login/Login';
-import Cadastro from './pages/Cadastro/Cadastro';
-//import Map from './components/Map/Map';
-import Navbar from './components/Navbar/Navbar';
+import Routes from './AppRoutes';
+
+import { AuthProvider, AuthContext } from './contexts/AuthContext';
 
 function App() {
-
-  return (
-    <div className="App">
-      {/* <RecuperacaoSenha /> */}
-      {/* <Login /> */}
-      {/* <Cadastro> */}
-      <Navbar />
-      {/* {<Map/>} */}
-    </div>
+  return ( 
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 

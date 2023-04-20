@@ -6,6 +6,11 @@ interface InputProps {
   fontColor: string;
 }
 
+interface MessageProps {
+  backgroundColor: string,
+  borderFontColor: string
+}
+
 export const Input = styled.div<InputProps>`
 
   display: flex;
@@ -33,5 +38,21 @@ export const Input = styled.div<InputProps>`
   input::placeholder {
     color: ${(props) => props.placeholderColor};
   }
+
+  @media (max-width: 660px) {
+    input { font-size: 1rem; }
+  }
+
+`
+
+export const Message = styled.div<MessageProps>`
+
+  padding: 0.5rem 5rem;
+  border-radius: 0.7rem;
+
+  background-color: ${(props) => props.borderFontColor}35;
+  border: 1.5px solid ${(props) => props.borderFontColor};
+  color: ${(props) => props.borderFontColor};
+  font-size: 1.25rem; 
 
 `

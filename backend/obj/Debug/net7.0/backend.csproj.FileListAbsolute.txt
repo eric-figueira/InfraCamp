@@ -111,3 +111,15 @@ C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\obj\Debug\net7.0\ref
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\obj\Debug\net7.0\backend.pdb
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\obj\Debug\net7.0\backend.genruntimeconfig.cache
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\obj\Debug\net7.0\ref\backend.dll
+C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\backend.csproj.AssemblyReference.cache
+C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\backend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\backend.AssemblyInfoInputs.cache
+C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\backend.AssemblyInfo.cs
+C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\backend.csproj.CoreCompileInputs.cache
+C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\backend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\backend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\backend.RazorAssemblyInfo.cache
+C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\backend.RazorAssemblyInfo.cs
+C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\backend.dll
+C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\refint\backend.dll
+C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\backend.pdb
