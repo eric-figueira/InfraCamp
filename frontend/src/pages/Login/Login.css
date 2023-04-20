@@ -74,7 +74,9 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 5rem;
+  gap: 4rem;
+
+  padding-block: 2rem;
 
   z-index: 1;
 }
@@ -82,6 +84,10 @@
 .login-wrapper .img-container .content {
   color: #fff;
   text-align: center;
+}
+
+.login-wrapper .img-container .login-img {
+  width: 100%;
 }
 
 @media (max-width: 660px) {

@@ -5,6 +5,7 @@ export const colorPallete = {
   bgRed    : '#BB3333',
   bgGreen  : '#5EBB33',
   bgYellow : '#DDE035',
+  bgBlue   : '#2f97f7',
   
   fontBlack : '#1F2026',
   fontWhite : '#FFFFFF',

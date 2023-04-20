@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 
 import "./Button.css"
 
@@ -8,7 +8,7 @@ interface ButtonProps {
   fontColor: string,
   fontSize?: number,
   borderColor?: string,
-  eventHandler: () => void;
+  eventHandler: (event: MouseEvent) => void;
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
