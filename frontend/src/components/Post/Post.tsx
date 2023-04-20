@@ -1,5 +1,7 @@
-import React from "react";
+import React, { Dispatch, SetStateAction, useContext } from "react";
 import { ArrowFatDown, ArrowFatUp } from "phosphor-react";
+import myContext from "../../contexts/postContext";
+import Opiniao from "../../types/Opiniao";
 
 interface PostProps {
     cpf: string,
@@ -10,9 +12,7 @@ interface PostProps {
     description: string,
     status: string,
     imgUrl: string,
-    likes: number,
-    handleLike: (cpf: string) => void,
-    handleDislike: (cpf: string) => void
+    likes: number
 }
 
 interface ItemPostProps {
@@ -20,7 +20,7 @@ interface ItemPostProps {
     description: string
 }
 
-const formatDate = (date:Date) : string => {
+const formatDate = (date: Date): string => {
     let day, month, year;
     day = (date.getDay() <= 9) ? date.getDay() + "0" : date.getDay();
     month = (date.getMonth() <= 9) ? date.getMonth() + "0" : date.getMonth();
@@ -39,13 +39,7 @@ const ItemPost: React.FC<ItemPostProps> = (props) => {
 }
 
 const Post: React.FC<PostProps> = (props) => {
-    function handleLike() {
-        props.handleLike(props.cpf);
-    }
-
-    function handleDislike() {
-        props.handleDislike(props.cpf);
-    }
+    const [opinioes, setOpinioes] = useContext<[Opiniao[] | undefined, Dispatch<SetStateAction<Opiniao[] | undefined>>]>(myContext);
 
     return (
         <div>
@@ -61,11 +55,11 @@ const Post: React.FC<PostProps> = (props) => {
                 <img className="picture_box_img" src={props.imgUrl} alt="Imagem do problema"></img>
             </div>
             <div className="likes_and_dislikes_box">
-                <button type="button" title="like" onClick={handleLike}>
-                    <ArrowFatUp/>
+                <button type="button" title="like" onClick={setOpinioes(opinioes)}>
+                    <ArrowFatUp />
                 </button>
-                <button type="button" title="dislike" onClick={handleDislike}>
-                    <ArrowFatDown/>
+                <button type="button" title="dislike" onClick={setOpinioes(opiniao)}>
+                    <ArrowFatDown />
                 </button>
             </div>
         </div>

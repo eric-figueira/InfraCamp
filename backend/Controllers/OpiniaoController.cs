@@ -40,7 +40,7 @@ namespace backend.Controllers
         }
 
         // chave primária composta
-        [HttpGet("{idDenuncia}/{idUsuario}", Name = "GetUserPermissionByID")]
+        [HttpGet("{idDenuncia}/{idUsuario}")]
         public ActionResult<Opiniao> GetOpiniao(int idDenuncia, string idUsuario)
         {
             try

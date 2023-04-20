@@ -1,19 +1,15 @@
 import React, { useState } from 'react';
 import Post from '../../components/Post/Post';
-import { useGet } from '../../hooks/useGet';
-import { usePost } from '../../hooks/usePost';
+import useFetch from '../../hooks/useFetch';
 import Denuncia from '../../types/Denuncia';
 import Opiniao from '../../types/Opiniao';
-import Usuario from '../../types/Usuario';
-import { data } from '@maptiler/sdk';
 import myContext from '../../contexts/postContext'
 
 const Postagens: React.FC = () => {
-    const { data: denuncias } = useGet<Denuncia[]>("api/denuncias");
-    const { data: opiniao } = usePost<Opiniao[]>("api/opinioes");
-    let [ opinioes, setOpinioes ] = useState()
-    let usuarios = useGet<Usuario[]>("api/usuarios");
-    
+    const { data: denuncias } = useFetch<Denuncia[]>("api/denuncias");
+    const { data: op } = useFetch<Opiniao[]>("api/opinioes");
+    let [opinioes, setOpinioes] = useState(op);
+
     return (
         <myContext.Provider value={[opinioes, setOpinioes]}>
             <h1>Postagens</h1>
@@ -33,15 +29,13 @@ const Postagens: React.FC = () => {
             </div>
             <div className="posts">
                 {
-                    denuncias?.map(denuncia => {
-                        let array = usuarios?.data?.map(usuario => 
-                            usuario.cpf === denuncia.idUsuario ? usuario : denuncia)
-
-                        <Post cpf={denuncia.idUsuario} userName={} />
-                    )})
+                    denuncias?.map(
+                        denuncia =>
+                            <Post cpf={denuncia.idUsuario} userName={denuncia.nome} date={denuncia.dataDenuncia} type={denuncia.tipo} address={denuncia.endereco} description={denuncia.descricao} status={denuncia.status} imgUrl={denuncia.urlImagem} likes={denuncia.likes} ></Post>
+                    )
                 }
             </div>
-        </myContext.Provider>      
+        </myContext.Provider>
     )
 }
 

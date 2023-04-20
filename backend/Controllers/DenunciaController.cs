@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
+using backend.Controllers;
 using backend.Data;
 using backend.Models;
 
@@ -33,21 +34,59 @@ namespace backend.Controllers
                 7 - PUT de uma denúncia
         */
 
-        [HttpGet]
-        public ActionResult<List<Denuncia>> GetAll()
+
+        public class DenunciaRet
         {
-            return this._context.Denuncia.ToList();
+            Denuncia denuncia;
+            string userName;
+            string status;
+            string tipo;
+            int likesCount;
+
+            public DenunciaRet(Denuncia denuncia, string userName, string status, string tipo, int likesCount)
+            {
+                this.denuncia = denuncia;
+                this.userName = userName;
+                this.status = status;
+                this.tipo = tipo;
+                this.likesCount = likesCount;
+            }
+        }
+
+        [HttpGet]
+        public ActionResult<List<DenunciaRet>> GetAll()
+        {
+            List<DenunciaRet> retorno = new List<DenunciaRet>();
+            var denuncias = this._context.Denuncia.ToList();
+            if (denuncias == null)
+                return NotFound();
+            foreach (Denuncia denuncia in denuncias)
+            {
+                var usuario = this._context.Usuario.Find(denuncia.IdUsuario);
+                var status = this._context.StatusDenuncia.Find(denuncia.IdStatusDenuncia);
+                var tipo = this._context.TipoDenuncia.Find(denuncia.IdTipoDenuncia);
+                var opinioes = this._context.Opiniao.ToList();
+                int curtidas = 0;
+                foreach (Opiniao op in opinioes)
+                    if (op.IdUsuario == denuncia.IdUsuario && op.IdDenuncia == denuncia.IdDenuncia)
+                        curtidas++;
+
+                DenunciaRet ret = new DenunciaRet(denuncia, usuario.Nome, status.Status, tipo.Tipo, curtidas);
+                retorno.Add(ret);
+            }
+
+            return retorno;
         }
 
         [HttpGet("{idDenuncia}")]
-        public ActionResult<List<Denuncia>> GetDenuncia(int idDenuncia)
+        public ActionResult<DenunciaRet> GetDenuncia(int idDenuncia)
         {
             try
             {
-                var result = this._context.Denuncia.Find(idDenuncia);
-                if (result == null)
+                var retorno = this._context.Denuncia.Find(idDenuncia);
+                if (retorno == null)
                     return NotFound();
-                return Ok(result);
+                return Ok(retorno);
             }
             catch
             {

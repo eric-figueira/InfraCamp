@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useGet } from "../../hooks/useGet";
+import useFetch from "../../hooks/useFetch";
 
 type Tipo = {
     idTipo: Number;
@@ -14,8 +14,8 @@ type Status = {
 const Filter: React.FC = () => {
 
     // São constantes, não vão sofrer reatribuição
-    const { data: tipos }  = useGet<Tipo[]>("api/tiposDenuncia")
-    const { data: status } = useGet<Status[]>("api/statusDenuncia")
+    const { data: tipos }  = useFetch<Tipo[]>("api/tiposDenuncia")
+    const { data: status } = useFetch<Status[]>("api/statusDenuncia")
 
     return (
         <div>

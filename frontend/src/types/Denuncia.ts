@@ -8,7 +8,11 @@ type Denuncia = {
     urlImagem: string;
     descricao: string;
     idUsuario: string;
-    dataDenuncia: string;
+    dataDenuncia: Date;
+    nome: string;
+    status: string;
+    tipo: string;
+    likes: number;
 };
 
 export default Denuncia;
