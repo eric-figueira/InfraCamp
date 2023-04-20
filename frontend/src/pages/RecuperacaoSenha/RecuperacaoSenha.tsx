@@ -18,32 +18,36 @@ const RecuperacaoSenha: React.FC = () => {
 
   const { recoverPassword } = useContext(AuthContext)
 
-  const [email, setEmail] = useState<string>()
-  const [senha, setSenha] = useState<string>()
-  const [novaSenha, setNovaSenha] = useState<string>()
+  const [email, setEmail] = useState<string>("")
+  const [senha, setSenha] = useState<string>("")
+  const [novaSenha, setNovaSenha] = useState<string>("")
 
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
   const [messageText, setMessageText] = useState<string>("")
 
+  function showMessage(text: string) {
+    setMessageText(text)
+    setIsMessageVisible(true)
+  }
 
   function RecoverPassword(event: MouseEvent) {
     event.preventDefault()
     try 
     {
-      if (senha == novaSenha) 
+      if (email == "" || senha == "" || novaSenha == "") 
+        showMessage('Todos os dados são necessários!')
+      else 
       {
-        setIsMessageVisible(false)
-        console.log('HEHE')
-      }
-      else {
-        setMessageText('As senhas não são compatíveis!')
-        setIsMessageVisible(true)
+        if (senha != novaSenha) 
+          showMessage('As senhas não são compatíveis!')
+        else 
+        {
+          console.log('DEU CERTO!')
+          setIsMessageVisible(false)
+        }
       }
     }
-    catch (e: any) {
-      setMessageText(e.message)
-      setIsMessageVisible(true)
-    }
+    catch (e: any) { showMessage(e.message) }
   }
 
   return (
