@@ -47,12 +47,12 @@ export const Input = styled.div<InputProps>`
 
 export const Message = styled.div<MessageProps>`
 
-  padding: 0.5rem 5rem;
+  padding: 0.5rem 1rem;
   border-radius: 0.7rem;
 
   background-color: ${(props) => props.borderFontColor}35;
   border: 1.5px solid ${(props) => props.borderFontColor};
   color: ${(props) => props.borderFontColor};
   font-size: 1.25rem; 
-
+  text-align: center;
 `

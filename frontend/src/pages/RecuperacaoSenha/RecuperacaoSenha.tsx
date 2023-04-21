@@ -14,6 +14,9 @@ import { Message, ETypes } from '../../components/Message/Message';
 import { AuthContext } from '../../contexts/AuthContext';
 
 
+const email_regex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+
+
 const RecuperacaoSenha: React.FC = () => {
 
   const { recoverPassword } = useContext(AuthContext)
@@ -40,7 +43,11 @@ const RecuperacaoSenha: React.FC = () => {
       {
         if (senha != novaSenha) 
           showMessage('As senhas não são compatíveis!')
-        else 
+        else if (!email_regex.test(email)) 
+          showMessage('Padrão de email incorreto!')
+        else if (senha.length < 8)
+          showMessage('Senha precisa ter no mínimo 8 caracteres!')
+        else
         {
           console.log('DEU CERTO!')
           setIsMessageVisible(false)
@@ -78,7 +85,7 @@ const RecuperacaoSenha: React.FC = () => {
               <div className='icon-container'>
                 <Key />
               </div>
-              <input type="text" placeholder='Digite uma nova senha' onChange={(event) => setSenha(event.target.value)} />
+              <input type="password" placeholder='Digite uma nova senha' onChange={(event) => setSenha(event.target.value)} />
             </Input>
             <Input 
               backgroundColor="#FFF"
@@ -88,7 +95,7 @@ const RecuperacaoSenha: React.FC = () => {
               <div className='icon-container'>
                 <Key />
               </div>
-              <input type="text" placeholder='Confirme sua senha' onChange={(event) => setNovaSenha(event.target.value)} />
+              <input type="password" placeholder='Confirme sua senha' onChange={(event) => setNovaSenha(event.target.value)} />
             </Input>
             <Button text='Recuperar' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={25} eventHandler={RecoverPassword} />
           </form>
