@@ -2,8 +2,7 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 
 import { api } from "../services/api";
 
-import Cookies from "universal-cookie"
-
+import Cookies from "universal-cookie";
 
 interface IProps {
   children? : ReactNode

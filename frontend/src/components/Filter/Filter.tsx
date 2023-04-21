@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import useFetch from "../../hooks/useFetch";
 
 type Tipo = {
@@ -10,17 +10,19 @@ type Status = {
     idStatus: Number;
     status: string;
 }
-/*
-const Filter: React.FC = () => {
 
+const Filter: React.FC = () => {
+    function handleSelect(e: React.ChangeEvent<HTMLSelectElement>) {
+        e.preventDefault();
+    }
     // São constantes, não vão sofrer reatribuição
-    const { data: tipos }  = useFetch<Tipo[]>("api/tiposDenuncia")
+    const { data: tipos } = useFetch<Tipo[]>("api/tiposDenuncia")
     const { data: status } = useFetch<Status[]>("api/statusDenuncia")
 
     return (
         <div>
             <label>Status:
-                <select name="status">
+                <select name="status" onSelect={handleSelect}>
                     {
                         tipos?.map(tipo => {
                             return <option value={tipo.tipo}>{tipo.tipo}</option>
@@ -49,4 +51,4 @@ const Filter: React.FC = () => {
     )
 }
 
-export default Filter;*/
+export default Filter;

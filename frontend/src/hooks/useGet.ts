@@ -18,7 +18,7 @@ export async function useGet<T = unknown>(url: string) {
     .finally(() => {
       setIsGetting(false)
     })
-  }, [])
+  }, [url])
 
   return { data, isGetting, error }
 }

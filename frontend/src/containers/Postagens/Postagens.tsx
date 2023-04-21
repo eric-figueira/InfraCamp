@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Post from '../../components/Post/Post';
 import useFetch from '../../hooks/useFetch';
 import Denuncia from '../../types/Denuncia';
-import Opiniao from '../../types/Opiniao';
-import myContext from '../../contexts/postContext'
 
 const Postagens: React.FC = () => {
     const { data: denuncias } = useFetch<Denuncia[]>("api/denuncias");
-    const { data: op } = useFetch<Opiniao[]>("api/opinioes");
-    let [opinioes, setOpinioes] = useState(op);
 
     return (
-        <myContext.Provider value={[opinioes, setOpinioes]}>
+        <div>
             <h1>Postagens</h1>
             <div className="header">
                 <div className="statistics">
@@ -31,11 +27,11 @@ const Postagens: React.FC = () => {
                 {
                     denuncias?.map(
                         denuncia =>
-                            <Post cpf={denuncia.idUsuario} userName={denuncia.nome} date={denuncia.dataDenuncia} type={denuncia.tipo} address={denuncia.endereco} description={denuncia.descricao} status={denuncia.status} imgUrl={denuncia.urlImagem} likes={denuncia.likes} ></Post>
+                            <Post idDenunia={denuncia.idDenuncia} cpf={denuncia.idUsuario} userName={denuncia.nome} date={denuncia.dataDenuncia} type={denuncia.tipo} address={denuncia.endereco} description={denuncia.descricao} status={denuncia.status} imgUrl={denuncia.urlImagem}></Post>
                     )
                 }
             </div>
-        </myContext.Provider>
+        </div>
     )
 }
 

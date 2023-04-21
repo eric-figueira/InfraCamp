@@ -1,9 +1,11 @@
-import React, { Dispatch, SetStateAction, useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ArrowFatDown, ArrowFatUp } from "phosphor-react";
-import myContext from "../../contexts/postContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import Opiniao from "../../types/Opiniao";
+import { api } from '../../services/api';
 
 interface PostProps {
+    idDenunia: number;
     cpf: string,
     userName: string,
     date: Date,
@@ -12,7 +14,6 @@ interface PostProps {
     description: string,
     status: string,
     imgUrl: string,
-    likes: number
 }
 
 interface ItemPostProps {
@@ -39,7 +40,30 @@ const ItemPost: React.FC<ItemPostProps> = (props) => {
 }
 
 const Post: React.FC<PostProps> = (props) => {
-    const [opinioes, setOpinioes] = useContext<[Opiniao[] | undefined, Dispatch<SetStateAction<Opiniao[] | undefined>>]>(myContext);
+    const [opinioes, setOpinioes] = useState<Opiniao[]>();
+    const [opiniao, setOpiniao] = useState<Opiniao>();
+    const { user } = useContext(AuthContext);
+
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        api.post('api/opinioes', { idDenuncia: props.idDenunia, idUsuario: user?.cpf, dataInteracao: new Date(), isCurtida: (e.target as HTMLButtonElement).title == 'like' ? true : false } as Opiniao)
+            .then(res => {
+                setOpiniao(res.data);
+            })
+            .catch(() => {
+                api.put('api/opinioes', { idDenuncia: props.idDenunia, idUsuario: user?.cpf, dataInteracao: new Date(), isCurtida: (e.target as HTMLButtonElement).title == 'like' ? true : false } as Opiniao)
+                    .then(res => {
+                        setOpiniao(res.data);
+                    })
+            });
+    };
+
+    useEffect(() => {
+        api.get(`api/opinioes/${props.idDenunia}`).then(resp => {
+            setOpinioes(resp.data);
+        })
+    }, [opinioes, opiniao, props.idDenunia])
 
     return (
         <div>
@@ -55,10 +79,11 @@ const Post: React.FC<PostProps> = (props) => {
                 <img className="picture_box_img" src={props.imgUrl} alt="Imagem do problema"></img>
             </div>
             <div className="likes_and_dislikes_box">
-                <button type="button" title="like" onClick={setOpinioes(opinioes)}>
+                <p className="like_count">{opinioes?.length}</p>
+                <button type="button" title="like" onClick={handleClick}>
                     <ArrowFatUp />
                 </button>
-                <button type="button" title="dislike" onClick={setOpinioes(opiniao)}>
+                <button type="button" title="dislike" onClick={handleClick}>
                     <ArrowFatDown />
                 </button>
             </div>

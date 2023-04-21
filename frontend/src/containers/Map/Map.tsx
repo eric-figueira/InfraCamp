@@ -6,10 +6,16 @@ import { MapController } from '@maptiler/geocoding-control/types';
 import { createMapLibreGlMapController } from "@maptiler/geocoding-control/maplibregl-controller";
 import maplibregl from 'maplibre-gl';
 import * as maplibre from "maplibre-gl/dist/maplibre-gl";
-//  import { GeocodingControl } from '@maptiler/geocoding-control/react';
-//  import { Feature } from '@maptiler/geocoding-control/types';
+import { GeocodingControl } from '@maptiler/geocoding-control/react';
+import { Feature } from '@maptiler/geocoding-control/types';
+import Filter from '../../components/Filter/Filter';
 
-const Map: React.FC = () => {
+interface MapProps {
+    hasSearchBar?: boolean;
+    hasFilter?: boolean;
+}
+
+const Map: React.FC<MapProps> = (props) => {
     const map = useRef<maplibre.Map | undefined>();
     const [lat, setLat] = useState<number>(-22.9064);
     const [lng, setLng] = useState<number>(-47.0616);
@@ -51,22 +57,25 @@ const Map: React.FC = () => {
 
     return (
         <div id="map">
-            {/* <div className="searchBar">
-                <GeocodingControl 
-                language='pt' 
-                country='br' 
-                showResultsWhileTyping={true} 
-                placeholder='Digite o nome da rua onde se encontra o problema' apiKey={'61IAJkR9OhCFaMNRNeOn'} 
-                mapController={mapController} 
-                onResponse={(e => {
-                    let arrayFeatures = e.featureCollection.features.filter((item: Feature) => item.place_name.includes("Campinas, São Paulo"))
-                    e.featureCollection.features = arrayFeatures;
-                })} 
-                errorMessage={"Falha ao buscar dados"}
-                noResultsMessage="Sem resultados para a busca"
-                clearButtonTitle="Limpar"
-                enableReverse={true}/>
-            </div> */}
+            {props.hasSearchBar &&
+                <div className="searchBar">
+                    <GeocodingControl
+                        language='pt'
+                        country='br'
+                        showResultsWhileTyping={true}
+                        placeholder='Digite o nome da rua onde se encontra o problema' apiKey={'61IAJkR9OhCFaMNRNeOn'}
+                        mapController={mapController}
+                        onResponse={(e => {
+                            let arrayFeatures = e.featureCollection.features.filter((item: Feature) => item.place_name.includes("Campinas, São Paulo"))
+                            e.featureCollection.features = arrayFeatures;
+                        })}
+                        errorMessage={"Falha ao buscar dados"}
+                        noResultsMessage="Sem resultados para a busca"
+                        clearButtonTitle="Limpar"
+                        enableReverse={true} />
+                </div>
+            }
+            {props.hasFilter && <Filter/>}
         </div>
     )
 }
