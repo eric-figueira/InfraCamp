@@ -1,4 +1,5 @@
 import React, { useContext, useState, MouseEvent } from 'react';
+import { Link } from "react-router-dom"
 
 import "./Login.css"
 
@@ -54,7 +55,6 @@ const Login: React.FC = () => {
     catch (e: any) { showMessage(e.message) }
   }
 
-  function IDK() {}
 
   return (
     <div className="login-wrapper">
@@ -62,9 +62,11 @@ const Login: React.FC = () => {
         <div className="content">
           <h3>Novo por aqui?</h3>
           <p>Crie sua conta e comece a denunciar</p>
-          <Button text='Cadastrar'
-            backgroundColor={'transparent'} fontColor={colorPallete.fontWhite}
-            fontSize={18} eventHandler={IDK} borderColor={`2px solid ${colorPallete.bgWhite}`} />
+          <Link to="/signup">
+            <Button text='Cadastrar'
+              backgroundColor={'transparent'} fontColor={colorPallete.fontWhite}
+              fontSize={18} eventHandler={() => null} borderColor={`2px solid ${colorPallete.bgWhite}`} />
+          </Link>
         </div>
         <ImagemLogin className='login-img' />
       </div>
@@ -93,6 +95,7 @@ const Login: React.FC = () => {
               </div>
               <input type='password' placeholder='Digite sua senha' onChange={(event) => setSenha(event.target.value)} />
             </Input>
+            <Link to="/recover-password" className='login-link'>Esqueceu sua senha? Clique aqui!</Link>
             <Button text='Entrar' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={18} eventHandler={SignIn} />
           </form>
         </div>
