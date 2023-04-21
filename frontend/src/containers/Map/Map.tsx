@@ -9,23 +9,29 @@ import * as maplibre from "maplibre-gl/dist/maplibre-gl";
 import { GeocodingControl } from '@maptiler/geocoding-control/react';
 import { Feature } from '@maptiler/geocoding-control/types';
 import Filter from '../../components/Filter/Filter';
+import useFetch from '../../hooks/useFetch';
+import Denuncia from '../../types/Denuncia';
 
 interface MapProps {
     hasSearchBar?: boolean;
     hasFilter?: boolean;
 }
 
+type Filtro = 'status' | 'tipo' | 'data';
+
 const Map: React.FC<MapProps> = (props) => {
+    const denuncias = useFetch<Denuncia[]>('api/denuncias');
+
     const map = useRef<maplibre.Map | undefined>();
-    const [lat, setLat] = useState<number>(-22.9064);
-    const [lng, setLng] = useState<number>(-47.0616);
     const [mapController, setMapController] = useState<MapController>();
 
     useEffect(() => {
-        //sets the current position of the user to the lat and lng states
+        const coords: maptilersdk.LngLatLike = [-22.9064, -47.0616]
+
+        //seta a latitude e longitude da localização do usuário para o state
         const getPosition = (position: GeolocationPosition) => {
-            setLat(position.coords.latitude);
-            setLng(position.coords.longitude);
+            coords[0] = position.coords.latitude;
+            coords[1] = position.coords.longitude;
         }
         navigator.geolocation.getCurrentPosition(getPosition);
 
@@ -33,7 +39,7 @@ const Map: React.FC<MapProps> = (props) => {
         map.current = new maplibre.Map({
             container: "map",
             style: `https://api.maptiler.com/maps/streets-v2/style.json?key=61IAJkR9OhCFaMNRNeOn`,
-            center: [lng, lat],
+            center: coords,
             zoom: 10,
         })
 
@@ -47,13 +53,89 @@ const Map: React.FC<MapProps> = (props) => {
         maptilersdk.config.primaryLanguage = maptilersdk.Language.PORTUGUESE;
 
         setMapController(createMapLibreGlMapController(map.current, maplibregl));
-    });
+    }, []);
+
+    useEffect(() => {
+        // eslint-disable-next-line array-callback-return
+        denuncias?.data?.map(denuncia => {
+            var marker = new maplibregl.Marker({ color: "#2523ad" })
+                .setLngLat([denuncia.longitude, denuncia.latitude]);
+
+            if (map.current !== undefined)
+                marker.addTo(map.current);
+        })
+    }, [denuncias])
 
     useEffect(() => {
         let button: HTMLButtonElement | null = document.getElementsByClassName('maplibregl-ctrl-geolocate').item(0) as HTMLButtonElement;
         if (button != null)
             button.click();
     })
+
+    function filtrarDenuncias(type: Filtro, index: number) {
+        switch (type) {
+            case 'status':
+                // eslint-disable-next-line array-callback-return
+                denuncias?.data?.filter(denuncia => {
+                    if (denuncia.idStatusDenuncia === index + 1) {
+                        var marker = new maplibregl.Marker({ color: "#2523ad" })
+                            .setLngLat([denuncia.longitude, denuncia.latitude]);
+
+                        if (map.current !== undefined)
+                            marker.addTo(map.current);
+                    }
+                })
+                break;
+            case 'tipo':
+                // eslint-disable-next-line array-callback-return
+                denuncias?.data?.filter(denuncia => {
+                    if (denuncia.idTipoDenuncia === index + 1) {
+                        var marker = new maplibregl.Marker({ color: "#2523ad" })
+                            .setLngLat([denuncia.longitude, denuncia.latitude]);
+
+                        if (map.current !== undefined)
+                            marker.addTo(map.current);
+                    }
+                })
+                break;
+            case 'data':
+                // eslint-disable-next-line array-callback-return
+                denuncias?.data?.filter(denuncia => {
+                    switch (index) {
+                        case 0:
+                            if (new Date().getDay() - denuncia.dataDenuncia.getDay() <= 1) {
+                                var marker = new maplibregl.Marker({ color: "#2523ad" })
+                                    .setLngLat([denuncia.longitude, denuncia.latitude]);
+
+                                if (map.current !== undefined)
+                                    marker.addTo(map.current);
+                            }
+                            break;
+                        case 1:
+                            var dif = new Date().getDay() - denuncia.dataDenuncia.getDay()
+                            if (1 < dif && dif <= 7) {
+                                var marker = new maplibregl.Marker({ color: "#2523ad" })
+                                    .setLngLat([denuncia.longitude, denuncia.latitude]);
+
+                                if (map.current !== undefined)
+                                    marker.addTo(map.current);
+                            };
+                            break;
+                        case 2:
+                            var dif = new Date().getDay() - denuncia.dataDenuncia.getDay()
+                            if (7 < dif && dif <= 30) {
+                                var marker = new maplibregl.Marker({ color: "#2523ad" })
+                                    .setLngLat([denuncia.longitude, denuncia.latitude]);
+
+                                if (map.current !== undefined)
+                                    marker.addTo(map.current);
+                            };
+                            break;
+                    }
+                })
+                break;
+        }
+    }
 
     return (
         <div id="map">
@@ -75,7 +157,7 @@ const Map: React.FC<MapProps> = (props) => {
                         enableReverse={true} />
                 </div>
             }
-            {props.hasFilter && <Filter/>}
+            {props.hasFilter && <Filter filterMap={filtrarDenuncias} />}
         </div>
     )
 }

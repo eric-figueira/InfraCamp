@@ -11,9 +11,20 @@ type Status = {
     status: string;
 }
 
-const Filter: React.FC = () => {
-    function handleSelect(e: React.ChangeEvent<HTMLSelectElement>) {
+type Filtro = 'status' | 'tipo' | 'data';
+
+interface FilterProps {
+    filterMap: (filter: Filtro, index: number) => void;
+}
+
+const Filter: React.FC<FilterProps> = (props) => {
+    function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
         e.preventDefault();
+
+        const tipo = (e.target as HTMLSelectElement).name;
+        const index = (e.target as HTMLSelectElement).selectedIndex;
+
+        props.filterMap(tipo as Filtro, index);
     }
     // São constantes, não vão sofrer reatribuição
     const { data: tipos } = useFetch<Tipo[]>("api/tiposDenuncia")
@@ -22,7 +33,7 @@ const Filter: React.FC = () => {
     return (
         <div>
             <label>Status:
-                <select name="status" onSelect={handleSelect}>
+                <select name="status" onSelect={handleChange}>
                     {
                         tipos?.map(tipo => {
                             return <option value={tipo.tipo}>{tipo.tipo}</option>
@@ -31,7 +42,7 @@ const Filter: React.FC = () => {
                 </select>
             </label>
             <label>Tipo:
-                <select name="tipo">
+                <select name="tipo" onSelect={handleChange}>
                     {
                         status?.map(status => {
                             return <option value={status.status}>{status.status}</option>
@@ -40,11 +51,10 @@ const Filter: React.FC = () => {
                 </select>
             </label>
             <label>Data:
-                <select name="data">
-                    <option>Há 1 dia</option>
-                    <option>Há 1 semana</option>
-                    <option>Há 1 mês</option>
-                    <option>Todas</option>
+                <select name="data" onChange={handleChange}>
+                    <option>Até há 1 dia</option>
+                    <option>Até há 1 semana</option>
+                    <option>Até há 1 mês</option>
                 </select>
             </label>
         </div>
