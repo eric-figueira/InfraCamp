@@ -16,14 +16,19 @@ import { AuthContext } from '../../contexts/AuthContext';
 
 const email_regex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
+interface IUser {
+  email: string,
+  novaSenha: string,
+  confSenha: string
+}
+
 
 const RecuperacaoSenha: React.FC = () => {
 
   const { recoverPassword } = useContext(AuthContext)
 
-  const [email, setEmail] = useState<string>("")
-  const [senha, setSenha] = useState<string>("")
-  const [novaSenha, setNovaSenha] = useState<string>("")
+  const [user, setUser] = useState<IUser>({ email: "", novaSenha: "", confSenha: "" })
+
 
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
   const [messageText, setMessageText] = useState<string>("")
@@ -37,15 +42,15 @@ const RecuperacaoSenha: React.FC = () => {
     event.preventDefault()
     try 
     {
-      if (email == "" || senha == "" || novaSenha == "") 
+      if (user.email == "" || user.novaSenha == "" || user.confSenha == "") 
         showMessage('Todos os dados são necessários!')
       else 
       {
-        if (senha != novaSenha) 
+        if (user.novaSenha != user.confSenha) 
           showMessage('As senhas não são compatíveis!')
-        else if (!email_regex.test(email)) 
+        else if (!email_regex.test(user.email)) 
           showMessage('Padrão de email incorreto!')
-        else if (senha.length < 8)
+        else if (user.novaSenha.length < 8)
           showMessage('Senha precisa ter no mínimo 8 caracteres!')
         else
         {
@@ -75,7 +80,7 @@ const RecuperacaoSenha: React.FC = () => {
               <div className='icon-container'>
                 <EnvelopeSimple />
               </div>
-              <input type="text" placeholder='Digite seu email' onChange={(event) => setEmail(event.target.value)} />
+              <input type="text" placeholder='Digite seu email' onChange={(event) => setUser({ ...user, email: event.target.value })} />
             </Input>
             <Input 
               backgroundColor="#FFF"
@@ -85,7 +90,7 @@ const RecuperacaoSenha: React.FC = () => {
               <div className='icon-container'>
                 <Key />
               </div>
-              <input type="password" placeholder='Digite uma nova senha' onChange={(event) => setSenha(event.target.value)} />
+              <input type="password" placeholder='Digite uma nova senha' onChange={(event) => setUser({ ...user, novaSenha: event.target.value })} />
             </Input>
             <Input 
               backgroundColor="#FFF"
@@ -95,7 +100,7 @@ const RecuperacaoSenha: React.FC = () => {
               <div className='icon-container'>
                 <Key />
               </div>
-              <input type="password" placeholder='Confirme sua senha' onChange={(event) => setNovaSenha(event.target.value)} />
+              <input type="password" placeholder='Confirme sua senha' onChange={(event) => setUser({ ...user, confSenha: event.target.value })} />
             </Input>
             <Button text='Recuperar' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={25} eventHandler={RecoverPassword} />
           </form>

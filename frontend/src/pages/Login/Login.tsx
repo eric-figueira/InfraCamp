@@ -18,12 +18,16 @@ import { AuthContext } from '../../contexts/AuthContext';
 const email_regex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
 
+interface IUser {
+  email: string,
+  senha: string
+}
+
 const Login: React.FC = () => {
 
   const { signIn } = useContext(AuthContext)
 
-  const [email, setEmail] = useState<string>("")
-  const [senha, setSenha] = useState<string>("")
+  const [user, setUser] = useState<IUser>({ email: "", senha: "" })
 
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
   const [messageText, setMessageText] = useState<string>("")
@@ -38,11 +42,11 @@ const Login: React.FC = () => {
     event.preventDefault()
     try 
     {
-      if (email == "" || senha == "") 
+      if (user.email == "" || user.senha == "") 
         showMessage('Todos os dados são necessários!')
       else 
       {
-        if (!email_regex.test(email)) 
+        if (!email_regex.test(user.email)) 
           showMessage('Padrão de email incorreto!')
         // OBS:  Testar se achou no banco de dados !!!
         else
@@ -83,7 +87,7 @@ const Login: React.FC = () => {
               <div className='icon-container'>
                 <EnvelopeSimple />
               </div>
-              <input type='text' placeholder='Digite seu email' onChange={(event) => setEmail(event.target.value)} />
+              <input type='text' placeholder='Digite seu email' onChange={(event) => setUser({ ...user, email: event.target.value })} />
             </Input>
             <Input
               backgroundColor='#FFF'
@@ -93,7 +97,7 @@ const Login: React.FC = () => {
               <div className='icon-container'>
                 <Key />
               </div>
-              <input type='password' placeholder='Digite sua senha' onChange={(event) => setSenha(event.target.value)} />
+              <input type='password' placeholder='Digite sua senha' onChange={(event) => setUser({ ...user, senha: event.target.value })} />
             </Input>
             <Link to="/recover-password" className='login-link'>Esqueceu sua senha? Clique aqui!</Link>
             <Button text='Entrar' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={18} eventHandler={SignIn} />

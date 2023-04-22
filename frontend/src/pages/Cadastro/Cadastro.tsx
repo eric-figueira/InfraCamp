@@ -17,20 +17,23 @@ import { AuthContext } from '../../contexts/AuthContext';
 
 const email_regex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
+interface IUser {
+  cpf: string,
+  email: string,
+  nome: string,
+  telefone: string,
+  senha: string
+}
+
 
 const Cadastro: React.FC = () => {
 
   const { signUp } = useContext(AuthContext)
 
-  const [cpf, setCpf] = useState<string>("")
-  const [email, setEmail] = useState<string>("")
-  const [username, setUsername] = useState<string>("")
-  const [telefone, setTelefone] = useState<string>("")
-  const [senha, setSenha] = useState<string>("")
+  const [user, setUser] = useState<IUser>({ cpf: "", email: "", nome: "", telefone: "", senha: "" });
 
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
   const [messageText, setMessageText] = useState<string>("")
-
 
   function showMessage(text: string) {
     setIsMessageVisible(true)
@@ -42,13 +45,13 @@ const Cadastro: React.FC = () => {
     event.preventDefault()
     try 
     {
-      if (cpf == "" || email == "" || username == "" || telefone == "" || senha == "") 
+      if (user.cpf == "" || user.email == "" || user.nome == "" || user.telefone == "" || user.senha == "") 
         showMessage('Todos os dados são necessários!')
       else 
       {
-        if (!email_regex.test(email)) 
+        if (!email_regex.test(user.email)) 
           showMessage('Padrão de email incorreto!')
-        else if (senha.length < 8)
+        else if (user.senha.length < 8)
           showMessage('Senha precisa ter no mínimo 8 caracteres!')
         // Obs: testar se já não tem no banco de dados!!!
         else
@@ -76,7 +79,7 @@ const Cadastro: React.FC = () => {
               <div className='icon-container'>
                 <IdentificationBadge />
               </div>
-              <input type='text' placeholder='Digite seu CPF' onChange={(event) => setCpf(event.target.value)} />
+              <input type='text' placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: event.target.value })} />
             </Input>
             <Input
               backgroundColor='#FFF'
@@ -86,7 +89,7 @@ const Cadastro: React.FC = () => {
               <div className='icon-container'>
                 <EnvelopeSimple />
               </div>
-              <input type='text' placeholder='Digite seu email' onChange={(event) => setEmail(event.target.value)} />
+              <input type='text' placeholder='Digite seu email' onChange={(event) => setUser({ ...user, email: event.target.value })} />
             </Input>
             <Input
               backgroundColor='#FFF'
@@ -96,7 +99,7 @@ const Cadastro: React.FC = () => {
               <div className='icon-container'>
                 <User />
               </div>
-              <input type='text' placeholder='Digite seu nome' onChange={(event) => setUsername(event.target.value)} />
+              <input type='text' placeholder='Digite seu nome' onChange={(event) => setUser({ ...user, nome: event.target.value })} />
             </Input>
             <Input
               backgroundColor='#FFF'
@@ -106,7 +109,7 @@ const Cadastro: React.FC = () => {
               <div className='icon-container'>
                 <Phone />
               </div>
-              <input type='text' placeholder='Digite seu telefone' onChange={(event) => setTelefone(event.target.value)} />
+              <input type='text' placeholder='Digite seu telefone' onChange={(event) => setUser({ ...user, telefone: event.target.value })} />
             </Input>
             <Input
               backgroundColor='#FFF'
@@ -116,7 +119,7 @@ const Cadastro: React.FC = () => {
               <div className='icon-container'>
                 <Key />
               </div>
-              <input type='text' placeholder='Digite uma senha' onChange={(event) => setSenha(event.target.value)} />
+              <input type='text' placeholder='Digite uma senha' onChange={(event) => setUser({ ...user, senha: event.target.value })} />
             </Input>
             <Button text='Cadastrar' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={18} eventHandler={SignUp} />
           </form>
