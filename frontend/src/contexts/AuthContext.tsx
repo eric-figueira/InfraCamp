@@ -65,21 +65,41 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   }, [])
 
-  async function signUp(data: ISignUp) {
+  async function getToken(email: string, senha: string) {
+    // Chama a api passando os dados e recebe o token JWT
+    api.post("/api/auth/getToken", {
+      email: email,
+      senha: senha
+    }).then((resp) => {
+      // Seta o token como cookie
+      return resp.data
+    })
+  }
+
+  async function getUserData(token: string) {
 
   }
 
-  async function signIn({ email, senha }: ISignIn) {
+  async function signUp(data: ISignUp) {
     // Chama a api passando os dados e recebe o token JWT
     api.post("/api/auth/token", {
-      email: email,
-      senha: senha
+
     }).then((resp) => {
       // Seta o token como cookie
       console.log(resp)
     })
 
     // Retornamos informações do usuário
+  }
+
+  async function signIn({ email, senha }: ISignIn) {
+    const token = getToken(email, senha)
+    // Retornamos informações do usuário
+
+    const proxMes = new Date();
+    proxMes.setMonth(new Date().getMonth() + 1);
+
+    cookie.set('_infracamp_auth_token', token, { expires: proxMes })
   }
 
   async function recoverPassword({ email, novaSenha }: IRecoverPassword) {
@@ -89,6 +109,9 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   async function logOut() {
     // Precisamos limpar os cookies
     cookie.remove('_infracamp_auth_token')
+    // Com esse set, fazemos com que os componentes recarreguem e o usuário, caso esteja em uma
+    // rota privada, será redirecionado para login
+    setUser(null)
   }
 
   // Criamos todo um componente AuthProvider, pois precisamos passar os valores em 'value' 
