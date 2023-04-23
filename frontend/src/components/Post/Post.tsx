@@ -47,12 +47,12 @@ const Post: React.FC<PostProps> = (props) => {
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        api.post('api/opinioes', { idDenuncia: props.idDenunia, idUsuario: user?.cpf, dataInteracao: new Date(), isCurtida: (e.target as HTMLButtonElement).title === 'like' ? true : false } as Opiniao)
+        api.post('api/opinioes', { idDenuncia: props.idDenunia, idUsuario: user?.cpf, dataInteracao: new Date(), isCurtida: (e.target as HTMLButtonElement).title == 'like' ? true : false } as Opiniao)
             .then(res => {
                 setOpiniao(res.data);
             })
             .catch(() => {
-                api.put('api/opinioes', { idDenuncia: props.idDenunia, idUsuario: user?.cpf, dataInteracao: new Date(), isCurtida: (e.target as HTMLButtonElement).title === 'like' ? true : false } as Opiniao)
+                api.put('api/opinioes', { idDenuncia: props.idDenunia, idUsuario: user?.cpf, dataInteracao: new Date(), isCurtida: (e.target as HTMLButtonElement).title == 'like' ? true : false } as Opiniao)
                     .then(res => {
                         setOpiniao(res.data);
                     })

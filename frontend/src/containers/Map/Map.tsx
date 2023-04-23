@@ -11,12 +11,10 @@ import { Feature } from '@maptiler/geocoding-control/types';
 import Filter from '../../components/Filter/Filter';
 import useFetch from '../../hooks/useFetch';
 import Denuncia from '../../types/Denuncia';
-import Complaint from '../../components/Complaint/Complaint';
 
 interface MapProps {
     hasSearchBar?: boolean;
     hasFilter?: boolean;
-    hasCard?: boolean;
 }
 
 type Filtro = 'status' | 'tipo' | 'data';
@@ -60,13 +58,11 @@ const Map: React.FC<MapProps> = (props) => {
     useEffect(() => {
         // eslint-disable-next-line array-callback-return
         denuncias?.data?.map(denuncia => {
-            if (new Date().getMonth() - denuncia.dataDenuncia.getMonth() === 0 && new Date().getFullYear() - denuncia.dataDenuncia.getFullYear() === 0) {
-                var marker = new maplibregl.Marker({ color: "#2523ad" })
-                    .setLngLat([denuncia.longitude, denuncia.latitude]);
+            var marker = new maplibregl.Marker({ color: "#2523ad" })
+                .setLngLat([denuncia.longitude, denuncia.latitude]);
 
-                if (map.current !== undefined)
-                    marker.addTo(map.current);
-            }
+            if (map.current !== undefined)
+                marker.addTo(map.current);
         })
     }, [denuncias])
 
@@ -82,10 +78,7 @@ const Map: React.FC<MapProps> = (props) => {
                 // eslint-disable-next-line array-callback-return
                 denuncias?.data?.filter(denuncia => {
                     if (denuncia.idStatusDenuncia === index + 1) {
-                        var el = document.createElement('div');
-                        el.className = 'marker';
-                        el.addEventListener('click', function () {});
-                        var marker = new maplibregl.Marker(el)
+                        var marker = new maplibregl.Marker({ color: "#2523ad" })
                             .setLngLat([denuncia.longitude, denuncia.latitude]);
 
                         if (map.current !== undefined)
@@ -121,7 +114,6 @@ const Map: React.FC<MapProps> = (props) => {
                         case 1:
                             var dif = new Date().getDay() - denuncia.dataDenuncia.getDay()
                             if (1 < dif && dif <= 7) {
-                                // eslint-disable-next-line @typescript-eslint/no-redeclare
                                 var marker = new maplibregl.Marker({ color: "#2523ad" })
                                     .setLngLat([denuncia.longitude, denuncia.latitude]);
 
@@ -130,10 +122,8 @@ const Map: React.FC<MapProps> = (props) => {
                             };
                             break;
                         case 2:
-                            // eslint-disable-next-line @typescript-eslint/no-redeclare
                             var dif = new Date().getDay() - denuncia.dataDenuncia.getDay()
                             if (7 < dif && dif <= 30) {
-                                // eslint-disable-next-line @typescript-eslint/no-redeclare
                                 var marker = new maplibregl.Marker({ color: "#2523ad" })
                                     .setLngLat([denuncia.longitude, denuncia.latitude]);
 
@@ -168,7 +158,6 @@ const Map: React.FC<MapProps> = (props) => {
                 </div>
             }
             {props.hasFilter && <Filter filterMap={filtrarDenuncias} />}
-            {/* {props.hasCard && <Complaint cpf={denuncia.idUsuario} idDenunia={denuncia.idDenuncia} userName={denuncia.nome} date={denuncia.dataDenuncia} type={denuncia.tipo} address={denuncia.endereco} description={denuncia.descricao} status={denuncia.status} imgUrl={denuncia.urlImagem}/>} */}
         </div>
     )
 }
