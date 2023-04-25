@@ -63,16 +63,31 @@ namespace backend.Controllers
             foreach (Denuncia denuncia in denuncias)
             {
                 var usuario = this._context.Usuario.Find(denuncia.IdUsuario);
-                var status = this._context.StatusDenuncia.Find(denuncia.IdStatusDenuncia);
-                var tipo = this._context.TipoDenuncia.Find(denuncia.IdTipoDenuncia);
-                var opinioes = this._context.Opiniao.ToList();
-                int curtidas = 0;
-                foreach (Opiniao op in opinioes)
-                    if (op.IdUsuario == denuncia.IdUsuario && op.IdDenuncia == denuncia.IdDenuncia)
-                        curtidas++;
+                if (usuario == null)
+                    return NotFound();
+                else
+                {
+                    var status = this._context.StatusDenuncia.Find(denuncia.IdStatusDenuncia);
+                    if (status == null)
+                        return NotFound();
+                    else
+                    {
+                        var tipo = this._context.TipoDenuncia.Find(denuncia.IdTipoDenuncia);
+                        if (tipo == null)
+                            return NotFound();
+                        else
+                        {
+                            var opinioes = this._context.Opiniao.ToList();
+                            int curtidas = 0;
+                            foreach (Opiniao op in opinioes)
+                                if (op.IdUsuario == denuncia.IdUsuario && op.IdDenuncia == denuncia.IdDenuncia)
+                                    curtidas++;
 
-                DenunciaRet ret = new DenunciaRet(denuncia, usuario.Nome, status.Status, tipo.Tipo, curtidas);
-                retorno.Add(ret);
+                            DenunciaRet ret = new DenunciaRet(denuncia, usuario.Nome, status.Status, tipo.Tipo, curtidas);
+                            retorno.Add(ret);
+                        }
+                    }
+                }
             }
 
             return retorno;
@@ -142,7 +157,7 @@ namespace backend.Controllers
                 if (await _context.SaveChangesAsync() == 1)
                     return Created("api/denuncias/" + denuncia.IdDenuncia, denuncia);
             }
-            catch (Exception ex)
+            catch
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha ao acesso no banco de dados.");
             }

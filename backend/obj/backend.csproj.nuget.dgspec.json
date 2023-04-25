@@ -45,13 +45,17 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "JWT": {
+              "target": "Package",
+              "version": "[10.0.2, )"
+            },
             "Microsoft.AspNetCore.Authentication": {
               "target": "Package",
               "version": "[2.2.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[7.0.5, )"
+              "version": "[7.0.0, )"
             },
             "Microsoft.AspNetCore.Mvc": {
               "target": "Package",
@@ -69,7 +73,7 @@
             },
             "Microsoft.EntityFrameworkCore.SQLite": {
               "target": "Package",
-              "version": "[7.0.5, )"
+              "version": "[7.0.0, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
@@ -79,7 +83,7 @@
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[7.0.5, )"
+              "version": "[7.0.0, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",

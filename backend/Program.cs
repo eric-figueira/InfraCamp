@@ -28,7 +28,7 @@ builder.Services.AddSwaggerGen();
 
 // Add authorization services
 builder.Services.AddAuthorization();
-builder.Services.AddAuthorization("Bearer").AddJwtBearer();
+// builder.Services.AddAuthorization("Bearer").AddJwtBearer();
 
 
 builder.Services.AddDbContext<InfraCampContext>(options =>

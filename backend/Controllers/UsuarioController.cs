@@ -37,7 +37,7 @@ namespace backend.Controllers
                     return NotFound();
                 return Ok(resultado);
             }
-            catch (Exception ex)
+            catch
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha ao acesso no banco de dados.");
             }
@@ -52,7 +52,7 @@ namespace backend.Controllers
                 if (await _context.SaveChangesAsync() == 1)
                     return Created("api/usuarios/" + usuario.Cpf, usuario);
             }
-            catch (Exception ex)
+            catch 
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha ao acesso no banco de dados.");
             }
