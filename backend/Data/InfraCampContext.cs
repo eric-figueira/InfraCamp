@@ -41,6 +41,8 @@ namespace backend.Data
                 .WithOne(e => e.StatusDenuncia)
                 .HasForeignKey(e => e.IdStatusDenuncia)
                 .IsRequired();
+
+            modelBuilder.HasDefaultSchema("InfraCamp");    
         }
 
         public DbSet<Atualizacao> Atualizacao { get; set; }
