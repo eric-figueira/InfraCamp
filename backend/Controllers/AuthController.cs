@@ -5,9 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokems;
-using Microsoft.IdentityModel.Tokens.Jwt;
+using Microsoft.IdentityModel.Tokens;
+//using Microsoft.IdentityModel.Tokens.Jwt;
 
+using backend.Data;
+using backend.Models;
+using Newtonsoft.Json;
 
 namespace backend.Controllers
 {
@@ -26,7 +29,7 @@ namespace backend.Controllers
         {
             try {
                 // Verificar se dados existem na tabela
-                var user;
+                Usuario user = new Usuario();
 
                 foreach (var usuario in this._context.Usuario.ToList()) 
                     if (usuario.Email == email)
@@ -54,7 +57,7 @@ namespace backend.Controllers
             }
             catch {
                 // Mudar o codigo
-                return this.StatusCode(StatusCodes.Status400InternalServerError, "Dados inválidos!");
+                return "Dados inválidos!";
             }
         }
     }

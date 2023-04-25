@@ -8,6 +8,7 @@ namespace backend.Models
 {
     public class Denuncia
     {
+        [Key]
         public int IdDenuncia { get; set; }
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }

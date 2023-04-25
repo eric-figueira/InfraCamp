@@ -43,11 +43,11 @@ namespace backend.Data
                 .IsRequired();
         }
 
-        public DbSet<Atualizacao>? Atualizacao { get; set; }
-        public DbSet<Denuncia>? Denuncia { get; set; }
-        public DbSet<Opiniao>? Opiniao { get; set; }
-        public DbSet<StatusDenuncia>? StatusDenuncia { get; set; }
-        public DbSet<TipoDenuncia>? TipoDenuncia { get; set; }
-        public DbSet<Usuario>? Usuario { get; set; }
+        public DbSet<Atualizacao> Atualizacao { get; set; }
+        public DbSet<Denuncia> Denuncia { get; set; }
+        public DbSet<Opiniao> Opiniao { get; set; }
+        public DbSet<StatusDenuncia> StatusDenuncia { get; set; }
+        public DbSet<TipoDenuncia> TipoDenuncia { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
     }
 }
