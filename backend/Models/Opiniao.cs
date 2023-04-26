@@ -12,9 +12,13 @@ namespace backend.Models
     public class Opiniao
     {
         public int IdDenuncia { get; set; } // Chave estrangeira
-        public virtual Denuncia Denuncia { get; set; } = null!; // Referência de navegação para a principal
+        public virtual Denuncia? Denuncia { get; set; } // Referência de navegação para a principal
+
+        [Required]
+        [StringLength(14, MinimumLength = 14)]
+        [Display(Name = "CPF")]
         public string? Cpf { get; set; } // chave estrangeira
-        public virtual Usuario Usuario { get; set; } = null!; // referência de navegação para a principal
+        public virtual Usuario? Usuario { get; set; } // referência de navegação para a principal
         
         [DataType(DataType.Date)]
         public DateTime DataOpiniao { get; set; }
