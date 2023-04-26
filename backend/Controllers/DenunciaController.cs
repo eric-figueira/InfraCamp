@@ -109,7 +109,7 @@ namespace backend.Controllers
             }
         }
 
-        [HttpGet("{cpf}")]
+        [HttpGet("denunciasUsuario/{cpf}")]
         public ActionResult<List<Denuncia>> GetDenunciasUsuario(string cpf)
         {
             List<Denuncia> retorno = new List<Denuncia>();
@@ -122,7 +122,7 @@ namespace backend.Controllers
             return retorno;
         }
 
-        [HttpGet("{idTipo}")]
+        [HttpGet("denunciasTipo/{idTipo}")]
         public ActionResult<List<Denuncia>> GetDenunciasTipo(int idTipo)
         {
             List<Denuncia> retorno = new List<Denuncia>();
@@ -135,7 +135,7 @@ namespace backend.Controllers
             return retorno;
         }
 
-        [HttpGet("{idStatus}")]
+        [HttpGet("denunciasStatus/{idStatus}")]
         public ActionResult<List<Denuncia>> GetDenunciasStatus(int idStatus)
         {
             List<Denuncia> retorno = new List<Denuncia>();

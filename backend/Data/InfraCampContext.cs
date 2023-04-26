@@ -28,36 +28,42 @@ namespace backend.Data
                 .HasMany(e => e.Opinioes)
                 .WithOne(e => e.Usuario)
                 .HasForeignKey(e => e.Cpf)
+                .HasPrincipalKey(e => e.Cpf)
                 .IsRequired();
                 
             modelBuilder.Entity<Usuario>()
                 .HasMany(e => e.Atualizacoes)
-                .WithOne(e => e.Atualizacao)
+                .WithOne(e => e.Usuario)
                 .HasForeignKey(e => e.Cpf)
+                .HasPrincipalKey(e => e.Cpf)
                 .IsRequired();
                 
             modelBuilder.Entity<Usuario>()
                 .HasMany(e => e.Denuncias)
-                .WithOne(e => e.Denuncia)
+                .WithOne(e => e.Usuario)
                 .HasForeignKey(e => e.Cpf)
+                .HasPrincipalKey(e => e.Cpf)
                 .IsRequired();
 
             modelBuilder.Entity<TipoDenuncia>()
                 .HasMany(e => e.Denuncias)
                 .WithOne(e => e.TipoDenuncia)
                 .HasForeignKey(e => e.IdTipo)
+                .HasPrincipalKey(e => e.IdTipo)
                 .IsRequired();
 
             modelBuilder.Entity<StatusDenuncia>()
                 .HasMany(e => e.Denuncias)
                 .WithOne(e => e.StatusDenuncia)
                 .HasForeignKey(e => e.IdStatus)
+                .HasPrincipalKey(e => e.IdStatus)
                 .IsRequired();
 
             modelBuilder.Entity<StatusDenuncia>()
                 .HasMany(e => e.Atualizacoes)
-                .WithOne(e => e.Atualizacao)
+                .WithOne(e => e.StatusDenuncia)
                 .HasForeignKey(e => e.IdStatus)
+                .HasPrincipalKey(e => e.IdStatus)
                 .IsRequired();
 
             modelBuilder.HasDefaultSchema("InfraCamp");    

@@ -120,8 +120,6 @@ C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\obj\Debug\net7.0\backend.pdb
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\package-lock.json
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\package.json
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\JWT.dll
-C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\MessagePack.dll
-C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\MessagePack.Annotations.dll
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.Build.dll
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.Build.Framework.dll
@@ -139,7 +137,6 @@ C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\Mic
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.DiaSymReader.dll
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.DotNet.Scaffolding.Shared.dll
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.NET.StringTools.dll
-C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.VisualStudio.Debugger.Contracts.dll
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.VisualStudio.Web.CodeGeneration.dll
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\dotnet-aspnet-codegenerator-design.dll
@@ -622,3 +619,5 @@ C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\refint\backe
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\backend.pdb
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\backend.genruntimeconfig.cache
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\ref\backend.dll
+C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.CodeAnalysis.Elfie.dll
+C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\runtimes\linux-ppc64le\native\libe_sqlite3.so

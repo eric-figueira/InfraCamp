@@ -12,7 +12,8 @@ using backend.Models;
 namespace backend.Controllers
 {
     [Route("api/opinioes")]
-    public class OpiniaoController : Controller
+    [ApiController]
+    public class OpiniaoController : ControllerBase
     {
         private InfraCampContext _context;
         public OpiniaoController(InfraCampContext ctx)
@@ -63,7 +64,7 @@ namespace backend.Controllers
             {
                 _context.Opiniao.Add(opiniao);
                 if (await _context.SaveChangesAsync() == 1)
-                    return Created($"api/opinioes/{opiniao.IdDenuncia}/{opiniao.Cpf}/", opiniao);
+                    return Created($"api/opinioes/{opiniao.IdDenuncia}/{opiniao.Cpf}", opiniao);
             }
             catch
             {
@@ -104,7 +105,7 @@ namespace backend.Controllers
                 resultado.IsCurtida = opiniao.IsCurtida;
 
                 await _context.SaveChangesAsync();
-                return Created($"api/opinioes/{opiniao.IdDenuncia}/{opiniao.Cpf}/", opiniao);
+                return Created($"api/opinioes/{opiniao.IdDenuncia}/{opiniao.Cpf}", opiniao);
             }
             catch
             {
