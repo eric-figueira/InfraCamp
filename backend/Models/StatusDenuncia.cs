@@ -13,7 +13,7 @@ namespace backend.Models
         public string? Status { get; set; }
 
         // Coleções para indicar tabelas dependentes
-        public ICollection<Denuncia> Denuncias { get; } = new List<Denuncia>();
-        public ICollection<Atualizacao> Atualizacoes { get; } = new List<Atualizacao>();
+        public virtual ICollection<Denuncia> Denuncias { get; } = new List<Denuncia>();
+        public virtual ICollection<Atualizacao> Atualizacoes { get; } = new List<Atualizacao>();
     }
 }

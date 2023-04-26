@@ -19,10 +19,10 @@ INSERT INTO InfraCamp.TipoDenuncia (tipo) VALUES
 
 CREATE TABLE InfraCamp.StatusDenuncia ( 
 	idStatus INT PRIMARY KEY IDENTITY(1, 1),
-	tipo VARCHAR(30) NOT NULL
+	status VARCHAR(30) NOT NULL
 );
 
-INSERT INTO InfraCamp.StatusDenuncia (tipo) VALUES 
+INSERT INTO InfraCamp.StatusDenuncia (status) VALUES 
 	('N�o visualizado'),
 	('Em an�lise'),
 	('Fechado'),
@@ -35,7 +35,7 @@ CREATE TABLE InfraCamp.Usuario (
 	),
 	nome VARCHAR(30) NOT NULL,
 	email VARCHAR(50) NOT NULL UNIQUE,
-	telefone VARCHAR(20) NOT NULL,
+	telefone VARCHAR(20) NULL,
 	senha VARCHAR(30) NOT NULL,
 	urlImagem TEXT NULL,
 	isFunc BIT NOT NULL
@@ -46,14 +46,14 @@ CREATE TABLE InfraCamp.Denuncia (
 	latitude DECIMAL NOT NULL,
 	longitude DECIMAL NOT NULL,
 	endereco VARCHAR(MAX) NOT NULL,
-	tipoDenuncia INT NOT NULL, 
-	CONSTRAINT fkTipoDenuncia FOREIGN KEY (tipoDenuncia) REFERENCES InfraCamp.TipoDenuncia(idTipo),
-	statusDenuncia INT NOT NULL, 
-	CONSTRAINT fkStatusDenuncia FOREIGN KEY (statusDenuncia) REFERENCES InfraCamp.StatusDenuncia(idStatus),
+	idTipo INT NOT NULL, 
+	CONSTRAINT fkTipoDenuncia FOREIGN KEY (idTipo) REFERENCES InfraCamp.TipoDenuncia(idTipo),
+	idStatus INT NOT NULL, 
+	CONSTRAINT fkStatusDenuncia FOREIGN KEY (idStatus) REFERENCES InfraCamp.StatusDenuncia(idStatus),
 	descricao VARCHAR(150) NULL,
 	urlImagem TEXT NULL,
-	idUsuario CHAR(14) NOT NULL,
-	CONSTRAINT fkIdUsuario FOREIGN KEY(idUsuario) REFERENCES InfraCamp.Usuario(cpf),
+	cpf CHAR(14) NOT NULL,
+	CONSTRAINT fkIdUsuario FOREIGN KEY(cpf) REFERENCES InfraCamp.Usuario(cpf),
 	dataDenuncia DATETIME NOT NULL
 );
 
@@ -62,10 +62,10 @@ CREATE TABLE InfraCamp.Opiniao (
 	idDenuncia INT NOT NULL,
 	CONSTRAINT fkIdDenuncia FOREIGN KEY(idDenuncia) REFERENCES InfraCamp.Denuncia(idDenuncia)
 		ON DELETE CASCADE ON UPDATE CASCADE,
-	idUsuario CHAR(14) NOT NULL,
-	CONSTRAINT fkIdUsuarioOpiniao FOREIGN KEY(idUsuario) REFERENCES InfraCamp.Usuario(cpf)
+	cpf CHAR(14) NOT NULL,
+	CONSTRAINT fkIdUsuarioOpiniao FOREIGN KEY(cpf) REFERENCES InfraCamp.Usuario(cpf)
 		ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT pkOpiniao PRIMARY KEY (idDenuncia, idUsuario),
+	CONSTRAINT pkOpiniao PRIMARY KEY (idDenuncia, cpf),
 	dataOpiniao DATETIME NOT NULL,
 	isCurtida BIT NOT NULL
 );
@@ -75,12 +75,12 @@ CREATE TABLE InfraCamp.Atualizacao (
 	idDenuncia INT NOT NULL,
 	CONSTRAINT fkIdDenunciaAtualizacao FOREIGN KEY(idDenuncia) REFERENCES InfraCamp.Denuncia(idDenuncia)
 		ON DELETE CASCADE ON UPDATE CASCADE,
-	idUsuario CHAR(14) NOT NULL,
-	CONSTRAINT fkIdUsuarioAtualizacao FOREIGN KEY(idUsuario) REFERENCES InfraCamp.Usuario(cpf)
+	cpf CHAR(14) NOT NULL,
+	CONSTRAINT fkIdUsuarioAtualizacao FOREIGN KEY(cpf) REFERENCES InfraCamp.Usuario(cpf)
 		ON DELETE CASCADE ON UPDATE CASCADE,
-	statusDenuncia INT NOT NULL,
-	CONSTRAINT fkStatusDenunciaAtualizacao FOREIGN KEY(statusDenuncia) REFERENCES InfraCamp.StatusDenuncia(idStatus),
-	CONSTRAINT pkAtualizacao PRIMARY KEY(idDenuncia, idUsuario, statusDenuncia),
+	idStatus INT NOT NULL,
+	CONSTRAINT fkStatusDenunciaAtualizacao FOREIGN KEY(idStatus) REFERENCES InfraCamp.StatusDenuncia(idStatus),
+	CONSTRAINT pkAtualizacao PRIMARY KEY(idDenuncia, cpf, idStatus),
 	dataAtualizacao DATETIME NOT NULL,
 	comentario VARCHAR(150) NULL
 );

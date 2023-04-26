@@ -62,17 +62,17 @@ namespace backend.Controllers
                 return NotFound();
             foreach (Denuncia denuncia in denuncias)
             {
-                var usuario = this._context.Usuario.Find(denuncia.IdUsuario);
+                var usuario = this._context.Usuario.Find(denuncia.Cpf);
                 if (usuario == null)
                     return NotFound();
                 else
                 {
-                    var status = this._context.StatusDenuncia.Find(denuncia.IdStatusDenuncia);
+                    var status = this._context.StatusDenuncia.Find(denuncia.IdStatus);
                     if (status == null)
                         return NotFound();
                     else
                     {
-                        var tipo = this._context.TipoDenuncia.Find(denuncia.IdTipoDenuncia);
+                        var tipo = this._context.TipoDenuncia.Find(denuncia.IdTipo);
                         if (tipo == null)
                             return NotFound();
                         else
@@ -80,7 +80,7 @@ namespace backend.Controllers
                             var opinioes = this._context.Opiniao.ToList();
                             int curtidas = 0;
                             foreach (Opiniao op in opinioes)
-                                if (op.IdUsuario == denuncia.IdUsuario && op.IdDenuncia == denuncia.IdDenuncia)
+                                if (op.Cpf == denuncia.Cpf && op.IdDenuncia == denuncia.IdDenuncia)
                                     curtidas++;
 
                             DenunciaRet ret = new DenunciaRet(denuncia, usuario.Nome, status.Status, tipo.Tipo, curtidas);
@@ -116,7 +116,7 @@ namespace backend.Controllers
             var denuncias = _context.Denuncia.ToList();
             foreach (Denuncia denuncia in denuncias)
             {
-                if (denuncia.IdUsuario == cpf)
+                if (denuncia.Cpf == cpf)
                     retorno.Add(denuncia);
             }
             return retorno;
@@ -129,7 +129,7 @@ namespace backend.Controllers
             var denuncias = _context.Denuncia.ToList();
             foreach (Denuncia denuncia in denuncias)
             {
-                if (denuncia.IdTipoDenuncia == idTipo)
+                if (denuncia.IdTipo == idTipo)
                     retorno.Add(denuncia);
             }
             return retorno;
@@ -142,7 +142,7 @@ namespace backend.Controllers
             var denuncias = _context.Denuncia.ToList();
             foreach (Denuncia denuncia in denuncias)
             {
-                if (denuncia.IdStatusDenuncia == idStatus)
+                if (denuncia.IdStatus == idStatus)
                     retorno.Add(denuncia);
             }
             return retorno;
@@ -194,8 +194,8 @@ namespace backend.Controllers
                 resultado.Latitude = denuncia.Latitude;
                 resultado.Longitude = denuncia.Longitude;
                 resultado.Endereco = denuncia.Endereco;
-                resultado.IdTipoDenuncia = denuncia.IdTipoDenuncia;
-                resultado.IdStatusDenuncia = denuncia.IdStatusDenuncia;
+                resultado.IdTipo = denuncia.IdTipo;
+                resultado.IdStatus = denuncia.IdStatus;
                 resultado.UrlImagem = denuncia.UrlImagem;
                 resultado.Descricao = denuncia.Descricao;
                 resultado.DataDenuncia = denuncia.DataDenuncia;

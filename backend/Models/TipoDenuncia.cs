@@ -11,6 +11,6 @@ namespace backend.Models
         [Key]
         public int IdTipo { get; set; }
         public string? Tipo { get; set; }
-        public ICollection<Denuncia> Denuncias { get; } = new List<Denuncia>();
+        public virtual ICollection<Denuncia> Denuncias { get; } = new List<Denuncia>();
     }
 }

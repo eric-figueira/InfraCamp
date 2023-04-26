@@ -28,12 +28,12 @@ namespace backend.Controllers
         }
 
         // composite primary key
-        [HttpGet("{idDenuncia}/{idUsuario}/{idStatusDenuncia}")]
-        public ActionResult<Atualizacao> GetAtualizacao(int idDenuncia, string idUsuario, int idStatusDenuncia)
+        [HttpGet("{idDenuncia}/{cpf}/{idStatus}")]
+        public ActionResult<Atualizacao> GetAtualizacao(int idDenuncia, string cpf, int idStatus)
         {
             try
             {
-                var resultado = _context.Atualizacao.Find(idDenuncia, idUsuario, idStatusDenuncia);
+                var resultado = _context.Atualizacao.Find(idDenuncia, cpf, idStatus);
                 if (resultado == null)
                     return NotFound();
                 return Ok(resultado);
@@ -52,7 +52,7 @@ namespace backend.Controllers
                 _context.Atualizacao.Add(atualizacao);
                 if (await _context.SaveChangesAsync() == 1)
                 {
-                    return Created($"api/atualizacoes/{atualizacao.IdDenuncia}/{atualizacao.IdUsuario}/{atualizacao.IdStatusDenuncia}", atualizacao);
+                    return Created($"api/atualizacoes/{atualizacao.IdDenuncia}/{atualizacao.Cpf}/{atualizacao.IdStatus}", atualizacao);
                 }
             }
             catch 
@@ -67,7 +67,7 @@ namespace backend.Controllers
         {
             try
             {
-                var resultado = await _context.Atualizacao.FindAsync(atualizacao.IdDenuncia, atualizacao.IdUsuario, atualizacao.IdStatusDenuncia);
+                var resultado = await _context.Atualizacao.FindAsync(atualizacao.IdDenuncia, atualizacao.Cpf, atualizacao.IdStatus);
                 if (resultado == null)
                     return NotFound();
 
@@ -75,7 +75,7 @@ namespace backend.Controllers
                 resultado.Comentario = atualizacao.Comentario;
 
                 await _context.SaveChangesAsync();
-                return Created($"api/atualizacoes/{atualizacao.IdDenuncia}/{atualizacao.IdUsuario}/{atualizacao.IdStatusDenuncia}", atualizacao);
+                return Created($"api/atualizacoes/{atualizacao.IdDenuncia}/{atualizacao.Cpf}/{atualizacao.IdStatus}", atualizacao);
             }
             catch 
             {
@@ -83,12 +83,12 @@ namespace backend.Controllers
             }
         }
 
-        [HttpDelete("{idDenuncia}/{idUsuario}/{idStatusDenuncia}")]
+        [HttpDelete("{idDenuncia}/{cpf}/{idStatus}")]
         public async Task<ActionResult<Atualizacao>> Delete(Atualizacao atualizacao)
         {
             try
             {
-                var resultado = await _context.Atualizacao.FindAsync(atualizacao.IdDenuncia, atualizacao.IdUsuario, atualizacao.IdStatusDenuncia);
+                var resultado = await _context.Atualizacao.FindAsync(atualizacao.IdDenuncia, atualizacao.Cpf, atualizacao.IdStatus);
                 if (resultado == null)
                     return NotFound();
 

@@ -35,12 +35,12 @@ namespace backend.Controllers
             return this._context.TipoDenuncia.ToList();
         }
 
-        [HttpGet("{id}")]
-        public ActionResult<TipoDenuncia> GetTipoDenuncia(int id)
+        [HttpGet("{idTipo}")]
+        public ActionResult<TipoDenuncia> GetTipoDenuncia(int idTipo)
         {
             try
             {
-                var resultado = _context.TipoDenuncia.Find(id);
+                var resultado = _context.TipoDenuncia.Find(idTipo);
                 if (resultado == null)
                     return NotFound();
                 return Ok(resultado);

@@ -13,21 +13,21 @@ namespace backend.Models
         public decimal Latitude { get; set; }
         public decimal Longitude { get; set; }
         public string? Endereco { get; set; }
-        public int IdTipoDenuncia { get; set; }
-        public TipoDenuncia TipoDenuncia { get; set; } = null!;
-        public int IdStatusDenuncia { get; set; }
-        public StatusDenuncia StatusDenuncia { get; set; } = null!;
+        public int IdTipo { get; set; }
+        public virtual TipoDenuncia TipoDenuncia { get; set; } = null!;
+        public int IdStatus { get; set; }
+        public virtual StatusDenuncia StatusDenuncia { get; set; } = null!;
         public string? UrlImagem { get; set; }
         public string? Descricao { get; set; }
-        public string? IdUsuario { get; set; }
-        public Usuario Usuario { get; set; } = null!;
+        public string? Cpf { get; set; }
+        public virtual Usuario Usuario { get; set; } = null!;
 
         [DataType(DataType.Date)]
         public DateTime DataDenuncia { get; set; }
 
         // Coleções que agrupam tabelas dependentes (foreign key)
-        public ICollection<Atualizacao> Atualizacoes { get; } = new List<Atualizacao>();
+        public virtual ICollection<Atualizacao> Atualizacoes { get; } = new List<Atualizacao>();
 
-        public ICollection<Opiniao> Opinioes { get; } = new List<Opiniao>();
+        public virtual ICollection<Opiniao> Opinioes { get; } = new List<Opiniao>();
     }
 }

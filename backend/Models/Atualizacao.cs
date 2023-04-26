@@ -7,16 +7,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace backend.Models
 {
-    [PrimaryKey(nameof(IdDenuncia), nameof(IdUsuario), nameof(IdStatusDenuncia))]
+    [PrimaryKey(nameof(IdDenuncia), nameof(Cpf), nameof(IdStatus))]
     public class Atualizacao
     {
         public int IdDenuncia { get; set; }
-        public Denuncia Denuncia { get; set; } = null!;
-        public int IdUsuario { get; set; }
-        public Usuario Usuario { get; set; } = null!;
-        public int IdStatusDenuncia { get; set; }
-        public StatusDenuncia StatusDenuncia { get; set; } = null!;
-       
+        public virtual Denuncia Denuncia { get; set; } = null!;
+        public int Cpf { get; set; }
+        public virtual Usuario Usuario { get; set; } = null!;
+        public int IdStatus { get; set; }
+        public virtual StatusDenuncia StatusDenuncia { get; set; } = null!;
+
         [DataType(DataType.Date)]
         public DateTime DataAtualizacao { get; set; }
         public string? Comentario { get; set; }

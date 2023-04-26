@@ -40,12 +40,12 @@ namespace backend.Controllers
         }
 
         // chave primária composta
-        [HttpGet("{idDenuncia}/{idUsuario}")]
-        public ActionResult<Opiniao> GetOpiniao(int idDenuncia, string idUsuario)
+        [HttpGet("{idDenuncia}/{cpf}")]
+        public ActionResult<Opiniao> GetOpiniao(int idDenuncia, string cpf)
         {
             try
             {
-                var result = this._context.Opiniao.Find(idDenuncia, idUsuario);
+                var result = this._context.Opiniao.Find(idDenuncia, cpf);
                 if (result == null)
                     return NotFound();
                 return Ok(result);
@@ -63,7 +63,7 @@ namespace backend.Controllers
             {
                 _context.Opiniao.Add(opiniao);
                 if (await _context.SaveChangesAsync() == 1)
-                    return Created($"api/opinioes/{opiniao.IdDenuncia}/{opiniao.IdUsuario}/", opiniao);
+                    return Created($"api/opinioes/{opiniao.IdDenuncia}/{opiniao.Cpf}/", opiniao);
             }
             catch
             {
@@ -72,12 +72,12 @@ namespace backend.Controllers
             return BadRequest();
         }
 
-        [HttpDelete("{idDenuncia}/{idUsuario}")]
-        public async Task<ActionResult<Opiniao>> Delete(int idDenuncia, int idUsuario)
+        [HttpDelete("{idDenuncia}/{cpf}")]
+        public async Task<ActionResult<Opiniao>> Delete(int idDenuncia, string cpf)
         {
             try
             {
-                var resultado = await _context.Opiniao.FindAsync(idDenuncia, idUsuario);
+                var resultado = await _context.Opiniao.FindAsync(idDenuncia, cpf);
                 if (resultado == null)
                     return NotFound();
 
@@ -96,15 +96,15 @@ namespace backend.Controllers
         {
             try
             {
-                var resultado = await _context.Opiniao.FindAsync(opiniao.IdDenuncia, opiniao.IdUsuario);
+                var resultado = await _context.Opiniao.FindAsync(opiniao.IdDenuncia, opiniao.Cpf);
                 if (resultado == null)
                     return NotFound();
 
-                resultado.DataInteracao = opiniao.DataInteracao;
+                resultado.DataOpiniao = opiniao.DataOpiniao;
                 resultado.IsCurtida = opiniao.IsCurtida;
 
                 await _context.SaveChangesAsync();
-                return Created($"api/opinioes/{opiniao.IdDenuncia}/{opiniao.IdUsuario}/", opiniao);
+                return Created($"api/opinioes/{opiniao.IdDenuncia}/{opiniao.Cpf}/", opiniao);
             }
             catch
             {
