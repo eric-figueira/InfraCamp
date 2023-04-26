@@ -1,6 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 
 import { api } from "../services/api";
+import { useGet } from "../hooks/useGet";
 
 import Cookies from "universal-cookie";
 
@@ -59,51 +60,62 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
     let token = cookie.get('_infracamp_auth_token');
 
-    if (token) {
-      // recoverUserInformation(token).then(setUser(response.user))
+    if (token) 
+    {
+      api.post("/api/auth/validate_token&return_data", {
+        token: token
+      }).then((resp) => {
+        console.log(resp.data)
+        // Seta o user para o que recebeu
+        setUser(resp.data)
+      })
     }
-
   }, [])
 
-  async function getToken(email: string, senha: string) {
-    // Chama a api passando os dados e recebe o token JWT
-    api.post("/api/auth/getToken", {
-      email: email,
-      senha: senha
-    }).then((resp) => {
-      // Seta o token como cookie
-      return resp.data
-    })
-  }
-
-  async function getUserData(token: string) {
-
-  }
-
-  async function signUp(data: ISignUp) {
-    // Chama a api passando os dados e recebe o token JWT
-    api.post("/api/auth/token", {
-
-    }).then((resp) => {
-      // Seta o token como cookie
-      console.log(resp)
-    })
-
-    // Retornamos informações do usuário
-  }
-
-  async function signIn({ email, senha }: ISignIn) {
-    const token = getToken(email, senha)
-    // Retornamos informações do usuário
-
+  function setCookie(token: string) {
     const proxMes = new Date();
     proxMes.setMonth(new Date().getMonth() + 1);
 
     cookie.set('_infracamp_auth_token', token, { expires: proxMes })
   }
 
-  async function recoverPassword({ email, novaSenha }: IRecoverPassword) {
+  async function Cadastrar(data: ISignUp) {
+    // Chama a api passando os dados e recebe o token JWT e os dados do usuário
+    api.post("/api/auth/cadastrar&return_token_data", {
+      data: data
+    }).then((resp) => {
+      // Seta o token como cookie
+      console.log(resp.data)
+      // ?
+      setCookie(resp.data.token)
+      setUser(resp.data.user)
+    })
 
+    // Retornamos informações do usuário
+  }
+
+  async function Logar({ email, senha }: ISignIn) {
+    api.post("/api/auth/logar&return_token_data", {
+      data: { email: email, senha: senha }
+    }).then((resp) => {
+      // Seta o token como cookie
+      console.log(resp.data)
+      // ?
+      setCookie(resp.data.token)
+      setUser(resp.data.user)
+    })
+  }
+
+  async function recoverPassword({ email, novaSenha }: IRecoverPassword) {
+    api.post("/api/auth/recuperarSenha&return_token_data", {
+      data: { email: email, senha: novaSenha }
+    }).then((resp) => {
+      // Seta o token como cookie
+      console.log(resp.data)
+      // ?
+      setCookie(resp.data.token)
+      setUser(resp.data.user)
+    })
   }
 
   async function logOut() {
