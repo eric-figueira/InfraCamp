@@ -18,10 +18,10 @@ namespace backend.Models
         public bool IsFunc { get; set; }
 
         // Coleções contendo dependentes (foreign key)
-        public ICollection<Opiniao> Opinioes { get; } = new List<Opiniao>(); 
+        public virtual ICollection<Opiniao> Opinioes { get; } = new List<Opiniao>(); 
 
-        public ICollection<Denuncia> Denuncias { get; } = new List<Denuncia>();
+        public virtual ICollection<Denuncia> Denuncias { get; } = new List<Denuncia>();
 
-        public ICollection<Atualizacao> Atualizacoes { get; } = new List<Atualizacao>();
+        public virtual ICollection<Atualizacao> Atualizacoes { get; } = new List<Atualizacao>();
     }
 }
