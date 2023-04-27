@@ -14,10 +14,10 @@ import { Message, ETypes } from '../../components/Message/Message';
 import { AuthContext } from '../../contexts/AuthContext';
 
 
-const email_regex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+const cpf_regex: RegExp = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/
 
 interface IUser {
-  email: string,
+  cpf: string,
   novaSenha: string,
   confSenha: string
 }
@@ -25,9 +25,9 @@ interface IUser {
 
 const RecuperacaoSenha: React.FC = () => {
 
-  const { recoverPassword } = useContext(AuthContext)
+  const { recuperarSenha } = useContext(AuthContext)
 
-  const [user, setUser] = useState<IUser>({ email: "", novaSenha: "", confSenha: "" })
+  const [user, setUser] = useState<IUser>({ cpf: "", novaSenha: "", confSenha: "" })
 
 
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
@@ -42,20 +42,20 @@ const RecuperacaoSenha: React.FC = () => {
     event.preventDefault()
     try 
     {
-      if (user.email == "" || user.novaSenha == "" || user.confSenha == "") 
+      if (user.cpf == "" || user.novaSenha == "" || user.confSenha == "") 
         showMessage('Todos os dados são necessários!')
       else 
       {
         if (user.novaSenha != user.confSenha) 
           showMessage('As senhas não são compatíveis!')
-        else if (!email_regex.test(user.email)) 
-          showMessage('Padrão de email incorreto!')
+        else if (!cpf_regex.test(user.cpf)) 
+          showMessage('Padrão de CPF incorreto!')
         else if (user.novaSenha.length < 8)
           showMessage('Senha precisa ter no mínimo 8 caracteres!')
         else
         {
-          console.log('DEU CERTO!')
           setIsMessageVisible(false)
+          recuperarSenha({ cpf: user.cpf, novaSenha: user.novaSenha })
         }
       }
     }
@@ -80,7 +80,7 @@ const RecuperacaoSenha: React.FC = () => {
               <div className='icon-container'>
                 <EnvelopeSimple />
               </div>
-              <input type="text" placeholder='Digite seu email' onChange={(event) => setUser({ ...user, email: event.target.value })} />
+              <input type="text" placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: event.target.value })} />
             </Input>
             <Input 
               backgroundColor="#FFF"

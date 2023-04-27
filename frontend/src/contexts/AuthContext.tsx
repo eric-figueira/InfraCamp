@@ -15,7 +15,7 @@ interface ISignIn {
 }
 
 interface IRecoverPassword {
-  email: string,
+  cpf: string,
   novaSenha: string
 }
 
@@ -37,9 +37,9 @@ interface IUser {
 interface AuthContextType {
   isAuthenticated: boolean,
   user: IUser | null,
-  signIn: (data: ISignIn) => Promise<void>,
-  signUp: (data: ISignUp) => Promise<void>,
-  recoverPassword: (data: IRecoverPassword) => Promise<void>,
+  logar: (data: ISignIn) => Promise<void>,
+  cadastrar: (data: ISignUp) => Promise<void>,
+  recuperarSenha: (data: IRecoverPassword) => Promise<void>,
   logOut: () => void
 }
 
@@ -106,9 +106,9 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     })
   }
 
-  async function recoverPassword({ email, novaSenha }: IRecoverPassword) {
+  async function recoverPassword({ cpf, novaSenha }: IRecoverPassword) {
     api.post("/api/auth/recuperarSenha&return_token_data", {
-      data: { email: email, senha: novaSenha }
+      data: { cpf: cpf, senha: novaSenha }
     }).then((resp) => {
       // Seta o token como cookie
       console.log(resp.data)
@@ -135,9 +135,9 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
       value={{ 
           isAuthenticated: isAuthenticated, 
           user: user, 
-          signIn: signIn, 
-          signUp: signUp, 
-          recoverPassword: recoverPassword, 
+          logar: Logar, 
+          cadastrar: Cadastrar, 
+          recuperarSenha: recoverPassword, 
           logOut: logOut }}>
       {children}
     </AuthContext.Provider>

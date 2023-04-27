@@ -25,7 +25,7 @@ interface IUser {
 
 const Login: React.FC = () => {
 
-  const { signIn } = useContext(AuthContext)
+  const { logar } = useContext(AuthContext)
 
   const [user, setUser] = useState<IUser>({ email: "", senha: "" })
 
@@ -51,8 +51,8 @@ const Login: React.FC = () => {
         // OBS:  Testar se achou no banco de dados !!!
         else
         {
-          console.log('DEU CERTO!')
           setIsMessageVisible(false)
+          logar({ email: user.email, senha: user.senha })
         }
       }
     }

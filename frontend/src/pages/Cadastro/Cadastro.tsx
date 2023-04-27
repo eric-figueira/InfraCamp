@@ -28,7 +28,7 @@ interface IUser {
 
 const Cadastro: React.FC = () => {
 
-  const { signUp } = useContext(AuthContext)
+  const { cadastrar } = useContext(AuthContext)
 
   const [user, setUser] = useState<IUser>({ cpf: "", email: "", nome: "", telefone: "", senha: "" });
 
@@ -56,8 +56,8 @@ const Cadastro: React.FC = () => {
         // Obs: testar se já não tem no banco de dados!!!
         else
         {
-          console.log('DEU CERTO!')
           setIsMessageVisible(false)
+          cadastrar({ cpf: user.cpf, email: user.email, nome: user.nome, senha: user.senha, telefone: user.telefone })
         }
       }
     }

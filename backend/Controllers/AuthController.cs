@@ -76,54 +76,79 @@ namespace backend.Controllers
         return this.StatusCode(StatusCodes.Status400InternalServerError, "Token inválido!");
       }
     }
-  
+
     [HttpPost("/cadastrar&return_token_data")]
     public ActionResult<Object> Cadastrar(Object obj)
     {
-        try 
-        {
-            // Adicionar dados no banco
-            // Gerar jwt
-            // Mandar obj (token + data)
-        }
-        catch
-        {
-            // Mudar o codigo
-            return this.StatusCode(StatusCodes.Status400InternalServerError, "Dados inválidos!");
-        }
-        
-        UsuarioController u = new UsuarioController(this._context);
-        u.Post();
+      try
+      {
+        // Adicionar dados no banco
+        // Gerar jwt
+        // Mandar obj (token + data)
+      }
+      catch
+      {
+        // Mudar o codigo
+        return this.StatusCode(StatusCodes.Status400InternalServerError, "Dados inválidos!");
+      }
+
+      UsuarioController u = new UsuarioController(this._context);
+      u.Post();
     }
-  
+
     [HttpPost("/logar&return_token_data")]
-    public ActionResult<Object> Logar(Object obj){
-        try 
-        {
-            // Verificar se dados (email + senha em obj) existem
-            // Gerar jwt
-            // Mandar obj (token + data)s
-        }
-        catch
-        {
-            // Mudar o codigo
-            return this.StatusCode(StatusCodes.Status400InternalServerError, "Dados inválidos!");
-        }
+    public ActionResult<Object> Logar(Object obj)
+    {
+      try
+      {
+        // Verificar se dados (email + senha em obj) existem
+        // Gerar jwt
+        // Mandar obj (token + data)s
+      }
+      catch
+      {
+        // Mudar o codigo
+        return this.StatusCode(StatusCodes.Status400InternalServerError, "Dados inválidos!");
+      }
     }
-  
+
     [HttpPost("/recuperarSenha&return_token_data")]
-    public ActionResult<Object> Logar(Object obj){
-        try 
+    public ActionResult<Object> RecuperarSenha(Object obj)
+    {
+      try
+      {
+        // Verificar se dados (email + novaSenha em obj) existem
+        var user;
+
+        UsuarioController uc = new UsuarioController(this._context);
+        user = uc.GetUsuario(obj.cpf);
+
+        if (user == null) return NotFound();
+
+        // Gerar token
+        var response = new
         {
-            // Verificar se dados (email + senha em obj) existem
-            // Gerar jwt
-            // Mandar obj (token + data)s
-        }
-        catch
-        {
-            // Mudar o codigo
-            return this.StatusCode(StatusCodes.Status400InternalServerError, "Dados inválidos!");
-        }
+          // token aleatorio apenas para testes
+          token = "0d45cecd-f588-4007-a411-4298f6f4d5cc",
+          user = new
+          {
+            nome = user.Nome,
+            email = user.Email,
+            avartar_url = user.UrlImagem,
+            telefone = user.Telefone,
+            funcionario = user.IsFunc
+          }
+        };
+
+        string jsonData = JsonConvert.SerializeObject(response);
+
+        return jsonData;
+      }
+      catch
+      {
+        // Mudar o codigo
+        return this.StatusCode(StatusCodes.Status400InternalServerError, "Dados inválidos!");
+      }
     }
   }
 }
