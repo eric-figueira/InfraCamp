@@ -108,7 +108,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   async function recoverPassword({ cpf, novaSenha }: IRecoverPassword) {
     api.post("/api/auth/recuperarSenha&return_token_data", {
-      data: { cpf: cpf, senha: novaSenha }
+      data: { cpf: cpf, novaSenha: novaSenha }
     }).then((resp) => {
       // Seta o token como cookie
       console.log(resp.data)
