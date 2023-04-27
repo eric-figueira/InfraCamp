@@ -5,20 +5,19 @@ using backend.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 //Allow CORS
+//Allow CORS
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
-
 // Add services to the container.
-
-// Add CORS
+//Allow CORS
 builder.Services.AddCors(options =>
 {
-  options.AddPolicy(MyAllowSpecificOrigins, builder =>
-  {
-    builder.WithOrigins("http://localhost").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-    builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
-    builder.SetIsOriginAllowed(origin => true);
-  });
+    options.AddPolicy(MyAllowSpecificOrigins, builder =>
+    {
+        builder.WithOrigins("http://localhost").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost");
+        builder.SetIsOriginAllowed(origin => true);
+    });
 });
 
 builder.Services.AddControllers();
@@ -33,7 +32,7 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<InfraCampContext>(options =>
 {
-  options.UseSqlServer(builder.Configuration.GetConnectionString("StringConexaoSQLServer"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("StringConexaoSQLServer"));
 });
 
 var app = builder.Build();
@@ -41,9 +40,12 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-  app.UseSwagger();
-  app.UseSwaggerUI();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
+
+//Allow CORS
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 

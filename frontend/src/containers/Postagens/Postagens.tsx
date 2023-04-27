@@ -1,13 +1,15 @@
 import React from 'react';
 import Post from '../../components/Post/Post';
-import useFetch from '../../hooks/useFetch';
+import { useGet } from '../../hooks/useGet';
 import Denuncia from '../../types/Denuncia';
 
+import "./Postagens.css";
+
 const Postagens: React.FC = () => {
-    const { data: denuncias } = useFetch<Denuncia[]>("api/denuncias");
+    const { data: denuncias } = useGet<Denuncia[]>("http://localhost:5164/api/denuncias");
 
     return (
-        <div>
+        <div id="postagens">
             <h1>Postagens</h1>
             <div className="header">
                 <div className="statistics">

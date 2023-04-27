@@ -333,8 +333,6 @@ C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Azure.Core.d
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Azure.Identity.dll
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Humanizer.dll
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\JWT.dll
-C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\MessagePack.dll
-C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\MessagePack.Annotations.dll
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.AspNetCore.JsonPatch.dll
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.AspNetCore.Mvc.Razor.Extensions.dll
@@ -379,7 +377,6 @@ C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.Id
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.NET.StringTools.dll
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.OpenApi.dll
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.SqlServer.Server.dll
-C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.VisualStudio.Debugger.Contracts.dll
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.VisualStudio.Web.CodeGeneration.dll
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\dotnet-aspnet-codegenerator-design.dll
@@ -621,3 +618,5 @@ C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\backend.genr
 C:\Users\u22142\Documents\GitHub\InfraCamp\backend\obj\Debug\net7.0\ref\backend.dll
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.CodeAnalysis.Elfie.dll
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\runtimes\linux-ppc64le\native\libe_sqlite3.so
+C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\Microsoft.CodeAnalysis.Elfie.dll
+C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\runtimes\linux-ppc64le\native\libe_sqlite3.so

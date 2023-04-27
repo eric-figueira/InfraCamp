@@ -1,0 +1,4 @@
+#postagens {
+    width: calc(100% - 78px);
+    margin-left: 78px;
+}

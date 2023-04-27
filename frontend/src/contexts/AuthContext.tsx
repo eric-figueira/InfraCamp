@@ -47,7 +47,7 @@ export const AuthContext = createContext({} as AuthContextType)
 
 export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
-  const cookie = new Cookies();
+  // const cookie = new Cookies();
 
   const [user, setUser] = useState<IUser | null>(null);
 
@@ -57,11 +57,11 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   // Quando for carregado, verificará se já existe cookies salvos
   useEffect(() => {
 
-    let token = cookie.get('_infracamp_auth_token');
+    // let token = cookie.get('_infracamp_auth_token');
 
-    if (token) {
-      // recoverUserInformation(token).then(setUser(response.user))
-    }
+    // if (token) {
+    //   // recoverUserInformation(token).then(setUser(response.user))
+    // }
 
   }, [])
 
@@ -88,7 +88,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   async function logOut() {
     // Precisamos limpar os cookies
-    cookie.remove('_infracamp_auth_token')
+    // cookie.remove('_infracamp_auth_token')
   }
 
   // Criamos todo um componente AuthProvider, pois precisamos passar os valores em 'value' 
