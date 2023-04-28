@@ -142,11 +142,11 @@ namespace backend.Controllers
           token = "0d45cecd-f588-4007-a411-4298f6f4d5cc",
           user = new
           {
-            nome = user.Value?.Nome,
-            email = user.Value?.Email,
-            avartar_url = user.Value?.UrlImagem,
-            telefone = user.Value?.Telefone,
-            funcionario = user.Value?.IsFunc
+            nome = ((Usuario)(((OkObjectResult) user.Result).Value)).Nome,
+            email = ((Usuario)(((OkObjectResult) user.Result).Value)).Email,
+            avartar_url = ((Usuario)(((OkObjectResult) user.Result).Value)).UrlImagem,
+            telefone = ((Usuario)(((OkObjectResult) user.Result).Value)).Telefone,
+            funcionario = ((Usuario)(((OkObjectResult) user.Result).Value)).IsFunc
           }
         };
 
