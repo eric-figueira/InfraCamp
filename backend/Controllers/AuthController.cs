@@ -128,25 +128,30 @@ namespace backend.Controllers
       try
       {
         // Verificar se dados (email + novaSenha em obj) existem
-        ActionResult<Usuario> user;
+        ActionResult<Usuario> result;
 
         UsuarioController uc = new UsuarioController(this._context);
-        user = uc.GetUsuario(data.CPF);
+        result = uc.GetUsuario(data.CPF);
 
-        if (user.GetType().Equals(NotFound())) return NotFound();
+        if (result.GetType().Equals(NotFound())) return NotFound();
 
-        // Gerar token
+        Usuario usuario = (Usuario)((OkObjectResult) result.Result).Value;
+        // Update no banco
+        usuario!.Senha = data.NovaSenha;
+        uc.Put(usuario);
+
+        // Gerar token com os dados de usuário
         var response = new
         {
           // token aleatorio apenas para testes
           token = "0d45cecd-f588-4007-a411-4298f6f4d5cc",
           user = new
           {
-            nome = ((Usuario)(((OkObjectResult) user.Result).Value)).Nome,
-            email = ((Usuario)(((OkObjectResult) user.Result).Value)).Email,
-            avartar_url = ((Usuario)(((OkObjectResult) user.Result).Value)).UrlImagem,
-            telefone = ((Usuario)(((OkObjectResult) user.Result).Value)).Telefone,
-            funcionario = ((Usuario)(((OkObjectResult) user.Result).Value)).IsFunc
+            nome = usuario!.Nome,
+            email = usuario!.Email,
+            avartar_url = usuario!.UrlImagem,
+            telefone = usuario!.Telefone,
+            funcionario = usuario!.IsFunc
           }
         };
 
