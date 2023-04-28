@@ -40,6 +40,7 @@ namespace backend.Controllers
     //   }
     // }
 
+    [NonAction]
     public Object gerarTokenData(string token, Usuario u) 
     {
       var response = new
@@ -126,7 +127,7 @@ namespace backend.Controllers
         Usuario usuario = (Usuario)((OkObjectResult) result.Result).Value;
 
         // Gerar token com os dados de usuário
-        return gerarTokenDataData("0d45cecd-f588-4007-a411-4298f6f4d5cc", usuario);
+        return gerarTokenData("0d45cecd-f588-4007-a411-4298f6f4d5cc", usuario);
       }
       catch
       {
