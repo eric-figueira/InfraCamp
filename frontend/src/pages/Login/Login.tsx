@@ -15,11 +15,11 @@ import { Message, ETypes } from "../../components/Message/Message"
 import { AuthContext } from '../../contexts/AuthContext';
 
 
-const email_regex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
+const cpf_regex: RegExp = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/
 
 
 interface IUser {
-  email: string,
+  cpf: string,
   senha: string
 }
 
@@ -27,7 +27,7 @@ const Login: React.FC = () => {
 
   const { logar } = useContext(AuthContext)
 
-  const [user, setUser] = useState<IUser>({ email: "", senha: "" })
+  const [user, setUser] = useState<IUser>({ cpf: "", senha: "" })
 
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
   const [messageText, setMessageText] = useState<string>("")
@@ -42,17 +42,17 @@ const Login: React.FC = () => {
     event.preventDefault()
     try 
     {
-      if (user.email == "" || user.senha == "") 
+      if (user.cpf == "" || user.senha == "") 
         showMessage('Todos os dados são necessários!')
       else 
       {
-        if (!email_regex.test(user.email)) 
-          showMessage('Padrão de email incorreto!')
+        if (!cpf_regex.test(user.cpf)) 
+          showMessage('Padrão de CPF incorreto!')
         // OBS:  Testar se achou no banco de dados !!!
         else
         {
           setIsMessageVisible(false)
-          logar({ email: user.email, senha: user.senha })
+          logar({ cpf: user.cpf, senha: user.senha })
         }
       }
     }
@@ -87,7 +87,7 @@ const Login: React.FC = () => {
               <div className='icon-container'>
                 <EnvelopeSimple />
               </div>
-              <input type='text' placeholder='Digite seu email' onChange={(event) => setUser({ ...user, email: event.target.value })} />
+              <input type='text' placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: event.target.value })} />
             </Input>
             <Input
               backgroundColor='#FFF'

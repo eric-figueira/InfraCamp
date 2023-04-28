@@ -10,7 +10,7 @@ interface IProps {
 }
 
 interface ISignIn {
-  email: string,
+  cpf: string,
   senha: string
 }
 
@@ -94,9 +94,9 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     // Retornamos informações do usuário
   }
 
-  async function Logar({ email, senha }: ISignIn) {
+  async function Logar({ cpf, senha }: ISignIn) {
     api.post("/api/auth/logar&return_token_data", {
-      data: { email: email, senha: senha }
+      data: { cpf: cpf, senha: senha }
     }).then((resp) => {
       // Seta o token como cookie
       console.log(resp.data)

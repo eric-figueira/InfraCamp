@@ -24,47 +24,6 @@ namespace backend.Controllers
       this._context = ctx;
     }
 
-
-    // Método de base, nao vai ter no final
-    // [HttpPost("/token")]
-    // public ActionResult<String> GetAuthenticationToken(string email, string password)
-    // {
-    //   try
-    //   {
-    //     // Verificar se dados existem na tabela
-    //     Usuario user = null;
-
-    //     foreach (var usuario in this._context.Usuario.ToList())
-    //       if (usuario.Email == email)
-    //         user = usuario;
-
-
-    //     // Gerar token
-    //     var response = new
-    //     {
-    //       // token aleatorio apenas para testes
-    //       token = "0d45cecd-f588-4007-a411-4298f6f4d5cc",
-    //       user = new
-    //       {
-    //         nome = user.Nome,
-    //         email = user.Email,
-    //         avartar_url = user.UrlImagem,
-    //         telefone = user.Telefone,
-    //         funcionario = user.IsFunc
-    //       }
-    //     };
-
-    //     string jsonData = JsonConvert.SerializeObject(response);
-
-    //     return jsonData;
-    //   }
-    //   catch
-    //   {
-    //     // Mudar o codigo
-    //     return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
-    //   }
-    // }
-
     // [HttpPost("/validate_token&return_data")]
     // public ActionResult<Object> ValidadeTokenAndReturnData(string token)
     // {
@@ -80,6 +39,27 @@ namespace backend.Controllers
     //     return this.StatusCode(StatusCodes.Status400BadRequest, "Token inválido!");
     //   }
     // }
+
+    public Object gerarTokenData(string token, Usuario u) 
+    {
+      var response = new
+      {
+        // token aleatorio apenas para testes
+        token = token,
+        user = new
+        {
+          nome = u!.Nome,
+          email = u!.Email,
+          avartar_url = u!.UrlImagem,
+          telefone = u!.Telefone,
+          funcionario = u!.IsFunc
+        }
+      };
+
+      string jsonData = JsonConvert.SerializeObject(response);
+
+      return jsonData;
+    }
 
     public class DadosCadastrar
     {
@@ -116,23 +96,7 @@ namespace backend.Controllers
         await uc.Post(usuario);
 
         // Gerar token com os dados de usuário
-        var response = new
-        {
-          // token aleatorio apenas para testes
-          token = "0d45cecd-f588-4007-a411-4298f6f4d5cc",
-          user = new
-          {
-            nome = usuario!.Nome,
-            email = usuario!.Email,
-            avartar_url = usuario!.UrlImagem,
-            telefone = usuario!.Telefone,
-            funcionario = usuario!.IsFunc
-          }
-        };
-
-        string jsonData = JsonConvert.SerializeObject(response);
-
-        return jsonData;
+        return gerarTokenData("0d45cecd-f588-4007-a411-4298f6f4d5cc", usuario);
       }
       catch
       {
@@ -141,21 +105,35 @@ namespace backend.Controllers
       }
     }
 
-    // [HttpPost("/logar&return_token_data")]
-    // public ActionResult<Object> Logar(Object obj)
-    // {
-    //   try
-    //   {
-    //     // Verificar se dados (email + senha em obj) existem
-    //     // Gerar jwt
-    //     // Mandar obj (token + data)s
-    //   }
-    //   catch
-    //   {
-    //     // Mudar o codigo
-    //     return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
-    //   }
-    // }
+    public class DadosLogar
+    {
+      public string CPF { get; set; }
+      public string NovaSenha { get; set; }
+    }
+    [HttpPost("/logar&return_token_data")]
+    public ActionResult<Object> Logar(DadosLogar data)
+    {
+      try
+      {
+        // Verificar se dados (email + novaSenha em obj) existem
+        ActionResult<Usuario> result;
+
+        UsuarioController uc = new UsuarioController(this._context);
+        result = uc.GetUsuario(data.CPF);
+
+        if (result.GetType().Equals(NotFound())) return NotFound();
+
+        Usuario usuario = (Usuario)((OkObjectResult) result.Result).Value;
+
+        // Gerar token com os dados de usuário
+        return gerarTokenDataData("0d45cecd-f588-4007-a411-4298f6f4d5cc", usuario);
+      }
+      catch
+      {
+        // Mudar o codigo
+        return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
+      }
+    }
 
     public class DadosRecuperarSenha
     {
@@ -182,23 +160,7 @@ namespace backend.Controllers
         await uc.Put(usuario);
 
         // Gerar token com os dados de usuário
-        var response = new
-        {
-          // token aleatorio apenas para testes
-          token = "0d45cecd-f588-4007-a411-4298f6f4d5cc",
-          user = new
-          {
-            nome = usuario!.Nome,
-            email = usuario!.Email,
-            avartar_url = usuario!.UrlImagem,
-            telefone = usuario!.Telefone,
-            funcionario = usuario!.IsFunc
-          }
-        };
-
-        string jsonData = JsonConvert.SerializeObject(response);
-
-        return jsonData;
+        return gerarTokenData("0d45cecd-f588-4007-a411-4298f6f4d5cc", usuario);
       }
       catch
       {
