@@ -14,20 +14,18 @@ import { AuthContext } from "./contexts/AuthContext";
 
 const AppRoutes: React.FC = () => {
 
-  const { isAuthenticated } = useContext(AuthContext);
+  // const { isAuthenticated } = useContext(AuthContext);
+  const isAuthenticated = true;
 
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      {/* Public Routes
-      
       <Route path="/signup" element={<Cadastro />} />
-      <Route path="/recover-password" element={<RecuperacaoSenha />} />
-
-      Private Routes - only accessible when the user is logged
-      <Route path="/map" element={isAuthenticated ? <Mapa /> : <Navigate to="/" />} /> */}
-
-      <Route path="/posts" element={<Posts/>} />
+      <Route path="/recover-password" element={<RecuperacaoSenha/>} />
+      
+      {/* Private Routes - only accessible when the user is logged */}
+      <Route path="/map" element={isAuthenticated ? <Mapa /> : <Navigate to="/" />} />
+      <Route path="/posts" element={isAuthenticated ? <Posts /> : <Navigate to="/" />} />
     </Routes>
   );
 }

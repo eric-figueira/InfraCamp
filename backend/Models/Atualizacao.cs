@@ -21,7 +21,8 @@ namespace backend.Models
         public int IdStatus { get; set; }
         public virtual StatusDenuncia? StatusDenuncia { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         [Display(Name = "Data Atualização")]
         public DateTime DataAtualizacao { get; set; }
         [Display(Name = "Comentário")]

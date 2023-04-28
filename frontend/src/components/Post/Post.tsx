@@ -5,7 +5,7 @@ import Opiniao from "../../types/Opiniao";
 import { api } from '../../services/api';
 
 interface PostProps {
-    idDenunia: number;
+    idDenuncia: number;
     cpf: string,
     userName: string,
     date: Date,
@@ -21,11 +21,13 @@ interface ItemPostProps {
     description: string
 }
 
-const formatDate = (date: Date): string => {
+const formatDate = (date: string): string => {
+    //2023-04-27
+    
     let day, month, year;
-    day = (date.getDay() <= 9) ? date.getDay() + "0" : date.getDay();
-    month = (date.getMonth() <= 9) ? date.getMonth() + "0" : date.getMonth();
-    year = date.getFullYear();
+    day = date.substring(8, 10);
+    month = date.substring(5, 7);
+    year = date.substring(0, 4);
 
     return day + "/" + month + "/" + year;
 }
@@ -47,12 +49,12 @@ const Post: React.FC<PostProps> = (props) => {
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        api.post('api/opinioes', { idDenuncia: props.idDenunia, idUsuario: user?.cpf, dataInteracao: new Date(), isCurtida: (e.target as HTMLButtonElement).title === 'like' ? true : false } as Opiniao)
+        api.post('http://localhost:5164/api/opinioes', { idDenuncia: props.idDenuncia, idUsuario: user?.cpf, dataInteracao: new Date(), isCurtida: (e.target as HTMLButtonElement).title === 'like' ? true : false } as Opiniao)
             .then(res => {
                 setOpiniao(res.data);
             })
             .catch(() => {
-                api.put('api/opinioes', { idDenuncia: props.idDenunia, idUsuario: user?.cpf, dataInteracao: new Date(), isCurtida: (e.target as HTMLButtonElement).title === 'like' ? true : false } as Opiniao)
+                api.put('api/opinioes', { idDenuncia: props.idDenuncia, idUsuario: user?.cpf, dataInteracao: new Date(), isCurtida: (e.target as HTMLButtonElement).title === 'like' ? true : false } as Opiniao)
                     .then(res => {
                         setOpiniao(res.data);
                     })
@@ -60,16 +62,16 @@ const Post: React.FC<PostProps> = (props) => {
     };
 
     useEffect(() => {
-        api.get(`api/opinioes/${props.idDenunia}`).then(resp => {
+        api.get(`http://localhost:5164/api/opinioes/${props.idDenuncia}`).then(resp => {
             setOpinioes(resp.data);
         })
-    }, [opinioes, opiniao, props.idDenunia])
+    }, [opinioes, opiniao, props.idDenuncia])
 
     return (
         <div>
             <div className="text_info_box">
                 <h2 className="info_title">{props.userName}</h2>
-                <h3 className="info_date">Postado em {formatDate(props.date)}</h3>
+                <h3 className="info_date">Postado em {formatDate(props.date + "")}</h3>
                 <ItemPost title="Problema" description={props.type}></ItemPost>
                 <ItemPost title="Endereço" description={props.address}></ItemPost>
                 <ItemPost title="Descrição" description={props.description}></ItemPost>

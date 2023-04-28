@@ -3,16 +3,12 @@ type Denuncia = {
     latitude: number;
     longitude: number;
     endereco: string;
-    idTipoDenuncia: number;
-    idStatusDenuncia: number;
+    idTipo: number;
+    idStatus: number;
     urlImagem: string;
     descricao: string;
-    idUsuario: string;
+    cpf: string;
     dataDenuncia: Date;
-    nome: string;
-    status: string;
-    tipo: string;
-    likes: number;
 };
 
 export default Denuncia;

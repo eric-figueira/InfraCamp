@@ -1,8 +1,8 @@
 #map {
     position: absolute;
-    width: 80%;
+    width: calc(100% - 78px);
     height: 100%;
-    left: 20%;
+    margin-left: 78px;
     z-index: 1;
 }
 

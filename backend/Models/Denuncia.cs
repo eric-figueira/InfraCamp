@@ -37,7 +37,8 @@ namespace backend.Models
         public string? Cpf { get; set; }
         public virtual Usuario? Usuario { get; set; }
 
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:/dd/MM/yyyy}")]
         [Display(Name = "Data Denúncia")]
         public DateTime DataDenuncia { get; set; }
 

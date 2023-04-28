@@ -22,7 +22,7 @@ interface MapProps {
 type Filtro = 'status' | 'tipo' | 'data';
 
 const Map: React.FC<MapProps> = (props) => {
-    const denuncias = useFetch<Denuncia[]>('api/denuncias');
+    const denuncias = useFetch<Denuncia[]>('http://localhost:5164/api/denuncias');
 
     const map = useRef<maplibre.Map | undefined>();
     const [mapController, setMapController] = useState<MapController>();
@@ -81,7 +81,7 @@ const Map: React.FC<MapProps> = (props) => {
             case 'status':
                 // eslint-disable-next-line array-callback-return
                 denuncias?.data?.filter(denuncia => {
-                    if (denuncia.idStatusDenuncia === index + 1) {
+                    if (denuncia.idStatus === index + 1) {
                         var el = document.createElement('div');
                         el.className = 'marker';
                         el.addEventListener('click', function () {});
@@ -96,7 +96,7 @@ const Map: React.FC<MapProps> = (props) => {
             case 'tipo':
                 // eslint-disable-next-line array-callback-return
                 denuncias?.data?.filter(denuncia => {
-                    if (denuncia.idTipoDenuncia === index + 1) {
+                    if (denuncia.idTipo === index + 1) {
                         var marker = new maplibregl.Marker({ color: "#2523ad" })
                             .setLngLat([denuncia.longitude, denuncia.latitude]);
 
@@ -167,7 +167,7 @@ const Map: React.FC<MapProps> = (props) => {
                         enableReverse={true} />
                 </div>
             }
-            {props.hasFilter && <Filter filterMap={filtrarDenuncias} />}
+            {/* {props.hasFilter && <Filter filterMap={filtrarDenuncias} />} */}
             {/* {props.hasCard && <Complaint cpf={denuncia.idUsuario} idDenunia={denuncia.idDenuncia} userName={denuncia.nome} date={denuncia.dataDenuncia} type={denuncia.tipo} address={denuncia.endereco} description={denuncia.descricao} status={denuncia.status} imgUrl={denuncia.urlImagem}/>} */}
         </div>
     )

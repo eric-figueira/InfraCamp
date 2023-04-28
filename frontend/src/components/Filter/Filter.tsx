@@ -1,6 +1,8 @@
 import React from "react";
 import useFetch from "../../hooks/useFetch";
 
+import "./Filter.css";
+
 type Tipo = {
     idTipo: Number;
     tipo: string;
@@ -31,7 +33,7 @@ const Filter: React.FC<FilterProps> = (props) => {
     const { data: status } = useFetch<Status[]>("api/statusDenuncia")
 
     return (
-        <div>
+        <div id="filter">
             <label>Status:
                 <select name="status" onSelect={handleChange}>
                     {
