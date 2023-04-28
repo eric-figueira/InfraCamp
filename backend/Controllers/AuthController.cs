@@ -81,24 +81,65 @@ namespace backend.Controllers
     //   }
     // }
 
-    // [HttpPost("/cadastrar&return_token_data")]
-    // public ActionResult<Object> Cadastrar(Object obj)
-    // {
-    //   try
-    //   {
-    //     // Adicionar dados no banco
-    //     // Gerar jwt
-    //     // Mandar obj (token + data)
-    //   }
-    //   catch
-    //   {
-    //     // Mudar o codigo
-    //     return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
-    //   }
+    public class DadosCadastrar
+    {
+      public string CPF { get; set; }
+      public string Email { get; set; }
+      public string Nome { get; set; }
+      public string Telefone { get; set; }
+      public string Senha { get; set; }
+    }
 
-    //   UsuarioController u = new UsuarioController(this._context);
-    //   u.Post();
-    // }
+    [HttpPost("/cadastrar&return_token_data")]
+    public async Task<ActionResult<Object>> Cadastrar(DadosCadastrar data)
+    {
+      try
+      {
+        // Verificar se CPF já existe no banco
+        ActionResult<Usuario> result;
+
+        UsuarioController uc = new UsuarioController(this._context);
+        result = uc.GetUsuario(data.CPF);
+
+        // Retornamos BadRequest caso não retorne NotFound, pois se isso acontecer
+        // significa que já existe esse CPF cadastrado
+        //if (!result.GetType().Equals(NotFound())) return BadRequest();
+
+        Usuario usuario = new Usuario();
+        usuario.Cpf = data.CPF;
+        usuario.Nome = data.Nome;
+        usuario.Email = data.Email;
+        usuario.Telefone = data.Telefone;
+        usuario.Senha = data.Telefone;
+        usuario.UrlImagem = "";
+        usuario.IsFunc = false;
+        await uc.Post(usuario);
+
+        // Gerar token com os dados de usuário
+        var response = new
+        {
+          // token aleatorio apenas para testes
+          token = "0d45cecd-f588-4007-a411-4298f6f4d5cc",
+          user = new
+          {
+            nome = usuario!.Nome,
+            email = usuario!.Email,
+            avartar_url = usuario!.UrlImagem,
+            telefone = usuario!.Telefone,
+            funcionario = usuario!.IsFunc
+          }
+        };
+
+        string jsonData = JsonConvert.SerializeObject(response);
+
+        return jsonData;
+      }
+      catch
+      {
+        // Mudar o codigo
+        return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
+      }
+    }
 
     // [HttpPost("/logar&return_token_data")]
     // public ActionResult<Object> Logar(Object obj)
@@ -116,14 +157,14 @@ namespace backend.Controllers
     //   }
     // }
 
-    public class Data1
+    public class DadosRecuperarSenha
     {
       public string CPF { get; set; }
       public string NovaSenha { get; set; }
     }
 
     [HttpPost("/recuperarSenha&return_token_data")]
-    public ActionResult<Object> RecuperarSenha(Data1 data)
+    public async Task<ActionResult<Object>> RecuperarSenha(DadosRecuperarSenha data)
     {
       try
       {
@@ -138,7 +179,7 @@ namespace backend.Controllers
         Usuario usuario = (Usuario)((OkObjectResult) result.Result).Value;
         // Update no banco
         usuario!.Senha = data.NovaSenha;
-        uc.Put(usuario);
+        await uc.Put(usuario);
 
         // Gerar token com os dados de usuário
         var response = new
