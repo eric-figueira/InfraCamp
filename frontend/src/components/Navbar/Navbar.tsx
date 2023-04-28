@@ -5,6 +5,7 @@ import { List, MapPin, Info, User, SignOut, ChartBar, ChatCircle } from 'phospho
 import "./Navbar.css"
 
 import { Icon } from './styled';
+import { Link } from 'react-router-dom';
 
 
 const Navbar: React.FC = () => {
@@ -22,31 +23,31 @@ const Navbar: React.FC = () => {
         </div>
         <ul className="nav-list">
             <li>
-                <a href="#">
+                <Link to="/map">
                     <Icon><MapPin /></Icon>
                     <span className="links_name">Mapa</span>
-                </a>
+                </Link>
                 <span className="tooltip">Mapa</span>
             </li>
             <li>
-                <a href="#">
+                <Link to="/user">
                     <Icon><User /></Icon>
                     <span className="links_name">Usuário</span>
-                </a>
+                </Link>
                 <span className="tooltip">Usuário</span>
             </li>
             <li>
-                <a href="#">
+                <Link to="/posts">
                     <Icon><ChartBar /></Icon>
                     <span className="links_name">Denúnicas</span>
-                </a>
+                </Link>
                 <span className="tooltip">Denúnias</span>
             </li>
             <li>
-                <a href="#">
+                <Link to="/about_us">
                     <Icon><Info /></Icon>
                     <span className="links_name">Sobre Nós</span>
-                </a>
+                </Link>
                 <span className="tooltip">Sobre Nós</span>
             </li>
             <li className="profile">

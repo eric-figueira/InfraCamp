@@ -11,9 +11,6 @@ import "./Postagens.css";
 
 const Postagens: React.FC = () => {
     const { data: denuncias } = useGet<Denuncia[]>("http://localhost:5164/api/denuncias");
-    const [ tipo, setTipo ] = useState<Tipo>({idTipo: 0, tipo: ""});
-    const [ status, setStatus ] = useState<Status>({idStatus: 0, status: ""});
-    const [ usuario, setUsuario ] = useState<Usuario>();
 
     return (
         <div id="postagens">
@@ -36,18 +33,8 @@ const Postagens: React.FC = () => {
                 {
                     denuncias?.map(
                         function (denuncia) {
-                            api.get("http://localhost:5164/api/tiposDenuncia/"+denuncia.idTipo).then(
-                                resp => {setTipo(resp.data)}
-                            )
-                            api.get("http://localhost:5164/api/statusDenuncia/"+denuncia.idStatus).then(
-                                resp => {setStatus(resp.data)}
-                            )
-                            api.get("http://localhost:5164/api/usuarios/"+denuncia.cpf).then(
-                                resp => {setUsuario(resp.data)}
-                            )
-
                             return (
-                                <Post idDenuncia={denuncia.idDenuncia} cpf={denuncia.cpf} userName={usuario === undefined ? "" : usuario.nome} date={denuncia.dataDenuncia} type={tipo.tipo} address={denuncia.endereco} description={denuncia.descricao} status={status.status} imgUrl={denuncia.urlImagem}></Post>
+                                <Post key={denuncia.idDenuncia} idDenuncia={denuncia.idDenuncia} cpf={denuncia.cpf} date={denuncia.dataDenuncia} idTipo={denuncia.idTipo} address={denuncia.endereco} description={denuncia.descricao} idStatus={denuncia.idStatus} imgUrl={denuncia.urlImagem}></Post>
                             )
                         })
                 }

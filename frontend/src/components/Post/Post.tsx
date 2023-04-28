@@ -3,16 +3,18 @@ import { ArrowFatDown, ArrowFatUp } from "phosphor-react";
 import { AuthContext } from "../../contexts/AuthContext";
 import Opiniao from "../../types/Opiniao";
 import { api } from '../../services/api';
+import Tipo from "../../types/Tipo";
+import Status from "../../types/Status";
+import Usuario from "../../types/Usuario";
 
 interface PostProps {
     idDenuncia: number;
     cpf: string,
-    userName: string,
     date: Date,
-    type: string,
+    idTipo: number,
     address: string,
     description: string,
-    status: string,
+    idStatus: number,
     imgUrl: string,
 }
 
@@ -44,6 +46,10 @@ const ItemPost: React.FC<ItemPostProps> = (props) => {
 const Post: React.FC<PostProps> = (props) => {
     const [opinioes, setOpinioes] = useState<Opiniao[]>();
     const [opiniao, setOpiniao] = useState<Opiniao>();
+    const [tipo, setTipo] = useState<Tipo>();
+    const [status, setStatus] = useState<Status>();
+    const [usuario, setUsuario] = useState<Usuario>();
+
     const { user } = useContext(AuthContext);
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -65,17 +71,36 @@ const Post: React.FC<PostProps> = (props) => {
         api.get(`http://localhost:5164/api/opinioes/${props.idDenuncia}`).then(resp => {
             setOpinioes(resp.data);
         })
-    }, [opinioes, opiniao, props.idDenuncia])
+    }, [])
+
+    useEffect(() => {
+        api.get("http://localhost:5164/api/tiposDenuncia/"+props.idTipo).then(
+        resp => {
+            setTipo(resp.data)
+        })
+    }, [])
+    
+    useEffect(() => {
+        api.get("http://localhost:5164/api/statusDenuncia/"+props.idStatus).then(
+            resp => {setStatus(resp.data)}
+        )
+    }, [])
+
+    useEffect(() => {
+        api.get("http://localhost:5164/api/usuarios/"+props.cpf).then(
+            resp => {setUsuario(resp.data)}
+        )
+    }, [])
 
     return (
         <div>
             <div className="text_info_box">
-                <h2 className="info_title">{props.userName}</h2>
+                <h2 className="info_title">{usuario === undefined ? "" : usuario.nome}</h2>
                 <h3 className="info_date">Postado em {formatDate(props.date + "")}</h3>
-                <ItemPost title="Problema" description={props.type}></ItemPost>
+                <ItemPost title="Problema" description={tipo === undefined ? "" : tipo.tipo}></ItemPost>
                 <ItemPost title="Endereço" description={props.address}></ItemPost>
                 <ItemPost title="Descrição" description={props.description}></ItemPost>
-                <ItemPost title="Situação" description={props.status}></ItemPost>
+                <ItemPost title="Situação" description={status === undefined ? "" : status.status}></ItemPost>
             </div>
             <div className="picture_box">
                 <img className="picture_box_img" src={props.imgUrl} alt="Imagem do problema"></img>
