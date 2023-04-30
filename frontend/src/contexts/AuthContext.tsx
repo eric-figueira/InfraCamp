@@ -31,6 +31,8 @@ interface IUser {
   nome: string,
   email: string,
   avatar_url: string,
+  telefone: string,
+  funcionario: boolean
   cpf: string
 }
 
@@ -53,7 +55,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
 
   // Se usuário não existe, não está autenticado
-  const isAuthenticated = true;
+  const isAuthenticated = !!user;
 
   // Quando for carregado, verificará se já existe cookies salvos
   useEffect(() => {
@@ -87,23 +89,29 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
       // Seta o token como cookie
       console.log(resp.data)
       // ?
-      setCookie(resp.data.token)
-      setUser(resp.data.user)
+      //setCookie(resp.data.token)
+      //setUser(resp.data.user)
     })
 
     // Retornamos informações do usuário
   }
 
-  async function Logar({ cpf, senha }: ISignIn) {
-    api.post("/api/auth/logar&return_token_data", {
-      data: { cpf: cpf, senha: senha }
-    }).then((resp) => {
-      // Seta o token como cookie
-      console.log(resp.data)
-      // ?
-      setCookie(resp.data.token)
-      setUser(resp.data.user)
-    })
+  async function Logar({ cpf, senha }: ISignIn) 
+  {
+    try 
+    {
+      api.post(`/api/auth/logar&returnTokenData?CPF=${cpf}&Senha=${senha}`).then((resp) => {
+        // Seta o token como cookie
+        console.log(resp.data)
+        // ?
+        setCookie(resp.data.token)
+        console.log(resp.data.user)
+        setUser(resp.data.user)
+        console.log(isAuthenticated)
+        //window.location.href="/map"
+      })
+    }
+    catch (error) { console.log(error); }
   }
 
   async function recoverPassword({ cpf, novaSenha }: IRecoverPassword) {
@@ -113,8 +121,8 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
       // Seta o token como cookie
       console.log(resp.data)
       // ?
-      setCookie(resp.data.token)
-      setUser(resp.data.user)
+      //setCookie(resp.data.token)
+      //setUser(resp.data.user)
     })
   }
 

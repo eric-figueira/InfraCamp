@@ -51,9 +51,10 @@ namespace backend.Controllers
         {
           nome = u!.Nome,
           email = u!.Email,
-          avartar_url = u!.UrlImagem,
+          avatar_url = u!.UrlImagem,
           telefone = u!.Telefone,
-          funcionario = u!.IsFunc
+          funcionario = u!.IsFunc,
+          cpf = u!.Cpf
         }
       };
 
@@ -109,14 +110,14 @@ namespace backend.Controllers
     public class DadosLogar
     {
       public string CPF { get; set; }
-      public string NovaSenha { get; set; }
+      public string Senha { get; set; }
     }
-    [HttpPost("/logar&return_token_data")]
+    [HttpPost("logar&returnTokenData")]
     public ActionResult<Object> Logar(DadosLogar data)
     {
       try
       {
-        // Verificar se dados (email + novaSenha em obj) existem
+        // Verificar se dados (email + senha em obj) existem
         ActionResult<Usuario> result;
 
         UsuarioController uc = new UsuarioController(this._context);
