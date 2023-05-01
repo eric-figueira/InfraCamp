@@ -81,9 +81,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   async function Cadastrar(data: ISignUp) {
     // Chama a api passando os dados e recebe o token JWT e os dados do usuário
-    api.post("/api/auth/cadastrar&returnTokenData", {
-      data: data
-    }).then((resp) => {
+    api.post(`/api/auth/cadastrar&returnTokenData?CPF=${data.cpf}&Email=${data.senha}&Nome=${data.nome}&Telefone=${data.telefone}&Senha=${data.senha}`).then((resp) => {
       // Seta o token como cookie
       console.log(resp.data)
       // ?
@@ -116,14 +114,13 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   }
 
   async function recoverPassword({ cpf, novaSenha }: IRecoverPassword) {
-    api.post("/api/auth/recuperarSenha&returnTokenData", {
-      data: { cpf: cpf, novaSenha: novaSenha }
-    }).then((resp) => {
+    api.post(`/api/auth/recuperarSenha&returnTokenData?CPF=${cpf}&Senha=${novaSenha}`).then((resp) => {
       // Seta o token como cookie
       console.log(resp.data)
       // ?
       //setCookie(resp.data.token)
       //setUser(resp.data.user)
+      //window.location.href="/map"
     })
   }
 
