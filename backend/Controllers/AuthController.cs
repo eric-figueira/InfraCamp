@@ -24,28 +24,29 @@ namespace backend.Controllers
       this._context = ctx;
     }
 
-    // [HttpPost("/validate_token&return_data")]
-    // public ActionResult<Object> ValidadeTokenAndReturnData(string token)
-    // {
-    //   try
-    //   {
-    //     // Testar se o token não expirou / se é válido
-    //     // Pegar dados do token
-    //     // Mandar dados do usuário
-    //   }
-    //   catch
-    //   {
-    //     // Mudar o codigo
-    //     return this.StatusCode(StatusCodes.Status400BadRequest, "Token inválido!");
-    //   }
-    // }
+    [HttpPost("validateToken&returnData")]
+    public ActionResult<Object> ValidadeTokenAndReturnData(string Token)
+    {
+      try
+      {
+        // Testar se o token não expirou / se é válido
+        // Pegar dados do token
+        // Mandar dados do usuário
+        return true;
+      }
+      catch
+      {
+        // Mudar o codigo
+        return this.StatusCode(StatusCodes.Status400BadRequest, "Token inválido!");
+      }
+    }
 
     [NonAction]
     public Object gerarTokenData(string token, Usuario u) 
     {
       var response = new
       {
-        // token aleatorio apenas para testes
+        // token aleatorio apenas para testes, depois tera que gerar esse token aqui
         token = token,
         user = new
         {
@@ -63,17 +64,8 @@ namespace backend.Controllers
       return jsonData;
     }
 
-    public class DadosCadastrar
-    {
-      public string CPF { get; set; }
-      public string Email { get; set; }
-      public string Nome { get; set; }
-      public string Telefone { get; set; }
-      public string Senha { get; set; }
-    }
-
-    [HttpPost("/cadastrar&return_token_data")]
-    public async Task<ActionResult<Object>> Cadastrar(DadosCadastrar data)
+    [HttpPost("cadastrar&returnTokenData")]
+    public async Task<ActionResult<Object>> Cadastrar(string CPF, string Email, string Nome, string Telefone, string Senha)
     {
       try
       {
@@ -81,18 +73,18 @@ namespace backend.Controllers
         ActionResult<Usuario> result;
 
         UsuarioController uc = new UsuarioController(this._context);
-        result = uc.GetUsuario(data.CPF);
+        result = uc.GetUsuario(CPF);
 
         // Retornamos BadRequest caso não retorne NotFound, pois se isso acontecer
         // significa que já existe esse CPF cadastrado
         //if (!result.GetType().Equals(NotFound())) return BadRequest();
 
         Usuario usuario = new Usuario();
-        usuario.Cpf = data.CPF;
-        usuario.Nome = data.Nome;
-        usuario.Email = data.Email;
-        usuario.Telefone = data.Telefone;
-        usuario.Senha = data.Telefone;
+        usuario.Cpf = CPF;
+        usuario.Nome = Nome;
+        usuario.Email = Email;
+        usuario.Telefone = Telefone;
+        usuario.Senha = Telefone;
         usuario.UrlImagem = "";
         usuario.IsFunc = false;
         await uc.Post(usuario);
@@ -107,13 +99,9 @@ namespace backend.Controllers
       }
     }
 
-    public class DadosLogar
-    {
-      public string CPF { get; set; }
-      public string Senha { get; set; }
-    }
+
     [HttpPost("logar&returnTokenData")]
-    public ActionResult<Object> Logar(DadosLogar data)
+    public ActionResult<Object> Logar(string CPF, string Senha)
     {
       try
       {
@@ -121,7 +109,7 @@ namespace backend.Controllers
         ActionResult<Usuario> result;
 
         UsuarioController uc = new UsuarioController(this._context);
-        result = uc.GetUsuario(data.CPF);
+        result = uc.GetUsuario(CPF);
 
         if (result.GetType().Equals(NotFound())) return NotFound();
 
@@ -137,14 +125,9 @@ namespace backend.Controllers
       }
     }
 
-    public class DadosRecuperarSenha
-    {
-      public string CPF { get; set; }
-      public string NovaSenha { get; set; }
-    }
 
-    [HttpPost("/recuperarSenha&return_token_data")]
-    public async Task<ActionResult<Object>> RecuperarSenha(DadosRecuperarSenha data)
+    [HttpPost("recuperarSenha&returnTokenData")]
+    public async Task<ActionResult<Object>> RecuperarSenha(string CPF, string NovaSenha)
     {
       try
       {
@@ -152,13 +135,13 @@ namespace backend.Controllers
         ActionResult<Usuario> result;
 
         UsuarioController uc = new UsuarioController(this._context);
-        result = uc.GetUsuario(data.CPF);
+        result = uc.GetUsuario(CPF);
 
         if (result.GetType().Equals(NotFound())) return NotFound();
 
         Usuario usuario = (Usuario)((OkObjectResult) result.Result).Value;
         // Update no banco
-        usuario!.Senha = data.NovaSenha;
+        usuario!.Senha = NovaSenha;
         await uc.Put(usuario);
 
         // Gerar token com os dados de usuário

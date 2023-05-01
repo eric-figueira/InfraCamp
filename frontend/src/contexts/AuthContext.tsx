@@ -32,7 +32,7 @@ interface IUser {
   email: string,
   avatar_url: string,
   telefone: string,
-  funcionario: boolean
+  funcionario: boolean,
   cpf: string
 }
 
@@ -64,12 +64,10 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
     if (token) 
     {
-      api.post("/api/auth/validate_token&return_data", {
-        token: token
-      }).then((resp) => {
+      api.post(`/api/auth/validateToken&returnData?token=${token}`).then((resp) => {
         console.log(resp.data)
         // Seta o user para o que recebeu
-        setUser(resp.data)
+        //setUser(resp.data)
       })
     }
   }, [])
@@ -83,7 +81,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   async function Cadastrar(data: ISignUp) {
     // Chama a api passando os dados e recebe o token JWT e os dados do usuário
-    api.post("/api/auth/cadastrar&return_token_data", {
+    api.post("/api/auth/cadastrar&returnTokenData", {
       data: data
     }).then((resp) => {
       // Seta o token como cookie
@@ -106,7 +104,10 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
         // ?
         setCookie(resp.data.token)
         console.log(resp.data.user)
-        setUser(resp.data.user)
+        const newUser: IUser = JSON.parse(resp.data.user)
+        setUser(newUser)
+        console.log(newUser)
+        console.log(user)
         console.log(isAuthenticated)
         //window.location.href="/map"
       })
@@ -115,7 +116,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   }
 
   async function recoverPassword({ cpf, novaSenha }: IRecoverPassword) {
-    api.post("/api/auth/recuperarSenha&return_token_data", {
+    api.post("/api/auth/recuperarSenha&returnTokenData", {
       data: { cpf: cpf, novaSenha: novaSenha }
     }).then((resp) => {
       // Seta o token como cookie
