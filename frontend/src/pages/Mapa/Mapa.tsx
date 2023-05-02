@@ -6,7 +6,7 @@ const Mapa : React.FC = () => {
     return (
         <Fragment>
             <Navbar/>
-            <Map hasFilter={true}/>
+            <Map hasFilter={true} hasCard={true}/>
         </Fragment>
     )
 }

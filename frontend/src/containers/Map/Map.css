@@ -62,3 +62,13 @@ ul.svelte-p509gh, div.no-results.svelte-p509gh {
 li.svelte-p509gh:hover {
     cursor: pointer;
 }
+
+.marker {
+    z-index: 3;
+    width: 20px;
+    height: 20px;
+}
+
+.marker:hover {
+    cursor: pointer;
+}
