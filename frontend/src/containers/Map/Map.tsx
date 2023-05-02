@@ -98,7 +98,7 @@ const Map: React.FC<MapProps> = (props) => {
         let button: HTMLButtonElement | null = document.getElementsByClassName('maplibregl-ctrl-geolocate').item(0) as HTMLButtonElement;
         if (button != null)
             button.click();
-    })
+    }, [mapController])
 
     // function filtrarDenuncias(type: Filtro, index: number) {
     //     switch (type) {

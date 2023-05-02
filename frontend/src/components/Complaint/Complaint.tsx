@@ -6,6 +6,8 @@ import Usuario from "../../types/Usuario";
 import Tipo from "../../types/Tipo";
 import Status from "../../types/Status";
 
+import { X } from "phosphor-react";
+
 import { api } from "../../services/api";
 
 interface ComplaintProps {
@@ -38,21 +40,21 @@ const Complaint: React.FC<ComplaintProps> = (props) => {
     const [usuario, setUsuario] = useState<Usuario>();
 
     useEffect(() => {
-        api.get("http://localhost:5164/api/tiposDenuncia/"+props.idTipo).then(
-        resp => {
-            setTipo(resp.data)
-        })
+        api.get("http://localhost:5164/api/tiposDenuncia/" + props.idTipo).then(
+            resp => {
+                setTipo(resp.data)
+            })
     }, [props.idTipo, tipo])
-    
+
     useEffect(() => {
-        api.get("http://localhost:5164/api/statusDenuncia/"+props.idStatus).then(
-            resp => {setStatus(resp.data)}
+        api.get("http://localhost:5164/api/statusDenuncia/" + props.idStatus).then(
+            resp => { setStatus(resp.data) }
         )
     }, [props.idStatus, status])
 
     useEffect(() => {
-        api.get("http://localhost:5164/api/usuarios/"+props.cpf).then(
-            resp => {setUsuario(resp.data)}
+        api.get("http://localhost:5164/api/usuarios/" + props.cpf).then(
+            resp => { setUsuario(resp.data) }
         )
     }, [props.cpf, usuario])
 
@@ -66,16 +68,20 @@ const Complaint: React.FC<ComplaintProps> = (props) => {
             <div id="complaint">
                 <div className="top_box">
                     <h2 className="title">{usuario?.nome}</h2>
-                    <button className="close_button" title="close" onClick={handleClick}>X</button>
+                    <button className="close_button" title="close" onClick={handleClick}><X /></button>
                 </div>
-                <img src={props.imgUrl} alt="Imagem do problema" />
-                <h2 className="date">{formatDate(props.date + "")}</h2>
-                <p className="description"><span>Descrição:</span> {props.description}</p>
-                <p className="address"><span>Endereço:</span> {props.address}</p>
-                <p className="type"><span>Tipo:</span> {tipo?.tipo}</p>
-                <div>
-                    <p className="status"><span>Status:</span>{status?.status}</p>
-                    <div className="status_icon"></div>
+                <div className="img">
+                    <img src={props.imgUrl} alt="Imagem do problema" />
+                </div>
+                <div className="bottom_box">
+                    <h2 className="date">{formatDate(props.date + "")}</h2>
+                    <p className="item" id="description"><span>Descrição:</span> {props.description}</p>
+                    <p className="item"><span>Endereço:</span> {props.address}</p>
+                    <p className="item"><span>Tipo:</span> {tipo?.tipo}</p>
+                    <div>
+                        <p className="item"><span>Status:</span> {status?.status}</p>
+                        <div className="status_icon"></div>
+                    </div>
                 </div>
             </div>
         }</>
