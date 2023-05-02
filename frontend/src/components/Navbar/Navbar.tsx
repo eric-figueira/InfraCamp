@@ -44,7 +44,7 @@ const Navbar: React.FC = () => {
                 <span className="tooltip">Denúnias</span>
             </li>
             <li>
-                <Link to="/about_us">
+                <Link to="/about">
                     <Icon><Info /></Icon>
                     <span className="links_name">Sobre Nós</span>
                 </Link>
