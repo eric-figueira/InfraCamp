@@ -1,7 +1,7 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { Navigate, Link} from "react-router-dom";
 
 import { api } from "../services/api";
-import { useGet } from "../hooks/useGet";
 
 import Cookies from "universal-cookie";
 
@@ -92,22 +92,32 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     // Retornamos informações do usuário
   }
 
+  useEffect(() => {
+    console.log(user?.nome)
+    console.log(isAuthenticated)
+    // ???????????
+    //isAuthenticated ? <Link to="/map" /> : console.log("foi nao po")
+    if (isAuthenticated)
+      <Navigate to="/map" />
+  }, [user])
+
   async function Logar({ cpf, senha }: ISignIn) 
   {
     try 
     {
+      // outra forma? É seguro? SQL injection?
       api.post(`/api/auth/logar&returnTokenData?CPF=${cpf}&Senha=${senha}`).then((resp) => {
         // Seta o token como cookie
         console.log(resp.data)
         // ?
-        setCookie(resp.data.token)
+        //setCookie(resp.data.token)
         console.log(resp.data.user)
-        const newUser: IUser = JSON.parse(resp.data.user)
+        //console.log(typeof resp.data.user)
+        const newUser: IUser = resp.data.user 
+        // user continua null, tive que fazer o useEffect. É async?
         setUser(newUser)
-        console.log(newUser)
-        console.log(user)
-        console.log(isAuthenticated)
-        //window.location.href="/map"
+        // outra forma?
+        //
       })
     }
     catch (error) { console.log(error); }
