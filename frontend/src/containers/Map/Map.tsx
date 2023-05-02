@@ -8,6 +8,7 @@ import maplibregl from 'maplibre-gl';
 import * as maplibre from "maplibre-gl/dist/maplibre-gl";
 import { GeocodingControl } from '@maptiler/geocoding-control/react';
 import { Feature } from '@maptiler/geocoding-control/types';
+import { renderToStaticMarkup } from "react-dom/server"
 import Filter from '../../components/Filter/Filter';
 import { useGet } from '../../hooks/useGet';
 import Denuncia from '../../types/Denuncia';
@@ -21,14 +22,17 @@ interface MapProps {
 
 type Filtro = 'status' | 'tipo' | 'data';
 
-const compareDates = (date1: string, date2: string): boolean => {
-    // 2023-04-27t00:00:00
-    if (Number(date1.substring(5, 7)) - Number(date2.substring(5, 7)) === 0 && Number(date1.substring(0, 4)) - Number(date2.substring(0, 4)) === 0)
-        return true;
-    return false;
-}
+// const compareDates = (date1: string, date2: string): boolean => {
+//     // 2023-04-27t00:00:00
+//     if (Number(date1.substring(5, 7)) - Number(date2.substring(5, 7)) === 0 && Number(date1.substring(0, 4)) - Number(date2.substring(0, 4)) === 0)
+//         return true;
+//     return false;
+// }
 
 const Map: React.FC<MapProps> = (props) => {
+    const [showComplaint, setShowComplaint] = useState<boolean>(false);
+    const [denuncia, setDenuncia] = useState<Denuncia>();
+
     const { data: denuncias } = useGet<Denuncia[]>('http://localhost:5164/api/denuncias');
 
     const map = useRef<maplibre.Map | undefined>();
@@ -69,12 +73,23 @@ const Map: React.FC<MapProps> = (props) => {
     useEffect(() => {
         // eslint-disable-next-line array-callback-return
         denuncias?.map(denuncia => {
-            // if (compareDates(new Date() + "", denuncia.dataDenuncia + "")) {
-                var marker = new maplibregl.Marker({ color: "#2523ad" })
-                    .setLngLat([denuncia.longitude, denuncia.latitude]);
-                
-                if (map.current !== undefined)
-                    marker.addTo(map.current);
+            // create a DOM element for the marker
+            var el = document.createElement('div');
+            el.className = 'marker';
+            var a = <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="#4758d7" viewBox="0 0 256 256"><path d="M128,16a88.1,88.1,0,0,0-88,88c0,75.3,80,132.17,83.41,134.55a8,8,0,0,0,9.18,0C136,236.17,216,179.3,216,104A88.1,88.1,0,0,0,128,16Zm0,56a32,32,0,1,1-32,32A32,32,0,0,1,128,72Z"></path></svg>
+            var b = renderToStaticMarkup(a);
+            el.innerHTML = b;
+            el.addEventListener('click', function () {
+                setDenuncia(denuncia);
+                setShowComplaint(true);
+            });
+
+            // add marker to map
+            var marker = new maplibregl.Marker(el)
+                .setLngLat([denuncia.longitude, denuncia.latitude]);
+
+            if (map.current !== undefined)
+                marker.addTo(map.current);
             //}
         })
     })
@@ -177,7 +192,7 @@ const Map: React.FC<MapProps> = (props) => {
                 </div>
             }
             {/* {props.hasFilter && <Filter filterMap={filtrarDenuncias} />} */}
-            {/* {props.hasCard && <Complaint cpf={denuncia.idUsuario} idDenunia={denuncia.idDenuncia} userName={denuncia.nome} date={denuncia.dataDenuncia} type={denuncia.tipo} address={denuncia.endereco} description={denuncia.descricao} status={denuncia.status} imgUrl={denuncia.urlImagem}/>} */}
+            {props.hasCard && <Complaint isVisible={showComplaint} setVisible={setShowComplaint} cpf={denuncia?.cpf} idDenunia={denuncia?.idDenuncia} date={denuncia?.dataDenuncia} idTipo={denuncia?.idTipo} address={denuncia?.endereco} description={denuncia?.descricao} idStatus={denuncia?.idStatus} imgUrl={denuncia?.urlImagem} />}
         </div>
     )
 }
