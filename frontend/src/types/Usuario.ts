@@ -6,7 +6,7 @@ type Usuario = {
     telefone: string,
     senha: string,
     urlImagem: string,
-    isFunc: string
+    isFunc: boolean
 }
 
 export default Usuario;

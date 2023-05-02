@@ -10,6 +10,7 @@ import Posts from "./pages/Posts/Posts";
 
 
 import { AuthContext } from "./contexts/AuthContext";
+import Usuario from "./pages/Usuario/Usuario";
 
 
 const AppRoutes: React.FC = () => {
@@ -26,6 +27,7 @@ const AppRoutes: React.FC = () => {
       {/* Private Routes - only accessible when the user is logged */}
       <Route path="/map" element={isAuthenticated ? <Mapa /> : <Navigate to="/" />} />
       <Route path="/posts" element={isAuthenticated ? <Posts /> : <Navigate to="/" />} />
+      <Route path="/user" element={isAuthenticated ? <Usuario/> : <Navigate to="/"/>} />
     </Routes>
   );
 }

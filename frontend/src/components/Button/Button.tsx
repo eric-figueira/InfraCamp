@@ -14,7 +14,7 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = (props) => {
   return (
     <div className='button-wrapper'>
-      <button 
+      <button className="button"
         style={{ backgroundColor: props.backgroundColor, 
                  color: props.fontColor, 
                  fontSize: props.fontSize,
