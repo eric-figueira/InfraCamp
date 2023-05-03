@@ -1,3 +1,100 @@
 #user {
     margin-left: 78px;
 }
+
+body {
+    background-color: #fff;
+    justify-content: center;
+  
+  }
+  
+  .card {
+    padding-top: 5%;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .card .left {
+    justify-content: center;
+    text-align: center;
+    color: #333;
+    background-color: #efefef;
+    padding-top: 10px;
+  }
+  
+  .card .left img{
+    border-radius: 50%;
+    width: 160px;
+  }
+  
+  .card .left h4{
+    font-size: 30px;
+  }
+  
+  .card .left p{
+    padding-top: 5%;
+    font-size: 20px;
+  }
+  
+  
+  .card .left input{
+    border: none;
+    margin: 10px;
+    margin-top: 175px;
+    background-color: #01010f;
+    font-size: 25px;
+    color: #efefef;
+    height: 50px;
+    width: 150px;
+  }
+  
+  .card .left input:hover{
+    background-color: #040422;
+  }
+  
+  
+  .card .right {
+    overflow-y: scroll;
+    width: 67%;
+    height: 560px;
+    color: #efefef;
+    padding: 20px;
+    background: #020213;
+    display: grid;
+    grid-row: 30px;
+    grid-template-columns: 500px 500px;
+  }
+  
+  .card .right .info{
+    background-color: #01010f;
+    padding: 2px;
+    height: 182px;
+    width: 100%;
+  }
+  
+  .card .right .info h3{
+    font-size: 35px;
+    padding-bottom: 2%;
+  }
+  
+  .card .right .info h4{
+    font-size: 25px;
+  }
+  
+  .card .right .info .more-info input{
+    margin-top: 8%;
+    border: none;
+    width: 100%;
+    background-color: #3f3f7e;
+    color: #11113b;
+    font-size: 20px;
+    height: 35px;
+    text-align: center;
+  }
+  
+  .card .right .info .more-info input:hover{
+    background-color: #242448;
+  }
