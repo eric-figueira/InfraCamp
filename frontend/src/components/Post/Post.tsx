@@ -6,6 +6,9 @@ import Tipo from "../../types/Tipo";
 import Status from "../../types/Status";
 import Usuario from "../../types/Usuario";
 
+import { ReactComponent as ArrowUp } from "./arrow-fat-up-fill.svg";
+import { ReactComponent as ArrowDown } from "./arrow-fat-down-bold.svg";
+
 import "./Post.css";
 
 interface PostProps {
@@ -87,7 +90,7 @@ const Post: React.FC<PostProps> = (props) => {
                     <b>{usuario === undefined ? "" : usuario.nome}</b> {formatDate(props.date + "")}
                 </h4>
                 <h4 className="message">
-                    <b>Problema</b> {tipo === undefined ? "" : tipo.tipo}
+                    <b>Problema:</b> {tipo === undefined ? "" : tipo.tipo}
                 </h4>
                 <h4 className="message">
                     <b>Endereço</b> {props.address}
@@ -98,12 +101,6 @@ const Post: React.FC<PostProps> = (props) => {
                 <h4 className="message" style={{ color: '#d6b10a' }}>
                     <b>Situação</b> {status === undefined ? "" : status.status}
                 </h4>
-                <div className="addComments">
-                    <div className="userImg">
-                        
-                    </div>
-                    <input type="text" className="text" placeholder="Faça um comentario..." />
-                </div>
             </div>
             <div className="mid">
                 <div className="imgBx">
@@ -112,8 +109,8 @@ const Post: React.FC<PostProps> = (props) => {
             </div>
             <div className="right">
                 <div className="actionBtns">
-                    <img src="../../assets/imgs/arrow-fat-up-bold.svg" className="up" alt="like"/>
-                    <img src="../../assets/imgs/arrow-fat-down-bold.svg" className="down" alt="dislike" />
+                    <ArrowUp/>
+                    <ArrowDown/>
                 </div>
                 <p className="like_count">{opinioes?.length}</p>
             </div>

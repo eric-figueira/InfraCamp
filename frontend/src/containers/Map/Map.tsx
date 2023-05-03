@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './Map.css'
+
+
 import * as maptilersdk from '@maptiler/sdk';
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import { MapController } from '@maptiler/geocoding-control/types';
