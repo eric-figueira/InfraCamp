@@ -5,99 +5,138 @@
     font-family: circular;
 }
 
-body {
-    background-color: #fff;
-    justify-content: center;
-
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: circular;
 }
 
-.card {
-    padding-top: 5%;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
+body{
+    padding-top: 2%;
+    background: #eaeaea;
 }
 
-.card .left {
-    justify-content: center;
-    text-align: center;
-    color: #333;
-    background-color: #efefef;
-    padding-top: 10px;
-}
-
-.card .left img {
-    border-radius: 50%;
-    width: 160px;
-}
-
-.card .left h4 {
-    font-size: 30px;
-}
-
-.card .left p {
-    padding-top: 5%;
-    font-size: 20px;
-}
-
-
-.card .left input {
-    border: none;
-    margin: 10px;
-    margin-top: 175px;
-    background-color: #01010f;
-    font-size: 25px;
-    color: #efefef;
-    height: 50px;
-    width: 150px;
-}
-
-.card .left input:hover {
-    background-color: #040422;
-}
-
-
-.card .right {
-    overflow-y: scroll;
-    width: 67%;
-    height: 560px;
-    color: #efefef;
-    padding: 20px;
-    background: #020213;
-    display: grid;
-    grid-row: 30px;
-    grid-template-columns: 500px 500px;
-}
-
-.card .right .info {
-    background-color: #01010f;
-    padding: 2px;
-    height: 182px;
-    width: 100%;
-}
-
-.card .right .info h3 {
-    font-size: 35px;
+h1{
+    padding-left: 2%;
     padding-bottom: 2%;
+    font-size: 48px;
+    color: #0a0844;
 }
 
-.card .right .info h4 {
+.header{
+    display: flex;
+    padding: 20px;
+}
+
+.header .content{
+    padding-left: 12%;
+    padding-bottom: 3%;
+}
+
+.header .content .number{
+    font-size: 50px;
+    color: #0a0844;
+}
+
+.header .content .subtitle{
     font-size: 25px;
 }
 
-.card .right .info .more-info input {
-    margin-top: 8%;
-    border: none;
-    width: 100%;
-    background-color: #3f3f7e;
-    color: #11113b;
-    font-size: 20px;
-    height: 35px;
-    text-align: center;
+.card{
+    display: flex;
+    width: 1250px;
+    background: #efefef;
+    padding: 20px;
+    margin-left: 10%;
 }
 
-.card .right .info .more-info input:hover {
-    background-color: #242448;
+.card .left{
+    
+    width: 50%;
+    padding-left: 5%;
+    padding-top: 5px;
+    background-color: #efefef;
+    float: left;
+}
+
+.card .left .message{
+    
+    font-size: 16px;
+    padding-top: 8px;
+    color: #777;
+}
+
+.card .left .message b{
+    display: block;
+    font-size: 25px;
+    color: #262626;
+}
+
+.card .left .addComments{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.card .left .addComments .userImg{
+    position: relative;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.card .left .addComments .userImg img{
+    position: relative;
+    min-width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 8px;
+}
+
+.card .left .addComments .text{
+    width: 100%;
+    border: none;
+    outline: none;
+    font-weight: 400;
+    font-size: 15px;
+    background: #efefef;
+    color: #262626;
+}
+
+.card .left .addComments .text::placeholder{
+    color: #777;
+}
+
+.card .mid{
+    display: flex;
+    width: 100%;
+    float: left;
+}
+
+.card .mid .imgBx .cover{
+    position: relative;
+    height: px;
+    width: 800px;
+
+}
+
+.card .right{
+    width: 10%;
+    background: #efefef;
+    padding-right: 10%;
+    float: left;
+}
+
+.card .right .actionBtns{
+    padding-left: 20px;
+    padding-top: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.card .right .actionBtns img{
+    max-width: 50px;
+    cursor: pointer;
 }
