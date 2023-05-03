@@ -15,6 +15,25 @@
     justify-content: center;
   
   }
+
+  .header{
+    display: flex;
+    padding: 20px;
+  }
+
+  .header .content{
+    padding-left: 12%;
+    padding-bottom: 3%;
+  }
+
+  .header .content .number{
+    font-size: 50px;
+    color: #0a0844;
+  }
+
+.header .content .subtitle{
+    font-size: 25px;
+  }
   
   .card {
     padding-top: 5%;
@@ -23,7 +42,7 @@
     width: 100%;
     display: flex;
     justify-content: center;
-  }
+  } 
   
   .card .left {
     justify-content: center;
