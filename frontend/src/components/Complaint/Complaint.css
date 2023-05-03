@@ -1,0 +1,60 @@
+#complaint {
+    z-index: 4;
+    position: relative;
+    width: 500px;
+    height: 100vh;
+    float: right;
+    background-color: #11101D;
+    color: white;
+}
+
+.top_box {
+    height: 75px;
+}
+
+.top_box > h2 {
+    margin-top: 20px;
+    margin-left: 20px;
+    color: white;
+    float: left;
+    font-size: 20px;
+}
+
+.top_box > button {
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+.img {
+    height: 250px;
+    width: 90%;
+    margin-left: calc((100% - 90%) / 2);
+    margin-right: calc((100% - 90%) / 2);
+    background-color: #292A35;
+}
+
+.bottom_box {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.date {
+    font-size: 26px;
+    font-weight: bold;
+    padding: 10px;
+}
+
+.item {
+    font-size: 16px;
+    padding: 10px;
+}
+
+.item > span {
+    font-weight: bold;
+}
+
+#description {
+    height: 125px;
+}

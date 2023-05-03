@@ -1,48 +1,90 @@
 import "./Complaint.css";
-import React, { useRef } from "react";
-import { unmountComponentAtNode } from "react-dom";
+import React, { useState, useEffect } from "react";
+
+import "./Complaint.css";
+import Usuario from "../../types/Usuario";
+import Tipo from "../../types/Tipo";
+import Status from "../../types/Status";
+
+import { X } from "phosphor-react";
+
+import { api } from "../../services/api";
 
 interface ComplaintProps {
-    idDenunia: number;
-    cpf: string,
-    userName: string,
-    date: Date,
-    type: string,
-    address: string,
-    description: string,
-    status: string,
-    imgUrl: string
+    idDenunia?: number;
+    cpf?: string,
+    date?: Date,
+    idTipo?: number,
+    address?: string,
+    description?: string,
+    idStatus?: number,
+    imgUrl?: string,
+    isVisible: boolean,
+    setVisible: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const formatDate = (date: Date): string => {
+const formatDate = (date: string): string => {
+    //2023-04-27
+
     let day, month, year;
-    day = (date.getDay() <= 9) ? date.getDay() + "0" : date.getDay();
-    month = (date.getMonth() <= 9) ? date.getMonth() + "0" : date.getMonth();
-    year = date.getFullYear();
+    day = date.substring(8, 10);
+    month = date.substring(5, 7);
+    year = date.substring(0, 4);
 
     return day + "/" + month + "/" + year;
 }
 
 const Complaint: React.FC<ComplaintProps> = (props) => {
-    const element = useRef(null);
+    const [tipo, setTipo] = useState<Tipo>();
+    const [status, setStatus] = useState<Status>();
+    const [usuario, setUsuario] = useState<Usuario>();
+
+    useEffect(() => {
+        api.get("http://localhost:5164/api/tiposDenuncia/" + props.idTipo).then(
+            resp => {
+                setTipo(resp.data)
+            })
+    }, [props.idTipo, tipo])
+
+    useEffect(() => {
+        api.get("http://localhost:5164/api/statusDenuncia/" + props.idStatus).then(
+            resp => { setStatus(resp.data) }
+        )
+    }, [props.idStatus, status])
+
+    useEffect(() => {
+        api.get("http://localhost:5164/api/usuarios/" + props.cpf).then(
+            resp => { setUsuario(resp.data) }
+        )
+    }, [props.cpf, usuario])
 
     const handleClick = () => {
-        unmountComponentAtNode(element.current as unknown as Element | DocumentFragment);
+        props.setVisible(false);
     }
 
     return (
-        <div id="complaint" ref={element}>
-            <div className="top_box">
-                <h2 className="title">{props.cpf}</h2>
-                <button className="close_button" title="close" onClick={handleClick}>X</button>
+        <> {
+            props.isVisible &&
+            <div id="complaint">
+                <div className="top_box">
+                    <h2 className="title">{usuario?.nome}</h2>
+                    <button className="close_button" title="close" onClick={handleClick}><X /></button>
+                </div>
+                <div className="img">
+                    <img src={props.imgUrl} alt="Imagem do problema" />
+                </div>
+                <div className="bottom_box">
+                    <h2 className="date">{formatDate(props.date + "")}</h2>
+                    <p className="item" id="description"><span>Descrição:</span> {props.description}</p>
+                    <p className="item"><span>Endereço:</span> {props.address}</p>
+                    <p className="item"><span>Tipo:</span> {tipo?.tipo}</p>
+                    <div>
+                        <p className="item"><span>Status:</span> {status?.status}</p>
+                        <div className="status_icon"></div>
+                    </div>
+                </div>
             </div>
-            <img src={props.imgUrl} alt="Imagem do problema" />
-            <h2 className="date">{formatDate(props.date)}</h2>
-            <p className="description"><span>Descrição:</span> {props.description}</p>
-            <p className="address"><span>Endereço:</span> {props.address}</p>
-            <p className="type"><span>Tipo:</span> {props.type}</p>
-            <p className="status"><span>Status:</span> <div className="status_icon"></div> {props.status}</p>
-        </div>
+        }</>
     )
 }
 

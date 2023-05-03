@@ -12,6 +12,8 @@
       }
     ],
     "typescript-config/consistent-casing": "off",
-    "typescript-config/strict": "off"
+    "typescript-config/strict": "off",
+    "no-inline-styles": "off",
+    "button-type": "off"
   }
 }

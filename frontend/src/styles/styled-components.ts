@@ -11,6 +11,10 @@ interface MessageProps {
   borderFontColor: string
 }
 
+interface CarouselImageProps {
+  imgUrl: string
+}
+
 export const Input = styled.div<InputProps>`
 
   display: flex;
@@ -54,5 +58,19 @@ export const Message = styled.div<MessageProps>`
   border: 1.5px solid ${(props) => props.borderFontColor};
   color: ${(props) => props.borderFontColor};
   font-size: 1.25rem; 
+
+`
+
+
+export const CarouselImage = styled.img<CarouselImageProps>`
+
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+
+  background-image: url(${(props) => props.imgUrl})
 
 `
