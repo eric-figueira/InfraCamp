@@ -1,6 +1,14 @@
+.sobrenos-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #1F2026;
+}
+
 .carousel {
-  width: 70%;
-  height: 700px;
+  width: 80%;
+  height: 800px;
   background: black;
   display: flex;
   justify-content: center;
@@ -14,5 +22,14 @@
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
+  justify-content: space-between;
 }
 
+.carousel-left-arrow,
+.carousel-right-arrow {
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  padding-inline: 1rem;
+  cursor: pointer;
+}
