@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import ProfilePage from "../../containers/Usuario/Usuario";
+import ProfilePage from "../../containers/ProfilePage/ProfilePage";
 
 import './Usuario.css';
 

@@ -23,13 +23,13 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Cadastro />} />
-      <Route path="/recover-password" element={<RecuperacaoSenha/>} />
-      
+      <Route path="/recover-password" element={<RecuperacaoSenha />} />
+
       {/* Private Routes - only accessible when the user is logged */}
       <Route path="/map" element={isAuthenticated ? <Mapa /> : <Navigate to="/" />} />
       <Route path="/posts" element={isAuthenticated ? <Posts /> : <Navigate to="/" />} />
-      <Route path="/user" element={isAuthenticated ? <Usuario/> : <Navigate to="/"/>} />
-      <Route path="/about" element={isAuthenticated ? <SobreNos /> : <Navigate to="/"/>} />
+      <Route path="/user" element={isAuthenticated ? <Usuario /> : <Navigate to="/" />} />
+      <Route path="/about" element={isAuthenticated ? <SobreNos /> : <Navigate to="/" />} />
     </Routes>
   );
 }
