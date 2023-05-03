@@ -30,6 +30,20 @@ const Postagens: React.FC = () => {
                 </div>
             </div>
 
+            {
+                denuncias?.map((denuncia) => 
+                    <Post 
+                        idDenuncia={denuncia.idDenuncia} 
+                        cpf={denuncia.cpf} 
+                        date={denuncia.dataDenuncia} 
+                        idTipo={denuncia.idTipo} 
+                        address={denuncia.endereco}
+                        description={denuncia.descricao}
+                        idStatus={denuncia.idStatus}
+                        imgUrl={denuncia.urlImagem}
+                    />
+                )
+            }
 
             <div className="card">
                 <div className="left">

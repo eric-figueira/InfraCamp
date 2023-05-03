@@ -1,7 +1,6 @@
-<<<<<<< HEAD
 import React, { Fragment } from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import Usuario from "../../containers/Usuario/Usuario";
+import ProfilePage from "../../containers/Usuario/Usuario";
 
 import './Posts.css';
 
@@ -9,7 +8,7 @@ const Usuario : React.FC = () => {
     return (
         <Fragment>
             <Navbar/>
-            <Usuario/>
+            <ProfilePage/>
         </Fragment>
     )
 }
