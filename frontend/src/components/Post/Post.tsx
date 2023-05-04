@@ -7,6 +7,8 @@ import Tipo from "../../types/Tipo";
 import Status from "../../types/Status";
 import Usuario from "../../types/Usuario";
 
+import "./Post.css";
+
 interface PostProps {
     idDenuncia: number;
     cpf: string,
@@ -25,7 +27,7 @@ interface ItemPostProps {
 
 const formatDate = (date: string): string => {
     //2023-04-27
-    
+
     let day, month, year;
     day = date.substring(8, 10);
     month = date.substring(5, 7);
@@ -74,45 +76,57 @@ const Post: React.FC<PostProps> = (props) => {
     }, [])
 
     useEffect(() => {
-        api.get("http://localhost:5164/api/tiposDenuncia/"+props.idTipo).then(
-        resp => {
-            setTipo(resp.data)
-        })
+        api.get("http://localhost:5164/api/tiposDenuncia/" + props.idTipo).then(
+            resp => {
+                setTipo(resp.data)
+            })
     }, [])
-    
+
     useEffect(() => {
-        api.get("http://localhost:5164/api/statusDenuncia/"+props.idStatus).then(
-            resp => {setStatus(resp.data)}
+        api.get("http://localhost:5164/api/statusDenuncia/" + props.idStatus).then(
+            resp => { setStatus(resp.data) }
         )
     }, [])
 
     useEffect(() => {
-        api.get("http://localhost:5164/api/usuarios/"+props.cpf).then(
-            resp => {setUsuario(resp.data)}
+        api.get("http://localhost:5164/api/usuarios/" + props.cpf).then(
+            resp => { setUsuario(resp.data) }
         )
     }, [])
 
     return (
-        <div>
-            <div className="text_info_box">
-                <h2 className="info_title">{usuario === undefined ? "" : usuario.nome}</h2>
-                <h3 className="info_date">Postado em {formatDate(props.date + "")}</h3>
-                <ItemPost title="Problema" description={tipo === undefined ? "" : tipo.tipo}></ItemPost>
-                <ItemPost title="Endereço" description={props.address}></ItemPost>
-                <ItemPost title="Descrição" description={props.description}></ItemPost>
-                <ItemPost title="Situação" description={status === undefined ? "" : status.status}></ItemPost>
+        <div className="card">
+            <div className="left">
+                <h4 className="message">
+                    <b>{usuario === undefined ? "" : usuario.nome}</b> {formatDate(props.date + "")}
+                </h4>
+                <h4 className="message">
+                    <b>Problema:</b> {tipo === undefined ? "" : tipo.tipo}
+                </h4>
+                <h4 className="message">
+                    <b>Endereço:</b> {props.address}
+                </h4>
+                <h4 className="message">
+                    <b>Descrição:</b> {props.description}
+                </h4>
+                <h4 className="message" style={{ color: '#d6b10a' }}>
+                    <b>Situação:</b> {status === undefined ? "" : status.status}
+                </h4>
             </div>
-            <div className="picture_box">
-                <img className="picture_box_img" src={props.imgUrl} alt="Imagem do problema"></img>
+            <div className="mid">
+                <div className="imgBx">
+                    <img src={props.imgUrl} className="cover" alt="Imagem do problema" />
+                </div>
             </div>
-            <div className="likes_and_dislikes_box">
-                <p className="like_count">{opinioes?.length}</p>
+            <div className="right">
+                <div className="actionBtns">
                 <button type="button" title="like" onClick={handleClick}>
-                    <ArrowFatUp />
+                    <ArrowFatUp/>
                 </button>
                 <button type="button" title="dislike" onClick={handleClick}>
                     <ArrowFatDown />
                 </button>
+                </div>
             </div>
         </div>
     )

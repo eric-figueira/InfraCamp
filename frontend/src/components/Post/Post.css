@@ -1,5 +1,62 @@
-/*sofisticado*/
-* {
-    padding: 0;
-    margin: 0;
+.card {
+    display: flex;
+    width: 85%;
+    height: 400px;
+    background: #d3d3d3;
+    margin: 25px;
+    margin-left: 10%;
+}
+
+.card .left {
+    width: 50%;
+    padding-left: 2%;
+    padding-top: 5px;
+    background-color: #d3d3d3;
+    float: left;
+}
+
+.card .left .message {
+    font-size: 16px;
+    padding-top: 8px;
+    color: #777;
+}
+
+.card .left .message b {
+    display: block;
+    font-size: 25px;
+    color: #262626;
+}
+
+.card .mid {
+    display: flex;
+    width: 100%;
+    float: left;
+    background-color: #262626;
+}
+
+.card .mid .imgBx .cover {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.card .right {
+    width: 12.5%;
+    background: #d3d3d3;
+    padding-top: 10px;
+    float: left;
+}
+
+.card .right .actionBtns {
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.card .right .actionBtns button {
+    background-color: #d3d3d3;
+}
+
+.card .right .actionBtns img {
+    max-width: 50px;
+    cursor: pointer;
 }

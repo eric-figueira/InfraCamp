@@ -16,28 +16,35 @@ const Postagens: React.FC = () => {
         <div id="postagens">
             <h1>Postagens</h1>
             <div className="header">
-                <div className="statistics">
-                    <p className="statistics_number">{denuncias?.length}</p>
-                    <p className="statistics_info">denúncias feitas</p>
+                <div className="content">
+                    <div className="number">{denuncias?.length}</div>
+                    <div className="subtitle">Denúncias feitas</div>
                 </div>
-                <div className="statistics">
-                    <p className="statistics_number">{denuncias?.filter(denuncia => denuncia.idStatus === 5).length}</p>
-                    <p className="statistics_info">problemas resolvidos</p>
+                <div className="content">
+                    <div className="number">{denuncias?.filter(denuncia => denuncia.idStatus === 5).length}</div>
+                    <div className="subtitle">Problemas resolvidos</div>
                 </div>
-                <div className="statistics">
-                    <p className="statistics_number">{denuncias?.filter(denuncia => denuncia.idStatus !== 5 && denuncia.idStatus !== 3).length}</p>
-                    <p className="statistics_info">problemas pendentes</p>
+                <div className="content">
+                    <div className="number">{denuncias?.filter(denuncia => denuncia.idStatus !== 5 && denuncia.idStatus !== 3).length}</div>
+                    <div className="subtitle">Problemas pendentes</div>
                 </div>
             </div>
             <div className="posts">
-                {
-                    denuncias?.map(
-                        function (denuncia) {
-                            return (
-                                <Post key={denuncia.idDenuncia} idDenuncia={denuncia.idDenuncia} cpf={denuncia.cpf} date={denuncia.dataDenuncia} idTipo={denuncia.idTipo} address={denuncia.endereco} description={denuncia.descricao} idStatus={denuncia.idStatus} imgUrl={denuncia.urlImagem}></Post>
-                            )
-                        })
-                }
+            {
+                denuncias?.map((denuncia) => 
+                    <Post 
+                        key={denuncia.idDenuncia}
+                        idDenuncia={denuncia.idDenuncia} 
+                        cpf={denuncia.cpf} 
+                        date={denuncia.dataDenuncia} 
+                        idTipo={denuncia.idTipo} 
+                        address={denuncia.endereco}
+                        description={denuncia.descricao}
+                        idStatus={denuncia.idStatus}
+                        imgUrl={denuncia.urlImagem}
+                    />
+                )
+            }
             </div>
         </div>
     )

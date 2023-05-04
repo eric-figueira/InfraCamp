@@ -1,4 +1,31 @@
 #postagens {
     width: calc(100% - 78px);
     margin-left: 78px;
+    background-color: #e5e5e5;
+}
+
+h1 {
+    padding-left: 2%;
+    padding-bottom: 2%;
+    font-size: 40px;
+    color: #0a0844;
+}
+
+.header {
+    display: flex;
+    padding: 20px;
+}
+
+.header .content {
+    padding-left: 12%;
+    padding-bottom: 3%;
+}
+
+.header .content .number {
+    font-size: 40px;
+    color: #0a0844;
+}
+
+.header .content .subtitle {
+    font-size: 20px;
 }
