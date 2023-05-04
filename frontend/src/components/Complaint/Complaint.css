@@ -1,9 +1,10 @@
 #complaint {
     z-index: 4;
-    position: relative;
+    position: fixed;
     width: 500px;
     height: 100vh;
-    float: right;
+    right: 0;
+    top: 0;
     background-color: #11101D;
     color: white;
 }

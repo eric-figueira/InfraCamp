@@ -39,7 +39,7 @@ const Map: React.FC<MapProps> = (props) => {
     const [mapController, setMapController] = useState<MapController>();
 
     useEffect(() => {
-        const coords: maptilersdk.LngLatLike = [-22.9064, -47.0616]
+        const coords: maptilersdk.LngLatLike = [-47.0616, -22.9064]
 
         // //seta a latitude e longitude da localização do usuário para o state
         // const getPosition = (position: GeolocationPosition) => {
@@ -53,7 +53,7 @@ const Map: React.FC<MapProps> = (props) => {
             container: "map",
             style: `https://api.maptiler.com/maps/streets-v2/style.json?key=61IAJkR9OhCFaMNRNeOn`,
             center: coords,
-            zoom: 10,
+            zoom: 11,
         })
 
         map.current.addControl(new maplibre.NavigationControl({
