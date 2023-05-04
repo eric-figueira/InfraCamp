@@ -41,12 +41,12 @@ const Map: React.FC<MapProps> = (props) => {
     useEffect(() => {
         const coords: maptilersdk.LngLatLike = [-47.0616, -22.9064]
 
-        // //seta a latitude e longitude da localização do usuário para o state
-        // const getPosition = (position: GeolocationPosition) => {
-        //     coords[0] = position.coords.latitude;
-        //     coords[1] = position.coords.longitude;
-        // }
-        // navigator.geolocation.getCurrentPosition(getPosition);
+        //seta a latitude e longitude da localização do usuário para o state
+        const getPosition = (position: GeolocationPosition) => {
+            coords[0] = position.coords.latitude;
+            coords[1] = position.coords.longitude;
+        }
+        navigator.geolocation.getCurrentPosition(getPosition);
 
         if (map.current) return;
         map.current = new maplibre.Map({
