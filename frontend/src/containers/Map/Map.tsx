@@ -41,12 +41,12 @@ const Map: React.FC<MapProps> = (props) => {
     useEffect(() => {
         const coords: maptilersdk.LngLatLike = [-22.9064, -47.0616]
 
-        //seta a latitude e longitude da localização do usuário para o state
-        const getPosition = (position: GeolocationPosition) => {
-            coords[0] = position.coords.latitude;
-            coords[1] = position.coords.longitude;
-        }
-        navigator.geolocation.getCurrentPosition(getPosition);
+        // //seta a latitude e longitude da localização do usuário para o state
+        // const getPosition = (position: GeolocationPosition) => {
+        //     coords[0] = position.coords.latitude;
+        //     coords[1] = position.coords.longitude;
+        // }
+        // navigator.geolocation.getCurrentPosition(getPosition);
 
         if (map.current) return;
         map.current = new maplibre.Map({
@@ -158,7 +158,7 @@ const Map: React.FC<MapProps> = (props) => {
     //                         var dif = new Date().getDay() - denuncia.dataDenuncia.getDay()
     //                         if (7 < dif && dif <= 30) {
     //                             // eslint-disable-next-line @typescript-eslint/no-redeclare
-    //                             var marker = new maplibregl.Marker({ color: "#2523ad" })
+    //                             var marker = new maplibregl.Marker({ color: "#080756" })
     //                                 .setLngLat([denuncia.longitude, denuncia.latitude]);
 
     //                             if (map.current !== undefined)

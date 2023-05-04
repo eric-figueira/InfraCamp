@@ -61,14 +61,14 @@
 
 .user .right {
     overflow-y: scroll;
-    width: 50%;
+    width: 65%;
     height: 560px;
     color: #efefef;
     padding: 20px;
     background: #020213;
     display: grid;
     grid-row: 30px;
-    grid-template-columns: 500px 500px;
+    grid-template-columns: 50% 50%;
 }
 
 .user .button {

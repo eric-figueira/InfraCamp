@@ -37,7 +37,7 @@
 .card .mid .imgBx .cover {
     position: relative;
     height: 100%;
-    width: 100%;
+    width: fit-content;
 }
 
 .card .right {

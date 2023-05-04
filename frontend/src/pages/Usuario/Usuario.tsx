@@ -1,4 +1,4 @@
-import User from "../../containers/User/User";
+import {User} from "../../containers/User/User";
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
 

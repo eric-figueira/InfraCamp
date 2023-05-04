@@ -114,18 +114,16 @@ const Post: React.FC<PostProps> = (props) => {
                 </h4>
             </div>
             <div className="mid">
-                <div className="imgBx">
-                    <img src={props.imgUrl} className="cover" alt="Imagem do problema" />
-                </div>
+                <img src={props.imgUrl} className="cover" alt="Imagem do problema" />
             </div>
             <div className="right">
                 <div className="actionBtns">
-                <button type="button" title="like" onClick={handleClick}>
-                    <ArrowFatUp/>
-                </button>
-                <button type="button" title="dislike" onClick={handleClick}>
-                    <ArrowFatDown />
-                </button>
+                    <button type="button" title="like" onClick={handleClick}>
+                        <ArrowFatUp />
+                    </button>
+                    <button type="button" title="dislike" onClick={handleClick}>
+                        <ArrowFatDown />
+                    </button>
                 </div>
             </div>
         </div>

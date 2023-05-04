@@ -2,13 +2,29 @@ import React, { useState, useEffect } from "react";
 import Usuario from "../../types/Usuario";
 import Button from "../../components/Button/Button";
 import { api } from "../../services/api";
+import Denuncia from "../../types/Denuncia";
 
 import './User.css';
 import { useGet } from "../../hooks/useGet";
-import Denuncia from "../../types/Denuncia";
 import Card from "../../components/Card/Card";
+import Complaint from "../../components/Complaint/Complaint";
 
-const User: React.FC = () => {
+export interface ComplaintData {
+    idDenuncia?: number;
+    cpf?: string,
+    date?: Date,
+    idTipo?: number,
+    address?: string,
+    description?: string,
+    idStatus?: number,
+    imgUrl?: string
+}
+
+export const User: React.FC = () => {
+
+    const [showComplaint, setShowComplaint] = useState<boolean>(false);
+    const [complaint, setComplaint] = useState<ComplaintData>()
+
     const [usuario, setUsuario] = useState<Usuario>();
     const { data: denuncias } = useGet<Denuncia[]>("http://localhost:5164/api/denuncias/denunciasUsuario/547.049.728-36");
 
@@ -17,6 +33,9 @@ const User: React.FC = () => {
             setUsuario(resp.data);
         })
     }, [])
+
+    const toggleComplaint = () => { setShowComplaint(!showComplaint) }
+    const setComplaintData = (props: ComplaintData) => { setComplaint(props) }
 
     const handleClickEditar = () => {
         let a: HTMLCollectionOf<Element> = document.getElementsByClassName("field-input");
@@ -64,14 +83,25 @@ const User: React.FC = () => {
                         function (denuncia) {
                             if (denuncia.cpf === '547.049.728-36') {
                                 return (
-                                    <Card key={denuncia.idDenuncia} idDenuncia={denuncia.idDenuncia} cpf={denuncia.cpf} date={denuncia.dataDenuncia} idTipo={denuncia.idTipo} address={denuncia.endereco} description={denuncia.descricao} idStatus={denuncia.idStatus} imgUrl={denuncia.urlImagem}></Card>
+                                    <Card 
+                                        key={denuncia.idDenuncia} 
+                                        idDenuncia={denuncia.idDenuncia} 
+                                        cpf={denuncia.cpf} 
+                                        date={denuncia.dataDenuncia} 
+                                        idTipo={denuncia.idTipo} 
+                                        address={denuncia.endereco} 
+                                        description={denuncia.descricao} 
+                                        idStatus={denuncia.idStatus} 
+                                        imgUrl={denuncia.urlImagem}
+                                        handleToggleComplaint={toggleComplaint}
+                                        setComplaint={setComplaintData}
+                                    ></Card>
                                 )
                             }
                         })
                 }
             </div>
+            {showComplaint && <Complaint isVisible={showComplaint} setVisible={setShowComplaint} cpf={complaint?.cpf} idDenunia={complaint?.idDenuncia} date={complaint?.date} idTipo={complaint?.idTipo} address={complaint?.address} description={complaint?.description} idStatus={complaint?.idStatus} imgUrl={complaint?.imgUrl} />}
         </div >
     )
 }
-
-export default User;
