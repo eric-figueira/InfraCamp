@@ -8,6 +8,7 @@ interface ButtonProps {
   fontColor: string,
   fontSize?: number,
   borderColor?: string,
+  width?: string,
   eventHandler: (event: MouseEvent) => void;
 }
 
@@ -15,11 +16,13 @@ const Button: React.FC<ButtonProps> = (props) => {
   return (
     <div className='button-wrapper'>
       <button className="button"
-        style={{ backgroundColor: props.backgroundColor, 
-                 color: props.fontColor, 
-                 fontSize: props.fontSize,
-                 border:  props.borderColor
-                }} 
+        style={{
+          backgroundColor: props.backgroundColor,
+          color: props.fontColor,
+          fontSize: props.fontSize,
+          border: props.borderColor,
+          width: props.width
+        }}
         onClick={props.eventHandler}
       >{props.text}</button>
     </div>

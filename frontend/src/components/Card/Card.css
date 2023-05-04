@@ -1,0 +1,23 @@
+.user .right .info {
+    background-color: #01010f;
+    padding: 2px;
+    height: 182px;
+    width: 100%;
+}
+
+.user .right .info h3 {
+    font-size: 25px;
+    padding-bottom: 2%;
+}
+
+.user .right .info h4 {
+    font-size: 18px;
+}
+
+.user .right button {
+    margin-top: 25px;
+}
+
+.aa {
+    margin-left: 25px;
+}

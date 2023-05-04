@@ -1,6 +1,5 @@
-import User from "../../components/User/User";
+import User from "../../containers/User/User";
 import React from "react";
-import Complaints from "../../components/Complaints/Complaints";
 import Navbar from "../../components/Navbar/Navbar";
 
 const Usuario: React.FC = () => {
@@ -8,7 +7,6 @@ const Usuario: React.FC = () => {
         <>
             <Navbar />
             <User />
-            <Complaints />
         </>
     )
 }

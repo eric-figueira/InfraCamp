@@ -4,6 +4,8 @@ import { api } from '../../services/api';
 import Tipo from "../../types/Tipo";
 import Status from "../../types/Status";
 
+import "./Card.css";
+
 interface CardProps {
     idDenuncia: number;
     cpf: string,
@@ -44,22 +46,15 @@ const Card: React.FC<CardProps> = (props) => {
     }, [])
 
     return (
-        <div className="card">
-            <div className="text_info_box">
-                <h3 className="info_date">{formatDate(props.date + "")}</h3>
-                <div className="info_item">
-                    <p className="label">Tipo:</p>
-                    <p className="info">{tipo?.tipo}</p>
-                </div>
-                <div className="info_item">
-                    <p className="label">Status:</p>
-                    <p className="info">{status?.status}</p>
-                </div>
-            </div>
-            <div className="more_info">
-                <p className="info_text">Mais informações</p>
-                <ArrowFatRight />
-            </div>
+        <div className="info">
+            <h3>{formatDate(props.date + "")}</h3>
+            <h4>Tipo: {tipo?.tipo}</h4>
+            <h4>Status: {status?.status}</h4>
+
+            <button>
+                Mais informações
+                <ArrowFatRight className="aa" />
+            </button>
         </div>
     )
 }
