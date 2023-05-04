@@ -8,13 +8,7 @@ import Cadastro from "./pages/Cadastro/Cadastro";
 import Mapa from "./pages/Mapa/Mapa";
 
 
-import { AuthContext } from "./contexts/AuthContext";
-
-
 const AppRoutes: React.FC = () => {
-
-  const { isAuthenticated } = useContext(AuthContext);
-
   return (
     <Routes>
       {/* Public Routes */}
@@ -23,7 +17,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/recover-password" element={<RecuperacaoSenha />} />
 
       {/* Private Routes - only accessible when the user is logged */}
-      <Route path="/map" element={isAuthenticated ? <Mapa /> : <Navigate to="/" />} />
+      <Route path="/map" element={<Mapa />} />
     </Routes>
   );
 }

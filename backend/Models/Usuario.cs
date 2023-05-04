@@ -34,13 +34,13 @@ namespace backend.Models
         
         [DataType(DataType.ImageUrl)]
         public string? UrlImagem { get; set; }
-        public bool IsFunc { get; set; }
+        public bool? IsFunc { get; set; }
 
         // Coleções contendo dependentes (foreign key)
-        public virtual ICollection<Opiniao> Opinioes { get; } = new List<Opiniao>(); 
+        public virtual ICollection<Opiniao>? Opinioes { get; } = new List<Opiniao>(); 
 
-        public virtual ICollection<Denuncia> Denuncias { get; } = new List<Denuncia>();
+        public virtual ICollection<Denuncia>? Denuncias { get; } = new List<Denuncia>();
 
-        public virtual ICollection<Atualizacao> Atualizacoes { get; } = new List<Atualizacao>();
+        public virtual ICollection<Atualizacao>? Atualizacoes { get; } = new List<Atualizacao>();
     }
 }

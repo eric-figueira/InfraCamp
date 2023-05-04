@@ -55,7 +55,8 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
 
   // Se usuário não existe, não está autenticado
-  const isAuthenticated = !!user;
+  // const isAuthenticated = !!user;
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   // Quando for carregado, verificará se já existe cookies salvos
   useEffect(() => {
@@ -65,11 +66,17 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     if (token) 
     {
       api.post(`/api/auth/validateToken&returnData?token=${token}`).then((resp) => {
-        console.log(resp.data)
+          setIsAuthenticated(resp.data)
+          setUser({} as IUser)
+
+          if (resp.data && window.location.pathname !== '/map') window.location.href = '/map'
         // Seta o user para o que recebeu
         //setUser(resp.data)
       })
     }
+
+    else if (window.location.pathname !== '/')
+      window.location.href = '/'
   }, [])
 
   function setCookie(token: string) {
@@ -81,7 +88,9 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   async function Cadastrar(data: ISignUp) {
     // Chama a api passando os dados e recebe o token JWT e os dados do usuário
-    api.post(`/api/auth/cadastrar&returnTokenData?CPF=${data.cpf}&Email=${data.senha}&Nome=${data.nome}&Telefone=${data.telefone}&Senha=${data.senha}`).then((resp) => {
+    api.post('/api/auth/cadastrar&returnTokenData', {
+      // cpf: 
+    }).then((resp) => {
       // Seta o token como cookie
       console.log(resp.data)
       // ?
@@ -92,33 +101,35 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     // Retornamos informações do usuário
   }
 
-  useEffect(() => {
-    console.log(user?.nome)
-    console.log(isAuthenticated)
-    // ???????????
-    //isAuthenticated ? <Link to="/map" /> : console.log("foi nao po")
-    if (isAuthenticated)
-      <Navigate to="/map" />
-  }, [user])
+  // useEffect(() => {
+  //   // console.log(user?.nome)
+  //   // console.log(isAuthenticated)
+  //   // ???????????
+  //   //isAuthenticated ? <Link to="/map" /> : console.log("foi nao po")
+  //   if (isAuthenticated)
+      
+  // }, [isAuthenticated])
 
   async function Logar({ cpf, senha }: ISignIn) 
   {
     try 
     {
       // outra forma? É seguro? SQL injection?
-      api.post(`/api/auth/logar&returnTokenData?CPF=${cpf}&Senha=${senha}`).then((resp) => {
-        // Seta o token como cookie
-        console.log(resp.data)
-        // ?
-        //setCookie(resp.data.token)
-        console.log(resp.data.user)
-        //console.log(typeof resp.data.user)
-        const newUser: IUser = resp.data.user 
-        // user continua null, tive que fazer o useEffect. É async?
-        setUser(newUser)
-        // outra forma?
-        //
-      })
+      const resp = await api.post(`/api/auth/logar&returnTokenData?CPF=${cpf}&Senha=${senha}`)
+      // Seta o token como cookie
+      setCookie(resp.data.token)
+      // ?
+      //setCookie(resp.data.token)
+      console.log(resp.data.user)
+      //console.log(typeof resp.data.user)
+      const newUser: IUser = resp.data.user
+      // user continua null, tive que fazer o useEffect. É async?
+      setUser(newUser)
+      // outra forma?
+      //
+      setIsAuthenticated(true)
+
+      window.location.href = '/map'
     }
     catch (error) { console.log(error); }
   }
@@ -137,6 +148,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   async function logOut() {
     // Precisamos limpar os cookies
     cookie.remove('_infracamp_auth_token')
+    setIsAuthenticated(false)
     // Com esse set, fazemos com que os componentes recarreguem e o usuário, caso esteja em uma
     // rota privada, será redirecionado para login
     setUser(null)
@@ -149,7 +161,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   return (
     <AuthContext.Provider 
       value={{ 
-          isAuthenticated: isAuthenticated, 
+          isAuthenticated, 
           user: user, 
           logar: Logar, 
           cadastrar: Cadastrar, 
