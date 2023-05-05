@@ -6,9 +6,6 @@ import Tipo from "../../types/Tipo";
 import Status from "../../types/Status";
 import Usuario from "../../types/Usuario";
 
-import { ReactComponent as ArrowUp } from "./arrow-fat-up-fill.svg";
-import { ReactComponent as ArrowDown } from "./arrow-fat-down-bold.svg";
-
 import "./Post.css";
 
 interface PostProps {
@@ -93,26 +90,27 @@ const Post: React.FC<PostProps> = (props) => {
                     <b>Problema:</b> {tipo === undefined ? "" : tipo.tipo}
                 </h4>
                 <h4 className="message">
-                    <b>Endereço</b> {props.address}
+                    <b>Endereço:</b> {props.address}
                 </h4>
                 <h4 className="message">
-                    <b>Descrição</b> {props.description}
+                    <b>Descrição:</b> {props.description}
                 </h4>
-                <h4 className="message" style={{ color: '#d6b10a' }}>
-                    <b>Situação</b> {status === undefined ? "" : status.status}
+                <h4 className="message" style={{ color: '#d6950a' }}>
+                    <b>Situação:</b> {status === undefined ? "" : status.status}
                 </h4>
             </div>
             <div className="mid">
-                <div className="imgBx">
-                    <img src={props.imgUrl} className="cover" alt="Imagem do problema" />
-                </div>
+                <img src={props.imgUrl} className="cover" alt="Imagem do problema" />
             </div>
             <div className="right">
                 <div className="actionBtns">
-                    <ArrowUp/>
-                    <ArrowDown/>
+                    <button type="button" title="like" onClick={handleClick}>
+                        <ArrowFatUp />
+                    </button>
+                    <button type="button" title="dislike" onClick={handleClick}>
+                        <ArrowFatDown />
+                    </button>
                 </div>
-                <p className="like_count">{opinioes?.length}</p>
             </div>
         </div>
     )

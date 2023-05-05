@@ -41,7 +41,7 @@ const Map: React.FC<MapProps> = (props) => {
     const [mapController, setMapController] = useState<MapController>();
 
     useEffect(() => {
-        const coords: maptilersdk.LngLatLike = [-22.9064, -47.0616]
+        const coords: maptilersdk.LngLatLike = [-47.0616, -22.9064]
 
         //seta a latitude e longitude da localização do usuário para o state
         const getPosition = (position: GeolocationPosition) => {
@@ -55,7 +55,7 @@ const Map: React.FC<MapProps> = (props) => {
             container: "map",
             style: `https://api.maptiler.com/maps/streets-v2/style.json?key=61IAJkR9OhCFaMNRNeOn`,
             center: coords,
-            zoom: 10,
+            zoom: 11,
         })
 
         map.current.addControl(new maplibre.NavigationControl({
@@ -160,7 +160,7 @@ const Map: React.FC<MapProps> = (props) => {
     //                         var dif = new Date().getDay() - denuncia.dataDenuncia.getDay()
     //                         if (7 < dif && dif <= 30) {
     //                             // eslint-disable-next-line @typescript-eslint/no-redeclare
-    //                             var marker = new maplibregl.Marker({ color: "#2523ad" })
+    //                             var marker = new maplibregl.Marker({ color: "#080756" })
     //                                 .setLngLat([denuncia.longitude, denuncia.latitude]);
 
     //                             if (map.current !== undefined)

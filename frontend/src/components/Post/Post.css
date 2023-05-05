@@ -1,134 +1,62 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body{
-    padding-top: 2%;
-    background: #eaeaea;
-}
-
-h1{
-    padding-left: 2%;
-    padding-bottom: 2%;
-    font-size: 48px;
-    color: #0a0844;
-}
-
-.header{
+.card {
     display: flex;
-    padding: 20px;
-}
-
-.header .content{
-    padding-left: 12%;
-    padding-bottom: 3%;
-}
-
-.header .content .number{
-    font-size: 50px;
-    color: #0a0844;
-}
-
-.header .content .subtitle{
-    font-size: 25px;
-}
-
-.card{
-    display: flex;
-    width: 1250px;
-    background: #efefef;
-    padding: 20px;
+    width: 85%;
+    height: 400px;
+    background: #d3d3d3;
+    margin: 25px;
     margin-left: 10%;
 }
 
-.card .left{
-    
+.card .left {
     width: 50%;
-    padding-left: 5%;
+    padding-left: 2%;
     padding-top: 5px;
-    background-color: #efefef;
+    background-color: #d3d3d3;
     float: left;
 }
 
-.card .left .message{
-    
+.card .left .message {
     font-size: 16px;
     padding-top: 8px;
     color: #777;
 }
 
-.card .left .message b{
+.card .left .message b {
     display: block;
     font-size: 25px;
     color: #262626;
 }
 
-.card .left .addComments{
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-}
-
-.card .left .addComments .userImg{
-    position: relative;
-    min-width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
-
-.card .left .addComments .userImg img{
-    position: relative;
-    min-width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 8px;
-}
-
-.card .left .addComments .text{
-    width: 100%;
-    border: none;
-    outline: none;
-    font-weight: 400;
-    font-size: 15px;
-    background: #efefef;
-    color: #262626;
-}
-
-.card .left .addComments .text::placeholder{
-    color: #777;
-}
-
-.card .mid{
+.card .mid {
     display: flex;
     width: 100%;
     float: left;
+    background-color: #262626;
 }
 
-.card .mid .imgBx .cover{
+.card .mid .imgBx .cover {
     position: relative;
-    height: px;
-    width: 800px;
-
+    height: 100%;
+    width: fit-content;
 }
 
-.card .right{
-    width: 10%;
-    background: #efefef;
-    padding-right: 10%;
-    float: left;
-}
-
-.card .right .actionBtns{
-    padding-left: 20px;
+.card .right {
+    width: 12.5%;
+    background: #d3d3d3;
     padding-top: 10px;
+    float: left;
+}
+
+.card .right .actionBtns {
     flex-wrap: wrap;
     align-items: center;
 }
 
-.card .right .actionBtns img{
+.card .right .actionBtns button {
+    background-color: #d3d3d3;
+}
+
+.card .right .actionBtns img {
     max-width: 50px;
     cursor: pointer;
 }

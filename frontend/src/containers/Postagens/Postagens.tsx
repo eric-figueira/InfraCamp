@@ -14,7 +14,7 @@ const Postagens: React.FC = () => {
             <div className="header">
                 <div className="content">
                     <div className="number">{denuncias?.length}</div>
-                    <div className="subtitle">Denuncias feitas</div>
+                    <div className="subtitle">Denúncias feitas</div>
                 </div>
                 <div className="content">
                     <div className="number">{denuncias?.filter(denuncia => denuncia.idStatus === 5).length}</div>
@@ -25,10 +25,11 @@ const Postagens: React.FC = () => {
                     <div className="subtitle">Problemas pendentes</div>
                 </div>
             </div>
-
+            <div className="posts">
             {
                 denuncias?.map((denuncia) => 
                     <Post 
+                        key={denuncia.idDenuncia}
                         idDenuncia={denuncia.idDenuncia} 
                         cpf={denuncia.cpf} 
                         date={denuncia.dataDenuncia} 
@@ -40,6 +41,7 @@ const Postagens: React.FC = () => {
                     />
                 )
             }
+            </div>
         </div>
     )
 }

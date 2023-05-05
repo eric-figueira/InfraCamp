@@ -1,27 +1,23 @@
-.card .right {
-    overflow-y: scroll;
-    width: 50%;
-    height: 560px;
-    color: #efefef;
-    padding: 20px;
-    background: #020213;
-    display: grid;
-    grid-row: 30px;
-    grid-template-columns: 500px 500px;
-}
-
-.card .right .info {
+.user .right .info {
     background-color: #01010f;
     padding: 2px;
     height: 182px;
     width: 100%;
 }
 
-.card .right .info h3 {
-    font-size: 35px;
+.user .right .info h3 {
+    font-size: 25px;
     padding-bottom: 2%;
 }
 
-.card .right .info h4 {
-    font-size: 25px;
+.user .right .info h4 {
+    font-size: 18px;
+}
+
+.user .right button {
+    margin-top: 25px;
+}
+
+.aa {
+    margin-left: 25px;
 }

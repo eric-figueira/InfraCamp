@@ -1,138 +1,32 @@
 #postagens {
-  width: calc(100% - 78px);
-  margin-left: 78px;
-}
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    width: calc(100% - 78px);
+    margin-left: 78px;
+    background-color: #e5e5e5;
 }
 
-body{
-  padding-top: 2%;
-  background: #eaeaea;
+h1 {
+    padding-left: 2%;
+    padding-bottom: 2%;
+    font-size: 40px;
+    color: #0a0844;
 }
 
-h1{
-  padding-left: 2%;
-  padding-bottom: 2%;
-  font-size: 48px;
-  color: #0a0844;
+.header {
+    display: flex;
+    padding: 20px;
 }
 
-.header{
-  display: flex;
-  padding: 20px;
+.header .content {
+    padding-left: 12%;
+    padding-bottom: 3%;
 }
 
-.header .content{
-  padding-left: 12%;
-  padding-bottom: 3%;
+.header .content .number {
+    font-size: 80px;
+    font-weight: bold;
+    color: #0a0844;
 }
 
-.header .content .number{
-  font-size: 50px;
-  color: #0a0844;
-}
-
-.header .content .subtitle{
-  font-size: 25px;
-}
-
-.card{
-  display: flex;
-  width: 1250px;
-  background: #efefef;
-  padding: 20px;
-  margin-left: 10%;
-}
-
-.card .left{
-  
-  width: 50%;
-  padding-left: 5%;
-  padding-top: 5px;
-  background-color: #efefef;
-  float: left;
-}
-
-.card .left .message{
-  
-  font-size: 16px;
-  padding-top: 8px;
-  color: #777;
-}
-
-.card .left .message b{
-  display: block;
-  font-size: 25px;
-  color: #262626;
-}
-
-.card .left .addComments{
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.card .left .addComments .userImg{
-  position: relative;
-  min-width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 8px;
-}
-
-.card .left .addComments .userImg img{
-  position: relative;
-  min-width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  margin-right: 8px;
-}
-
-.card .left .addComments .text{
-  width: 100%;
-  border: none;
-  outline: none;
-  font-weight: 400;
-  font-size: 15px;
-  background: #efefef;
-  color: #262626;
-}
-
-.card .left .addComments .text::placeholder{
-  color: #777;
-}
-
-.card .mid{
-  display: flex;
-  width: 100%;
-  float: left;
-}
-
-.card .mid .imgBx .cover{
-  position: relative;
-  height: px;
-  width: 800px;
-
-}
-
-.card .right{
-  width: 10%;
-  background: #efefef;
-  padding-right: 10%;
-  float: left;
-}
-
-.card .right .actionBtns{
-  padding-left: 20px;
-  padding-top: 10px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-
-.card .right .actionBtns img{
-  max-width: 50px;
-  cursor: pointer;
+.header .content .subtitle {
+    font-size: 20px;
 }

@@ -1,9 +1,10 @@
 #complaint {
     z-index: 4;
-    position: relative;
+    position: fixed;
     width: 500px;
     height: 100vh;
-    float: right;
+    right: 0;
+    top: 0;
     background-color: #11101D;
     color: white;
 }
@@ -32,6 +33,10 @@
     margin-left: calc((100% - 90%) / 2);
     margin-right: calc((100% - 90%) / 2);
     background-color: #292A35;
+}
+
+.img img {
+    height: 100%;
 }
 
 .bottom_box {
