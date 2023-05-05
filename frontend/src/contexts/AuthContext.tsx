@@ -4,6 +4,7 @@ import { Navigate, Link} from "react-router-dom";
 import { api } from "../services/api";
 
 import Cookies from "universal-cookie";
+import { AxiosResponse } from "axios";
 
 interface IProps {
   children? : ReactNode
@@ -39,10 +40,10 @@ interface IUser {
 interface AuthContextType {
   isAuthenticated: boolean,
   user: IUser | null,
-  logar: (data: ISignIn) => Promise<void>,
-  cadastrar: (data: ISignUp) => Promise<void>,
-  recuperarSenha: (data: IRecoverPassword) => Promise<void>,
-  logOut: () => void
+  Logar: (data: ISignIn) => Promise<void>,
+  Cadastrar: (data: ISignUp) => Promise<void>,
+  RecuperarSenha: (data: IRecoverPassword) => Promise<void>,
+  LogOut: () => void
 }
 
 export const AuthContext = createContext({} as AuthContextType)
@@ -82,21 +83,31 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     cookie.set('_infracamp_auth_token', token, { expires: proxMes })
   }
 
-  async function Cadastrar(data: ISignUp) {
-    // Chama a api passando os dados e recebe o token JWT e os dados do usuário
-    api.post('/api/auth/cadastrar&returnTokenData', {
-      // cpf: 
-    }).then((resp) => {
-      // Seta o token como cookie
-      console.log(resp.data)
-      // ?
-      //setCookie(resp.data.token)
-      //setUser(resp.data.user)
-    })
+  function authenticateUser(resp: AxiosResponse) {
+    console.log(resp.data)
 
-    // Retornamos informações do usuário
+    // Seta o token como cookie
+    setCookie(resp.data.token)
+
+    const user: IUser = resp.data.user
+
+    setUser(user)
+    setIsAuthenticated(true)
+
+    window.location.href = '/map'
   }
 
+  async function Cadastrar({ nome, email, telefone, senha, cpf }: ISignUp) 
+  {
+    try 
+    {
+      const resp = await api.post('/api/auth/cadastrar&returnTokenData')
+      
+      // Se teve uma resposta, pois pode ter passados dados inválidos
+      if (resp) authenticateUser(resp)
+    }
+    catch (error) { console.log(error); }
+  }
 
   async function Logar({ cpf, senha }: ISignIn) 
   {
@@ -105,36 +116,24 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
       const resp = await api.post(`/api/auth/logar&returnTokenData?CPF=${cpf}&Senha=${senha}`)
     
       // Se teve uma resposta, pois pode ter passados dados inválidos
-      if (resp) 
-      {
-        console.log(resp.data)
-
-        // Seta o token como cookie
-        setCookie(resp.data.token)
-
-        const user: IUser = resp.data.user
-
-        setUser(user)
-        setIsAuthenticated(true)
-
-        window.location.href = '/map'
-      }
+      if (resp) authenticateUser(resp)
     }
     catch (error) { console.log(error); }
   }
 
-  async function recoverPassword({ cpf, novaSenha }: IRecoverPassword) {
-    api.post(`/api/auth/recuperarSenha&returnTokenData?CPF=${cpf}&Senha=${novaSenha}`).then((resp) => {
-      // Seta o token como cookie
-      console.log(resp.data)
-      // ?
-      //setCookie(resp.data.token)
-      //setUser(resp.data.user)
-      //window.location.href="/map"
-    })
+  async function RecuperarSenha({ cpf, novaSenha }: IRecoverPassword) 
+  {
+    try 
+    {
+      const resp = await api.post(`/api/auth/recuperarSenha&returnTokenData?CPF=${cpf}&NovaSenha=${novaSenha}`)
+
+      // Se teve uma resposta, pois pode ter passados dados inválidos
+      if (resp) authenticateUser(resp)
+    }
+    catch (error) { console.log(error); }
   }
 
-  async function logOut() {
+  async function LogOut() {
     // Precisamos limpar os cookies
     cookie.remove('_infracamp_auth_token')
 
@@ -154,11 +153,11 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     <AuthContext.Provider 
       value={{ 
           isAuthenticated, 
-          user: user, 
-          logar: Logar, 
-          cadastrar: Cadastrar, 
-          recuperarSenha: recoverPassword, 
-          logOut: logOut }}>
+          user, 
+          Logar, 
+          Cadastrar, 
+          RecuperarSenha, 
+          LogOut }}>
       {children}
     </AuthContext.Provider>
   )

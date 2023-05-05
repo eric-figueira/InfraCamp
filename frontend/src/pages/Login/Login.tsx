@@ -25,7 +25,7 @@ interface IUser {
 
 const Login: React.FC = () => {
 
-  const { logar } = useContext(AuthContext)
+  const { Logar } = useContext(AuthContext)
 
   const [user, setUser] = useState<IUser>({ cpf: "", senha: "" })
 
@@ -48,11 +48,10 @@ const Login: React.FC = () => {
       {
         if (!cpf_regex.test(user.cpf)) 
           showMessage('Padrão de CPF incorreto!')
-        // OBS:  Testar se achou no banco de dados !!!
         else
         {
           setIsMessageVisible(false)
-          logar({ cpf: user.cpf, senha: user.senha })
+          Logar({ cpf: user.cpf, senha: user.senha })
         }
       }
     }

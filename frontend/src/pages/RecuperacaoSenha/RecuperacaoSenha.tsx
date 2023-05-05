@@ -25,7 +25,7 @@ interface IUser {
 
 const RecuperacaoSenha: React.FC = () => {
 
-  const { recuperarSenha } = useContext(AuthContext)
+  const { RecuperarSenha } = useContext(AuthContext)
 
   const [user, setUser] = useState<IUser>({ cpf: "", novaSenha: "", confSenha: "" })
 
@@ -55,7 +55,7 @@ const RecuperacaoSenha: React.FC = () => {
         else
         {
           setIsMessageVisible(false)
-          recuperarSenha({ cpf: user.cpf, novaSenha: user.novaSenha })
+          RecuperarSenha({ cpf: user.cpf, novaSenha: user.novaSenha })
         }
       }
     }
