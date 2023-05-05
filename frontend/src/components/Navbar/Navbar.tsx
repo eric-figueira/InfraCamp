@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { List, MapPin, Info, User, SignOut, ChartBar, ChatCircle, CaretLeft } from 'phosphor-react'
 
@@ -7,9 +7,12 @@ import "./Navbar.css"
 import { Icon } from './styled';
 import { Link } from 'react-router-dom';
 
+import { AuthContext } from '../../contexts/AuthContext';
+
 
 const Navbar: React.FC = () => {
 
+  const { LogOut } = useContext(AuthContext)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
@@ -59,7 +62,7 @@ const Navbar: React.FC = () => {
                     </div>
                 </div>
                 <div className="profile-icon-container">
-                    <Icon><SignOut id='log_out' /></Icon>
+                    <Icon onClick={() => LogOut() }><SignOut id='log_out' /></Icon>
                 </div>
             </li>
         </ul>

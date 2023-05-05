@@ -142,7 +142,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     setUser(null)
     setIsAuthenticated(false)
 
-    // se não der certo, colocar window.... = '/'
+    window.location.href = '/'
   }
 
   // Criamos todo um componente AuthProvider, pois precisamos passar os valores em 'value' 
