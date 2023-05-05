@@ -58,7 +58,7 @@ export const Message = styled.div<MessageProps>`
   border: 1.5px solid ${(props) => props.borderFontColor};
   color: ${(props) => props.borderFontColor};
   font-size: 1.25rem; 
-
+  text-align: center;
 `
 
 
@@ -72,6 +72,4 @@ export const CarouselImage = styled.img<CarouselImageProps>`
   display: flex;
 
   background-image: url(${(props) => props.imgUrl})
-
-  text-align: center;
 `

@@ -19,10 +19,10 @@ const AppRoutes: React.FC = () => {
       <Route path="/recover-password" element={<RecuperacaoSenha />} />
 
       {/* Private Routes - only accessible when the user is logged */}
-      <Route path="/map" element={isAuthenticated ? <Mapa /> : <Navigate to="/" />} />
-      <Route path="/posts" element={isAuthenticated ? <Posts /> : <Navigate to="/" />} />
-      <Route path="/user" element={isAuthenticated ? <Usuario /> : <Navigate to="/" />} />
-      <Route path="/about" element={isAuthenticated ? <SobreNos /> : <Navigate to="/" />} />
+      <Route path="/map" element={<Mapa />} />
+      <Route path="/posts" element={<Posts />} />
+      <Route path="/user" element={<Usuario />} />
+      <Route path="/about" element={<SobreNos />} />
     </Routes>
   );
 }

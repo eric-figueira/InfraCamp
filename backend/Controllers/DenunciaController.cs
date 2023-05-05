@@ -37,7 +37,8 @@ namespace backend.Controllers
         [HttpGet]
         public ActionResult<List<Denuncia>> GetAll()
         {
-            List<DenunciaRet> retorno = new List<DenunciaRet>();
+            return this._context.Denuncia.ToList();
+            /*List<DenunciaRet> retorno = new List<DenunciaRet>();
             var denuncias = this._context.Denuncia.ToList();
             if (denuncias == null)
                 return NotFound();
@@ -71,7 +72,7 @@ namespace backend.Controllers
                 }
             }
 
-            return retorno;
+            return retorno;*/
         }
 
         [HttpGet("{idDenuncia}")]
