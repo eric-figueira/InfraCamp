@@ -72,7 +72,7 @@ namespace backend.Controllers
     }
 
     [HttpPost("cadastrar&returnTokenData")]
-    public async Task<ActionResult<Object>> Cadastrar(Usuario usuario)
+    public async Task<ActionResult<Object>> Cadastrar(string CPF, string Email, string Nome, string Telefone, string Senha)
     {
       try
       {
@@ -80,12 +80,19 @@ namespace backend.Controllers
         ActionResult<Usuario> result;
 
         UsuarioController uc = new UsuarioController(this._context);
-        result = uc.GetUsuario(usuario.Cpf);
+        result = uc.GetUsuario(CPF);
 
         // Retornamos BadRequest caso não retorne NotFound, pois se isso acontecer
         // significa que já existe esse CPF cadastrado
         //if (!result.GetType().Equals(NotFound())) return BadRequest();
 
+        Usuario usuario = new Usuario();
+        usuario.Cpf = CPF;
+        usuario.Nome = Nome;
+        usuario.Email = Email;
+        usuario.Telefone = Telefone;
+        usuario.Senha = Telefone;
+        usuario.UrlImagem = "";
         usuario.IsFunc = false;
         await uc.Post(usuario);
 
