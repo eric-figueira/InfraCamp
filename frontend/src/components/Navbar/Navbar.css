@@ -1,8 +1,3 @@
-*{
-  margin: 0;
-  padding: 0;
-}
-
 .sidebar{
   position: fixed;
   left: 0;
@@ -21,27 +16,27 @@
 
 .sidebar .logo-details{
   height: 60px;
+
   display: flex;
   align-items: center;
   position: relative;
 }
 
-.sidebar .logo-details .infracamp-icon{
-  opacity: 0;
-  transition: all 0.5s ease;
+.sidebar.open .logo-details{
+  justify-content: space-between;
 }
+
 
 .sidebar .logo-details .infracamp-name{
   color: #fff;
   font-size: 20px;
   font-weight: 600;
-  opacity: 0;
+  display: none;
   transition: all 0.5s ease;
 }
 
-.sidebar.open .logo-details .infracamp-icon,
 .sidebar.open .logo-details .infracamp-name{
-  opacity: 1;
+  display: block;
 }
 
 .sidebar .logo-details #btn{
@@ -56,17 +51,7 @@
   cursor: pointer;
   transition: all 0.5s ease;
 }
-.sidebar.open .logo-details #btn{
-  text-align: right;
-}
-.sidebar i{
-  color: #fff;
-  height: 60px;
-  min-width: 50px;
-  font-size: 28px;
-  text-align: center;
-  line-height: 60px;
-}
+
 .sidebar .nav-list{
   margin-top: 20px;
   height: 100%;
@@ -153,7 +138,13 @@
   font-size: 18px;
   border-radius: 12px;
 }
+
 .sidebar li.profile{
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
   position: fixed;
   height: 60px;
   width: 78px;
@@ -167,7 +158,7 @@
 .sidebar.open li.profile{
   width: 250px;
 }
-.sidebar li .profile-details{
+.sidebar li.profile-details{
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
@@ -179,6 +170,15 @@
   border-radius: 6px;
   margin-right: 10px;
 }
+
+.sidebar .profile-details .name_job {
+  display: none;
+}
+
+.sidebar.open .profile-details .name_job {
+  display: block;
+}
+
 .sidebar li.profile .name,
 .sidebar li.profile .job{
   font-size: 15px;
@@ -196,7 +196,6 @@
   transform: translateY(-50%);
   background: #1d1b31;
   width: 100%;
-  height: 60px;
   line-height: 60px;
   border-radius: 0px;
   transition: all 0.5s ease;

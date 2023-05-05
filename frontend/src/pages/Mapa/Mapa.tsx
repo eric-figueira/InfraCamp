@@ -5,6 +5,7 @@ import Map from "../../containers/Map/Map";
 import { AuthContext } from "../../contexts/AuthContext";
 
 const Mapa : React.FC = () => {
+    
     const { user } = useContext(AuthContext);
 
     return (

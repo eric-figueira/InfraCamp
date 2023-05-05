@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { List, MapPin, Info, User, SignOut, ChartBar, ChatCircle } from 'phosphor-react'
+import { List, MapPin, Info, User, SignOut, ChartBar, ChatCircle, CaretLeft } from 'phosphor-react'
 
 import "./Navbar.css"
 
@@ -15,11 +15,12 @@ const Navbar: React.FC = () => {
   return (
     <div className={isSidebarOpen ? "sidebar open" : "sidebar"}>
         <div className="logo-details">
-            {/* <Icon className='infracamp-icon'><ChatCircle /></Icon> */}
-            {/* <i className='bx bxl-c-plus-plus infracamp-icon'></i> */}
             <div className="infracamp-name">Infracamp</div>
-            {/* <Icon><List id='btn' /></Icon> */}
-            {/* <i className='bx bx-menu' id="btn"></i> */}
+            {
+                isSidebarOpen ? <Icon onClick={() => setIsSidebarOpen(!isSidebarOpen)}><CaretLeft id='btn'/></Icon> 
+                              : <Icon onClick={() => setIsSidebarOpen(!isSidebarOpen)}><List id='btn'/></Icon>
+            }
+
         </div>
         <ul className="nav-list">
             <li>
@@ -57,8 +58,9 @@ const Navbar: React.FC = () => {
                         <div className="job">Servidor Publico</div>
                     </div>
                 </div>
-                {/* <Icon><SignOut id='log_out' /></Icon> */}
-                <i className='bx bx-log-out' id="log_out"></i>
+                <div className="profile-icon-container">
+                    <Icon><SignOut id='log_out' /></Icon>
+                </div>
             </li>
         </ul>
     </div>
