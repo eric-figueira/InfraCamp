@@ -37,7 +37,41 @@ namespace backend.Controllers
         [HttpGet]
         public ActionResult<List<Denuncia>> GetAll()
         {
-            return this._context.Denuncia.ToList();
+            List<DenunciaRet> retorno = new List<DenunciaRet>();
+            var denuncias = this._context.Denuncia.ToList();
+            if (denuncias == null)
+                return NotFound();
+            foreach (Denuncia denuncia in denuncias)
+            {
+                var usuario = this._context.Usuario.Find(denuncia.Cpf);
+                if (usuario == null)
+                    return NotFound();
+                else
+                {
+                    var status = this._context.StatusDenuncia.Find(denuncia.IdStatus);
+                    if (status == null)
+                        return NotFound();
+                    else
+                    {
+                        var tipo = this._context.TipoDenuncia.Find(denuncia.IdTipo);
+                        if (tipo == null)
+                            return NotFound();
+                        else
+                        {
+                            var opinioes = this._context.Opiniao.ToList();
+                            int curtidas = 0;
+                            foreach (Opiniao op in opinioes)
+                                if (op.Cpf == denuncia.Cpf && op.IdDenuncia == denuncia.IdDenuncia)
+                                    curtidas++;
+
+                            DenunciaRet ret = new DenunciaRet(denuncia, usuario.Nome, status.Status, tipo.Tipo, curtidas);
+                            retorno.Add(ret);
+                        }
+                    }
+                }
+            }
+
+            return retorno;
         }
 
         [HttpGet("{idDenuncia}")]

@@ -1,4 +1,5 @@
-import React, { useContext} from 'react';
+import React, { useContext, useState, MouseEvent } from 'react';
+import { Link } from "react-router-dom"
 
 import "./Login.css"
 
@@ -9,15 +10,55 @@ import { ReactComponent as ImagemLogin } from "../../assets/imgs/imgLogin.svg"
 import { EnvelopeSimple, Key } from 'phosphor-react'
 
 import Button from '../../components/Button/Button';
+import { Message, ETypes } from "../../components/Message/Message"
 
 import { AuthContext } from '../../contexts/AuthContext';
 
 
+const cpf_regex: RegExp = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/
+
+
+interface IUser {
+  cpf: string,
+  senha: string
+}
+
 const Login: React.FC = () => {
 
-  const { signIn } = useContext(AuthContext)
+  const { logar } = useContext(AuthContext)
 
-  function Test() { }
+  const [user, setUser] = useState<IUser>({ cpf: "", senha: "" })
+
+  const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
+  const [messageText, setMessageText] = useState<string>("")
+
+  function showMessage(text: string) {
+    setIsMessageVisible(true)
+    setMessageText(text)
+  }
+
+  function SignIn(event: MouseEvent) 
+  {
+    event.preventDefault()
+    try 
+    {
+      if (user.cpf == "" || user.senha == "") 
+        showMessage('Todos os dados são necessários!')
+      else 
+      {
+        if (!cpf_regex.test(user.cpf)) 
+          showMessage('Padrão de CPF incorreto!')
+        // OBS:  Testar se achou no banco de dados !!!
+        else
+        {
+          setIsMessageVisible(false)
+          logar({ cpf: user.cpf, senha: user.senha })
+        }
+      }
+    }
+    catch (e: any) { showMessage(e.message) }
+  }
+
 
   return (
     <div className="login-wrapper">
@@ -25,15 +66,18 @@ const Login: React.FC = () => {
         <div className="content">
           <h3>Novo por aqui?</h3>
           <p>Crie sua conta e comece a denunciar</p>
-          <Button text='Cadastrar'
-            backgroundColor={'transparent'} fontColor={colorPallete.fontWhite}
-            fontSize={18} eventHandler={Test} borderColor={`2px solid ${colorPallete.bgWhite}`} />
+          <Link to="/signup">
+            <Button text='Cadastrar'
+              backgroundColor={'transparent'} fontColor={colorPallete.fontWhite}
+              fontSize={18} eventHandler={() => null} borderColor={`2px solid ${colorPallete.bgWhite}`} />
+          </Link>
         </div>
         <ImagemLogin className='login-img' />
       </div>
       <div className="info-container">
         <div className="form-wrapper">
           <h1>Entrar</h1>
+          <Message isVisible={isMessageVisible} text={messageText} type={ETypes.Warning} />
           <form>
             <Input
               backgroundColor='#FFF'
@@ -43,7 +87,7 @@ const Login: React.FC = () => {
               <div className='icon-container'>
                 <EnvelopeSimple />
               </div>
-              <input type='text' placeholder='Digite seu email' />
+              <input type='text' placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: event.target.value })} />
             </Input>
             <Input
               backgroundColor='#FFF'
@@ -53,9 +97,10 @@ const Login: React.FC = () => {
               <div className='icon-container'>
                 <Key />
               </div>
-              <input type='text' placeholder='Digite sua senha' />
+              <input type='password' placeholder='Digite sua senha' onChange={(event) => setUser({ ...user, senha: event.target.value })} />
             </Input>
-            <Button text='Entrar' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={18} eventHandler={Test} />
+            <Link to="/recover-password" className='login-link'>Esqueceu sua senha? Clique aqui!</Link>
+            <Button text='Entrar' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={18} eventHandler={SignIn} />
           </form>
         </div>
       </div>

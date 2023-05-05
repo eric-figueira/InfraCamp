@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Routes, Route, Navigate } from "react-router-dom"
+import React from "react";
+import { Routes, Route } from "react-router-dom"
 
 
 import RecuperacaoSenha from './pages/RecuperacaoSenha/RecuperacaoSenha';
@@ -11,14 +11,7 @@ import Usuario from "./pages/Usuario/Usuario";
 import SobreNos from "./pages/SobreNos/SobreNos";
 
 
-import { AuthContext } from "./contexts/AuthContext";
-
-
 const AppRoutes: React.FC = () => {
-
-  // const { isAuthenticated } = useContext(AuthContext);
-  const isAuthenticated = true;
-
   return (
     <Routes>
       <Route path="/" element={<Login />} />

@@ -51,7 +51,7 @@ export const Input = styled.div<InputProps>`
 
 export const Message = styled.div<MessageProps>`
 
-  padding: 0.5rem 5rem;
+  padding: 0.5rem 1rem;
   border-radius: 0.7rem;
 
   background-color: ${(props) => props.borderFontColor}35;
@@ -73,4 +73,5 @@ export const CarouselImage = styled.img<CarouselImageProps>`
 
   background-image: url(${(props) => props.imgUrl})
 
+  text-align: center;
 `

@@ -14,13 +14,21 @@ import { Message, ETypes } from '../../components/Message/Message';
 import { AuthContext } from '../../contexts/AuthContext';
 
 
+const cpf_regex: RegExp = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/
+
+interface IUser {
+  cpf: string,
+  novaSenha: string,
+  confSenha: string
+}
+
+
 const RecuperacaoSenha: React.FC = () => {
 
-  const { recoverPassword } = useContext(AuthContext)
+  const { recuperarSenha } = useContext(AuthContext)
 
-  const [email, setEmail] = useState<string>("")
-  const [senha, setSenha] = useState<string>("")
-  const [novaSenha, setNovaSenha] = useState<string>("")
+  const [user, setUser] = useState<IUser>({ cpf: "", novaSenha: "", confSenha: "" })
+
 
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
   const [messageText, setMessageText] = useState<string>("")
@@ -34,16 +42,20 @@ const RecuperacaoSenha: React.FC = () => {
     event.preventDefault()
     try 
     {
-      if (email == "" || senha == "" || novaSenha == "") 
+      if (user.cpf == "" || user.novaSenha == "" || user.confSenha == "") 
         showMessage('Todos os dados são necessários!')
       else 
       {
-        if (senha != novaSenha) 
+        if (user.novaSenha != user.confSenha) 
           showMessage('As senhas não são compatíveis!')
-        else 
+        else if (!cpf_regex.test(user.cpf)) 
+          showMessage('Padrão de CPF incorreto!')
+        else if (user.novaSenha.length < 8)
+          showMessage('Senha precisa ter no mínimo 8 caracteres!')
+        else
         {
-          console.log('DEU CERTO!')
           setIsMessageVisible(false)
+          recuperarSenha({ cpf: user.cpf, novaSenha: user.novaSenha })
         }
       }
     }
@@ -68,7 +80,7 @@ const RecuperacaoSenha: React.FC = () => {
               <div className='icon-container'>
                 <EnvelopeSimple />
               </div>
-              <input type="text" placeholder='Digite seu email' onChange={(event) => setEmail(event.target.value)} />
+              <input type="text" placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: event.target.value })} />
             </Input>
             <Input 
               backgroundColor="#FFF"
@@ -78,7 +90,7 @@ const RecuperacaoSenha: React.FC = () => {
               <div className='icon-container'>
                 <Key />
               </div>
-              <input type="text" placeholder='Digite uma nova senha' onChange={(event) => setSenha(event.target.value)} />
+              <input type="password" placeholder='Digite uma nova senha' onChange={(event) => setUser({ ...user, novaSenha: event.target.value })} />
             </Input>
             <Input 
               backgroundColor="#FFF"
@@ -88,7 +100,7 @@ const RecuperacaoSenha: React.FC = () => {
               <div className='icon-container'>
                 <Key />
               </div>
-              <input type="text" placeholder='Confirme sua senha' onChange={(event) => setNovaSenha(event.target.value)} />
+              <input type="password" placeholder='Confirme sua senha' onChange={(event) => setUser({ ...user, confSenha: event.target.value })} />
             </Input>
             <Button text='Recuperar' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={25} eventHandler={RecoverPassword} />
           </form>

@@ -12,8 +12,8 @@ namespace backend.Models
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
         public int IdDenuncia { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public decimal Latitude { get; set; }
+        public decimal Longitude { get; set; }
 
         [Required]
         [Display(Name = "Endereço")]
@@ -37,8 +37,7 @@ namespace backend.Models
         public string? Cpf { get; set; }
         public virtual Usuario? Usuario { get; set; }
 
-        [DataType(DataType.DateTime)]
-        [DisplayFormat(DataFormatString = "{0:/dd/MM/yyyy}")]
+        [DataType(DataType.Date)]
         [Display(Name = "Data Denúncia")]
         public DateTime DataDenuncia { get; set; }
 
