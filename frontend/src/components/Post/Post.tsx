@@ -7,6 +7,7 @@ import Status from "../../types/Status";
 import Usuario from "../../types/Usuario";
 
 import "./Post.css";
+import { ArrowFatDown, ArrowFatUp } from "phosphor-react";
 
 interface PostProps {
     idDenuncia: number;

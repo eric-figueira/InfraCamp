@@ -7,6 +7,7 @@ import { ComplaintData } from "../../containers/User/User";
 import "./Card.css";
 
 import "./Card.css";
+import { ArrowFatRight } from "phosphor-react";
 
 interface CardProps {
     idDenuncia: number;

@@ -1,7 +1,6 @@
 import {User} from "../../containers/User/User";
 import React from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import ProfilePage from "../../containers/ProfilePage/ProfilePage";
 
 import './Usuario.css';
 
