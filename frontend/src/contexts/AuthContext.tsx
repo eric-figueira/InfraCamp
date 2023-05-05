@@ -53,10 +53,8 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   const cookie = new Cookies();
 
   const [user, setUser] = useState<IUser | null>(null);
-
-  // Se usuário não existe, não está autenticado
-  // const isAuthenticated = !!user;
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+
 
   // Quando for carregado, verificará se já existe cookies salvos
   useEffect(() => {
@@ -66,17 +64,15 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     if (token) 
     {
       api.post(`/api/auth/validateToken&returnData?token=${token}`).then((resp) => {
-          setIsAuthenticated(resp.data)
-          setUser({} as IUser)
+          setIsAuthenticated(resp.data.isTokenValid)
 
-          if (resp.data && window.location.pathname !== '/map') window.location.href = '/map'
-        // Seta o user para o que recebeu
-        //setUser(resp.data)
+          if (resp.data.isTokenValid && window.location.pathname !== '/map') window.location.href = '/map'
+
+          // Seta o user para o que recebeu
+          //setUser(resp.data.user)
       })
     }
-
-    else if (window.location.pathname !== '/')
-      window.location.href = '/'
+    else if (window.location.pathname !== '/') window.location.href = '/'
   }, [])
 
   function setCookie(token: string) {
@@ -101,35 +97,28 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     // Retornamos informações do usuário
   }
 
-  // useEffect(() => {
-  //   // console.log(user?.nome)
-  //   // console.log(isAuthenticated)
-  //   // ???????????
-  //   //isAuthenticated ? <Link to="/map" /> : console.log("foi nao po")
-  //   if (isAuthenticated)
-      
-  // }, [isAuthenticated])
 
   async function Logar({ cpf, senha }: ISignIn) 
   {
     try 
     {
-      // outra forma? É seguro? SQL injection?
       const resp = await api.post(`/api/auth/logar&returnTokenData?CPF=${cpf}&Senha=${senha}`)
-      // Seta o token como cookie
-      setCookie(resp.data.token)
-      // ?
-      //setCookie(resp.data.token)
-      console.log(resp.data.user)
-      //console.log(typeof resp.data.user)
-      const newUser: IUser = resp.data.user
-      // user continua null, tive que fazer o useEffect. É async?
-      setUser(newUser)
-      // outra forma?
-      //
-      setIsAuthenticated(true)
+    
+      // Se teve uma resposta, pois pode ter passados dados inválidos
+      if (resp) 
+      {
+        console.log(resp.data)
 
-      window.location.href = '/map'
+        // Seta o token como cookie
+        setCookie(resp.data.token)
+
+        const user: IUser = resp.data.user
+
+        setUser(user)
+        setIsAuthenticated(true)
+
+        window.location.href = '/map'
+      }
     }
     catch (error) { console.log(error); }
   }
@@ -148,10 +137,13 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   async function logOut() {
     // Precisamos limpar os cookies
     cookie.remove('_infracamp_auth_token')
-    setIsAuthenticated(false)
+
     // Com esse set, fazemos com que os componentes recarreguem e o usuário, caso esteja em uma
     // rota privada, será redirecionado para login
     setUser(null)
+    setIsAuthenticated(false)
+
+    // se não der certo, colocar window.... = '/'
   }
 
   // Criamos todo um componente AuthProvider, pois precisamos passar os valores em 'value' 

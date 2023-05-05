@@ -32,7 +32,14 @@ namespace backend.Controllers
         // Testar se o token não expirou / se é válido
         // Pegar dados do token
         // Mandar dados do usuário
-        return true;
+        var response = new
+        {
+          isTokenValid = true
+        };
+
+        string jsonData = JsonConvert.SerializeObject(response);
+
+        return jsonData;
       }
       catch
       {

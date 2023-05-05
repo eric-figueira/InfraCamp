@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Routes, Route, Navigate } from "react-router-dom"
+import React from "react";
+import { Routes, Route } from "react-router-dom"
 
 
 import RecuperacaoSenha from './pages/RecuperacaoSenha/RecuperacaoSenha';
@@ -16,8 +16,10 @@ const AppRoutes: React.FC = () => {
       <Route path="/signup" element={<Cadastro />} />
       <Route path="/recover-password" element={<RecuperacaoSenha />} />
 
-      {/* Private Routes - only accessible when the user is logged */}
       <Route path="/map" element={<Mapa />} />
+      {/* <Route path="/user" element={<Mapa />} />
+      <Route path="/about" element={<Mapa />} />
+      <Route path="/posts" element={<Mapa />} /> */}
     </Routes>
   );
 }

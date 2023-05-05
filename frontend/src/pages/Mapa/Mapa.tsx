@@ -9,7 +9,6 @@ const Mapa : React.FC = () => {
 
     return (
         <Fragment>
-            <button onClick={() => console.log('mapa: ' + user)}>user</button>
             <Navbar/>
             <Map hasFilter={true}/>
         </Fragment>
