@@ -15,6 +15,10 @@ interface CarouselImageProps {
   imgUrl: string
 }
 
+interface StatusLabelProps {
+  color: string;
+}
+
 export const Input = styled.div<InputProps>`
 
   display: flex;
@@ -72,4 +76,10 @@ export const CarouselImage = styled.img<CarouselImageProps>`
   display: flex;
 
   background-image: url(${(props) => props.imgUrl})
+`
+
+export const StatusLabel = styled.p<StatusLabelProps>`
+
+  font-weight: bold;
+
 `
