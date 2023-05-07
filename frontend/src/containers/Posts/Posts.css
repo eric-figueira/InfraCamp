@@ -5,8 +5,7 @@
 }
 
 h1 {
-    padding-left: 2%;
-    padding-bottom: 2%;
+    padding: 2%;
     font-size: 40px;
     color: #0a0844;
 }
@@ -18,7 +17,7 @@ h1 {
 
 .header .content {
     padding-left: 12%;
-    padding-bottom: 3%;
+    padding-bottom: 2%;
 }
 
 .header .content .number {

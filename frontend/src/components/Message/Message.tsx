@@ -21,12 +21,12 @@ export const Message: React.FC<IMessageProps> = (props) => {
   let backgroundColor;
   let borderFontColor;
 
-  if (props.type == ETypes.Info)
+  if (props.type === ETypes.Info)
   {
     backgroundColor = colorPallete.bgBlue;
     borderFontColor = colorPallete.bgBlue; 
   }
-  else if (props.type == ETypes.Warning)
+  else if (props.type === ETypes.Warning)
   {
     backgroundColor = colorPallete.bgRed;
     borderFontColor = colorPallete.bgRed; 

@@ -39,24 +39,29 @@ const Complaint: React.FC<ComplaintProps> = (props) => {
     const [status, setStatus] = useState<Status>();
     const [usuario, setUsuario] = useState<Usuario>();
 
+    const [color, setColor] = useState<string>(""); 
+
     useEffect(() => {
         api.get("http://localhost:5164/api/tiposDenuncia/" + props.idTipo).then(
             resp => {
                 setTipo(resp.data)
             })
-    }, [props.idTipo, tipo])
-
-    useEffect(() => {
         api.get("http://localhost:5164/api/statusDenuncia/" + props.idStatus).then(
-            resp => { setStatus(resp.data) }
+            resp => { 
+                setStatus(resp.data);
+                switch (props.idStatus) {
+                    case 1: setColor("#5d9fd4"); break;
+                    case 2: setColor("#d6950a"); break;
+                    case 3: setColor("#d45d6d"); break;
+                    case 4: setColor("#5fd4c1"); break;
+                    case 5: setColor("#4faf5f"); break;
+                } 
+            }
         )
-    }, [props.idStatus, status])
-
-    useEffect(() => {
         api.get("http://localhost:5164/api/usuarios/" + props.cpf).then(
             resp => { setUsuario(resp.data) }
         )
-    }, [props.cpf, usuario])
+    }, [props.idTipo, props.idStatus, props.cpf])
 
     const handleClick = () => {
         props.setVisible(false);
@@ -79,7 +84,7 @@ const Complaint: React.FC<ComplaintProps> = (props) => {
                     <p className="item"><span>Endereço:</span> {props.address}</p>
                     <p className="item"><span>Tipo:</span> {tipo?.tipo}</p>
                     <div>
-                        <p className="item"><span>Status:</span> {status?.status}</p>
+                        <p className="item" style={{color: color}}><span>Status:</span> {status?.status}</p>
                         <div className="status_icon"></div>
                     </div>
                 </div>

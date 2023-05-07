@@ -1,27 +1,46 @@
 .card {
     display: flex;
-    width: 85%;
-    height: 400px;
-    background: #d3d3d3;
+    width: 83.5%;
+    height: auto;
+    background: #c7c7c7;
     margin: 25px;
-    margin-left: 10%;
+    margin-left: 12.5%;
+    box-shadow: 2px 2px 10px 2px #0e0e0e33;
 }
 
 .card .left {
     width: 50%;
-    padding-left: 2%;
+    padding-left: 1%;
     padding-top: 5px;
-    background-color: #d3d3d3;
+    background-color: #c7c7c7;
     float: left;
 }
 
 .card .left .message {
     font-size: 16px;
-    padding-top: 8px;
+    font-weight: 500;
+    padding: 8px;
     color: #777;
+    background-color: #d3d3d3;
+    margin: 5px;
+    border-radius: 20px;
 }
 
 .card .left .message b {
+    display: block;
+    font-size: 20px;
+    color: #262626;
+    background-color: #d3d3d3;
+}
+
+.card .left .title {
+    font-size: 18px;
+    padding-top: 8px;
+    color: #262626;
+    padding-bottom: 25px;
+}
+
+.card .left .title b {
     display: block;
     font-size: 25px;
     color: #262626;
@@ -29,7 +48,7 @@
 
 .card .mid {
     display: flex;
-    width: 100%;
+    width: 75%;
     float: left;
     background-color: #262626;
 }

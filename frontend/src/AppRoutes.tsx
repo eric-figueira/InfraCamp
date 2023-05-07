@@ -6,7 +6,7 @@ import RecuperacaoSenha from './pages/RecuperacaoSenha/RecuperacaoSenha';
 import Login from "./pages/Login/Login";
 import Cadastro from "./pages/Cadastro/Cadastro";
 import Mapa from "./pages/Mapa/Mapa";
-import Posts from "./pages/Posts/Posts";
+import Postagens from "./pages/Postagens/Postagens";
 import Usuario from "./pages/Usuario/Usuario";
 import SobreNos from "./pages/SobreNos/SobreNos";
 
@@ -20,7 +20,7 @@ const AppRoutes: React.FC = () => {
 
       {/* Private Routes - only accessible when the user is logged */}
       <Route path="/map" element={<Mapa />} />
-      <Route path="/posts" element={<Posts />} />
+      <Route path="/posts" element={<Postagens />} />
       <Route path="/user" element={<Usuario />} />
       <Route path="/about" element={<SobreNos />} />
     </Routes>

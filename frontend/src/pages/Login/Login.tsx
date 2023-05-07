@@ -7,7 +7,7 @@ import { colorPallete } from '../../styles/colors';
 import { Input } from '../../styles/styled-components';
 
 import { ReactComponent as ImagemLogin } from "../../assets/imgs/imgLogin.svg"
-import { EnvelopeSimple, Key } from 'phosphor-react'
+import { IdentificationCard, Key } from 'phosphor-react'
 
 import Button from '../../components/Button/Button';
 import { Message, ETypes } from "../../components/Message/Message"
@@ -42,7 +42,7 @@ const Login: React.FC = () => {
     event.preventDefault()
     try 
     {
-      if (user.cpf == "" || user.senha == "") 
+      if (user.cpf === "" || user.senha === "") 
         showMessage('Todos os dados são necessários!')
       else 
       {
@@ -84,7 +84,7 @@ const Login: React.FC = () => {
               fontColor={colorPallete.fontBlack}
             >
               <div className='icon-container'>
-                <EnvelopeSimple />
+                <IdentificationCard />
               </div>
               <input type='text' placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: event.target.value })} />
             </Input>

@@ -1,16 +1,16 @@
 import React, { Fragment } from "react";
 import Navbar from "../../components/Navbar/Navbar";
-import Postagens from "../../containers/Postagens/Postagens";
+import Posts from "../../containers/Posts/Posts";
 
-import './Posts.css';
+import './Postagens.css';
 
-const Posts : React.FC = () => {
+const Postagens : React.FC = () => {
     return (
         <Fragment>
             <Navbar/>
-            <Postagens/>
+            <Posts/>
         </Fragment>
     )
 }
 
-export default Posts;
+export default Postagens;

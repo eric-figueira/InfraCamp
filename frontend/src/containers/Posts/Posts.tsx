@@ -3,9 +3,9 @@ import Post from '../../components/Post/Post';
 import { useGet } from '../../hooks/useGet';
 import Denuncia from '../../types/Denuncia';
 
-import "./Postagens.css";
+import "./Posts.css";
 
-const Postagens: React.FC = () => {
+const Posts: React.FC = () => {
     const { data: denuncias } = useGet<Denuncia[]>("http://localhost:5164/api/denuncias");
 
     return (
@@ -14,15 +14,15 @@ const Postagens: React.FC = () => {
             <div className="header">
                 <div className="content">
                     <div className="number">{denuncias?.length}</div>
-                    <div className="subtitle">Denúncias feitas</div>
+                    <div className="subtitle">{denuncias?.length !== undefined ? (denuncias?.length > 1 ? "Denúncias feitas" : "Denúncia feita") : ""} </div>
                 </div>
                 <div className="content">
                     <div className="number">{denuncias?.filter(denuncia => denuncia.idStatus === 5).length}</div>
-                    <div className="subtitle">Problemas resolvidos</div>
+                    <div className="subtitle">{denuncias?.filter(denuncia => denuncia.idStatus === 5).length !== undefined ? (denuncias?.filter(denuncia => denuncia.idStatus === 5).length !== 1 ? "Problemas resolvidos" : "Problema resolvido") : ""}</div>
                 </div>
                 <div className="content">
                     <div className="number">{denuncias?.filter(denuncia => denuncia.idStatus !== 5 && denuncia.idStatus !== 3).length}</div>
-                    <div className="subtitle">Problemas pendentes</div>
+                    <div className="subtitle">{denuncias?.filter(denuncia => denuncia.idStatus !== 5 && denuncia.idStatus !== 3).length !== undefined ? (denuncias?.filter(denuncia => denuncia.idStatus !== 5 && denuncia.idStatus !== 3).length !== 1 ? "Problemas pendentes" : "Problema pendente") : ""}</div>
                 </div>
             </div>
             <div className="posts">
@@ -46,4 +46,4 @@ const Postagens: React.FC = () => {
     )
 }
 
-export default Postagens;
+export default Posts;

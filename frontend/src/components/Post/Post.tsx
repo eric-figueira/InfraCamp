@@ -40,6 +40,7 @@ const Post: React.FC<PostProps> = (props) => {
     const [usuario, setUsuario] = useState<Usuario>();
 
     const { user } = useContext(AuthContext);
+    const [color, setColor] = useState<string>(""); 
 
     const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
@@ -71,7 +72,16 @@ const Post: React.FC<PostProps> = (props) => {
 
     useEffect(() => {
         api.get("http://localhost:5164/api/statusDenuncia/" + props.idStatus).then(
-            resp => { setStatus(resp.data) }
+            resp => { 
+                setStatus(resp.data);
+                switch (props.idStatus) {
+                    case 1: setColor("#5d9fd4"); break;
+                    case 2: setColor("#d6950a"); break;
+                    case 3: setColor("#d45d6d"); break;
+                    case 4: setColor("#5fd4c1"); break;
+                    case 5: setColor("#4faf5f"); break;
+                } 
+            }
         )
     }, [])
 
@@ -84,20 +94,20 @@ const Post: React.FC<PostProps> = (props) => {
     return (
         <div className="card">
             <div className="left">
-                <h4 className="message">
-                    <b>{usuario === undefined ? "" : usuario.nome}</b> {formatDate(props.date + "")}
+                <h4 className="title">
+                    <b>{usuario === undefined ? "" : usuario.nome} </b> Postado em {formatDate(props.date + "")}
                 </h4>
                 <h4 className="message">
-                    <b>Problema:</b> {tipo === undefined ? "" : tipo.tipo}
+                    <b>Problema</b> {tipo === undefined ? "" : tipo.tipo}
                 </h4>
                 <h4 className="message">
-                    <b>Endereço:</b> {props.address}
+                    <b>Endereço</b> {props.address}
                 </h4>
                 <h4 className="message">
-                    <b>Descrição:</b> {props.description}
+                    <b>Descrição</b> {props.description}
                 </h4>
-                <h4 className="message" style={{ color: '#d6950a' }}>
-                    <b>Situação:</b> {status === undefined ? "" : status.status}
+                <h4 className="message" style={{ color: color, fontWeight: 'bold' }}>
+                    <b>Situação</b> {status === undefined ? "" : status.status}
                 </h4>
             </div>
             <div className="mid">
