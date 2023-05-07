@@ -38,25 +38,9 @@ export const User: React.FC = () => {
     const setComplaintData = (props: ComplaintData) => { setComplaint(props) }
 
     const handleClickEditar = () => {
-        let a: HTMLCollectionOf<Element> = document.getElementsByClassName("field-input");
-        for (let i = 0; i < a.length; i += 1) {
-            let b = a.item(i) as HTMLInputElement;
-            if (b !== null)
-                b.disabled = false;
-        }
-        let buttons: HTMLCollectionOf<Element> = document.getElementsByClassName("button");
-        let c = buttons.item(0) as HTMLButtonElement
-        c.textContent = "Salvar";
-
-        c.onclick = handleClickSalvar;
-    }
-
-    const handleClickSalvar: ((this: GlobalEventHandlers, ev: MouseEvent) => any) | null = () => {
-
     }
 
     const handleClickDeletar = () => {
-
     }
 
     return (
@@ -66,16 +50,15 @@ export const User: React.FC = () => {
                     <img src={usuario?.urlImagem} alt="user" />
                 </div>
                 <h4>{usuario?.nome}</h4>
-                <p>Senha:{usuario?.senha}</p>
-                <p>Telefone:{usuario?.telefone} </p>
-                <p>Email:{usuario?.email}</p>
+                <p>Senha: {usuario?.senha.replace(/[a-zA-Z0-9]/g, '•')}</p>
+                <p>Telefone: {usuario?.telefone} </p>
+                <p>Email: {usuario?.email}</p>
 
                 <div className="button">
                     <Button width="200px" backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar" eventHandler={handleClickDeletar}></Button>
                     <Button width="200px" backgroundColor="#222533" fontColor="#FFFFFF" text="Atualizar" eventHandler={handleClickEditar}></Button>
                 </div>
             </div>
-
             <div className="right">
                 {
                     denuncias?.map(
@@ -83,15 +66,15 @@ export const User: React.FC = () => {
                         function (denuncia) {
                             if (denuncia.cpf === '547.049.728-36') {
                                 return (
-                                    <Card 
-                                        key={denuncia.idDenuncia} 
-                                        idDenuncia={denuncia.idDenuncia} 
-                                        cpf={denuncia.cpf} 
-                                        date={denuncia.dataDenuncia} 
-                                        idTipo={denuncia.idTipo} 
-                                        address={denuncia.endereco} 
-                                        description={denuncia.descricao} 
-                                        idStatus={denuncia.idStatus} 
+                                    <Card
+                                        key={denuncia.idDenuncia}
+                                        idDenuncia={denuncia.idDenuncia}
+                                        cpf={denuncia.cpf}
+                                        date={denuncia.dataDenuncia}
+                                        idTipo={denuncia.idTipo}
+                                        address={denuncia.endereco}
+                                        description={denuncia.descricao}
+                                        idStatus={denuncia.idStatus}
                                         imgUrl={denuncia.urlImagem}
                                         handleToggleComplaint={toggleComplaint}
                                         setComplaint={setComplaintData}

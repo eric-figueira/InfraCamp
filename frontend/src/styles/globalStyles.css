@@ -6,13 +6,20 @@
   font-family: 'Inter';
 }
 
-body { height: 100vh; }
+body {
+  height: 100vh;
+  background-color: #e5e5e5;;
+}
 
-li { list-style: none; }
+li {
+  list-style: none;
+}
 
 a {
   text-decoration: none;
   color: inherit;
 }
 
-img { width: 100%; }
+img {
+  width: 100%;
+}

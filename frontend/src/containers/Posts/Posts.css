@@ -30,3 +30,7 @@ h1 {
 .header .content .subtitle {
     font-size: 20px;
 }
+
+.posts {
+    padding-bottom: 25px;
+}

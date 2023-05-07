@@ -1,20 +1,38 @@
-import React, { useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import Post from '../../components/Post/Post';
 import { useGet } from '../../hooks/useGet';
 import Filter from '../../components/Filter/Filter';
 import Denuncia from '../../types/Denuncia';
 
 import "./Posts.css";
-import { Filtro } from '../../types/Filtro';
 
 const Posts: React.FC = () => {
     const { data: denuncias } = useGet<Denuncia[]>("http://localhost:5164/api/denuncias");
-    const [filtro, setFiltro] = useState<string>("");
-    const [index, setIndex] = useState<Number>(-1);
+    const [usedDenuncias, setUsedDenuncias] = useState<Denuncia[]>();
+    const [status, setStatus] = useState<boolean>(false);
+    const [tipo, setTipo] = useState<boolean>(false)
+    const [ixStatus, setIxStatus] = useState<Number>(0);
+    const [ixTipo, setIxTipo] = useState<Number>(0);
 
-    const filter = (filtro: Filtro, index: Number) => {
-        setFiltro(filtro);
-        setIndex(index);
+    useEffect(() => {
+        if (status === false && tipo === false)
+            setUsedDenuncias(denuncias ? denuncias : []);
+        else if (tipo === true && status === false)
+            setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idTipo === ixTipo));
+        else if (status === true && tipo === false)
+            setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idStatus === ixStatus));
+        else
+            setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idStatus === ixStatus && denuncia.idTipo === ixTipo))
+    }, [denuncias, ixStatus, ixTipo, status, tipo])
+
+    const filterTipo = (tipo?: SetStateAction<boolean>, ixTipo?: Number) => {
+        setTipo(tipo ? tipo : false)
+        setIxTipo(ixTipo ? ixTipo : -1);
+    }
+
+    const filterStatus = (status?: SetStateAction<boolean>, ixStatus?: Number) => {
+        setStatus(status ? status : false);
+        setIxStatus(ixStatus ? ixStatus : -1);
     }
 
     return (
@@ -35,12 +53,11 @@ const Posts: React.FC = () => {
                 </div>
             </div>
 
-            <Filter filterComplaints={filter} />
+            <Filter filterTipo={filterTipo} filterStatus={filterStatus} />
 
             <div className="posts">
                 {
-                    filtro === "" &&
-                    denuncias?.map((denuncia) =>
+                    usedDenuncias?.map((denuncia) => 
                         <Post
                             key={denuncia.idDenuncia}
                             idDenuncia={denuncia.idDenuncia}
@@ -53,40 +70,6 @@ const Posts: React.FC = () => {
                             imgUrl={denuncia.urlImagem}
                         />
                     )
-                }
-                {
-                    filtro === "status" &&
-                    denuncias?.filter((denuncia) => denuncia.idStatus === index)
-                        .map((denuncia) =>
-                            <Post
-                                key={denuncia.idDenuncia}
-                                idDenuncia={denuncia.idDenuncia}
-                                cpf={denuncia.cpf}
-                                date={denuncia.dataDenuncia}
-                                idTipo={denuncia.idTipo}
-                                address={denuncia.endereco}
-                                description={denuncia.descricao}
-                                idStatus={denuncia.idStatus}
-                                imgUrl={denuncia.urlImagem}
-                            />
-                        )
-                }
-                {
-                    filtro === "tipo" &&
-                    denuncias?.filter((denuncia) => denuncia.idTipo === index)
-                        .map((denuncia) =>
-                            <Post
-                                key={denuncia.idDenuncia}
-                                idDenuncia={denuncia.idDenuncia}
-                                cpf={denuncia.cpf}
-                                date={denuncia.dataDenuncia}
-                                idTipo={denuncia.idTipo}
-                                address={denuncia.endereco}
-                                description={denuncia.descricao}
-                                idStatus={denuncia.idStatus}
-                                imgUrl={denuncia.urlImagem}
-                            />
-                        )
                 }
             </div>
         </div>

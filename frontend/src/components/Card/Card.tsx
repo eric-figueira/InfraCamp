@@ -36,6 +36,7 @@ const formatDate = (date: string): string => {
 const Card: React.FC<CardProps> = (props) => {
     const [tipo, setTipo] = useState<Tipo>();
     const [status, setStatus] = useState<Status>();
+    const [color, setColor] = useState<string>(""); 
 
     useEffect(() => {
         api.get("http://localhost:5164/api/tiposDenuncia/" + props.idTipo).then(
@@ -46,7 +47,16 @@ const Card: React.FC<CardProps> = (props) => {
 
     useEffect(() => {
         api.get("http://localhost:5164/api/statusDenuncia/" + props.idStatus).then(
-            resp => { setStatus(resp.data) }
+            resp => { 
+                setStatus(resp.data);
+                switch (props.idStatus) {
+                    case 1: setColor("#5d9fd4"); break;
+                    case 2: setColor("#d6950a"); break;
+                    case 3: setColor("#d45d6d"); break;
+                    case 4: setColor("#5fd4c1"); break;
+                    case 5: setColor("#4faf5f"); break;
+                };
+            }
         )
     }, [])
 
@@ -54,7 +64,7 @@ const Card: React.FC<CardProps> = (props) => {
         <div className="info">
             <h3>{formatDate(props.date + "")}</h3>
             <h4>Tipo: {tipo?.tipo}</h4>
-            <h4>Status: {status?.status}</h4>
+            <h4 style={{color: color}}>Status: {status?.status}</h4>
 
             <button onClick={() => { props.handleToggleComplaint(); props.setComplaint({idDenuncia: props.idDenuncia, cpf: props.cpf, date: props.date, idTipo: props.idTipo, address: props.address, description: props.description, idStatus: props.idStatus, imgUrl: props.imgUrl}) }}>
                 Mais informações

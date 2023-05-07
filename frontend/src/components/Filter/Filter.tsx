@@ -1,8 +1,7 @@
-import React from "react";
+import React, { SetStateAction } from "react";
 import { useGet } from "../../hooks/useGet";
 
 import "./Filter.css";
-import { Filtro } from "../../types/Filtro";
 
 type Tipo = {
     idTipo: Number;
@@ -15,7 +14,8 @@ type Status = {
 }
 
 interface FilterProps {
-    filterComplaints: (filter: Filtro, index: number) => void;
+    filterTipo: (tipo?: SetStateAction<boolean>, ixTipo?: Number) => void;
+    filterStatus: (status?: SetStateAction<boolean>, ixStatus?: Number) => void;
 }
 
 const Filter: React.FC<FilterProps> = (props) => {
@@ -23,11 +23,14 @@ const Filter: React.FC<FilterProps> = (props) => {
         e.preventDefault();
 
         const filtro = (e.target as HTMLSelectElement).name;
-        console.log(filtro)
         const index = (e.target as HTMLSelectElement).selectedIndex;
-        console.log(index)
-
-        props.filterComplaints(filtro as Filtro, index);
+        let on = true;
+        if (index === 0)
+            on = false;
+        if (filtro === "tipo")
+            props.filterTipo(on, index);
+        else if (filtro === "status")
+            props.filterStatus(on, index);
     }
     // São constantes, não vão sofrer reatribuição
     const { data: tipos } = useGet<Tipo[]>("http://localhost:5164/api/tiposDenuncia")
@@ -36,8 +39,9 @@ const Filter: React.FC<FilterProps> = (props) => {
     return (
         <div className="filter">
             <div className="option">
-                <label>Status: </label>
-                <select title="status" name="status" onSelect={handleChange}>
+                <label>Tipo: </label>
+                <select title="tipo" name="tipo" onChange={handleChange}>
+                    <option value="todos">Todos</option>
                     {
                         tipos?.map(tipo => {
                             return <option value={tipo.tipo}>{tipo.tipo}</option>
@@ -46,8 +50,9 @@ const Filter: React.FC<FilterProps> = (props) => {
                 </select>
             </div>
             <div className="option">
-                <label>| Tipo: </label>
-                <select title="tipo" name="tipo" onSelect={handleChange}>
+                <label>| Status: </label>
+                <select title="status" name="status" onChange={handleChange}>
+                    <option value="todos">Todos</option>
                     {
                         status?.map(status => {
                             return <option value={status.status}>{status.status}</option>
