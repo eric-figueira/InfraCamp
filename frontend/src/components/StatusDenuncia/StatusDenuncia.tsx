@@ -1,12 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { ChangeEvent, useContext, useEffect, useState } from 'react';
 
 import Status from '../../types/Status';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { useGet } from '../../hooks/useGet';
+import { api } from '../../services/api';
+
 
 export interface IStatus {
-  idStatus?: number
+  idDenuncia: number,
+  idStatus: number
 }
 
 
@@ -14,31 +17,33 @@ export const StatusDenuncia: React.FC<IStatus> = (props) => {
 
   const { user } = useContext(AuthContext)
 
-  //const { data: status } = useGet(`http://localhost:5164/api/statusDenuncia/`)
-  const [status, setStatus] = useState<Status[] | null | Status>()
+
+  const [status, setStatus] = useState<Status | undefined>()
 
 
-  useEffect(() => 
-  {
-    if (user?.funcionario) {
-      const { data: status } = useGet<Status[]>('http://localhost:5164/api/statusDenuncia/')
-      setStatus(status)
-    }
-    else {
+  const alterarStatus = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    api.put('http://localhost:5164/api/denuncias', {
+      idDenuncia: props.idDenuncia,
+      idNovoStatus: event.target.value
+    })
+  }
 
-    }
-  }, [])
+  useEffect(() => {
+    const resp = api.get(`http://localhost:5164/api/statusDenuncia/${props.idStatus}`).then(
+        resp => { setStatus(resp.data) }
+    )
+}, [])
 
   if (user?.funcionario) 
   {
     return (
       <div>
-        <select>
-          <option value="NaoVisualizado">Não Visualizado</option>
-          <option value="Analise">Em Análise</option>
-          <option value="Fechado">Fechado</option>
-          <option value="Resolvendo">Em Processo de Resolução</option>
-          <option value="Resolvido">Resolvido</option>
+        <select onChange={alterarStatus}>
+          <option value="1" selected={props.idStatus == 1}>Não Visualizado</option>
+          <option value="2" selected={props.idStatus == 2}>Em Análise</option>
+          <option value="3" selected={props.idStatus == 3}>Fechado</option>
+          <option value="4" selected={props.idStatus == 4}>Em Processo de Resolução</option>
+          <option value="5"selected={props.idStatus == 5}>Resolvido</option>
         </select>
       </div>
     )
@@ -47,7 +52,7 @@ export const StatusDenuncia: React.FC<IStatus> = (props) => {
   {
     return (
       <div>
-
+        <p>Situação: {status?.status === undefined ? "" : status?.status}</p>
       </div>
     )
   }
