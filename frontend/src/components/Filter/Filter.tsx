@@ -1,7 +1,8 @@
 import React from "react";
-import useFetch from "../../hooks/useFetch";
+import { useGet } from "../../hooks/useGet";
 
 import "./Filter.css";
+import { Filtro } from "../../types/Filtro";
 
 type Tipo = {
     idTipo: Number;
@@ -13,52 +14,47 @@ type Status = {
     status: string;
 }
 
-type Filtro = 'status' | 'tipo' | 'data';
-
 interface FilterProps {
-    filterMap: (filter: Filtro, index: number) => void;
+    filterComplaints: (filter: Filtro, index: number) => void;
 }
 
 const Filter: React.FC<FilterProps> = (props) => {
     function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
         e.preventDefault();
 
-        const tipo = (e.target as HTMLSelectElement).name;
+        const filtro = (e.target as HTMLSelectElement).name;
+        console.log(filtro)
         const index = (e.target as HTMLSelectElement).selectedIndex;
+        console.log(index)
 
-        props.filterMap(tipo as Filtro, index);
+        props.filterComplaints(filtro as Filtro, index);
     }
     // São constantes, não vão sofrer reatribuição
-    const { data: tipos } = useFetch<Tipo[]>("api/tiposDenuncia")
-    const { data: status } = useFetch<Status[]>("api/statusDenuncia")
+    const { data: tipos } = useGet<Tipo[]>("http://localhost:5164/api/tiposDenuncia")
+    const { data: status } = useGet<Status[]>("http://localhost:5164/api/statusDenuncia")
 
     return (
-        <div id="filter">
-            <label>Status:
-                <select name="status" onSelect={handleChange}>
+        <div className="filter">
+            <div className="option">
+                <label>Status: </label>
+                <select title="status" name="status" onSelect={handleChange}>
                     {
                         tipos?.map(tipo => {
                             return <option value={tipo.tipo}>{tipo.tipo}</option>
                         })
                     }
                 </select>
-            </label>
-            <label>Tipo:
-                <select name="tipo" onSelect={handleChange}>
+            </div>
+            <div className="option">
+                <label>| Tipo: </label>
+                <select title="tipo" name="tipo" onSelect={handleChange}>
                     {
                         status?.map(status => {
                             return <option value={status.status}>{status.status}</option>
                         })
                     }
                 </select>
-            </label>
-            <label>Data:
-                <select name="data" onChange={handleChange}>
-                    <option>Até há 1 dia</option>
-                    <option>Até há 1 semana</option>
-                    <option>Até há 1 mês</option>
-                </select>
-            </label>
+            </div>
         </div>
     )
 }

@@ -1,8 +1,39 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
 
-#filter {
+.filter {
     z-index: 2;
+    position: relative;
+    background-color: #11101D;
+    color: white;
+    font-weight: bold;
+    font-size: 22px;
+    margin-left: 12%;
+    border-radius: 50px;
+    width: 85%;
+}
+
+.filter .option {
+    display: inline-block;
+    padding: 10px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.filter .option select {
+    margin: 0px;
+    padding: 3px;
+    border: none;
+    outline: none;
+    background-color: #11101D;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 3px;
+}
+
+.filter .option select:hover {
+    background-color: #24223d;
 }

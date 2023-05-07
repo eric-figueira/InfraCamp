@@ -11,7 +11,6 @@ import * as maplibre from "maplibre-gl/dist/maplibre-gl";
 import { GeocodingControl } from '@maptiler/geocoding-control/react';
 import { Feature } from '@maptiler/geocoding-control/types';
 import { renderToStaticMarkup } from "react-dom/server"
-import Filter from '../../components/Filter/Filter';
 import { useGet } from '../../hooks/useGet';
 import Denuncia from '../../types/Denuncia';
 import Complaint from '../../components/Complaint/Complaint';
@@ -21,15 +20,6 @@ interface MapProps {
     hasFilter?: boolean;
     hasCard?: boolean;
 }
-
-type Filtro = 'status' | 'tipo' | 'data';
-
-// const compareDates = (date1: string, date2: string): boolean => {
-//     // 2023-04-27t00:00:00
-//     if (Number(date1.substring(5, 7)) - Number(date2.substring(5, 7)) === 0 && Number(date1.substring(0, 4)) - Number(date2.substring(0, 4)) === 0)
-//         return true;
-//     return false;
-// }
 
 const Map: React.FC<MapProps> = (props) => {
     const [showComplaint, setShowComplaint] = useState<boolean>(false);
@@ -101,77 +91,6 @@ const Map: React.FC<MapProps> = (props) => {
         if (button != null)
             button.click();
     }, [mapController])
-
-    // function filtrarDenuncias(type: Filtro, index: number) {
-    //     switch (type) {
-    //         case 'status':
-    //             // eslint-disable-next-line array-callback-return
-    //             denuncias?.filter(denuncia => {
-    //                 if (denuncia.idStatus === index + 1) {
-    //                     var el = document.createElement('div');
-    //                     el.className = 'marker';
-    //                     el.addEventListener('click', function () { });
-    //                     var marker = new maplibregl.Marker(el)
-    //                         .setLngLat([denuncia.longitude, denuncia.latitude]);
-
-    //                     if (map.current !== undefined)
-    //                         marker.addTo(map.current);
-    //                 }
-    //             })
-    //             break;
-    //         case 'tipo':
-    //             // eslint-disable-next-line array-callback-return
-    //             denuncias?.filter(denuncia => {
-    //                 if (denuncia.idTipo === index + 1) {
-    //                     var marker = new maplibregl.Marker({ color: "#2523ad" })
-    //                         .setLngLat([denuncia.longitude, denuncia.latitude]);
-
-    //                     if (map.current !== undefined)
-    //                         marker.addTo(map.current);
-    //                 }
-    //             })
-    //             break;
-    //         case 'data':
-    //             // eslint-disable-next-line array-callback-return
-    //             denuncias?.filter(denuncia => {
-    //                 switch (index) {
-    //                     case 0:
-    //                         if (new Date().getDay() - denuncia.dataDenuncia.getDay() <= 1) {
-    //                             var marker = new maplibregl.Marker({ color: "#2523ad" })
-    //                                 .setLngLat([denuncia.longitude, denuncia.latitude]);
-
-    //                             if (map.current !== undefined)
-    //                                 marker.addTo(map.current);
-    //                         }
-    //                         break;
-    //                     case 1:
-    //                         var dif = new Date().getDay() - denuncia.dataDenuncia.getDay()
-    //                         if (1 < dif && dif <= 7) {
-    //                             // eslint-disable-next-line @typescript-eslint/no-redeclare
-    //                             var marker = new maplibregl.Marker({ color: "#2523ad" })
-    //                                 .setLngLat([denuncia.longitude, denuncia.latitude]);
-
-    //                             if (map.current !== undefined)
-    //                                 marker.addTo(map.current);
-    //                         };
-    //                         break;
-    //                     case 2:
-    //                         // eslint-disable-next-line @typescript-eslint/no-redeclare
-    //                         var dif = new Date().getDay() - denuncia.dataDenuncia.getDay()
-    //                         if (7 < dif && dif <= 30) {
-    //                             // eslint-disable-next-line @typescript-eslint/no-redeclare
-    //                             var marker = new maplibregl.Marker({ color: "#080756" })
-    //                                 .setLngLat([denuncia.longitude, denuncia.latitude]);
-
-    //                             if (map.current !== undefined)
-    //                                 marker.addTo(map.current);
-    //                         };
-    //                         break;
-    //                 }
-    //             })
-    //             break;
-    //     }
-    // }
 
     return (
         <div id="map">
