@@ -7,28 +7,31 @@
     z-index: 2;
     position: relative;
     background-color: #11101D;
-    color: white;
+    color: #d3d3d3;
     font-weight: bold;
     font-size: 22px;
-    margin-left: 12%;
+    margin-left: 12.5%;
     border-radius: 50px;
-    width: 60%;
+    width: 75%;
 }
 
 .filter .option {
     display: inline-block;
-    padding: 10px;
-    padding-left: 20px;
+    padding: 0.5rem;
+    padding-left: 2rem;
+    width: 50%;
     position: relative;
 }
 
 .filter .option select {
+    position: relative;
+    width: 25rem;
     margin: 0px;
-    padding: 3px;
+    padding: 0.3rem;
     border: none;
     outline: none;
     background-color: #11101D;
-    color: white;
+    color: #d4d4d4;
     font-weight: bold;
     font-size: 20px;
     border-radius: 3px;

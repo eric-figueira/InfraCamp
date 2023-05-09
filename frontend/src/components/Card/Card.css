@@ -1,9 +1,10 @@
 .user .right .info {
-    background-color: #01010f;
+    background-color: #010c13;
     padding: 10px;
     height: 200px;
     width: 100%;
-    border: 2px solid #101016;
+    border-radius: 15px;
+    border: 2px solid #141418;
 }
 
 .user .right .info h3 {

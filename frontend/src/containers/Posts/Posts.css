@@ -5,20 +5,21 @@
 }
 
 h1 {
-    padding: 2%;
-    font-size: 40px;
+    padding-top: 2rem;
+    padding-left: 12rem;
+    font-size: 50px;
     color: #0a0844;
 }
 
 .header {
     display: flex;
-    padding: 20px;
+    padding-left: 2rem;
 }
 
 .header .content {
-    padding-left: 10%;
-    padding-right: 2%;
-    padding-bottom: 2%;
+    padding: 2rem;
+    padding-left: 10rem;
+    color: #5a5353;
 }
 
 .header .content .number {
@@ -29,8 +30,9 @@ h1 {
 
 .header .content .subtitle {
     font-size: 20px;
+    font-weight: bold;
 }
 
 .posts {
-    padding-bottom: 25px;
+    padding-bottom: 2.5rem;
 }

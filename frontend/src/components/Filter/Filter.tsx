@@ -50,7 +50,7 @@ const Filter: React.FC<FilterProps> = (props) => {
                 </select>
             </div>
             <div className="option">
-                <label>| Status: </label>
+                <label>Status: </label>
                 <select title="status" name="status" onChange={handleChange}>
                     <option value="todos">Todos</option>
                     {
