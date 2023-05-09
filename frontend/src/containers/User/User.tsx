@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import Usuario from "../../types/Usuario";
 import Button from "../../components/Button/Button";
 import { api } from "../../services/api";
@@ -8,6 +8,8 @@ import './User.css';
 import { useGet } from "../../hooks/useGet";
 import Card from "../../components/Card/Card";
 import Complaint from "../../components/Complaint/Complaint";
+
+import { AuthContext } from "../../contexts/AuthContext";
 
 export interface ComplaintData {
     idDenuncia?: number;
@@ -22,17 +24,13 @@ export interface ComplaintData {
 
 export const User: React.FC = () => {
 
+    const { user } = useContext(AuthContext)
+
     const [showComplaint, setShowComplaint] = useState<boolean>(false);
     const [complaint, setComplaint] = useState<ComplaintData>()
 
-    const [usuario, setUsuario] = useState<Usuario>();
-    const { data: denuncias } = useGet<Denuncia[]>("http://localhost:5164/api/denuncias/denunciasUsuario/547.049.728-36");
+    const { data: denuncias } = useGet<Denuncia[]>(`/api/denuncias/denunciasUsuario/${user?.cpf}`);
 
-    useEffect(() => {
-        api.get("http://localhost:5164/api/usuarios/547.049.728-36").then(resp => {
-            setUsuario(resp.data);
-        })
-    }, [])
 
     const toggleComplaint = () => { setShowComplaint(!showComplaint) }
     const setComplaintData = (props: ComplaintData) => { setComplaint(props) }
@@ -47,12 +45,13 @@ export const User: React.FC = () => {
         <div className="user">
             <div className="left">
                 <div className="img">
-                    <img src={usuario?.urlImagem} alt="user" />
+                    <img src={user?.avatar_url} alt="user" />
                 </div>
-                <h4>{usuario?.nome}</h4>
-                <p>Senha: {usuario?.senha.replace(/[a-zA-Z0-9]/g, '•')}</p>
-                <p>Telefone: {usuario?.telefone} </p>
-                <p>Email: {usuario?.email}</p>
+                <h4>{user?.nome}</h4>
+                {/* <p>Senha: {user?.senha.replace(/[a-zA-Z0-9]/g, '•')}</p> */}
+                <p>Senha: •••••••••••</p>
+                <p>Telefone: {user?.telefone} </p>
+                <p>Email: {user?.email}</p>
 
                 <div className="button">
                     <Button width="200px" backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar" eventHandler={handleClickDeletar}></Button>
@@ -64,7 +63,7 @@ export const User: React.FC = () => {
                     denuncias?.map(
                         // eslint-disable-next-line array-callback-return
                         function (denuncia) {
-                            if (denuncia.cpf === '547.049.728-36') {
+                            if (denuncia.cpf === user?.cpf) {
                                 return (
                                     <Card
                                         key={denuncia.idDenuncia}

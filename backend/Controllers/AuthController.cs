@@ -7,13 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Text;
-using System.Text.Json;
 
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 
 
 using backend.Data;
@@ -26,9 +24,12 @@ namespace backend.Controllers
   public class AuthController : ControllerBase
   {
     private InfraCampContext _context;
-    public AuthController(InfraCampContext ctx)
+    private IConfiguration _configuration;
+
+    public AuthController(InfraCampContext ctx, IConfiguration config)
     {
       this._context = ctx;
+      this._configuration = config;
     }
 
     [HttpPost("validateToken&returnData")]
@@ -37,8 +38,9 @@ namespace backend.Controllers
       try
       {
         // Testar se o token não expirou / se é válido
-        // Pegar dados do token
-        // Mandar dados do usuário
+        if (IsJWTEXpired(Token)) return false;
+
+        // Caso seja, ainda precisamos pegar as informacoes do usuario
         var response = new
         {
           isTokenValid = true
@@ -56,22 +58,57 @@ namespace backend.Controllers
     }
 
     [NonAction]
-    public Object gerarTokenData(Usuario u, List<Claims> claims)
+    public bool IsJWTEXpired(string token)
     {
+      var tokenHandler = new JwtSecurityTokenHandler();
+      var key = Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]);
+      try
+      {
+        tokenHandler.ValidateToken(token, new TokenValidationParameters
+        {
+          ValidateIssuerSigningKey = true,
+          IssuerSigningKey = new SymmetricSecurityKey(key),
+          ValidateIssuer = false,
+          ValidateAudience = false,
+          ClockSkew = TimeSpan.Zero
+        },
+        out SecurityToken validatedToken);
+
+        return false;
+      }
+      catch (SecurityTokenExpiredException)
+      {
+        return true;
+      }
+      catch (SecurityTokenException)
+      {
+        return true;
+      }
+    }
+
+    [NonAction]
+    public Object gerarTokenData(Usuario u)
+    {
+      var authClaims = new List<Claim> {
+          new Claim(ClaimTypes.Name, u.Nome),
+          new Claim(ClaimTypes.Email, u.Email),
+          new Claim("CPF", u.Cpf),
+          new Claim("isFuncionario", u.IsFunc.ToString()),
+          new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        };
+
       var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
       var token = new JwtSecurityToken(
-        expires: DateTime.Now.AddHours(3),
+        expires: DateTime.Now.AddMonths(1),
         issuer: _configuration["JWT:ValidIssuer"],
         audience: _configuration["JWT:ValidAudience"],
         claims: authClaims,
         signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
       );
 
-
       var response = new
       {
-        // token aleatorio apenas para testes, depois tera que gerar esse token aqui
         token = token,
         user = new
         {
@@ -102,7 +139,7 @@ namespace backend.Controllers
 
         // Retornamos BadRequest caso não retorne NotFound, pois se isso acontecer
         // significa que já existe esse CPF cadastrado
-        //if (!result.GetType().Equals(NotFound())) return BadRequest();
+        if (result != null) return BadRequest();
 
         Usuario usuario = new Usuario();
         usuario.Cpf = CPF;
@@ -115,7 +152,7 @@ namespace backend.Controllers
         await uc.Post(usuario);
 
         // Gerar token com os dados de usuário
-        return gerarTokenData("0d45cecd-f588-4007-a411-4298f6f4d5cc", usuario);
+        return gerarTokenData(usuario);
       }
       catch
       {
@@ -136,12 +173,12 @@ namespace backend.Controllers
         UsuarioController uc = new UsuarioController(this._context);
         result = uc.GetUsuario(CPF);
 
-        if (result.GetType().Equals(NotFound())) return NotFound();
+        if (result == null) return Unauthorized();
 
         Usuario usuario = (Usuario)((OkObjectResult)result.Result).Value;
 
         // Gerar token com os dados de usuário
-        return gerarTokenData("0d45cecd-f588-4007-a411-4298f6f4d5cc", usuario);
+        return gerarTokenData(usuario);
       }
       catch
       {
@@ -162,7 +199,7 @@ namespace backend.Controllers
         UsuarioController uc = new UsuarioController(this._context);
         result = uc.GetUsuario(CPF);
 
-        if (result.GetType().Equals(NotFound())) return NotFound();
+        if (result == null) return Unauthorized();
 
         Usuario usuario = (Usuario)((OkObjectResult)result.Result).Value;
         // Update no banco
@@ -170,7 +207,7 @@ namespace backend.Controllers
         await uc.Put(usuario);
 
         // Gerar token com os dados de usuário
-        return gerarTokenData("0d45cecd-f588-4007-a411-4298f6f4d5cc", usuario);
+        return gerarTokenData(usuario);
       }
       catch
       {
@@ -178,5 +215,25 @@ namespace backend.Controllers
         return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
       }
     }
+
+    [HttpGet]
+    [Route("anonymous")]
+    [AllowAnonymous]
+    public string Anonymous() => "Anônimo";
+
+    [HttpGet]
+    [Route("authenticated")]
+    [Authorize]
+    public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
+
+    [HttpGet]
+    [Route("usuario")]
+    [Authorize(Roles = "0")]
+    public string Cidadao() => "Cidadão";
+
+    [HttpGet]
+    [Route("funcionario")]
+    [Authorize(Roles = "1")]
+    public string Funcionario() => "Funcionário";
   }
 }

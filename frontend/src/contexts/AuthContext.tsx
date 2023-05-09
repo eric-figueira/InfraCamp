@@ -87,7 +87,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     console.log(resp.data)
 
     // Seta o token como cookie
-    setCookie(resp.data.token)
+    setCookie(resp.data.token.EncodedHeader)
 
     const user: IUser = resp.data.user
 
@@ -101,7 +101,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   {
     try 
     {
-      const resp = await api.post('/api/auth/cadastrar&returnTokenData')
+      const resp = await api.post(`/api/auth/cadastrar&returnTokenData?CPF=${cpf}&Email=${email}&Nome=${nome}&Telefone=${telefone}&Senha=${senha}`)
       
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) authenticateUser(resp)
@@ -114,7 +114,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     try 
     {
       const resp = await api.post(`/api/auth/logar&returnTokenData?CPF=${cpf}&Senha=${senha}`)
-    
+      
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) authenticateUser(resp)
     }
