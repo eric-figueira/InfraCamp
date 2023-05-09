@@ -5,13 +5,20 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using System.Text;
 using System.Text.Json;
-//using Microsoft.IdentityModel.Tokens;
-//using Microsoft.IdentityModel.Tokens.Jwt;
+
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
 
 using backend.Data;
 using backend.Models;
-using Newtonsoft.Json;
+
 
 namespace backend.Controllers
 {
@@ -49,8 +56,19 @@ namespace backend.Controllers
     }
 
     [NonAction]
-    public Object gerarTokenData(string token, Usuario u) 
+    public Object gerarTokenData(Usuario u, List<Claims> claims)
     {
+      var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+      var token = new JwtSecurityToken(
+        expires: DateTime.Now.AddHours(3),
+        issuer: _configuration["JWT:ValidIssuer"],
+        audience: _configuration["JWT:ValidAudience"],
+        claims: authClaims,
+        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+      );
+
+
       var response = new
       {
         // token aleatorio apenas para testes, depois tera que gerar esse token aqui
@@ -120,7 +138,7 @@ namespace backend.Controllers
 
         if (result.GetType().Equals(NotFound())) return NotFound();
 
-        Usuario usuario = (Usuario)((OkObjectResult) result.Result).Value;
+        Usuario usuario = (Usuario)((OkObjectResult)result.Result).Value;
 
         // Gerar token com os dados de usuário
         return gerarTokenData("0d45cecd-f588-4007-a411-4298f6f4d5cc", usuario);
@@ -146,7 +164,7 @@ namespace backend.Controllers
 
         if (result.GetType().Equals(NotFound())) return NotFound();
 
-        Usuario usuario = (Usuario)((OkObjectResult) result.Result).Value;
+        Usuario usuario = (Usuario)((OkObjectResult)result.Result).Value;
         // Update no banco
         usuario!.Senha = NovaSenha;
         await uc.Put(usuario);
