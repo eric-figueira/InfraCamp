@@ -59,15 +59,6 @@ const Login: React.FC = () => {
   }
 
 
-  function cpfMask() {
-    var cpf = document.getElementById('cpf') as HTMLInputElement;
-    if (cpf.value.length === 3 || cpf.value.length === 7)
-      cpf.value += '.';
-    else if (cpf.value.length === 11)
-      cpf.value += '-';
-  }
-
-
   return (
     <div className="login-wrapper">
       <div className="img-container">
@@ -95,7 +86,7 @@ const Login: React.FC = () => {
               <div className='icon-container'>
                 <IdentificationCard />
               </div>
-              <input id='cpf' type='text' placeholder='Digite seu CPF' onKeyUp={(event) => cpfMask()} onChange={(event) => setUser({ ...user, cpf: event.target.value })} />
+              <input type='text' placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: event.target.value })} />
             </Input>
             <Input
               backgroundColor='#FFF'
