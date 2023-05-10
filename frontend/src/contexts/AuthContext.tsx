@@ -70,7 +70,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
           if (resp.data.isTokenValid && window.location.pathname !== '/map') window.location.href = '/map'
 
           // Seta o user para o que recebeu
-          //setUser(resp.data.user)
+          setUser(resp.data.user)
       })
     }
     else if (window.location.pathname !== '/') window.location.href = '/'
@@ -87,7 +87,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     console.log(resp.data)
 
     // Seta o token como cookie
-    setCookie(resp.data.token.EncodedHeader)
+    setCookie(resp.data.token)
 
     const user: IUser = resp.data.user
 

@@ -41,17 +41,31 @@ namespace backend.Controllers
         if (IsJWTEXpired(Token)) return false;
 
         // Caso seja, ainda precisamos pegar as informacoes do usuario
-        // para isso, vamos pegar o CPF dentro do Token e getar as informacoes
+        // para isso, vamos pegar o CPF dentro do Token
         var tokenHandler = new JwtSecurityTokenHandler();
         var jwtToken = tokenHandler.ReadJwtToken(Token);
         var claim = jwtToken.Claims.FirstOrDefault(c => c.Type == "CPF");
-        var value = claim.Value;
+        var cpf = claim.Value;
 
-        
+        // Getar usuário
+        ActionResult<Usuario> result;
+
+        UsuarioController uc = new UsuarioController(this._context);
+        result = uc.GetUsuario(cpf);
+        Usuario u = (Usuario)((OkObjectResult)result.Result).Value;
 
         var response = new
         {
-          isTokenValid = true
+          isTokenValid = true,
+          user = new
+          {
+            nome = u!.Nome,
+            email = u!.Email,
+            avatar_url = u!.UrlImagem,
+            telefone = u!.Telefone,
+            funcionario = u!.IsFunc,
+            cpf = u!.Cpf
+          }
         };
 
         string jsonData = JsonConvert.SerializeObject(response);
@@ -95,14 +109,14 @@ namespace backend.Controllers
     public Object gerarTokenData(Usuario u)
     {
       var authClaims = new List<Claim> {
-          new Claim(ClaimTypes.Name, u.Nome),
-          new Claim(ClaimTypes.Email, u.Email),
-          new Claim("CPF", u.Cpf),
-          new Claim("isFuncionario", u.IsFunc.ToString()),
-          new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-        };
+        new Claim(ClaimTypes.Name, u.Nome),
+        new Claim(ClaimTypes.Email, u.Email),
+        new Claim("CPF", u.Cpf),
+        new Claim("isFuncionario", u.IsFunc.ToString()),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+      };
 
-      var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+      var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));     
 
       var token = new JwtSecurityToken(
         expires: DateTime.Now.AddMonths(1),
@@ -114,7 +128,7 @@ namespace backend.Controllers
 
       var response = new
       {
-        token = token,
+        token = new JwtSecurityTokenHandler().WriteToken(token),
         user = new
         {
           nome = u!.Nome,
