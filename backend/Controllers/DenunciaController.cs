@@ -191,5 +191,25 @@ namespace backend.Controllers
                 "Falha no acesso aos dados.");
             }
         }
+
+        [HttpPut("atualizaStatus/{idDenuncia}/{idNovoStatus}")]
+        public async Task<ActionResult> PutStatusDenuncia(int idDenuncia, int idNovoStatus) 
+        {
+            try 
+            {
+                var resultado = await this._context.Denuncia.FindAsync(idDenuncia);
+                if (resultado == null)
+                    return NotFound();
+
+                resultado.IdStatus = idNovoStatus;
+
+                await this._context.SaveChangesAsync();
+                return NoContent();
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha ao acesso ao banco de dados.");
+            }
+        }
     }
 }

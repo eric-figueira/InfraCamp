@@ -1,24 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\u22156\\Desktop\\InfraCamp\\InfraCamp\\backend\\backend.csproj": {}
+    "D:\\GITHUB\\InfraCamp\\backend\\backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\u22156\\Desktop\\InfraCamp\\InfraCamp\\backend\\backend.csproj": {
+    "D:\\GITHUB\\InfraCamp\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\u22156\\Desktop\\InfraCamp\\InfraCamp\\backend\\backend.csproj",
+        "projectUniqueName": "D:\\GITHUB\\InfraCamp\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "C:\\Users\\u22156\\Desktop\\InfraCamp\\InfraCamp\\backend\\backend.csproj",
-        "packagesPath": "C:\\Users\\u22156\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\u22156\\Desktop\\InfraCamp\\InfraCamp\\backend\\obj\\",
+        "projectPath": "D:\\GITHUB\\InfraCamp\\backend\\backend.csproj",
+        "packagesPath": "C:\\Users\\erice\\.nuget\\packages\\",
+        "outputPath": "D:\\GITHUB\\InfraCamp\\backend\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\u22156\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Users\\erice\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +22,6 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -113,7 +108,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.105\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
         }
       }
     }

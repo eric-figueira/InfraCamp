@@ -6,6 +6,8 @@ import Tipo from "../../types/Tipo";
 import Status from "../../types/Status";
 import Usuario from "../../types/Usuario";
 
+import { StatusDenuncia } from "../StatusDenuncia/StatusDenuncia";
+
 import "./Post.css";
 import { ArrowFatDown, ArrowFatUp } from "phosphor-react";
 
@@ -106,8 +108,8 @@ const Post: React.FC<PostProps> = (props) => {
                 <h4 className="message">
                     <b>Descrição</b> {props.description}
                 </h4>
-                <h4 className="message" style={{ color: color, fontWeight: 'bold' }}>
-                    <b>Situação</b> {status === undefined ? "" : status.status}
+                <h4 className="message">
+                    <StatusDenuncia idDenuncia={props.idDenuncia} idStatus={props.idStatus} />
                 </h4>
             </div>
             <div className="mid">
