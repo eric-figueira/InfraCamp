@@ -70,7 +70,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
           if (resp.data.isTokenValid && window.location.pathname !== '/map') window.location.href = '/map'
 
           // Seta o user para o que recebeu
-          //setUser(resp.data.user)
+          setUser(resp.data.user)
       })
     }
     else if (window.location.pathname !== '/') window.location.href = '/'
@@ -101,7 +101,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   {
     try 
     {
-      const resp = await api.post('/api/auth/cadastrar&returnTokenData')
+      const resp = await api.post(`/api/auth/cadastrar&returnTokenData?CPF=${cpf}&Email=${email}&Nome=${nome}&Telefone=${telefone}&Senha=${senha}`)
       
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) authenticateUser(resp)
@@ -114,7 +114,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     try 
     {
       const resp = await api.post(`/api/auth/logar&returnTokenData?CPF=${cpf}&Senha=${senha}`)
-    
+      
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) authenticateUser(resp)
     }

@@ -5,13 +5,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System.Text.Json;
-//using Microsoft.IdentityModel.Tokens;
-//using Microsoft.IdentityModel.Tokens.Jwt;
+using Newtonsoft.Json;
+using System.Text;
+
+using System.Security.Claims;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authorization;
+
 
 using backend.Data;
 using backend.Models;
-using Newtonsoft.Json;
+
 
 namespace backend.Controllers
 {
@@ -19,9 +24,12 @@ namespace backend.Controllers
   public class AuthController : ControllerBase
   {
     private InfraCampContext _context;
-    public AuthController(InfraCampContext ctx)
+    private IConfiguration _configuration;
+
+    public AuthController(InfraCampContext ctx, IConfiguration config)
     {
       this._context = ctx;
+      this._configuration = config;
     }
 
     [HttpPost("validateToken&returnData")]
@@ -30,11 +38,34 @@ namespace backend.Controllers
       try
       {
         // Testar se o token não expirou / se é válido
-        // Pegar dados do token
-        // Mandar dados do usuário
+        if (IsJWTEXpired(Token)) return false;
+
+        // Caso seja, ainda precisamos pegar as informacoes do usuario
+        // para isso, vamos pegar o CPF dentro do Token
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var jwtToken = tokenHandler.ReadJwtToken(Token);
+        var claim = jwtToken.Claims.FirstOrDefault(c => c.Type == "CPF");
+        var cpf = claim.Value;
+
+        // Getar usuário
+        ActionResult<Usuario> result;
+
+        UsuarioController uc = new UsuarioController(this._context);
+        result = uc.GetUsuario(cpf);
+        Usuario u = (Usuario)((OkObjectResult)result.Result).Value;
+
         var response = new
         {
-          isTokenValid = true
+          isTokenValid = true,
+          user = new
+          {
+            nome = u!.Nome,
+            email = u!.Email,
+            avatar_url = u!.UrlImagem,
+            telefone = u!.Telefone,
+            funcionario = u!.IsFunc,
+            cpf = u!.Cpf
+          }
         };
 
         string jsonData = JsonConvert.SerializeObject(response);
@@ -49,12 +80,55 @@ namespace backend.Controllers
     }
 
     [NonAction]
-    public Object gerarTokenData(string token, Usuario u) 
+    public bool IsJWTEXpired(string token)
     {
+      var tokenHandler = new JwtSecurityTokenHandler();
+      var key = Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]);
+
+      var tokenValidationParameters = new TokenValidationParameters
+      {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ClockSkew = TimeSpan.Zero
+      };
+
+      try
+      {
+        ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken validatedToken);
+
+        return false;
+      }
+      catch (SecurityTokenExpiredException) { return true; }
+      catch (SecurityTokenInvalidSignatureException) { return true; }
+      catch (SecurityTokenException) { return true; }
+    }
+
+    [NonAction]
+    public Object gerarTokenData(Usuario u)
+    {
+      var authClaims = new List<Claim> {
+        new Claim(ClaimTypes.Name, u.Nome),
+        new Claim(ClaimTypes.Email, u.Email),
+        new Claim("CPF", u.Cpf),
+        new Claim("isFuncionario", u.IsFunc.ToString()),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+      };
+
+      var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));     
+
+      var token = new JwtSecurityToken(
+        expires: DateTime.Now.AddMonths(1),
+        issuer: _configuration["JWT:ValidIssuer"],
+        audience: _configuration["JWT:ValidAudience"],
+        claims: authClaims,
+        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+      );
+
       var response = new
       {
-        // token aleatorio apenas para testes, depois tera que gerar esse token aqui
-        token = token,
+        token = new JwtSecurityTokenHandler().WriteToken(token),
         user = new
         {
           nome = u!.Nome,
@@ -84,7 +158,7 @@ namespace backend.Controllers
 
         // Retornamos BadRequest caso não retorne NotFound, pois se isso acontecer
         // significa que já existe esse CPF cadastrado
-        //if (!result.GetType().Equals(NotFound())) return BadRequest();
+        if (result != null) return BadRequest();
 
         Usuario usuario = new Usuario();
         usuario.Cpf = CPF;
@@ -97,7 +171,7 @@ namespace backend.Controllers
         await uc.Post(usuario);
 
         // Gerar token com os dados de usuário
-        return gerarTokenData("0d45cecd-f588-4007-a411-4298f6f4d5cc", usuario);
+        return gerarTokenData(usuario);
       }
       catch
       {
@@ -118,12 +192,12 @@ namespace backend.Controllers
         UsuarioController uc = new UsuarioController(this._context);
         result = uc.GetUsuario(CPF);
 
-        if (result.GetType().Equals(NotFound())) return NotFound();
+        if (result == null) return Unauthorized();
 
-        Usuario usuario = (Usuario)((OkObjectResult) result.Result).Value;
+        Usuario usuario = (Usuario)((OkObjectResult)result.Result).Value;
 
         // Gerar token com os dados de usuário
-        return gerarTokenData("0d45cecd-f588-4007-a411-4298f6f4d5cc", usuario);
+        return gerarTokenData(usuario);
       }
       catch
       {
@@ -144,15 +218,15 @@ namespace backend.Controllers
         UsuarioController uc = new UsuarioController(this._context);
         result = uc.GetUsuario(CPF);
 
-        if (result.GetType().Equals(NotFound())) return NotFound();
+        if (result == null) return Unauthorized();
 
-        Usuario usuario = (Usuario)((OkObjectResult) result.Result).Value;
+        Usuario usuario = (Usuario)((OkObjectResult)result.Result).Value;
         // Update no banco
         usuario!.Senha = NovaSenha;
         await uc.Put(usuario);
 
         // Gerar token com os dados de usuário
-        return gerarTokenData("0d45cecd-f588-4007-a411-4298f6f4d5cc", usuario);
+        return gerarTokenData(usuario);
       }
       catch
       {
@@ -160,5 +234,25 @@ namespace backend.Controllers
         return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
       }
     }
+
+    [HttpGet]
+    [Route("anonymous")]
+    [AllowAnonymous]
+    public string Anonymous() => "Anônimo";
+
+    [HttpGet]
+    [Route("authenticated")]
+    [Authorize]
+    public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
+
+    [HttpGet]
+    [Route("usuario")]
+    [Authorize(Roles = "0")]
+    public string Cidadao() => "Cidadão";
+
+    [HttpGet]
+    [Route("funcionario")]
+    [Authorize(Roles = "1")]
+    public string Funcionario() => "Funcionário";
   }
 }
