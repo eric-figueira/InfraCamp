@@ -41,6 +41,14 @@ namespace backend.Controllers
         if (IsJWTEXpired(Token)) return false;
 
         // Caso seja, ainda precisamos pegar as informacoes do usuario
+        // para isso, vamos pegar o CPF dentro do Token e getar as informacoes
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var jwtToken = tokenHandler.ReadJwtToken(Token);
+        var claim = jwtToken.Claims.FirstOrDefault(c => c.Type == "CPF");
+        var value = claim.Value;
+
+        
+
         var response = new
         {
           isTokenValid = true
@@ -62,28 +70,25 @@ namespace backend.Controllers
     {
       var tokenHandler = new JwtSecurityTokenHandler();
       var key = Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]);
+
+      var tokenValidationParameters = new TokenValidationParameters
+      {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false,
+        ClockSkew = TimeSpan.Zero
+      };
+
       try
       {
-        tokenHandler.ValidateToken(token, new TokenValidationParameters
-        {
-          ValidateIssuerSigningKey = true,
-          IssuerSigningKey = new SymmetricSecurityKey(key),
-          ValidateIssuer = false,
-          ValidateAudience = false,
-          ClockSkew = TimeSpan.Zero
-        },
-        out SecurityToken validatedToken);
+        ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken validatedToken);
 
         return false;
       }
-      catch (SecurityTokenExpiredException)
-      {
-        return true;
-      }
-      catch (SecurityTokenException)
-      {
-        return true;
-      }
+      catch (SecurityTokenExpiredException) { return true; }
+      catch (SecurityTokenInvalidSignatureException) { return true; }
+      catch (SecurityTokenException) { return true; }
     }
 
     [NonAction]

@@ -48,8 +48,7 @@ export const User: React.FC = () => {
                     <img src={user?.avatar_url} alt="user" />
                 </div>
                 <h4>{user?.nome}</h4>
-                {/* <p>Senha: {user?.senha.replace(/[a-zA-Z0-9]/g, '•')}</p> */}
-                <p>Senha: •••••••••••</p>
+                <p>Senha: ••••••••</p>
                 <p>Telefone: {user?.telefone} </p>
                 <p>Email: {user?.email}</p>
 
