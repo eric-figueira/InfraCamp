@@ -80,6 +80,8 @@ export const CarouselImage = styled.img<CarouselImageProps>`
 
 export const StatusLabel = styled.p<StatusLabelProps>`
 
+  display: inline;
   font-weight: bold;
+  color: ${(props) => props.color};
 
 `

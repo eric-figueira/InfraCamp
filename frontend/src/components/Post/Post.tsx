@@ -98,8 +98,8 @@ const Post: React.FC<PostProps> = (props) => {
                 <h4 className="message">
                     <b>Descrição:</b> {props.description}
                 </h4>
-                <h4 className="message" style={{ color: '#d6950a' }}>
-                    <StatusDenuncia idDenuncia={props.idDenuncia} idStatus={Number(status?.status)} />
+                <h4 className="message">
+                    <StatusDenuncia idDenuncia={props.idDenuncia} idStatus={props.idStatus} />
                 </h4>
             </div>
             <div className="mid">
