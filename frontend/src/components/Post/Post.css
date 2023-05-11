@@ -2,7 +2,7 @@
     display: flex;
     width: 75%;
     height: auto;
-    background: #c7c7c7;
+    background: #e5e5e5;
     margin: 2.5rem;
     margin-left: 12rem;
     margin-bottom: 10px;
@@ -13,7 +13,7 @@
     width: 50%;
     padding-left: 1%;
     padding-top: 0.5rem;
-    background-color: #c7c7c7;
+    background-color: #e5e5e5;
     float: left;
 }
 
@@ -22,7 +22,7 @@
     font-weight: 500;
     padding: 8px;
     color: #777;
-    background-color: #d3d3d3;
+    background-color: #dddddd;
     margin: 0.5rem;
     border-radius: 20px;
 }
@@ -31,7 +31,7 @@
     display: block;
     font-size: 20px;
     color: #262626;
-    background-color: #d3d3d3;
+    background-color: #dddddd;
 }
 
 .card .left .title {
@@ -62,7 +62,7 @@
 
 .card .right {
     width: auto;
-    background: #d3d3d3;
+    background: #e5e5e5;
     padding-top: 1re,;
     float: left;
 }
@@ -86,7 +86,7 @@
 }
 
 .card .right .actionBtns button {
-    background-color: #d3d3d3;
+    background-color: #e5e5e5;
 }
 
 .card .right .actionBtns img {

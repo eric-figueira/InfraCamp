@@ -36,3 +36,9 @@ h1 {
 .posts {
     padding-bottom: 2.5rem;
 }
+
+.message_no_complaints {
+    padding: 5rem;
+    margin-left: 12rem;
+    width: 75%;
+}

@@ -124,10 +124,10 @@ const Post: React.FC<PostProps> = (props) => {
                 <h4 className="likes">{opinioes?.filter(opiniao => opiniao.isCurtida === true).length}</h4>
                 <div className="actionBtns">
                     <button type="button" title="like" onClick={() => handleClick(true)}>
-                        <ArrowFatUp color="#11101D" weight={opiniao ? (opiniao.isCurtida ? "fill" : "regular") : "regular"}/>
+                        <ArrowFatUp size='25' color="#11101D" weight={opiniao ? (opiniao.isCurtida ? "fill" : "regular") : "regular"}/>
                     </button>
                     <button type="button" title="dislike" onClick={() => handleClick(false)}>
-                        <ArrowFatDown color="#11101D" weight={opiniao ? (opiniao.isCurtida ? "regular" : "fill") : "regular"} />
+                        <ArrowFatDown size='25' color="#11101D" weight={opiniao ? (opiniao.isCurtida ? "regular" : "fill") : "regular"} />
                     </button>
                 </div>
             </div>

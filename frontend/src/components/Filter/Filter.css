@@ -25,12 +25,12 @@
 
 .filter .option label {
     position: relative;
-    width: 50%;
+    width: 25%;
 }
 
 .filter .option select {
     position: relative;
-    width: 50%;
+    width: 75%;
     margin: 0px;
     padding: 0.3rem;
     border: none;

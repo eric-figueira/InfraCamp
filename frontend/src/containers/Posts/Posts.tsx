@@ -5,6 +5,7 @@ import Filter from '../../components/Filter/Filter';
 import Denuncia from '../../types/Denuncia';
 
 import "./Posts.css";
+import { ETypes, Message } from '../../components/Message/Message';
 
 const Posts: React.FC = () => {
     const { data: denuncias } = useGet<Denuncia[]>("http://localhost:5164/api/denuncias");
@@ -57,7 +58,8 @@ const Posts: React.FC = () => {
 
             <div className="posts">
                 {
-                    usedDenuncias?.map((denuncia) => 
+                    usedDenuncias?.length !== 0 &&
+                    usedDenuncias?.map((denuncia) =>
                         <Post
                             key={denuncia.idDenuncia}
                             idDenuncia={denuncia.idDenuncia}
@@ -70,6 +72,12 @@ const Posts: React.FC = () => {
                             imgUrl={denuncia.urlImagem}
                         />
                     )
+                }
+                {
+                    usedDenuncias?.length === 0 &&
+                    <div className="message_no_complaints">
+                        <Message text="Não há denúncias com as características especificadas" isVisible={true} type={ETypes.Info} />
+                    </div>
                 }
             </div>
         </div>
