@@ -1,7 +1,7 @@
 #complaint {
     z-index: 4;
     position: fixed;
-    width: 500px;
+    width: 32.5rem;
     height: 100vh;
     right: 0;
     top: 0;
@@ -10,12 +10,12 @@
 }
 
 .top_box {
-    height: 75px;
+    height: 5rem;
 }
 
 .top_box > h2 {
-    margin-top: 20px;
-    margin-left: 20px;
+    margin-top: 1.5rem;
+    margin-left: 2rem;
     color: white;
     float: left;
     font-size: 20px;
@@ -23,12 +23,12 @@
 
 .top_box > button {
     float: right;
-    margin-top: 10px;
-    margin-right: 20px;
+    margin-top: 1rem;
+    margin-right: 2rem;
 }
 
 .img {
-    height: 250px;
+    height: 15rem;
     width: 90%;
     margin-left: calc((100% - 90%) / 2);
     margin-right: calc((100% - 90%) / 2);
@@ -40,20 +40,23 @@
 }
 
 .bottom_box {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 20px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    margin-top: 1rem;
 }
 
 .date {
     font-size: 26px;
     font-weight: bold;
-    padding: 10px;
+    padding: 0.5rem;
 }
 
 .item {
     font-size: 16px;
-    padding: 10px;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    background-color: #282644;
+    border-radius: 0.5rem;
 }
 
 .item > span {
@@ -61,5 +64,5 @@
 }
 
 #description {
-    height: 125px;
+    height: 7.5rem;
 }

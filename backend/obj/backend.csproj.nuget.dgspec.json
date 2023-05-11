@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\GITHUB\\InfraCamp\\backend\\backend.csproj": {}
+    "C:\\Users\\mcsgo\\OneDrive\\Documentos\\GitHub\\InfraCamp\\backend\\backend.csproj": {}
   },
   "projects": {
-    "D:\\GITHUB\\InfraCamp\\backend\\backend.csproj": {
+    "C:\\Users\\mcsgo\\OneDrive\\Documentos\\GitHub\\InfraCamp\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\GITHUB\\InfraCamp\\backend\\backend.csproj",
+        "projectUniqueName": "C:\\Users\\mcsgo\\OneDrive\\Documentos\\GitHub\\InfraCamp\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "D:\\GITHUB\\InfraCamp\\backend\\backend.csproj",
-        "packagesPath": "C:\\Users\\erice\\.nuget\\packages\\",
-        "outputPath": "D:\\GITHUB\\InfraCamp\\backend\\obj\\",
+        "projectPath": "C:\\Users\\mcsgo\\OneDrive\\Documentos\\GitHub\\InfraCamp\\backend\\backend.csproj",
+        "packagesPath": "C:\\Users\\mcsgo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\mcsgo\\OneDrive\\Documentos\\GitHub\\InfraCamp\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\erice\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\mcsgo\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -108,7 +108,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

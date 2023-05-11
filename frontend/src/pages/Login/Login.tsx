@@ -1,6 +1,9 @@
 import React, { useContext, useState, MouseEvent } from 'react';
 import { Link } from "react-router-dom"
 
+import { IMaskInput } from "react-imask";
+import { MaskedRange } from "imask";
+
 import "./Login.css"
 
 import { colorPallete } from '../../styles/colors';
@@ -37,19 +40,15 @@ const Login: React.FC = () => {
     setMessageText(text)
   }
 
-  function SignIn(event: MouseEvent) 
-  {
+  function SignIn(event: MouseEvent) {
     event.preventDefault()
-    try 
-    {
-      if (user.cpf === "" || user.senha === "") 
+    try {
+      if (user.cpf === "" || user.senha === "")
         showMessage('Todos os dados são necessários!')
-      else 
-      {
-        if (!cpf_regex.test(user.cpf)) 
+      else {
+        if (!cpf_regex.test(user.cpf))
           showMessage('Padrão de CPF incorreto!')
-        else
-        {
+        else {
           setIsMessageVisible(false)
           Logar({ cpf: user.cpf, senha: user.senha })
         }
@@ -86,7 +85,18 @@ const Login: React.FC = () => {
               <div className='icon-container'>
                 <IdentificationCard />
               </div>
-              <input type='text' placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: event.target.value })} />
+              <IMaskInput
+                mask="NNN.NNN.NNN-NN"
+                blocks={{
+                  N: {
+                    mask: MaskedRange,
+                    from: 0,
+                    to: 9,
+                    maxLength: 1
+                  }
+                }}
+                type='text' placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: (event.target as HTMLInputElement).value })}
+              />
             </Input>
             <Input
               backgroundColor='#FFF'

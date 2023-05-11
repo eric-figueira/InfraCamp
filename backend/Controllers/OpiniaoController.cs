@@ -66,7 +66,7 @@ namespace backend.Controllers
                 if (await _context.SaveChangesAsync() == 1)
                     return Created($"api/opinioes/{opiniao.IdDenuncia}/{opiniao.Cpf}", opiniao);
             }
-            catch
+            catch 
             {
                 return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha no acesso ao banco de dados.");
             }

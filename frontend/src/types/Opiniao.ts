@@ -1,7 +1,7 @@
 type Opiniao = {
     idDenuncia: number,
-    idUsuario: string,
-    dataInteracao: Date,
+    cpf: string,
+    dataOpiniao: Date,
     isCurtida: boolean
 }
 

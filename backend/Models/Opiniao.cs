@@ -20,7 +20,7 @@ namespace backend.Models
         public string? Cpf { get; set; } // chave estrangeira
         public virtual Usuario? Usuario { get; set; } // referência de navegação para a principal
         
-        [DataType(DataType.Date)]
+        [DataType(DataType.DateTime)]
         public DateTime DataOpiniao { get; set; }
         public bool IsCurtida { get; set; }
     }

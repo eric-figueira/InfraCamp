@@ -10,7 +10,7 @@
     color: #d3d3d3;
     font-weight: bold;
     font-size: 22px;
-    margin-left: 12.5%;
+    margin-left: 12rem;
     border-radius: 50px;
     width: 75%;
 }
@@ -23,9 +23,14 @@
     position: relative;
 }
 
+.filter .option label {
+    position: relative;
+    width: 50%;
+}
+
 .filter .option select {
     position: relative;
-    width: 25rem;
+    width: 50%;
     margin: 0px;
     padding: 0.3rem;
     border: none;

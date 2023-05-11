@@ -1,10 +1,16 @@
 .user .right .info {
-    background-color: #010c13;
-    padding: 10px;
-    height: 200px;
-    width: 100%;
+    background-color: #010613;
+    padding: 0.5rem;
+    height: 12.5rem;
+    width: 97.5%;
     border-radius: 15px;
-    border: 2px solid #141418;
+    border: 2px solid #060514;
+    position: relative;
+}
+
+.user .right .info:hover {
+    background-color: #020b22;
+    transition: 0.3s ease;
 }
 
 .user .right .info h3 {
@@ -18,9 +24,9 @@
 }
 
 .user .right button {
-    margin-top: 25px;
+    margin-top: 1.25rem;
 }
 
 .aa {
-    margin-left: 25px;
+    margin-left: 1.25rem;
 }

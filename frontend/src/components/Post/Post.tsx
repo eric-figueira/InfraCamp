@@ -44,15 +44,14 @@ const Post: React.FC<PostProps> = (props) => {
     const { user } = useContext(AuthContext);
     const [color, setColor] = useState<string>(""); 
 
-    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    const handleClick = (isLike: boolean) => {
 
-        api.post('http://localhost:5164/api/opinioes', { idDenuncia: props.idDenuncia, idUsuario: user?.cpf, dataInteracao: new Date(), isCurtida: (e.target as HTMLButtonElement).title === 'like' ? true : false } as Opiniao)
+        api.post('http://localhost:5164/api/opinioes', { idDenuncia: props.idDenuncia, cpf: user?.cpf, dataOpiniao: new Date(), isCurtida: isLike } as Opiniao)
             .then(res => {
                 setOpiniao(res.data);
             })
             .catch(() => {
-                api.put('api/opinioes', { idDenuncia: props.idDenuncia, idUsuario: user?.cpf, dataInteracao: new Date(), isCurtida: (e.target as HTMLButtonElement).title === 'like' ? true : false } as Opiniao)
+                api.put('http://localhost:5164/api/opinioes', { idDenuncia: props.idDenuncia, cpf: user?.cpf, dataOpiniao: new Date(), isCurtida: isLike } as Opiniao)
                     .then(res => {
                         setOpiniao(res.data);
                     })
@@ -62,6 +61,12 @@ const Post: React.FC<PostProps> = (props) => {
     useEffect(() => {
         api.get(`http://localhost:5164/api/opinioes/${props.idDenuncia}`).then(resp => {
             setOpinioes(resp.data);
+        })
+    }, [opiniao])
+
+    useEffect(() => {
+        api.get(`http://localhost:5164/api/opinioes/${props.idDenuncia}/${props.cpf}`).then(resp => {
+            setOpiniao(resp.data);
         })
     }, [])
 
@@ -108,20 +113,21 @@ const Post: React.FC<PostProps> = (props) => {
                 <h4 className="message">
                     <b>Descrição</b> {props.description}
                 </h4>
-                <h4 className="message">
-                    <StatusDenuncia idDenuncia={props.idDenuncia} idStatus={props.idStatus} />
+                <h4 className="message" style={{color: color, fontWeight: 'bold'}}>
+                    <b>Status</b> {status === undefined ? "" : status.status}
                 </h4>
             </div>
             <div className="mid">
                 <img src={props.imgUrl} className="cover" alt="Imagem do problema" />
             </div>
             <div className="right">
+                <h4 className="likes">{opinioes?.filter(opiniao => opiniao.isCurtida === true).length}</h4>
                 <div className="actionBtns">
-                    <button type="button" title="like" onClick={handleClick}>
-                        <ArrowFatUp />
+                    <button type="button" title="like" onClick={() => handleClick(true)}>
+                        <ArrowFatUp color="#11101D" weight={opiniao ? (opiniao.isCurtida ? "fill" : "regular") : "regular"}/>
                     </button>
-                    <button type="button" title="dislike" onClick={handleClick}>
-                        <ArrowFatDown />
+                    <button type="button" title="dislike" onClick={() => handleClick(false)}>
+                        <ArrowFatDown color="#11101D" weight={opiniao ? (opiniao.isCurtida ? "regular" : "fill") : "regular"} />
                     </button>
                 </div>
             </div>

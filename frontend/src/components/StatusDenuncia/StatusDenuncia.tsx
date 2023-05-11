@@ -35,11 +35,11 @@ export const StatusDenuncia: React.FC<IStatus> = (props) => {
     return (
       <div>
         <select onChange={alterarStatus}>
-          <option value="1" selected={props.idStatus == 1}>Não Visualizado</option>
-          <option value="2" selected={props.idStatus == 2}>Em Análise</option>
-          <option value="3" selected={props.idStatus == 3}>Fechado</option>
-          <option value="4" selected={props.idStatus == 4}>Em Processo de Resolução</option>
-          <option value="5" selected={props.idStatus == 5}>Resolvido</option>
+          <option value="1" selected={props.idStatus === 1}>Não Visualizado</option>
+          <option value="2" selected={props.idStatus === 2}>Em Análise</option>
+          <option value="3" selected={props.idStatus === 3}>Fechado</option>
+          <option value="4" selected={props.idStatus === 4}>Em Processo de Resolução</option>
+          <option value="5" selected={props.idStatus === 5}>Resolvido</option>
         </select>
       </div>
     )

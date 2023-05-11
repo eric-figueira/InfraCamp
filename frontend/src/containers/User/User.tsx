@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import Usuario from "../../types/Usuario";
 import Button from "../../components/Button/Button";
-import { api } from "../../services/api";
 import Denuncia from "../../types/Denuncia";
+
+import { IMask } from "react-imask";
 
 import './User.css';
 import { useGet } from "../../hooks/useGet";
