@@ -1,5 +1,5 @@
 .user .right .info {
-    background-color: #010613;
+    background-color: #0d0c16;
     padding: 0.5rem;
     height: 12.5rem;
     width: 97.5%;
@@ -9,7 +9,7 @@
 }
 
 .user .right .info:hover {
-    background-color: #020b22;
+    background-color: #141222;
     transition: 0.3s ease;
 }
 

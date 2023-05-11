@@ -47,7 +47,7 @@
     border: none;
     margin: 10px;
     margin-top: 175px;
-    background-color: #01010f;
+    background-color: #12101f;
     font-size: 25px;
     color: #efefef;
     height: 50px;
@@ -55,7 +55,7 @@
 }
 
 .user .left input:hover {
-    background-color: #040422;
+    background-color: #161322;
 }
 
 .user .right {
@@ -64,7 +64,7 @@
     height: 560px;
     color: #efefef;
     padding: 20px;
-    background: #010c1d;
+    background: #09080f;
     border-radius: 25px;
     display: grid;
     grid-row: 30px;
