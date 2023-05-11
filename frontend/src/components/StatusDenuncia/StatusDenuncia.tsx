@@ -8,6 +8,8 @@ import { api } from '../../services/api';
 import { StatusLabel } from "../../styles/styled-components"
 import { colorPallete } from "../../styles/colors"
 
+import "./StatusDenuncia.css"
+
 export interface IStatus {
   idDenuncia: number,
   idStatus: number
@@ -34,13 +36,15 @@ export const StatusDenuncia: React.FC<IStatus> = (props) => {
   {
     return (
       <div>
-        <select onChange={alterarStatus}>
-          <option value="1" selected={props.idStatus === 1}>Não Visualizado</option>
-          <option value="2" selected={props.idStatus === 2}>Em Análise</option>
-          <option value="3" selected={props.idStatus === 3}>Fechado</option>
-          <option value="4" selected={props.idStatus === 4}>Em Processo de Resolução</option>
-          <option value="5" selected={props.idStatus === 5}>Resolvido</option>
-        </select>
+        <h4 className="statusDenunciaH4">Situação: 
+          <select onChange={alterarStatus} className="statusDenunciaSelect">
+            <option value="1" selected={props.idStatus === 1}>Não Visualizado</option>
+            <option value="2" selected={props.idStatus === 2}>Em Análise</option>
+            <option value="3" selected={props.idStatus === 3}>Fechado</option>
+            <option value="4" selected={props.idStatus === 4}>Em Processo de Resolução</option>
+            <option value="5" selected={props.idStatus === 5}>Resolvido</option>
+          </select>
+        </h4>
       </div>
     )
   } 
@@ -48,10 +52,13 @@ export const StatusDenuncia: React.FC<IStatus> = (props) => {
   {
     return (
       <div>
-        <p style={{color: colorPallete.fontBlack}}> Situação: <StatusLabel color={ props.idStatus == 1 || 3 ? colorPallete.bgRed 
-                                        : props.idStatus == 2 || 4 ? colorPallete.bgYellow 
-                                        : colorPallete.bgGreen }>
-                      {status?.status === undefined ? "" : status?.status}</StatusLabel></p>
+        <h4 className="statusDenunciaH4"> Situação: 
+        <StatusLabel color={ props.idStatus == 1 ? '#5d9fd4' 
+                          : (props.idStatus == 2 ? '#d6950a' 
+                          : (props.idStatus == 3 ? '#d45d6d' 
+                          : (props.idStatus == 4 ? '#5fd4c1' 
+                          : (props.idStatus == 5 ? '#4faf5f' : ""))))} className="statusDenunciaMessageB">
+                      {status?.status === undefined ? "" : status?.status}</StatusLabel></h4>
       </div>
     )
   }

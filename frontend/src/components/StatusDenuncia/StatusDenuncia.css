@@ -1,0 +1,29 @@
+
+.statusDenunciaH4 {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1F2026;
+  background-color: #dddddd;
+  /* margin: 0.5rem; */
+  border-radius: 20px;
+}
+
+.statusDenunciaH4 .statusDenunciaMessageB {
+  display: block;
+  font-size: 16px;
+  background-color: #dddddd;
+}
+
+.statusDenunciaH4 .statusDenunciaSelect {
+  display: block;
+  font-size: 16px;
+  color: #fff;
+  margin-top: 0.25rem;
+  background-color: #11101d;
+  outline: none;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  width: 100%;
+}

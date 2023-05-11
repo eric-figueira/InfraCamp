@@ -46,12 +46,12 @@ const Post: React.FC<PostProps> = (props) => {
 
     const handleClick = (isLike: boolean) => {
 
-        api.post('http://localhost:5164/api/opinioes', { idDenuncia: props.idDenuncia, cpf: user?.cpf, dataOpiniao: new Date(), isCurtida: isLike } as Opiniao)
+        api.post('api/opinioes', { idDenuncia: props.idDenuncia, cpf: user?.cpf, dataOpiniao: new Date(), isCurtida: isLike } as Opiniao)
             .then(res => {
                 setOpiniao(res.data);
             })
             .catch(() => {
-                api.put('http://localhost:5164/api/opinioes', { idDenuncia: props.idDenuncia, cpf: user?.cpf, dataOpiniao: new Date(), isCurtida: isLike } as Opiniao)
+                api.put('api/opinioes', { idDenuncia: props.idDenuncia, cpf: user?.cpf, dataOpiniao: new Date(), isCurtida: isLike } as Opiniao)
                     .then(res => {
                         setOpiniao(res.data);
                     })
@@ -59,26 +59,26 @@ const Post: React.FC<PostProps> = (props) => {
     };
 
     useEffect(() => {
-        api.get(`http://localhost:5164/api/opinioes/${props.idDenuncia}`).then(resp => {
+        api.get(`api/opinioes/${props.idDenuncia}`).then(resp => {
             setOpinioes(resp.data);
         })
     }, [opiniao])
 
     useEffect(() => {
-        api.get(`http://localhost:5164/api/opinioes/${props.idDenuncia}/${props.cpf}`).then(resp => {
+        api.get(`api/opinioes/${props.idDenuncia}/${props.cpf}`).then(resp => {
             setOpiniao(resp.data);
         })
     }, [])
 
     useEffect(() => {
-        api.get("http://localhost:5164/api/tiposDenuncia/" + props.idTipo).then(
+        api.get("api/tiposDenuncia/" + props.idTipo).then(
             resp => {
                 setTipo(resp.data)
             })
     }, [])
 
     useEffect(() => {
-        api.get("http://localhost:5164/api/statusDenuncia/" + props.idStatus).then(
+        api.get("api/statusDenuncia/" + props.idStatus).then(
             resp => { 
                 setStatus(resp.data);
                 switch (props.idStatus) {
@@ -114,7 +114,7 @@ const Post: React.FC<PostProps> = (props) => {
                     <b>Descrição</b> {props.description}
                 </h4>
                 <h4 className="message" style={{color: color, fontWeight: 'bold'}}>
-                    <b>Status</b> {status === undefined ? "" : status.status}
+                    <StatusDenuncia idDenuncia={props.idDenuncia} idStatus={props.idStatus} />
                 </h4>
             </div>
             <div className="mid">
