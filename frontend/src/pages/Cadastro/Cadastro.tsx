@@ -14,6 +14,9 @@ import { Message, ETypes } from "../../components/Message/Message"
 
 import { AuthContext } from '../../contexts/AuthContext';
 
+import { IMaskInput } from 'react-imask';
+import { MaskedRange } from "imask";
+
 
 const email_regex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
@@ -40,22 +43,18 @@ const Cadastro: React.FC = () => {
     setMessageText(text)
   }
 
-  function SignUp(event: MouseEvent) 
-  {
+  function SignUp(event: MouseEvent) {
     event.preventDefault()
-    try 
-    {
-      if (user.cpf == "" || user.email == "" || user.nome == "" || user.telefone == "" || user.senha == "") 
+    try {
+      if (user.cpf === "" || user.email === "" || user.nome === "" || user.telefone === "" || user.senha === "")
         showMessage('Todos os dados são necessários!')
-      else 
-      {
-        if (!email_regex.test(user.email)) 
+      else {
+        if (!email_regex.test(user.email))
           showMessage('Padrão de email incorreto!')
         else if (user.senha.length < 8)
           showMessage('Senha precisa ter no mínimo 8 caracteres!')
         // Obs: testar se já não tem no banco de dados!!!
-        else
-        {
+        else {
           setIsMessageVisible(false)
           Cadastrar({ cpf: user.cpf, email: user.email, nome: user.nome, senha: user.senha, telefone: user.telefone })
         }
@@ -79,7 +78,18 @@ const Cadastro: React.FC = () => {
               <div className='icon-container'>
                 <IdentificationBadge />
               </div>
-              <input type='text' placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: event.target.value })} />
+              <IMaskInput
+                mask="NNN.NNN.NNN-NN"
+                blocks={{
+                  N: {
+                    mask: MaskedRange,
+                    from: 0,
+                    to: 9,
+                    maxLength: 1
+                  }
+                }}
+                type='text' placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: (event.target as HTMLInputElement).value })}
+              />
             </Input>
             <Input
               backgroundColor='#FFF'
@@ -89,7 +99,7 @@ const Cadastro: React.FC = () => {
               <div className='icon-container'>
                 <EnvelopeSimple />
               </div>
-              <input type='text' placeholder='Digite seu email' onChange={(event) => setUser({ ...user, email: event.target.value })} />
+              <input type='email' placeholder='Digite seu email' onChange={(event) => setUser({ ...user, email: event.target.value })} />
             </Input>
             <Input
               backgroundColor='#FFF'
@@ -109,7 +119,18 @@ const Cadastro: React.FC = () => {
               <div className='icon-container'>
                 <Phone />
               </div>
-              <input type='text' placeholder='Digite seu telefone' onChange={(event) => setUser({ ...user, telefone: event.target.value })} />
+              <IMaskInput
+                mask="(NN) NNNNN-NNNN"
+                blocks={{
+                  N: {
+                    mask: MaskedRange,
+                    from: 0,
+                    to: 9,
+                    maxLength: 1
+                  }
+                }}
+                type='tel' placeholder='Digite seu telefone' onChange={(event) => setUser({ ...user, telefone: (event.target as HTMLInputElement).value })}
+              />
             </Input>
             <Input
               backgroundColor='#FFF'
@@ -119,7 +140,7 @@ const Cadastro: React.FC = () => {
               <div className='icon-container'>
                 <Key />
               </div>
-              <input type='text' placeholder='Digite uma senha' onChange={(event) => setUser({ ...user, senha: event.target.value })} />
+              <input type='password' placeholder='Digite uma senha' onChange={(event) => setUser({ ...user, senha: event.target.value })} />
             </Input>
             <Button text='Cadastrar' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={18} eventHandler={SignUp} />
           </form>
@@ -135,7 +156,7 @@ const Cadastro: React.FC = () => {
               fontSize={18} eventHandler={() => null} borderColor={`2px solid ${colorPallete.bgWhite}`} />
           </Link>
         </div>
-        <ImagemCadastro className='signup-img'/>
+        <ImagemCadastro className='signup-img' />
       </div>
     </div>
   );

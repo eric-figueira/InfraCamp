@@ -165,7 +165,7 @@ namespace backend.Controllers
         usuario.Nome = Nome;
         usuario.Email = Email;
         usuario.Telefone = Telefone;
-        usuario.Senha = Telefone;
+        usuario.Senha = Senha;
         usuario.UrlImagem = "";
         usuario.IsFunc = false;
         await uc.Post(usuario);

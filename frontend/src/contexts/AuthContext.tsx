@@ -64,7 +64,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
     if (token) 
     {
-      api.post(`/api/auth/validateToken&returnData?token=${token}`).then((resp) => {
+      api.post(`api/auth/validateToken&returnData?token=${token}`).then((resp) => {
           setIsAuthenticated(resp.data.isTokenValid)
 
           if (resp.data.isTokenValid && window.location.pathname !== '/map') window.location.href = '/map'
@@ -101,7 +101,12 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   {
     try 
     {
-      const resp = await api.post(`/api/auth/cadastrar&returnTokenData?CPF=${cpf}&Email=${email}&Nome=${nome}&Telefone=${telefone}&Senha=${senha}`)
+      const resp = await api.post(`api/auth/cadastrar&returnTokenData?CPF=${cpf}&Email=${email}&Nome=${nome}&Telefone=${telefone}&Senha=${senha}`, {
+        headers: {
+        'Content-Type': 'text/plain',
+        'Access-Control-Allow-Origin' : '*',
+        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+      }})
       
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) authenticateUser(resp)
@@ -113,7 +118,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   {
     try 
     {
-      const resp = await api.post(`/api/auth/logar&returnTokenData?CPF=${cpf}&Senha=${senha}`)
+      const resp = await api.post(`api/auth/logar&returnTokenData?CPF=${cpf}&Senha=${senha}`)
       
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) authenticateUser(resp)
@@ -125,7 +130,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   {
     try 
     {
-      const resp = await api.post(`/api/auth/recuperarSenha&returnTokenData?CPF=${cpf}&NovaSenha=${novaSenha}`)
+      const resp = await api.post(`api/auth/recuperarSenha&returnTokenData?CPF=${cpf}&NovaSenha=${novaSenha}`)
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) authenticateUser(resp)
