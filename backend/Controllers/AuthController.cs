@@ -12,6 +12,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.AspNetCore.Authorization;
+using BC = BCrypt.Net.BCrypt;
 
 
 using backend.Data;
@@ -165,7 +166,8 @@ namespace backend.Controllers
         usuario.Nome = Nome;
         usuario.Email = Email;
         usuario.Telefone = Telefone;
-        usuario.Senha = Senha;
+        // Usando BCrypt para encriptação
+        usuario.Senha = BC.HashPassword(Senha);
         usuario.UrlImagem = "";
         usuario.IsFunc = false;
         await uc.Post(usuario);
@@ -222,7 +224,7 @@ namespace backend.Controllers
 
         Usuario usuario = (Usuario)((OkObjectResult)result.Result).Value;
         // Update no banco
-        usuario!.Senha = NovaSenha;
+        usuario!.Senha = BC.HashPassword(NovaSenha);
         await uc.Put(usuario);
 
         // Gerar token com os dados de usuário
