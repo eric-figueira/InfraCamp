@@ -57,6 +57,7 @@ const Post: React.FC<PostProps> = (props) => {
                 .then(res => {
                     setOpiniao(res.data);
                 })
+                .catch(error => console.error(error))
         }
         else {
             api.delete(`api/opinioes/${props.idDenuncia}/${user?.cpf}`)
@@ -71,7 +72,7 @@ const Post: React.FC<PostProps> = (props) => {
     }, [opiniao])
 
     useEffect(() => {
-        api.get(`api/opinioes/${props.idDenuncia}/${props.cpf}`).then(resp => {
+        api.get(`api/opinioes/${props.idDenuncia}/${user?.cpf}`).then(resp => {
             setOpiniao(resp.data);
         })
     }, [])

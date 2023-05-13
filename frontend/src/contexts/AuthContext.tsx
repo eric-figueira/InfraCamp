@@ -28,7 +28,7 @@ interface ISignUp {
   cpf: string
 }
 
-interface IUser {
+export interface IUser {
   nome: string,
   email: string,
   avatar_url: string,
