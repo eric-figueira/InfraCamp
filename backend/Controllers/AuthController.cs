@@ -152,28 +152,28 @@ namespace backend.Controllers
       try
       {
         // Verificar se CPF já existe no banco
-        ActionResult<Usuario> result;
-
         UsuarioController uc = new UsuarioController(this._context);
-        result = uc.GetUsuario(CPF);
+        ActionResult<Usuario> result = uc.GetUsuario(CPF);
 
         // Retornamos BadRequest caso não retorne NotFound, pois se isso acontecer
         // significa que já existe esse CPF cadastrado
-        if (result != null) return BadRequest();
+        if (result.Result is NotFoundResult) 
+        {
+          Usuario usuario = new Usuario();
+          usuario.Cpf = CPF;
+          usuario.Nome = Nome;
+          usuario.Email = Email;
+          usuario.Telefone = Telefone;
+          // Usando BCrypt para encriptação
+          usuario.Senha = BC.HashPassword(Senha);
+          usuario.UrlImagem = "";
+          usuario.IsFunc = false;
+          await uc.Post(usuario);
 
-        Usuario usuario = new Usuario();
-        usuario.Cpf = CPF;
-        usuario.Nome = Nome;
-        usuario.Email = Email;
-        usuario.Telefone = Telefone;
-        // Usando BCrypt para encriptação
-        usuario.Senha = BC.HashPassword(Senha);
-        usuario.UrlImagem = "";
-        usuario.IsFunc = false;
-        await uc.Post(usuario);
-
-        // Gerar token com os dados de usuário
-        return gerarTokenData(usuario);
+          // Gerar token com os dados de usuário
+          return gerarTokenData(usuario);
+        }
+        else return BadRequest();
       }
       catch
       {
@@ -189,17 +189,19 @@ namespace backend.Controllers
       try
       {
         // Verificar se dados (email + senha em obj) existem
-        ActionResult<Usuario> result;
-
         UsuarioController uc = new UsuarioController(this._context);
-        result = uc.GetUsuario(CPF);
+        ActionResult<Usuario> result = uc.GetUsuario(CPF);
 
         if (result == null) return Unauthorized();
 
-        Usuario usuario = (Usuario)((OkObjectResult)result.Result).Value;
+        Usuario usuario = ((OkObjectResult)result.Result).Value as Usuario;
 
-        // Gerar token com os dados de usuário
-        return gerarTokenData(usuario);
+        if (BC.Verify(Senha, usuario.Senha)) 
+        {
+          // Gerar token com os dados de usuário
+          return gerarTokenData(usuario);
+        }
+        else return BadRequest();
       }
       catch
       {
@@ -215,14 +217,12 @@ namespace backend.Controllers
       try
       {
         // Verificar se dados (email + novaSenha em obj) existem
-        ActionResult<Usuario> result;
-
         UsuarioController uc = new UsuarioController(this._context);
-        result = uc.GetUsuario(CPF);
+        ActionResult<Usuario> result = uc.GetUsuario(CPF);
 
         if (result == null) return Unauthorized();
 
-        Usuario usuario = (Usuario)((OkObjectResult)result.Result).Value;
+        Usuario usuario = ((OkObjectResult)result.Result).Value as Usuario;
         // Update no banco
         usuario!.Senha = BC.HashPassword(NovaSenha);
         await uc.Put(usuario);
