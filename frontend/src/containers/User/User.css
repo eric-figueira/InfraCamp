@@ -1,10 +1,6 @@
-#user {
-    margin-left: 78px;
-}
-
 .user {
     margin-left: 78px;
-    padding-top: 5%;
+    padding-top: 2.5%;
     position: relative;
     height: 100%;
     width: 92%;
@@ -16,17 +12,16 @@
     justify-content: center;
     text-align: center;
     color: #333;
-    padding-top: 10px;
-    padding: 25px;
+    padding: 2rem;
     width: 35%;
 }
 
 .user .left .img {
     border-radius: 50%;
-    height: 160px;
-    width: 160px;
-    margin: 25px;
-    margin-left: 25%;
+    height: 12rem;
+    width: 12rem;
+    margin-inline: 25%;
+    margin-bottom: 2rem;
 }
 
 .user .left .img img {
@@ -37,6 +32,7 @@
 
 .user .left h4 {
     font-size: 30px;
+    font-weight: 600;
 }
 
 .user .left p {
@@ -44,15 +40,16 @@
     text-align: left;
     padding: 1%;
     padding-top: 5%;
-    font-size: 20px;
+    font-size: 16px;
 }
 
 .user .left input {
     display: inline;
+    width: 100%;
     border: none;
     background-color: #dddcdc;
     border-radius: 10px;
-    font-size: 20px;
+    font-size: 16px;
     color: #000000;
     padding: 0.5rem;
     margin: 0.25rem;
@@ -62,28 +59,35 @@
     background-color: #cfcfcf;
 }
 
+label {
+    text-align: left;
+    padding: 0.75rem;
+    font-size: 16px;
+    display: block;
+}
+
 .info-titles {
     float: left;
-    width: 35%;
+    width: 30%;
     padding: 1rem;
 }
 
 .info-values {
     float: right;
-    width: 65%;
+    width: 70%;
     padding: 1rem;
 }
 
 .user .right {
     overflow-y: scroll;
     width: 65%;
-    height: 560px;
+    height: 36rem;
     color: #efefef;
-    padding: 20px;
+    padding: 1rem;
     background: #09080f;
     border-radius: 25px;
     display: grid;
-    grid-row: 30px;
+    grid-row: 1.5rem;
     grid-template-columns: 50% 50%;
 }
 

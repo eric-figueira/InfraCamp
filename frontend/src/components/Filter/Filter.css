@@ -1,15 +1,9 @@
-* {
-    margin: 0;
-    padding: 0;
-}
-
 .filter {
     z-index: 2;
     position: relative;
     background-color: #11101D;
     color: #d3d3d3;
-    font-weight: bold;
-    font-size: 22px;
+    font-weight: 500;
     margin-left: 12rem;
     border-radius: 50px;
     width: 75%;
@@ -17,8 +11,7 @@
 
 .filter .option {
     display: inline-block;
-    padding: 0.5rem;
-    padding-left: 2rem;
+    padding-left: 1rem;
     width: 50%;
     position: relative;
 }
@@ -26,19 +19,20 @@
 .filter .option label {
     position: relative;
     width: 25%;
+    float: left;
+    font-size: 18px;
 }
 
 .filter .option select {
     position: relative;
-    width: 75%;
-    margin: 0px;
+    width: 70%;
+    margin: 0.5rem;
     padding: 0.3rem;
     border: none;
     outline: none;
     background-color: #11101D;
     color: #d4d4d4;
-    font-weight: bold;
-    font-size: 20px;
+    font-size: 18px;
     border-radius: 3px;
 }
 

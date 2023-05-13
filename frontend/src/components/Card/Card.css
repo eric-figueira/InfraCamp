@@ -16,15 +16,21 @@
 .user .right .info h3 {
     font-size: 25px;
     padding-bottom: 5%;
+    font-weight: 600;
 }
 
 .user .right .info h4 {
     font-size: 18px;
     padding: 5px;
+    font-weight: 500;
 }
 
 .user .right button {
+    margin: 0.5rem;
     margin-top: 1.25rem;
+    font-weight: 600;
+    font-size: 18px;
+    width: calc(100% - 1rem);
 }
 
 .aa {

@@ -1,17 +1,18 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, ChangeEventHandler } from "react";
 import Button from "../../components/Button/Button";
 import Denuncia from "../../types/Denuncia";
 
-import { IMask } from "react-imask";
+import { IMaskInput } from "react-imask";
 
 import './User.css';
 import { useGet } from "../../hooks/useGet";
 import Card from "../../components/Card/Card";
 import Complaint from "../../components/Complaint/Complaint";
 
-import { AuthContext, IUser } from "../../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 import { api } from "../../services/api";
 import Usuario from "../../types/Usuario";
+import { MaskedRange } from "imask";
 
 export interface ComplaintData {
     idDenuncia?: number;
@@ -25,10 +26,9 @@ export interface ComplaintData {
 }
 
 export const User: React.FC = () => {
+    const { user } = useContext(AuthContext);
 
-    const { user, LogOut } = useContext(AuthContext)
-
-    const [usuario, setUsuario] = useState<IUser>(user ? user : {} as IUser);
+    const [usuario, setUsuario] = useState<Usuario>();
 
     const [showComplaint, setShowComplaint] = useState<boolean>(false);
     const [complaint, setComplaint] = useState<ComplaintData>()
@@ -39,6 +39,12 @@ export const User: React.FC = () => {
 
     const toggleComplaint = () => { setShowComplaint(!showComplaint) }
     const setComplaintData = (props: ComplaintData) => { setComplaint(props) }
+
+    useEffect(() => {
+        api.get('api/usuarios/' + user?.cpf)
+            .then(resp => setUsuario(resp.data))
+            .catch(error => console.log(error));
+    }, [user?.cpf])
 
     const handleClickEditar = () => {
         setIsEditing(true);
@@ -53,10 +59,31 @@ export const User: React.FC = () => {
         setIsEditing(false);
     }
 
+    const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+        const reader = new FileReader();
+        reader.onload = e => {
+            // const img = document.querySelector("#img") as HTMLImageElement;
+            // if (img)
+            //     img.src = e?.target?.result;
+
+            // previousImg = img.src
+            // img.style.width = '200px'
+            // img.style.height = '200px'
+        }
+
+        const file = (e.target.files?.item(0));
+        if (file !== null && file !== undefined)
+            reader.readAsDataURL(file);
+    }
+
     const handleClickSalvar = () => {
         api.put('api/usuarios', usuario)
             .then(resp => setUsuario(resp.data))
             .catch(error => console.log(error));
+        api.get('api/usuarios/' + user?.cpf)
+            .then(resp => setUsuario(resp.data))
+            .catch(error => console.log(error));
+        setIsEditing(false);
     }
 
     return (
@@ -64,35 +91,49 @@ export const User: React.FC = () => {
             <div className="left">
                 <div className="img">
                     {
-                        user?.avatar_url && <img src={user?.avatar_url} alt="user" />
+                        isEditing &&
+                        <input title="pickImg" type="file" accept="image/jpeg, image/png, image/jpg" onChange={handleChange} />
                     }
-                    {
-                        !user?.avatar_url && <img src="../../assets/imgs/user-icon.png" alt="user" />
-                    }
+                    <img id="img" src={user ? user.avatar_url : "../../assets/imgs/user-icon.png"} alt="user" />
                 </div>
                 {
-                    isEditing &&
-                    <>
-                        <div className="info-titles">
-                            <p>Nome:</p>
-                            <p>Telefone:</p>
-                            <p>Email:</p>
-                        </div>
-                        <div className="info-values">
-                            <input type="text" title="username" value={usuario.nome} onChange={(e) => setUsuario({ ...usuario, nome: e.target.value })} />
-                            <input type="text" title="phone" value={usuario.telefone} onChange={(e) => setUsuario({ ...usuario, telefone: e.target.value })} />
-                            <input type="text" title="email" value={usuario.email} onChange={(e) => setUsuario({ ...usuario, email: e.target.value })} />
-                        </div>
-                    </>
-                }
-                {
-                    !isEditing &&
-                    <>
-                        <h4>{user?.nome}</h4>
-                        <p>Telefone: {user?.telefone} </p>
-                        <p>Email: {user?.email}</p>
-                        <p>Senha: ••••••••</p>
-                    </>
+                    isEditing ?
+                        <>
+                            <div className="info-titles">
+                                <label>Nome:</label>
+                                <label>Telefone:</label>
+                                <label>Email:</label>
+                            </div>
+                            <div className="info-values">
+                                <input type="text" title="username" value={usuario?.nome} onChange={(e) => setUsuario({ ...usuario, nome: e.target.value } as Usuario)} />
+
+                                <IMaskInput
+                                    mask="(NN) NNNNN-NNNN"
+                                    blocks={{
+                                        N: {
+                                            mask: MaskedRange,
+                                            from: 0,
+                                            to: 9,
+                                            maxLength: 1
+                                        }
+                                    }}
+                                    type="text" title="phone" value={usuario?.telefone} onChange={(e) => setUsuario({ ...usuario, telefone: (e.target as HTMLInputElement).value } as Usuario)}
+                                />
+
+                                <input type="text" title="email" value={usuario?.email} onChange={(e) => setUsuario({ ...usuario, email: e.target.value } as Usuario)} />
+                            </div>
+                        </>
+                        : <>
+                            <h4>{usuario?.nome}</h4>
+                            <div className="info-titles">
+                                <label>Telefone:</label>
+                                <label>Email:</label>
+                            </div>
+                            <div className="info-values">
+                                <label>{usuario?.telefone}</label>
+                                <label>{usuario?.email}</label>
+                            </div>
+                        </>
                 }
 
                 <div className="button">

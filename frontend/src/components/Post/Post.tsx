@@ -92,7 +92,7 @@ const Post: React.FC<PostProps> = (props) => {
                     case 1: setColor("#5d9fd4"); break;
                     case 2: setColor("#d6950a"); break;
                     case 3: setColor("#d45d6d"); break;
-                    case 4: setColor("#5fd4c1"); break;
+                    case 4: setColor("#956fb4"); break;
                     case 5: setColor("#4faf5f"); break;
                 }
             }
@@ -120,7 +120,7 @@ const Post: React.FC<PostProps> = (props) => {
                 <h4 className="message">
                     <b>Descrição</b> {props.description}
                 </h4>
-                <h4 className="message" style={{ color: color, fontWeight: 'bold' }}>
+                <h4 className="message" style={{ color: color }}>
                     <StatusDenuncia idDenuncia={props.idDenuncia} idStatus={props.idStatus} />
                 </h4>
             </div>

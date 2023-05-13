@@ -36,8 +36,8 @@ export const StatusDenuncia: React.FC<IStatus> = (props) => {
   {
     return (
       <div>
-        <h4 className="statusDenunciaH4">Situação: 
-          <select onChange={alterarStatus} className="statusDenunciaSelect">
+        <h4 className="statusDenunciaH4">Situação
+          <select title="situacao" onChange={alterarStatus} className="statusDenunciaSelect">
             <option value="1" selected={props.idStatus === 1}>Não Visualizado</option>
             <option value="2" selected={props.idStatus === 2}>Em Análise</option>
             <option value="3" selected={props.idStatus === 3}>Fechado</option>
@@ -52,12 +52,12 @@ export const StatusDenuncia: React.FC<IStatus> = (props) => {
   {
     return (
       <div>
-        <h4 className="statusDenunciaH4"> Situação: 
-        <StatusLabel color={ props.idStatus == 1 ? '#5d9fd4' 
-                          : (props.idStatus == 2 ? '#d6950a' 
-                          : (props.idStatus == 3 ? '#d45d6d' 
-                          : (props.idStatus == 4 ? '#5fd4c1' 
-                          : (props.idStatus == 5 ? '#4faf5f' : ""))))} className="statusDenunciaMessageB">
+        <h4 className="statusDenunciaH4"> Situação 
+        <StatusLabel color={ props.idStatus === 1 ? '#5d9fd4' 
+                          : (props.idStatus === 2 ? '#d6950a' 
+                          : (props.idStatus === 3 ? '#d45d6d' 
+                          : (props.idStatus === 4 ? '#956fb4' 
+                          : (props.idStatus === 5 ? '#4faf5f' : ""))))} className="statusDenunciaMessageB">
                       {status?.status === undefined ? "" : status?.status}</StatusLabel></h4>
       </div>
     )

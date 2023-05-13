@@ -53,7 +53,7 @@ const Complaint: React.FC<ComplaintProps> = (props) => {
                     case 1: setColor("#5d9fd4"); break;
                     case 2: setColor("#d6950a"); break;
                     case 3: setColor("#d45d6d"); break;
-                    case 4: setColor("#5fd4c1"); break;
+                    case 4: setColor("#956fb4"); break;
                     case 5: setColor("#4faf5f"); break;
                 } 
             }
@@ -73,7 +73,7 @@ const Complaint: React.FC<ComplaintProps> = (props) => {
             <div id="complaint">
                 <div className="top_box">
                     <h2 className="title">{usuario?.nome}</h2>
-                    <button className="close_button" title="close" onClick={handleClick}><X /></button>
+                    <button className="close_button" title="close" onClick={handleClick}><X weight="bold" color="#FFFFFF"/></button>
                 </div>
                 <div className="img">
                     <img src={props.imgUrl} alt="Imagem do problema" />

@@ -7,7 +7,7 @@ import { ComplaintData } from "../../containers/User/User";
 import "./Card.css";
 
 import "./Card.css";
-import { ArrowFatRight } from "phosphor-react";
+import { ArrowRight } from "phosphor-react";
 
 interface CardProps {
     idDenuncia: number;
@@ -53,7 +53,7 @@ const Card: React.FC<CardProps> = (props) => {
                     case 1: setColor("#5d9fd4"); break;
                     case 2: setColor("#d6950a"); break;
                     case 3: setColor("#d45d6d"); break;
-                    case 4: setColor("#5fd4c1"); break;
+                    case 4: setColor("#956fb4"); break;
                     case 5: setColor("#4faf5f"); break;
                 };
             }
@@ -68,7 +68,7 @@ const Card: React.FC<CardProps> = (props) => {
 
             <button onClick={() => { props.handleToggleComplaint(); props.setComplaint({idDenuncia: props.idDenuncia, cpf: props.cpf, date: props.date, idTipo: props.idTipo, address: props.address, description: props.description, idStatus: props.idStatus, imgUrl: props.imgUrl}) }}>
                 Mais informações
-                <ArrowFatRight className="aa" />
+                <ArrowRight size={15} weight="bold" className="aa" />
             </button>
         </div>
     )

@@ -20,16 +20,18 @@
 .card .left .message {
     font-size: 16px;
     font-weight: 500;
-    padding: 8px;
+    padding: 0.4rem;
     color: #777;
     background-color: #dddddd;
     margin: 0.5rem;
     border-radius: 20px;
+    text-align: justify;
 }
 
 .card .left .message b {
+    font-weight: 500;
     display: block;
-    font-size: 20px;
+    font-size: 18px;
     color: #262626;
     background-color: #dddddd;
 }
@@ -38,7 +40,8 @@
     font-size: 18px;
     padding-top: 8px;
     color: #262626;
-    padding-bottom: 25px;
+    padding: 0.4rem;
+    padding-bottom: 1.25rem;
 }
 
 .card .left .title b {
@@ -51,19 +54,18 @@
     display: flex;
     width: 75%;
     float: left;
-    background-color: #262626;
 }
 
-.card .mid .imgBx .cover {
+.card .mid .cover {
     position: relative;
-    height: 100%;
-    width: fit-content;
+    height: 95%;
+    margin-top: 2%;
+    border-radius: 0.5rem;
 }
 
 .card .right {
     width: auto;
     background: #e5e5e5;
-    padding-top: 1re,;
     float: left;
 }
 
@@ -81,7 +83,7 @@
 
 .actionBtns button {
     width: 100%;
-    padding-inline: 1rem;
+    padding-inline: 0.5rem;
     text-align: center;
 }
 

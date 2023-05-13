@@ -19,12 +19,17 @@
     color: white;
     float: left;
     font-size: 20px;
+    font-weight: 500;
 }
 
 .top_box > button {
     float: right;
     margin-top: 1rem;
     margin-right: 2rem;
+    padding: 0;
+    padding-top: 0.35rem;
+    background-color: transparent;
+    color: #FFFFFF;
 }
 
 .img {
@@ -47,11 +52,11 @@
 
 .date {
     font-size: 26px;
-    font-weight: bold;
     padding: 0.5rem;
 }
 
 .item {
+    font-weight: 300;
     font-size: 16px;
     padding: 0.5rem;
     margin: 0.5rem;
@@ -60,7 +65,7 @@
 }
 
 .item > span {
-    font-weight: bold;
+    font-weight: 500;
 }
 
 #description {
