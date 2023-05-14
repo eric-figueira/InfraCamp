@@ -3,38 +3,43 @@ import { useGet } from "../../hooks/useGet";
 
 import "./Filter.css";
 
-type Tipo = {
-    idTipo: Number;
-    tipo: string;
-};
-
-type Status = {
-    idStatus: Number;
-    status: string;
-}
+import Status from "../../types/Status";
+import Tipo from "../../types/Tipo";
+import { Ordem } from "../../types/Ordem";
 
 interface FilterProps {
-    filterTipo: (tipo?: SetStateAction<boolean>, ixTipo?: Number) => void;
-    filterStatus: (status?: SetStateAction<boolean>, ixStatus?: Number) => void;
+    filtrarPorTipo: (tipo?: SetStateAction<boolean>, ixTipo?: Number) => void;
+    filtrarPorStatus: (status?: SetStateAction<boolean>, ixStatus?: Number) => void;
+    filtrarPorOrdem: (ordem?: SetStateAction<boolean>, ixStatus?: Number) => void;
 }
 
-const Filter: React.FC<FilterProps> = (props) => {
+const Filter: React.FC<FilterProps> = ({ filtrarPorTipo, filtrarPorStatus, filtrarPorOrdem }) => {
+
     function handleChange(e: React.ChangeEvent<HTMLSelectElement>) {
         e.preventDefault();
 
         const filtro = (e.target as HTMLSelectElement).name;
         const index = (e.target as HTMLSelectElement).selectedIndex;
+
         let on = true;
-        if (index === 0)
-            on = false;
-        if (filtro === "tipo")
-            props.filterTipo(on, index);
-        else if (filtro === "status")
-            props.filterStatus(on, index);
+        index === 0 ? on = false : on = true;
+
+        switch (filtro) {
+            case "tipo":
+                filtrarPorTipo(on, index);
+                break;
+            case "status":
+                filtrarPorStatus(on, index);
+                break;
+            case "ordem":
+                filtrarPorOrdem(on, index);
+                break;
+        }
     }
     // São constantes, não vão sofrer reatribuição
-    const { data: tipos } = useGet<Tipo[]>("http://localhost:5164/api/tiposDenuncia")
-    const { data: status } = useGet<Status[]>("http://localhost:5164/api/statusDenuncia")
+    const { data: tipos } = useGet<Tipo[]>("api/tiposDenuncia")
+    const { data: status } = useGet<Status[]>("api/statusDenuncia")
+    const { data: ordens } = useGet<Ordem[]>('api/ordensDenuncia')
 
     return (
         <div className="filter">
@@ -56,6 +61,17 @@ const Filter: React.FC<FilterProps> = (props) => {
                     {
                         status?.map(status => {
                             return <option value={status.status}>{status.status}</option>
+                        })
+                    }
+                </select>
+            </div>
+            <div className="option">
+                <label>Ordenação: </label>
+                <select title="ordenacao" name="ordenacao" onChange={handleChange}>
+                    <option value="todos">Todos</option>
+                    {
+                        ordens?.map(ordem => {
+                            return <option value={ordem.ordem}>{ordem.ordem}</option>
                         })
                     }
                 </select>
