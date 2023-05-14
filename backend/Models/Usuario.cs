@@ -28,7 +28,7 @@ namespace backend.Models
         public string? Telefone { get; set; }
         
         [Required]
-        [StringLength(30)]
+        [StringLength(72)]
         [DataType(DataType.Password)]
         public string? Senha { get; set; }
         

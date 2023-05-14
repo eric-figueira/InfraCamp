@@ -2,6 +2,9 @@ import React, { useState, useEffect, useContext, ChangeEventHandler } from "reac
 import Button from "../../components/Button/Button";
 import Denuncia from "../../types/Denuncia";
 
+import userIcon from "../../assets/imgs/user-icon.png";
+import plusIcon from "../../assets/imgs/plus-icon.png";
+
 import { IMaskInput } from "react-imask";
 
 import './User.css';
@@ -31,7 +34,17 @@ export const User: React.FC = () => {
 
     const [usuario, setUsuario] = useState<Usuario>();
 
-    const [plusVisible, setPlusVisible] = useState<boolean>();
+    const setPlusVisible = (isVisible: boolean) => {
+        const img = (document.querySelector("#img-picking") as HTMLImageElement)
+        if (isVisible) {
+            img.src = plusIcon;
+            img.setAttribute("style", "filter: invert()");
+        }
+        else {
+            img.src = (usuario?.urlImagem !== "" && usuario?.urlImagem !== undefined && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon
+            img.setAttribute("style", "filter: none");
+        }
+    }
 
     const [showComplaint, setShowComplaint] = useState<boolean>(false);
     const [complaint, setComplaint] = useState<ComplaintData>()
@@ -77,9 +90,6 @@ export const User: React.FC = () => {
         api.put('api/usuarios', usuario)
             .then(resp => setUsuario(resp.data))
             .catch(error => console.log(error));
-        api.get('api/usuarios/' + user?.cpf)
-            .then(resp => setUsuario(resp.data))
-            .catch(error => console.log(error));
         setIsEditing(false);
     }
 
@@ -92,11 +102,9 @@ export const User: React.FC = () => {
                             <>
                                 <input id="pickImg" title="Browse" type="file" accept="image/jpeg, image/png, image/jpg" onChange={handleChange} />
 
-                                <img id="img-picking" src={usuario?.urlImagem ? usuario.urlImagem : "../../assets/imgs/user-icon.png"} alt="user" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)} />
-
-                                <PlusCircle size={100} weight="bold" id="plus" style={plusVisible ? {display: "inherit"} : {display: "none"}}/>
+                                <img id="img-picking" style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== undefined && usuario?.urlImagem !== null) ? {} : {filter: "invert()"}} src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== undefined && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)} />
                             </> :
-                            <img id="img" src={usuario?.urlImagem ? usuario.urlImagem : "../../assets/imgs/user-icon.png"} alt="user" />}
+                            <img id="img" src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== undefined && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" />}
                 </div>
                 {
                     isEditing ?
