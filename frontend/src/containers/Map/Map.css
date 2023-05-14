@@ -40,7 +40,7 @@ input.svelte-p509gh {
     --a: 30px;
 
     height: var(--a);
-    width: 80%;
+    width: 60%;
     padding: 10px;
     border-radius: var(--a);
     outline-style: none;

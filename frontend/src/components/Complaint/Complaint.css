@@ -1,7 +1,7 @@
 #complaint {
     z-index: 4;
     position: fixed;
-    width: 32.5rem;
+    width: 30rem;
     height: 100vh;
     right: 0;
     top: 0;
@@ -13,9 +13,19 @@
     height: 5rem;
 }
 
+.top_box > img {
+    float: left;
+    height: 2.5rem;
+    width: 2.5rem;
+    margin: 1rem;
+    margin-left: 1.75rem;
+    background-color: #e6e6e6;
+    border-radius: 50%;
+}
+
 .top_box > h2 {
-    margin-top: 1.5rem;
-    margin-left: 2rem;
+    margin-top: 1.75rem;
+    margin-left: 0.5rem;
     color: white;
     float: left;
     font-size: 20px;
@@ -38,10 +48,12 @@
     margin-left: calc((100% - 90%) / 2);
     margin-right: calc((100% - 90%) / 2);
     background-color: #292A35;
+    border-radius: 10px;
 }
 
 .img img {
     height: 100%;
+    border-radius: 10px;
 }
 
 .bottom_box {

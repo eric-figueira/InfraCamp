@@ -1,0 +1,60 @@
+#confirmBox {
+    text-align: center;
+    --width: 60%;
+
+    border-radius: 10px;
+    background-color: #201d35;
+    color: white;
+    padding: 1rem;
+
+    width: var(--width);
+    height: auto;
+    position: absolute;
+    z-index: 4;
+    margin: 10%;
+    margin-inline: calc((100% - var(--width))/2);
+}
+
+h1 {
+    padding: 1rem;
+    position: relative;
+    color: #ff4343;
+    width: 100%;
+    font-size: 24px;
+    margin: 0;
+    text-align: center;
+}
+
+p {
+    font-size: 20px;
+    padding: 1rem;
+}
+
+strong {
+    color: #ff4343;
+}
+
+#p-password {
+    display: inline;
+}
+
+input {
+    display: inline;
+    outline: none;
+    width: 40%;
+    padding: 0.1rem;
+    padding-inline: 0.5rem;
+    font-size: 20px;
+    border: none;
+    border-radius: 2rem;
+}
+
+.button-box {
+    display: flex;
+    width: 50%;
+    align-items: center;
+}
+
+.button {
+    margin: 1rem;
+}

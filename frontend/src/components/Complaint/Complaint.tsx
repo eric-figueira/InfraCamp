@@ -7,6 +7,7 @@ import Tipo from "../../types/Tipo";
 import Status from "../../types/Status";
 
 import { X } from "phosphor-react";
+import userIcon from "../../assets/imgs/user-icon.png";
 
 import { api } from "../../services/api";
 
@@ -72,6 +73,8 @@ const Complaint: React.FC<ComplaintProps> = (props) => {
             props.isVisible &&
             <div id="complaint">
                 <div className="top_box">
+                    <img src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? {} : {filter: "invert()"}} alt="img"></img>
+                    
                     <h2 className="title">{usuario?.nome}</h2>
                     <button className="close_button" title="close" onClick={handleClick}><X weight="bold" color="#FFFFFF"/></button>
                 </div>

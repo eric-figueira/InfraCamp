@@ -9,6 +9,7 @@ interface ButtonProps {
   fontSize?: number,
   borderColor?: string,
   width?: string,
+  disabled?: boolean,
   eventHandler: (event: MouseEvent) => void;
 }
 
@@ -23,6 +24,7 @@ const Button: React.FC<ButtonProps> = (props) => {
           border: props.borderColor,
           width: props.width
         }}
+        disabled={props.disabled}
         onClick={props.eventHandler}
       >{props.text}</button>
     </div>

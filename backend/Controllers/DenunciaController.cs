@@ -37,7 +37,7 @@ namespace backend.Controllers
         [HttpGet]
         public ActionResult<List<Denuncia>> GetAll()
         {
-            return this._context.Denuncia.OrderByDescending(order => order.Opinioes.Count()).ToList();
+            return this._context.Denuncia.OrderByDescending(order => order.Opinioes.Count()).ThenBy(order => order.DataDenuncia).ToList();
         }
 
         [HttpGet("{idDenuncia}")]

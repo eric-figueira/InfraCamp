@@ -21,95 +21,95 @@ using backend.Models;
 
 namespace backend.Controllers
 {
-  [Route("api/auth")]
-  public class AuthController : ControllerBase
-  {
-    private InfraCampContext _context;
-    private IConfiguration _configuration;
-
-    public AuthController(InfraCampContext ctx, IConfiguration config)
+    [Route("api/auth")]
+    public class AuthController : ControllerBase
     {
-      this._context = ctx;
-      this._configuration = config;
-    }
+        private InfraCampContext _context;
+        private IConfiguration _configuration;
 
-    [HttpPost("validateToken&returnData")]
-    public ActionResult<Object> ValidadeTokenAndReturnData(string Token)
-    {
-      try
-      {
-        // Testar se o token não expirou / se é válido
-        if (IsJWTEXpired(Token)) return false;
-
-        // Caso seja, ainda precisamos pegar as informacoes do usuario
-        // para isso, vamos pegar o CPF dentro do Token
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var jwtToken = tokenHandler.ReadJwtToken(Token);
-        var claim = jwtToken.Claims.FirstOrDefault(c => c.Type == "CPF");
-        var cpf = claim.Value;
-
-        // Getar usuário
-        ActionResult<Usuario> result;
-
-        UsuarioController uc = new UsuarioController(this._context);
-        result = uc.GetUsuario(cpf);
-        Usuario u = (Usuario)((OkObjectResult)result.Result).Value;
-
-        var response = new
+        public AuthController(InfraCampContext ctx, IConfiguration config)
         {
-          isTokenValid = true,
-          user = new
-          {
-            nome = u!.Nome,
-            email = u!.Email,
-            avatar_url = u!.UrlImagem,
-            telefone = u!.Telefone,
-            funcionario = u!.IsFunc,
-            cpf = u!.Cpf
-          }
-        };
+            this._context = ctx;
+            this._configuration = config;
+        }
 
-        string jsonData = JsonConvert.SerializeObject(response);
+        [HttpPost("validateToken&returnData")]
+        public ActionResult<Object> ValidadeTokenAndReturnData(string Token)
+        {
+            try
+            {
+                // Testar se o token não expirou / se é válido
+                if (IsJWTEXpired(Token)) return false;
 
-        return jsonData;
-      }
-      catch
-      {
-        // Mudar o codigo
-        return this.StatusCode(StatusCodes.Status400BadRequest, "Token inválido!");
-      }
-    }
+                // Caso seja, ainda precisamos pegar as informacoes do usuario
+                // para isso, vamos pegar o CPF dentro do Token
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jwtToken = tokenHandler.ReadJwtToken(Token);
+                var claim = jwtToken.Claims.FirstOrDefault(c => c.Type == "CPF");
+                var cpf = claim.Value;
 
-    [NonAction]
-    public bool IsJWTEXpired(string token)
-    {
-      var tokenHandler = new JwtSecurityTokenHandler();
-      var key = Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]);
+                // Getar usuário
+                ActionResult<Usuario> result;
 
-      var tokenValidationParameters = new TokenValidationParameters
-      {
-        ValidateIssuerSigningKey = true,
-        IssuerSigningKey = new SymmetricSecurityKey(key),
-        ValidateIssuer = false,
-        ValidateAudience = false,
-        ClockSkew = TimeSpan.Zero
-      };
+                UsuarioController uc = new UsuarioController(this._context);
+                result = uc.GetUsuario(cpf);
+                Usuario u = (Usuario)((OkObjectResult)result.Result).Value;
 
-      try
-      {
-        ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken validatedToken);
+                var response = new
+                {
+                    isTokenValid = true,
+                    user = new
+                    {
+                        nome = u!.Nome,
+                        email = u!.Email,
+                        avatar_url = u!.UrlImagem,
+                        telefone = u!.Telefone,
+                        funcionario = u!.IsFunc,
+                        cpf = u!.Cpf
+                    }
+                };
 
-        return false;
-      }
-      catch (SecurityTokenExpiredException) { return true; }
-      catch (SecurityTokenInvalidSignatureException) { return true; }
-      catch (SecurityTokenException) { return true; }
-    }
+                string jsonData = JsonConvert.SerializeObject(response);
 
-    [NonAction]
-    public Object gerarTokenData(Usuario u)
-    {
-      var authClaims = new List<Claim> {
+                return jsonData;
+            }
+            catch
+            {
+                // Mudar o codigo
+                return this.StatusCode(StatusCodes.Status400BadRequest, "Token inválido!");
+            }
+        }
+
+        [NonAction]
+        public bool IsJWTEXpired(string token)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_configuration["JWT:Secret"]);
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ClockSkew = TimeSpan.Zero
+            };
+
+            try
+            {
+                ClaimsPrincipal claimsPrincipal = tokenHandler.ValidateToken(token, tokenValidationParameters, out SecurityToken validatedToken);
+
+                return false;
+            }
+            catch (SecurityTokenExpiredException) { return true; }
+            catch (SecurityTokenInvalidSignatureException) { return true; }
+            catch (SecurityTokenException) { return true; }
+        }
+
+        [NonAction]
+        public Object gerarTokenData(Usuario u)
+        {
+            var authClaims = new List<Claim> {
         new Claim(ClaimTypes.Name, u.Nome),
         new Claim(ClaimTypes.Email, u.Email),
         new Claim("CPF", u.Cpf),
@@ -117,144 +117,161 @@ namespace backend.Controllers
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
       };
 
-      var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));     
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
-      var token = new JwtSecurityToken(
-        expires: DateTime.Now.AddMonths(1),
-        issuer: _configuration["JWT:ValidIssuer"],
-        audience: _configuration["JWT:ValidAudience"],
-        claims: authClaims,
-        signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-      );
+            var token = new JwtSecurityToken(
+              expires: DateTime.Now.AddMonths(1),
+              issuer: _configuration["JWT:ValidIssuer"],
+              audience: _configuration["JWT:ValidAudience"],
+              claims: authClaims,
+              signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+            );
 
-      var response = new
-      {
-        token = new JwtSecurityTokenHandler().WriteToken(token),
-        user = new
-        {
-          nome = u!.Nome,
-          email = u!.Email,
-          avatar_url = u!.UrlImagem,
-          telefone = u!.Telefone,
-          funcionario = u!.IsFunc,
-          cpf = u!.Cpf
+            var response = new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                user = new
+                {
+                    nome = u!.Nome,
+                    email = u!.Email,
+                    avatar_url = u!.UrlImagem,
+                    telefone = u!.Telefone,
+                    funcionario = u!.IsFunc,
+                    cpf = u!.Cpf
+                }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(response);
+
+            return jsonData;
         }
-      };
 
-      string jsonData = JsonConvert.SerializeObject(response);
-
-      return jsonData;
-    }
-
-    [HttpPost("cadastrar&returnTokenData")]
-    public async Task<ActionResult<Object>> Cadastrar(string CPF, string Email, string Nome, string Telefone, string Senha)
-    {
-      try
-      {
-        // Verificar se CPF já existe no banco
-        UsuarioController uc = new UsuarioController(this._context);
-        ActionResult<Usuario> result = uc.GetUsuario(CPF);
-
-        // Retornamos BadRequest caso não retorne NotFound, pois se isso acontecer
-        // significa que já existe esse CPF cadastrado
-        if (result.Result is NotFoundResult) 
+        [HttpPost("cadastrar&returnTokenData")]
+        public async Task<ActionResult<Object>> Cadastrar(string CPF, string Email, string Nome, string Telefone, string Senha)
         {
-          Usuario usuario = new Usuario();
-          usuario.Cpf = CPF;
-          usuario.Nome = Nome;
-          usuario.Email = Email;
-          usuario.Telefone = Telefone;
-          // Usando BCrypt para encriptação
-          usuario.Senha = BC.HashPassword(Senha);
-          usuario.UrlImagem = "";
-          usuario.IsFunc = false;
-          await uc.Post(usuario);
+            try
+            {
+                // Verificar se CPF já existe no banco
+                UsuarioController uc = new UsuarioController(this._context);
+                ActionResult<Usuario> result = uc.GetUsuario(CPF);
 
-          // Gerar token com os dados de usuário
-          return gerarTokenData(usuario);
+                // Retornamos BadRequest caso não retorne NotFound, pois se isso acontecer
+                // significa que já existe esse CPF cadastrado
+                if (result.Result is NotFoundResult)
+                {
+                    Usuario usuario = new Usuario();
+                    usuario.Cpf = CPF;
+                    usuario.Nome = Nome;
+                    usuario.Email = Email;
+                    usuario.Telefone = Telefone;
+                    // Usando BCrypt para encriptação
+                    usuario.Senha = BC.HashPassword(Senha);
+                    usuario.UrlImagem = "";
+                    usuario.IsFunc = false;
+                    await uc.Post(usuario);
+
+                    // Gerar token com os dados de usuário
+                    return gerarTokenData(usuario);
+                }
+                else return BadRequest();
+            }
+            catch
+            {
+                // Mudar o codigo
+                return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
+            }
         }
-        else return BadRequest();
-      }
-      catch
-      {
-        // Mudar o codigo
-        return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
-      }
-    }
 
 
-    [HttpPost("logar&returnTokenData")]
-    public ActionResult<Object> Logar(string CPF, string Senha)
-    {
-      try
-      {
-        // Verificar se dados (email + senha em obj) existem
-        UsuarioController uc = new UsuarioController(this._context);
-        ActionResult<Usuario> result = uc.GetUsuario(CPF);
-
-        if (result == null) return Unauthorized();
-
-        Usuario usuario = ((OkObjectResult)result.Result).Value as Usuario;
-
-        if (BC.Verify(Senha, usuario.Senha)) 
+        [HttpPost("verifyPassword")]
+        public ActionResult<string> VerificarSenha(string cpf, string senha)
         {
-          // Gerar token com os dados de usuário
-          return gerarTokenData(usuario);
+            UsuarioController uc = new UsuarioController(this._context);
+            ActionResult<Usuario> result = uc.GetUsuario(cpf);
+
+            if (result == null) return Unauthorized();
+
+            Usuario usuario = ((OkObjectResult)result.Result).Value as Usuario;
+
+            if (BC.Verify(senha, usuario?.Senha))
+                return Ok(usuario?.Senha);
+
+            return BadRequest();
         }
-        else return BadRequest();
-      }
-      catch
-      {
-        // Mudar o codigo
-        return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
-      }
+
+
+        [HttpPost("logar&returnTokenData")]
+        public ActionResult<Object> Logar(string CPF, string Senha)
+        {
+            try
+            {
+                // Verificar se dados (cpf + senha em obj) existem
+                UsuarioController uc = new UsuarioController(this._context);
+                ActionResult<Usuario> result = uc.GetUsuario(CPF);
+
+                if (result == null) return Unauthorized();
+
+                Usuario usuario = ((OkObjectResult)result.Result).Value as Usuario;
+
+                if (BC.Verify(Senha, usuario.Senha))
+                {
+                    // Gerar token com os dados de usuário
+                    return gerarTokenData(usuario);
+                }
+                else return BadRequest();
+            }
+            catch
+            {
+                // Mudar o codigo
+                return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
+            }
+        }
+
+
+        [HttpPost("recuperarSenha&returnTokenData")]
+        public async Task<ActionResult<Object>> RecuperarSenha(string CPF, string NovaSenha)
+        {
+            try
+            {
+                // Verificar se dados (email + novaSenha em obj) existem
+                UsuarioController uc = new UsuarioController(this._context);
+                ActionResult<Usuario> result = uc.GetUsuario(CPF);
+
+                if (result == null) return Unauthorized();
+
+                Usuario usuario = ((OkObjectResult)result.Result).Value as Usuario;
+                // Update no banco
+                usuario!.Senha = BC.HashPassword(NovaSenha);
+                await uc.Put(usuario);
+
+                // Gerar token com os dados de usuário
+                return gerarTokenData(usuario);
+            }
+            catch
+            {
+                // Mudar o codigo
+                return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
+            }
+        }
+
+        [HttpGet]
+        [Route("anonymous")]
+        [AllowAnonymous]
+        public string Anonymous() => "Anônimo";
+
+        [HttpGet]
+        [Route("authenticated")]
+        [Authorize]
+        public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
+
+        [HttpGet]
+        [Route("usuario")]
+        [Authorize(Roles = "0")]
+        public string Cidadao() => "Cidadão";
+
+        [HttpGet]
+        [Route("funcionario")]
+        [Authorize(Roles = "1")]
+        public string Funcionario() => "Funcionário";
     }
-
-
-    [HttpPost("recuperarSenha&returnTokenData")]
-    public async Task<ActionResult<Object>> RecuperarSenha(string CPF, string NovaSenha)
-    {
-      try
-      {
-        // Verificar se dados (email + novaSenha em obj) existem
-        UsuarioController uc = new UsuarioController(this._context);
-        ActionResult<Usuario> result = uc.GetUsuario(CPF);
-
-        if (result == null) return Unauthorized();
-
-        Usuario usuario = ((OkObjectResult)result.Result).Value as Usuario;
-        // Update no banco
-        usuario!.Senha = BC.HashPassword(NovaSenha);
-        await uc.Put(usuario);
-
-        // Gerar token com os dados de usuário
-        return gerarTokenData(usuario);
-      }
-      catch
-      {
-        // Mudar o codigo
-        return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
-      }
-    }
-
-    [HttpGet]
-    [Route("anonymous")]
-    [AllowAnonymous]
-    public string Anonymous() => "Anônimo";
-
-    [HttpGet]
-    [Route("authenticated")]
-    [Authorize]
-    public string Authenticated() => String.Format("Autenticado - {0}", User.Identity.Name);
-
-    [HttpGet]
-    [Route("usuario")]
-    [Authorize(Roles = "0")]
-    public string Cidadao() => "Cidadão";
-
-    [HttpGet]
-    [Route("funcionario")]
-    [Authorize(Roles = "1")]
-    public string Funcionario() => "Funcionário";
-  }
 }

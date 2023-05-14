@@ -6,10 +6,11 @@ import Tipo from "../../types/Tipo";
 import Status from "../../types/Status";
 import Usuario from "../../types/Usuario";
 
+import userIcon from "../../assets/imgs/user-icon.png";
 import { StatusDenuncia } from "../StatusDenuncia/StatusDenuncia";
 
 import "./Post.css";
-import { ArrowFatDown, ArrowFatUp } from "phosphor-react";
+import { Heart, WarningCircle } from "phosphor-react";
 
 interface PostProps {
     idDenuncia: number;
@@ -108,9 +109,14 @@ const Post: React.FC<PostProps> = (props) => {
     return (
         <div className="card">
             <div className="left">
-                <h4 className="title">
-                    <b>{usuario === undefined ? "" : usuario.nome} </b> Postado em {formatDate(props.date + "")}
-                </h4>
+                <div className="top">
+                    <div className="img">
+                        <img src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? {} : { filter: "invert()" }} alt="img"></img>
+                    </div>
+                    <h4 className="title">
+                        <b>{usuario === undefined ? "" : usuario.nome} </b> Postado em {formatDate(props.date + "")}
+                    </h4>
+                </div>
                 <h4 className="message">
                     <b>Problema</b> {tipo === undefined ? "" : tipo.tipo}
                 </h4>
@@ -130,11 +136,11 @@ const Post: React.FC<PostProps> = (props) => {
             <div className="right">
                 <h4 className="likes">{opinioes?.filter(opiniao => opiniao.isCurtida === true).length}</h4>
                 <div className="actionBtns">
-                    <button type="button" title="like" onClick={() => handleClick(true)}>
-                        <ArrowFatUp size='25' color="#11101D" weight={opiniao !== undefined ? (opiniao.isCurtida ? "fill" : "regular") : "regular"} />
+                    <button type="button" title="Curtir" onClick={() => handleClick(true)}>
+                        <Heart size='25' color="#ca3a3a" weight={opiniao !== undefined ? (opiniao.isCurtida ? "fill" : "regular") : "regular"} />
                     </button>
-                    <button type="button" title="dislike" onClick={() => handleClick(false)}>
-                        <ArrowFatDown size='25' color="#11101D" weight={opiniao !== undefined ? (opiniao.isCurtida ? "regular" : "fill") : "regular"} />
+                    <button type="button" title="Denunciar" onClick={() => handleClick(false)}>
+                        <WarningCircle size='25' color="#cf9516" weight={opiniao !== undefined ? (opiniao.isCurtida ? "regular" : "fill") : "regular"} />
                     </button>
                 </div>
             </div>

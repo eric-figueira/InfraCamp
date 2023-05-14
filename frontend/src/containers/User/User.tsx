@@ -17,6 +17,7 @@ import { api } from "../../services/api";
 import Usuario from "../../types/Usuario";
 import { MaskedRange } from "imask";
 import { PlusCircle } from "phosphor-react";
+import ConfirmBox from "../../components/ConfirmBox/ConfirmBox";
 
 export interface ComplaintData {
     idDenuncia?: number;
@@ -47,7 +48,8 @@ export const User: React.FC = () => {
     }
 
     const [showComplaint, setShowComplaint] = useState<boolean>(false);
-    const [complaint, setComplaint] = useState<ComplaintData>()
+    const [complaint, setComplaint] = useState<ComplaintData>();
+    const [isConfirmVisible, setIsConfirmVisible] = useState<boolean>(false);
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -67,8 +69,7 @@ export const User: React.FC = () => {
     }
 
     const handleClickDeletar = () => {
-        // api.delete('api/usuarios/' + user?.cpf)
-        //     .then(() => LogOut());
+        setIsConfirmVisible(true);
     }
 
     const handleClickCancelar = () => {
@@ -94,89 +95,95 @@ export const User: React.FC = () => {
     }
 
     return (
-        <div className="user">
-            <div className="left">
-                <div className="img">
+        <>
+            {
+                isConfirmVisible &&
+                <ConfirmBox user={usuario as Usuario} setIsVisible={setIsConfirmVisible} />
+            }
+            <div className="user" style={isConfirmVisible ? { filter: "blur(5px)" } : {}}>
+                <div className="left">
+                    <div className="img">
+                        {
+                            isEditing ?
+                                <>
+                                    <input id="pickImg" title="Browse" type="file" accept="image/jpeg, image/png, image/jpg" onChange={handleChange} />
+
+                                    <img id="img-picking" style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? {} : { filter: "invert()" }} src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)} />
+                                </> :
+                                <img id="img" src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" />}
+                    </div>
                     {
                         isEditing ?
                             <>
-                                <input id="pickImg" title="Browse" type="file" accept="image/jpeg, image/png, image/jpg" onChange={handleChange} />
+                                <div className="info-titles">
+                                    <label>Nome:</label>
+                                    <label>Telefone:</label>
+                                    <label>Email:</label>
+                                </div>
+                                <div className="info-values">
+                                    <input type="text" title="username" value={usuario?.nome} onChange={(e) => setUsuario({ ...usuario, nome: e.target.value } as Usuario)} />
 
-                                <img id="img-picking" style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== undefined && usuario?.urlImagem !== null) ? {} : {filter: "invert()"}} src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== undefined && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)} />
-                            </> :
-                            <img id="img" src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== undefined && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" />}
+                                    <IMaskInput
+                                        mask="(NN) NNNNN-NNNN"
+                                        blocks={{
+                                            N: {
+                                                mask: MaskedRange,
+                                                from: 0,
+                                                to: 9,
+                                                maxLength: 1
+                                            }
+                                        }}
+                                        type="text" title="phone" value={usuario?.telefone} onChange={(e) => setUsuario({ ...usuario, telefone: (e.target as HTMLInputElement).value } as Usuario)}
+                                    />
+
+                                    <input type="text" title="email" value={usuario?.email} onChange={(e) => setUsuario({ ...usuario, email: e.target.value } as Usuario)} />
+                                </div>
+                            </>
+                            : <>
+                                <h4>{usuario?.nome}</h4>
+                                <div className="info-titles">
+                                    <label>Telefone:</label>
+                                    <label>Email:</label>
+                                </div>
+                                <div className="info-values">
+                                    <label>{usuario?.telefone}</label>
+                                    <label>{usuario?.email}</label>
+                                </div>
+                            </>
+                    }
+
+                    <div className="button">
+                        <Button width="200px" backgroundColor={isEditing ? "#44a676" : "#222533"} fontColor="#FFFFFF" text={isEditing ? "Salvar" : "Editar"} eventHandler={isEditing ? handleClickSalvar : handleClickEditar}></Button>
+                        <Button width="200px" backgroundColor={isEditing ? "#222533" : "#941D1D"} fontColor="#FFFFFF" text={isEditing ? "Cancelar" : "Deletar"} eventHandler={isEditing ? handleClickCancelar : handleClickDeletar}></Button>
+                    </div>
                 </div>
-                {
-                    isEditing ?
-                        <>
-                            <div className="info-titles">
-                                <label>Nome:</label>
-                                <label>Telefone:</label>
-                                <label>Email:</label>
-                            </div>
-                            <div className="info-values">
-                                <input type="text" title="username" value={usuario?.nome} onChange={(e) => setUsuario({ ...usuario, nome: e.target.value } as Usuario)} />
-
-                                <IMaskInput
-                                    mask="(NN) NNNNN-NNNN"
-                                    blocks={{
-                                        N: {
-                                            mask: MaskedRange,
-                                            from: 0,
-                                            to: 9,
-                                            maxLength: 1
-                                        }
-                                    }}
-                                    type="text" title="phone" value={usuario?.telefone} onChange={(e) => setUsuario({ ...usuario, telefone: (e.target as HTMLInputElement).value } as Usuario)}
-                                />
-
-                                <input type="text" title="email" value={usuario?.email} onChange={(e) => setUsuario({ ...usuario, email: e.target.value } as Usuario)} />
-                            </div>
-                        </>
-                        : <>
-                            <h4>{usuario?.nome}</h4>
-                            <div className="info-titles">
-                                <label>Telefone:</label>
-                                <label>Email:</label>
-                            </div>
-                            <div className="info-values">
-                                <label>{usuario?.telefone}</label>
-                                <label>{usuario?.email}</label>
-                            </div>
-                        </>
-                }
-
-                <div className="button">
-                    <Button width="200px" backgroundColor={isEditing ? "#44a676" : "#222533"} fontColor="#FFFFFF" text={isEditing ? "Salvar" : "Editar"} eventHandler={isEditing ? handleClickSalvar : handleClickEditar}></Button>
-                    <Button width="200px" backgroundColor={isEditing ? "#222533" : "#941D1D"} fontColor="#FFFFFF" text={isEditing ? "Cancelar" : "Deletar"} eventHandler={isEditing ? handleClickCancelar : handleClickDeletar}></Button>
+                <div className="right">
+                    {
+                        denuncias?.map(
+                            // eslint-disable-next-line array-callback-return
+                            function (denuncia) {
+                                if (denuncia.cpf === user?.cpf) {
+                                    return (
+                                        <Card
+                                            key={denuncia.idDenuncia}
+                                            idDenuncia={denuncia.idDenuncia}
+                                            cpf={denuncia.cpf}
+                                            date={denuncia.dataDenuncia}
+                                            idTipo={denuncia.idTipo}
+                                            address={denuncia.endereco}
+                                            description={denuncia.descricao}
+                                            idStatus={denuncia.idStatus}
+                                            imgUrl={denuncia.urlImagem}
+                                            handleToggleComplaint={toggleComplaint}
+                                            setComplaint={setComplaintData}
+                                        ></Card>
+                                    )
+                                }
+                            })
+                    }
                 </div>
-            </div>
-            <div className="right">
-                {
-                    denuncias?.map(
-                        // eslint-disable-next-line array-callback-return
-                        function (denuncia) {
-                            if (denuncia.cpf === user?.cpf) {
-                                return (
-                                    <Card
-                                        key={denuncia.idDenuncia}
-                                        idDenuncia={denuncia.idDenuncia}
-                                        cpf={denuncia.cpf}
-                                        date={denuncia.dataDenuncia}
-                                        idTipo={denuncia.idTipo}
-                                        address={denuncia.endereco}
-                                        description={denuncia.descricao}
-                                        idStatus={denuncia.idStatus}
-                                        imgUrl={denuncia.urlImagem}
-                                        handleToggleComplaint={toggleComplaint}
-                                        setComplaint={setComplaintData}
-                                    ></Card>
-                                )
-                            }
-                        })
-                }
-            </div>
-            {showComplaint && <Complaint isVisible={showComplaint} setVisible={setShowComplaint} cpf={complaint?.cpf} idDenunia={complaint?.idDenuncia} date={complaint?.date} idTipo={complaint?.idTipo} address={complaint?.address} description={complaint?.description} idStatus={complaint?.idStatus} imgUrl={complaint?.imgUrl} />}
-        </div >
+                {showComplaint && <Complaint isVisible={showComplaint} setVisible={setShowComplaint} cpf={complaint?.cpf} idDenunia={complaint?.idDenuncia} date={complaint?.date} idTipo={complaint?.idTipo} address={complaint?.address} description={complaint?.description} idStatus={complaint?.idStatus} imgUrl={complaint?.imgUrl} />}
+            </div >
+        </>
     )
 }
