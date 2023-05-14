@@ -31,6 +31,26 @@ const Posts: React.FC = () => {
         else
             setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idStatus === ixStatus && denuncia.idTipo === ixTipo))
 
+        switch (true) 
+        {
+            case filtradaPorTipo && filtradaPorStatus && filtradaPorOrdem:
+                break;
+            case filtradaPorTipo && filtradaPorStatus && !filtradaPorOrdem:
+                break;
+            case filtradaPorTipo && !filtradaPorStatus && !filtradaPorOrdem:
+                break;
+            case filtradaPorTipo && !filtradaPorStatus && filtradaPorOrdem:
+                break;
+            case !filtradaPorTipo && filtradaPorStatus && filtradaPorOrdem:
+                break;
+            case !filtradaPorTipo && filtradaPorStatus && !filtradaPorOrdem:
+                break;
+            case !filtradaPorTipo && !filtradaPorStatus && filtradaPorOrdem:
+                break;
+            case !filtradaPorTipo && !filtradaPorStatus &&  !filtradaPorOrdem:
+                break;
+        }
+
         
     }, [denuncias, ixStatus, ixTipo, ixOrdem, filtradaPorStatus, filtradaPorTipo, filtradaPorOrdem])
 
