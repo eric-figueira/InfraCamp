@@ -31,7 +31,7 @@ const Filter: React.FC<FilterProps> = ({ filtrarPorTipo, filtrarPorStatus, filtr
             case "status":
                 filtrarPorStatus(on, index);
                 break;
-            case "ordem":
+            case "ordenacao":
                 filtrarPorOrdem(on, index);
                 break;
         }
@@ -39,7 +39,6 @@ const Filter: React.FC<FilterProps> = ({ filtrarPorTipo, filtrarPorStatus, filtr
     // São constantes, não vão sofrer reatribuição
     const { data: tipos } = useGet<Tipo[]>("api/tiposDenuncia")
     const { data: status } = useGet<Status[]>("api/statusDenuncia")
-    const { data: ordens } = useGet<Ordem[]>('api/ordensDenuncia')
 
     return (
         <div className="filter">
@@ -69,11 +68,8 @@ const Filter: React.FC<FilterProps> = ({ filtrarPorTipo, filtrarPorStatus, filtr
                 <label>Ordenação: </label>
                 <select title="ordenacao" name="ordenacao" onChange={handleChange}>
                     <option value="todos">Todos</option>
-                    {
-                        ordens?.map(ordem => {
-                            return <option value={ordem.ordem}>{ordem.ordem}</option>
-                        })
-                    }
+                    <option value="menosCurtidas">Mais Curtidas</option>
+                    <option value="maisCurtidas">Menos Curtidas</option>
                 </select>
             </div>
         </div>

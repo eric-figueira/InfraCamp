@@ -11,37 +11,41 @@ const Posts: React.FC = () => {
     const { data: denuncias } = useGet<Denuncia[]>("http://localhost:5164/api/denuncias");
     const [usedDenuncias, setUsedDenuncias] = useState<Denuncia[]>();
 
-    const [status, setStatus] = useState<boolean>(false);
-    const [tipo, setTipo] = useState<boolean>(false);
-    const [ordem, setOrdem] = useState<boolean>(false);
+    const [filtradaPorStatus, setFiltradaPorStatus] = useState<boolean>(false);
+    const [filtradaPorTipo, setFiltradaPorTipo] = useState<boolean>(false);
+    const [filtradaPorOrdem, setFiltradaPorOrdem] = useState<boolean>(false);
 
     const [ixStatus, setIxStatus] = useState<Number>(0);
     const [ixTipo, setIxTipo] = useState<Number>(0);
     const [ixOrdem, setIxOrdem] = useState<Number>(0);
 
-    useEffect(() => {
-        if (status === false && tipo === false)
+    useEffect(() => 
+    {
+        // Must check all conditions and enhance the code to make it more cleaner
+        if (filtradaPorStatus === false && filtradaPorTipo === false && filtradaPorOrdem === false) 
             setUsedDenuncias(denuncias ? denuncias : []);
-        else if (tipo === true && status === false)
+        else if (filtradaPorTipo === true && filtradaPorStatus === false && filtradaPorOrdem === false)
             setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idTipo === ixTipo));
-        else if (status === true && tipo === false)
+        else if (filtradaPorStatus === true && filtradaPorTipo === false)
             setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idStatus === ixStatus));
         else
             setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idStatus === ixStatus && denuncia.idTipo === ixTipo))
-    }, [denuncias, ixStatus, ixTipo, status, tipo])
+
+        
+    }, [denuncias, ixStatus, ixTipo, ixOrdem, filtradaPorStatus, filtradaPorTipo, filtradaPorOrdem])
 
     const filtrarPorTipo = (tipo?: SetStateAction<boolean>, ixTipo?: Number) => {
-        setTipo(tipo ? tipo : false)
+        setFiltradaPorTipo(tipo ? tipo : false)
         setIxTipo(ixTipo ? ixTipo : -1);
     }
 
     const filtrarPorStatus = (status?: SetStateAction<boolean>, ixStatus?: Number) => {
-        setStatus(status ? status : false);
+        setFiltradaPorStatus(status ? status : false);
         setIxStatus(ixStatus ? ixStatus : -1);
     }
 
     const filtrarPorOrdem = (ordem?: SetStateAction<boolean>, ixOrdem?: Number) => {
-        setOrdem(ordem ? ordem : false);
+        setFiltradaPorOrdem(ordem ? ordem : false);
         setIxOrdem(ixOrdem ? ixOrdem : -1);
     }
 
