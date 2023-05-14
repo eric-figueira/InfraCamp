@@ -13,6 +13,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { api } from "../../services/api";
 import Usuario from "../../types/Usuario";
 import { MaskedRange } from "imask";
+import { PlusCircle } from "phosphor-react";
 
 export interface ComplaintData {
     idDenuncia?: number;
@@ -29,6 +30,8 @@ export const User: React.FC = () => {
     const { user } = useContext(AuthContext);
 
     const [usuario, setUsuario] = useState<Usuario>();
+
+    const [plusVisible, setPlusVisible] = useState<boolean>();
 
     const [showComplaint, setShowComplaint] = useState<boolean>(false);
     const [complaint, setComplaint] = useState<ComplaintData>()
@@ -62,13 +65,7 @@ export const User: React.FC = () => {
     const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
         const reader = new FileReader();
         reader.onload = e => {
-            // const img = document.querySelector("#img") as HTMLImageElement;
-            // if (img)
-            //     img.src = e?.target?.result;
-
-            // previousImg = img.src
-            // img.style.width = '200px'
-            // img.style.height = '200px'
+            setUsuario({ ...usuario, urlImagem: e?.target?.result as string } as Usuario);
         }
 
         const file = (e.target.files?.item(0));
@@ -91,10 +88,15 @@ export const User: React.FC = () => {
             <div className="left">
                 <div className="img">
                     {
-                        isEditing &&
-                        <input title="pickImg" type="file" accept="image/jpeg, image/png, image/jpg" onChange={handleChange} />
-                    }
-                    <img id="img" src={user ? user.avatar_url : "../../assets/imgs/user-icon.png"} alt="user" />
+                        isEditing ?
+                            <>
+                                <input id="pickImg" title="Browse" type="file" accept="image/jpeg, image/png, image/jpg" onChange={handleChange} />
+
+                                <img id="img-picking" src={usuario?.urlImagem ? usuario.urlImagem : "../../assets/imgs/user-icon.png"} alt="user" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)} />
+
+                                <PlusCircle size={100} weight="bold" id="plus" style={plusVisible ? {display: "inherit"} : {display: "none"}}/>
+                            </> :
+                            <img id="img" src={usuario?.urlImagem ? usuario.urlImagem : "../../assets/imgs/user-icon.png"} alt="user" />}
                 </div>
                 {
                     isEditing ?

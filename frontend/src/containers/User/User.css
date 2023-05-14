@@ -14,6 +14,12 @@
     color: #333;
     padding: 2rem;
     width: 35%;
+    z-index: 2;
+    position: relative;
+}
+
+#pickImg {
+    display: none;
 }
 
 .user .left .img {
@@ -22,12 +28,27 @@
     width: 12rem;
     margin-inline: 25%;
     margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
 }
 
 .user .left .img img {
     border-radius: 50%;
     height: 100%;
     width: 100%;
+}
+
+#img-picking:hover {
+    cursor: pointer;
+    filter: blur(0.1rem);
+}
+
+.user .left .img #plus {
+    border-radius: 50%;
+    margin-inline: 25%;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 3;
 }
 
 .user .left h4 {
