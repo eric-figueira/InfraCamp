@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, ChangeEventHandler } from "reac
 import Button from "../../components/Button/Button";
 import Denuncia from "../../types/Denuncia";
 
+import robot from "../../assets/imgs/robot.png";
 import userIcon from "../../assets/imgs/user-icon.png";
 import plusIcon from "../../assets/imgs/plus-icon.png";
 
@@ -16,7 +17,6 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { api } from "../../services/api";
 import Usuario from "../../types/Usuario";
 import { MaskedRange } from "imask";
-import { PlusCircle } from "phosphor-react";
 import ConfirmBox from "../../components/ConfirmBox/ConfirmBox";
 
 export interface ComplaintData {
@@ -74,6 +74,10 @@ export const User: React.FC = () => {
 
     const handleClickCancelar = () => {
         setIsEditing(false);
+    }
+
+    const handlePublicar = () => {
+
     }
 
     const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -157,31 +161,43 @@ export const User: React.FC = () => {
                         <Button width="200px" backgroundColor={isEditing ? "#222533" : "#941D1D"} fontColor="#FFFFFF" text={isEditing ? "Cancelar" : "Deletar"} eventHandler={isEditing ? handleClickCancelar : handleClickDeletar}></Button>
                     </div>
                 </div>
-                <div className="right">
-                    {
-                        denuncias?.map(
-                            // eslint-disable-next-line array-callback-return
-                            function (denuncia) {
-                                if (denuncia.cpf === user?.cpf) {
-                                    return (
-                                        <Card
-                                            key={denuncia.idDenuncia}
-                                            idDenuncia={denuncia.idDenuncia}
-                                            cpf={denuncia.cpf}
-                                            date={denuncia.dataDenuncia}
-                                            idTipo={denuncia.idTipo}
-                                            address={denuncia.endereco}
-                                            description={denuncia.descricao}
-                                            idStatus={denuncia.idStatus}
-                                            imgUrl={denuncia.urlImagem}
-                                            handleToggleComplaint={toggleComplaint}
-                                            setComplaint={setComplaintData}
-                                        ></Card>
-                                    )
-                                }
-                            })
-                    }
-                </div>
+
+                {
+                    denuncias?.filter(denuncia => denuncia.cpf === user?.cpf).length === 0
+                        ?
+                        <div className="not-found">
+                            <h1>Reclamações</h1>
+                            <h4>Você ainda não realizou denúncias.</h4>
+                            <img src={robot} alt="Not found" />
+                            <Button text="Denunciar" backgroundColor="#222533" fontColor="#FFFFFF" eventHandler={handlePublicar} />
+                        </div>
+                        :
+                        <div className="right">
+                            {
+                                denuncias?.map(
+                                    // eslint-disable-next-line array-callback-return
+                                    function (denuncia) {
+                                        if (denuncia.cpf === user?.cpf) {
+                                            return (
+                                                <Card
+                                                    key={denuncia.idDenuncia}
+                                                    idDenuncia={denuncia.idDenuncia}
+                                                    cpf={denuncia.cpf}
+                                                    date={denuncia.dataDenuncia}
+                                                    idTipo={denuncia.idTipo}
+                                                    address={denuncia.endereco}
+                                                    description={denuncia.descricao}
+                                                    idStatus={denuncia.idStatus}
+                                                    imgUrl={denuncia.urlImagem}
+                                                    handleToggleComplaint={toggleComplaint}
+                                                    setComplaint={setComplaintData}
+                                                ></Card>
+                                            )
+                                        }
+                                    })
+                            }
+                        </div>
+                }
                 {showComplaint && <Complaint isVisible={showComplaint} setVisible={setShowComplaint} cpf={complaint?.cpf} idDenunia={complaint?.idDenuncia} date={complaint?.date} idTipo={complaint?.idTipo} address={complaint?.address} description={complaint?.description} idStatus={complaint?.idStatus} imgUrl={complaint?.imgUrl} />}
             </div >
         </>

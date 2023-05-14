@@ -15,7 +15,7 @@
     margin-inline: calc((100% - var(--width))/2);
 }
 
-h1 {
+#confirmBox h1 {
     padding: 1rem;
     position: relative;
     color: #ff4343;
@@ -25,12 +25,12 @@ h1 {
     text-align: center;
 }
 
-p {
+#confirmBox p {
     font-size: 20px;
     padding: 1rem;
 }
 
-strong {
+#confirmBox strong {
     color: #ff4343;
 }
 
@@ -38,7 +38,7 @@ strong {
     display: inline;
 }
 
-input {
+#confirmBox input {
     display: inline;
     outline: none;
     width: 40%;
@@ -49,12 +49,12 @@ input {
     border-radius: 2rem;
 }
 
-.button-box {
+#confirmBox .button-box {
     display: flex;
     width: 50%;
     align-items: center;
 }
 
-.button {
+#confirmBox .button {
     margin: 1rem;
 }

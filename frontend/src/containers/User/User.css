@@ -117,3 +117,22 @@ label {
     display: box;
     margin-top: 0.2rem;
 }
+
+.not-found img {
+    height: 60%;
+    width: fit-content;
+    margin: 1rem;
+}
+
+.not-found h4 {
+    font-size: 20px;
+}
+
+.not-found h1 {
+    margin: 0;
+    padding: 1rem;
+}
+
+.not-found {
+    text-align: center;
+}

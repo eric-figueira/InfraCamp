@@ -12,6 +12,8 @@ import Button from '../../components/Button/Button';
 import { Message, ETypes } from '../../components/Message/Message';
 
 import { AuthContext } from '../../contexts/AuthContext';
+import { IMaskInput } from 'react-imask';
+import { MaskedRange } from 'imask';
 
 
 const cpf_regex: RegExp = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/
@@ -80,7 +82,18 @@ const RecuperacaoSenha: React.FC = () => {
               <div className='icon-container'>
                 <EnvelopeSimple />
               </div>
-              <input type="text" placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: event.target.value })} />
+              <IMaskInput
+                mask="NNN.NNN.NNN-NN"
+                blocks={{
+                  N: {
+                    mask: MaskedRange,
+                    from: 0,
+                    to: 9,
+                    maxLength: 1
+                  }
+                }}
+                type='text' placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: (event.target as HTMLInputElement).value })}
+              />
             </Input>
             <Input 
               backgroundColor="#FFF"
