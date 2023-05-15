@@ -29,6 +29,16 @@ INSERT INTO InfraCamp.StatusDenuncia (status) VALUES
 	('Em processo de resolu��o'),
 	('Resolvido');
 
+CREATE TABLE InfraCamp.OrdemDenuncia (
+	idOrdem INT PRIMARY KEY IDENTITY(1, 1),
+	ordem VARCHAR(30) NOT NULL
+)
+
+INSERT INTO InfraCamp.OrdemDenuncia (ordem) VALUES 
+	('Suspeita'),
+	('Mais curtida'),
+	('Menos curtida');
+
 CREATE TABLE InfraCamp.Usuario (
 	cpf CHAR(14) PRIMARY KEY CHECK(
 		cpf LIKE '[0-9][0-9][0-9].[0-9][0-9][0-9].[0-9][0-9][0-9]-[0-9][0-9]'

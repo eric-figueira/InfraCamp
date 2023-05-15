@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Post from '../../components/Post/Post';
 import { useGet } from '../../hooks/useGet';
 import Filter from '../../components/Filter/Filter';
@@ -7,33 +7,39 @@ import Denuncia from '../../types/Denuncia';
 import "./Posts.css";
 import { ETypes, Message } from '../../components/Message/Message';
 
+
+import { api } from '../../services/api';
+
+import { AuthContext } from '../../contexts/AuthContext';
+
+
 const Posts: React.FC = () => {
+
+    const { user } = useContext(AuthContext)
+
     const { data: denuncias } = useGet<Denuncia[]>("http://localhost:5164/api/denuncias");
     const [usedDenuncias, setUsedDenuncias] = useState<Denuncia[]>();
-    const [status, setStatus] = useState<boolean>(false);
-    const [tipo, setTipo] = useState<boolean>(false)
+
     const [ixStatus, setIxStatus] = useState<Number>(0);
     const [ixTipo, setIxTipo] = useState<Number>(0);
+    const [ixOrdem, setIxOrdem] = useState<Number>(0);
 
-    useEffect(() => {
-        if (status === false && tipo === false)
-            setUsedDenuncias(denuncias ? denuncias : []);
-        else if (tipo === true && status === false)
-            setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idTipo === ixTipo));
-        else if (status === true && tipo === false)
-            setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idStatus === ixStatus));
-        else
-            setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idStatus === ixStatus && denuncia.idTipo === ixTipo))
-    }, [denuncias, ixStatus, ixTipo, status, tipo])
+    useEffect(() => 
+    {
+        api.get(`api/denuncias/filtrar/${ixTipo}/${ixStatus}/${ixOrdem}`).then(resp => setUsedDenuncias(resp.data))
 
-    const filterTipo = (tipo?: SetStateAction<boolean>, ixTipo?: Number) => {
-        setTipo(tipo ? tipo : false)
-        setIxTipo(ixTipo ? ixTipo : -1);
+    }, [denuncias, ixStatus, ixTipo, ixOrdem])
+
+    const filtrarPorTipo = (ixTipo?: Number) => {
+        setIxTipo(ixTipo ? ixTipo : 0);
     }
 
-    const filterStatus = (status?: SetStateAction<boolean>, ixStatus?: Number) => {
-        setStatus(status ? status : false);
-        setIxStatus(ixStatus ? ixStatus : -1);
+    const filtrarPorStatus = (ixStatus?: Number) => {
+        setIxStatus(ixStatus ? ixStatus : 0);
+    }
+
+    const filtrarPorOrdem = (ixOrdem?: Number) => {
+        setIxOrdem(ixOrdem ? ixOrdem : 0);
     }
 
     return (
@@ -54,11 +60,26 @@ const Posts: React.FC = () => {
                 </div>
             </div>
 
-            <Filter filterTipo={filterTipo} filterStatus={filterStatus} />
+            <Filter filtrarPorTipo={filtrarPorTipo} filtrarPorStatus={filtrarPorStatus} filtrarPorOrdem={filtrarPorOrdem} />
 
             <div className="posts">
                 {
                     usedDenuncias?.length !== 0 &&
+                    !user?.funcionario ?
+                    usedDenuncias?.filter(denuncia => denuncia.idStatus != 3).map((denuncia) =>
+                        <Post
+                            key={denuncia.idDenuncia}
+                            idDenuncia={denuncia.idDenuncia}
+                            cpf={denuncia.cpf}
+                            date={denuncia.dataDenuncia}
+                            idTipo={denuncia.idTipo}
+                            address={denuncia.endereco}
+                            description={denuncia.descricao}
+                            idStatus={denuncia.idStatus}
+                            imgUrl={denuncia.urlImagem}
+                        />
+                    )
+                    :
                     usedDenuncias?.map((denuncia) =>
                         <Post
                             key={denuncia.idDenuncia}
