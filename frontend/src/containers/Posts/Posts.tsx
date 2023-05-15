@@ -15,10 +15,6 @@ const Posts: React.FC = () => {
     const { data: denuncias } = useGet<Denuncia[]>("http://localhost:5164/api/denuncias");
     const [usedDenuncias, setUsedDenuncias] = useState<Denuncia[]>();
 
-    const [filtradaPorStatus, setFiltradaPorStatus] = useState<boolean>(false);
-    const [filtradaPorTipo, setFiltradaPorTipo] = useState<boolean>(false);
-    const [filtradaPorOrdem, setFiltradaPorOrdem] = useState<boolean>(false);
-
     const [ixStatus, setIxStatus] = useState<Number>(0);
     const [ixTipo, setIxTipo] = useState<Number>(0);
     const [ixOrdem, setIxOrdem] = useState<Number>(0);
@@ -29,19 +25,16 @@ const Posts: React.FC = () => {
 
     }, [denuncias, ixStatus, ixTipo, ixOrdem])
 
-    const filtrarPorTipo = (tipo?: SetStateAction<boolean>, ixTipo?: Number) => {
-        setFiltradaPorTipo(tipo ? tipo : false)
-        setIxTipo(ixTipo ? ixTipo : -1);
+    const filtrarPorTipo = (ixTipo?: Number) => {
+        setIxTipo(ixTipo ? ixTipo : 0);
     }
 
-    const filtrarPorStatus = (status?: SetStateAction<boolean>, ixStatus?: Number) => {
-        setFiltradaPorStatus(status ? status : false);
-        setIxStatus(ixStatus ? ixStatus : -1);
+    const filtrarPorStatus = (ixStatus?: Number) => {
+        setIxStatus(ixStatus ? ixStatus : 0);
     }
 
-    const filtrarPorOrdem = (ordem?: SetStateAction<boolean>, ixOrdem?: Number) => {
-        setFiltradaPorOrdem(ordem ? ordem : false);
-        setIxOrdem(ixOrdem ? ixOrdem : -1);
+    const filtrarPorOrdem = (ixOrdem?: Number) => {
+        setIxOrdem(ixOrdem ? ixOrdem : 0);
     }
 
     return (

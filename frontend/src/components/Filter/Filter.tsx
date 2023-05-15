@@ -8,9 +8,9 @@ import Tipo from "../../types/Tipo";
 import { Ordem } from "../../types/Ordem";
 
 interface FilterProps {
-    filtrarPorTipo: (tipo?: SetStateAction<boolean>, ixTipo?: Number) => void;
-    filtrarPorStatus: (status?: SetStateAction<boolean>, ixStatus?: Number) => void;
-    filtrarPorOrdem: (ordem?: SetStateAction<boolean>, ixStatus?: Number) => void;
+    filtrarPorTipo: (ixTipo?: Number) => void;
+    filtrarPorStatus: (ixStatus?: Number) => void;
+    filtrarPorOrdem: (ixStatus?: Number) => void;
 }
 
 const Filter: React.FC<FilterProps> = ({ filtrarPorTipo, filtrarPorStatus, filtrarPorOrdem }) => {
@@ -21,18 +21,15 @@ const Filter: React.FC<FilterProps> = ({ filtrarPorTipo, filtrarPorStatus, filtr
         const filtro = (e.target as HTMLSelectElement).name;
         const index = (e.target as HTMLSelectElement).selectedIndex;
 
-        let on = true;
-        index === 0 ? on = false : on = true;
-
         switch (filtro) {
             case "tipo":
-                filtrarPorTipo(on, index);
+                filtrarPorTipo(index);
                 break;
             case "status":
-                filtrarPorStatus(on, index);
+                filtrarPorStatus(index);
                 break;
             case "ordenacao":
-                filtrarPorOrdem(on, index);
+                filtrarPorOrdem(index);
                 break;
         }
     }
