@@ -1,4 +1,4 @@
-.sidebar{
+.sidebar {
   position: fixed;
   left: 0;
   top: 0;
@@ -10,11 +10,11 @@
   transition: all 0.5s ease;
 }
 
-.sidebar.open{
+.sidebar.open {
   width: 250px;
 }
 
-.sidebar .logo-details{
+.sidebar .logo-details {
   height: 60px;
 
   display: flex;
@@ -22,12 +22,12 @@
   position: relative;
 }
 
-.sidebar.open .logo-details{
+.sidebar.open .logo-details {
   justify-content: space-between;
 }
 
 
-.sidebar .logo-details .infracamp-name{
+.sidebar .logo-details .infracamp-name {
   top: 25%;
   position: relative;
   color: #fff;
@@ -37,11 +37,11 @@
   transition: all 0.5s ease;
 }
 
-.sidebar.open .logo-details .infracamp-name{
+.sidebar.open .logo-details .infracamp-name {
   display: block;
 }
 
-.sidebar .logo-details #btn{
+.sidebar .logo-details #btn {
   position: relative;
   top: 50%;
   right: 0;
@@ -54,16 +54,18 @@
   transition: all 0.2s ease;
 }
 
-.sidebar .nav-list{
+.sidebar .nav-list {
   margin-top: 20px;
   height: 100%;
 }
-.sidebar li{
+
+.sidebar li {
   position: relative;
   margin: 8px 0;
   list-style: none;
 }
-.sidebar li .tooltip{
+
+.tooltip {
   position: absolute;
   top: -20px;
   left: calc(100% + 15px);
@@ -79,17 +81,20 @@
   pointer-events: none;
   transition: 0s;
 }
-.sidebar li:hover .tooltip{
+
+.sidebar li:hover .tooltip {
   opacity: 1;
   pointer-events: auto;
   transition: all 0.4s ease;
   top: 50%;
   transform: translateY(-50%);
 }
-.sidebar.open li .tooltip{
+
+.sidebar.open li .tooltip {
   display: none;
 }
-.sidebar input{
+
+.sidebar input {
   font-size: 15px;
   color: #FFF;
   font-weight: 400;
@@ -103,7 +108,7 @@
   background: #1d1b31;
 }
 
-.sidebar li a{
+.sidebar li a {
   display: flex;
   height: 100%;
   width: 100%;
@@ -113,10 +118,12 @@
   transition: all 0.4s ease;
   background: #11101D;
 }
-.sidebar li a:hover{
+
+.sidebar li a:hover {
   background: #FFF;
 }
-.sidebar li a .links_name{
+
+.sidebar li a .links_name {
   color: #fff;
   font-size: 15px;
   font-weight: 400;
@@ -125,23 +132,26 @@
   pointer-events: none;
   transition: 0.4s;
 }
-.sidebar.open li a .links_name{
+
+.sidebar.open li a .links_name {
   opacity: 1;
   pointer-events: auto;
 }
+
 .sidebar li a:hover .links_name,
-.sidebar li a:hover i{
+.sidebar li a:hover i {
   transition: all 0.5s ease;
   color: #11101D;
 }
-.sidebar li i{
+
+.sidebar li i {
   height: 50px;
   line-height: 50px;
   font-size: 18px;
   border-radius: 12px;
 }
 
-.sidebar li.profile{
+.sidebar li.profile {
 
   display: flex;
   align-items: center;
@@ -157,15 +167,18 @@
   transition: all 0.5s ease;
   overflow: hidden;
 }
-.sidebar.open li.profile{
+
+.sidebar.open li.profile {
   width: 250px;
 }
-.sidebar li.profile-details{
+
+.sidebar li.profile-details {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
 }
-.sidebar li img{
+
+.sidebar li img {
   height: 45px;
   width: 45px;
   object-fit: cover;
@@ -182,16 +195,18 @@
 }
 
 .sidebar li.profile .name,
-.sidebar li.profile .job{
+.sidebar li.profile .job {
   font-size: 15px;
   font-weight: 400;
   color: #fff;
   white-space: nowrap;
 }
-.sidebar li.profile .job{
+
+.sidebar li.profile .job {
   font-size: 12px;
 }
-.sidebar .profile #log_out{
+
+.sidebar .profile #log_out {
   position: absolute;
   top: 50%;
   right: 0;
@@ -203,13 +218,13 @@
   transition: all 0.2s ease;
 }
 
-.sidebar.open .profile #log_out{
+.sidebar.open .profile #log_out {
   width: 50px;
   background: none;
 }
 
 @media (max-width: 420px) {
-  .sidebar li .tooltip{
+  .sidebar li .tooltip {
     display: none;
   }
 }

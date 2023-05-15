@@ -18,6 +18,5 @@ namespace backend.Models
 
         // Coleções para indicar tabelas dependentes
         public virtual ICollection<Denuncia> Denuncias { get; } = new List<Denuncia>();
-        public virtual ICollection<Atualizacao> Atualizacoes { get; } = new List<Atualizacao>();
     }
 }

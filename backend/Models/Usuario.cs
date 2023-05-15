@@ -40,7 +40,5 @@ namespace backend.Models
         public virtual ICollection<Opiniao> Opinioes { get; } = new List<Opiniao>(); 
 
         public virtual ICollection<Denuncia> Denuncias { get; } = new List<Denuncia>();
-
-        public virtual ICollection<Atualizacao> Atualizacoes { get; } = new List<Atualizacao>();
     }
 }

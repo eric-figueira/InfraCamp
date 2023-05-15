@@ -32,13 +32,6 @@ namespace backend.Data
                 .IsRequired();
                 
             modelBuilder.Entity<Usuario>()
-                .HasMany(e => e.Atualizacoes)
-                .WithOne(e => e.Usuario)
-                .HasForeignKey(e => e.Cpf)
-                .HasPrincipalKey(e => e.Cpf)
-                .IsRequired();
-                
-            modelBuilder.Entity<Usuario>()
                 .HasMany(e => e.Denuncias)
                 .WithOne(e => e.Usuario)
                 .HasForeignKey(e => e.Cpf)
@@ -59,17 +52,9 @@ namespace backend.Data
                 .HasPrincipalKey(e => e.IdStatus)
                 .IsRequired();
 
-            modelBuilder.Entity<StatusDenuncia>()
-                .HasMany(e => e.Atualizacoes)
-                .WithOne(e => e.StatusDenuncia)
-                .HasForeignKey(e => e.IdStatus)
-                .HasPrincipalKey(e => e.IdStatus)
-                .IsRequired();
-
             modelBuilder.HasDefaultSchema("InfraCamp");    
         }
 
-        public DbSet<Atualizacao> Atualizacao { get; set; }
         public DbSet<Denuncia> Denuncia { get; set; }
         public DbSet<Opiniao> Opiniao { get; set; }
         public DbSet<StatusDenuncia> StatusDenuncia { get; set; }

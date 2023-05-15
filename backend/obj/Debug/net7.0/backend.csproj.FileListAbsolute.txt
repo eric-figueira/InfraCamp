@@ -1221,3 +1221,4 @@ C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\runtimes\lin
 C:\Users\u22156\Desktop\InfraCamp\InfraCamp\backend\bin\Debug\net7.0\BCrypt.Net-Next.dll
 D:\GITHUB\InfraCamp\backend\bin\Debug\net7.0\BCrypt.Net-Next.dll
 C:\Users\mcsgo\OneDrive\Documentos\GitHub\InfraCamp\backend\bin\Debug\net7.0\BCrypt.Net-Next.dll
+C:\Users\u22142\Documents\GitHub\InfraCamp\backend\bin\Debug\net7.0\BCrypt.Net-Next.dll

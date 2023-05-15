@@ -43,7 +43,7 @@ export const User: React.FC = () => {
         }
         else {
             img.src = (usuario?.urlImagem !== "" && usuario?.urlImagem !== undefined && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon
-            img.setAttribute("style", "filter: none");
+            img.setAttribute("style", (usuario?.urlImagem !== "" && usuario?.urlImagem !== undefined && usuario?.urlImagem !== null) ? "filter: none" : "filter: invert()");
         }
     }
 
@@ -114,7 +114,7 @@ export const User: React.FC = () => {
 
                                     <img id="img-picking" style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? {} : { filter: "invert()" }} src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)} />
                                 </> :
-                                <img id="img" src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" />}
+                                <img id="img" style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? {} : { filter: "invert()" }} src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" />}
                     </div>
                     {
                         isEditing ?

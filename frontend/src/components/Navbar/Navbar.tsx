@@ -12,7 +12,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 
 const Navbar: React.FC = () => {
 
-  const { LogOut } = useContext(AuthContext)
+  const { LogOut, user } = useContext(AuthContext)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
@@ -57,8 +57,8 @@ const Navbar: React.FC = () => {
             <li className="profile">
                 <div className="profile-details">
                     <div className="name_job">
-                        <div className="name">Usuario1888</div>
-                        <div className="job">Servidor Publico</div>
+                        <div className="name">{user?.nome}</div>
+                        <div className="job">{user?.funcionario ? "Moderador" : "Cidadão"}</div>
                     </div>
                 </div>
                 <div className="profile-icon-container">

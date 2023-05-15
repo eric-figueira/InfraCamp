@@ -42,7 +42,6 @@ namespace backend.Models
         public DateTime DataDenuncia { get; set; }
 
         // Coleções que agrupam tabelas dependentes (foreign key)
-        public virtual ICollection<Atualizacao> Atualizacoes { get; } = new List<Atualizacao>();
         public virtual ICollection<Opiniao> Opinioes { get; } = new List<Opiniao>();
     }
 }
