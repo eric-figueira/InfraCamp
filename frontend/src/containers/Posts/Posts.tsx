@@ -1,4 +1,4 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Post from '../../components/Post/Post';
 import { useGet } from '../../hooks/useGet';
 import Filter from '../../components/Filter/Filter';
@@ -10,8 +10,13 @@ import { ETypes, Message } from '../../components/Message/Message';
 
 import { api } from '../../services/api';
 
+import { AuthContext } from '../../contexts/AuthContext';
+
 
 const Posts: React.FC = () => {
+
+    const { user } = useContext(AuthContext)
+
     const { data: denuncias } = useGet<Denuncia[]>("http://localhost:5164/api/denuncias");
     const [usedDenuncias, setUsedDenuncias] = useState<Denuncia[]>();
 
@@ -60,6 +65,21 @@ const Posts: React.FC = () => {
             <div className="posts">
                 {
                     usedDenuncias?.length !== 0 &&
+                    !user?.funcionario ?
+                    usedDenuncias?.filter(denuncia => denuncia.idStatus != 3).map((denuncia) =>
+                        <Post
+                            key={denuncia.idDenuncia}
+                            idDenuncia={denuncia.idDenuncia}
+                            cpf={denuncia.cpf}
+                            date={denuncia.dataDenuncia}
+                            idTipo={denuncia.idTipo}
+                            address={denuncia.endereco}
+                            description={denuncia.descricao}
+                            idStatus={denuncia.idStatus}
+                            imgUrl={denuncia.urlImagem}
+                        />
+                    )
+                    :
                     usedDenuncias?.map((denuncia) =>
                         <Post
                             key={denuncia.idDenuncia}
