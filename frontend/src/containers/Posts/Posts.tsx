@@ -7,6 +7,10 @@ import Denuncia from '../../types/Denuncia';
 import "./Posts.css";
 import { ETypes, Message } from '../../components/Message/Message';
 
+
+import { api } from '../../services/api';
+
+
 const Posts: React.FC = () => {
     const { data: denuncias } = useGet<Denuncia[]>("http://localhost:5164/api/denuncias");
     const [usedDenuncias, setUsedDenuncias] = useState<Denuncia[]>();
@@ -21,38 +25,9 @@ const Posts: React.FC = () => {
 
     useEffect(() => 
     {
-        // Must check all conditions and enhance the code to make it more cleaner
-        if (filtradaPorStatus === false && filtradaPorTipo === false && filtradaPorOrdem === false) 
-            setUsedDenuncias(denuncias ? denuncias : []);
-        else if (filtradaPorTipo === true && filtradaPorStatus === false && filtradaPorOrdem === false)
-            setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idTipo === ixTipo));
-        else if (filtradaPorStatus === true && filtradaPorTipo === false)
-            setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idStatus === ixStatus));
-        else
-            setUsedDenuncias(denuncias?.filter((denuncia) => denuncia.idStatus === ixStatus && denuncia.idTipo === ixTipo))
+        api.get(`api/denuncias/filtrar/${ixTipo}/${ixStatus}/${ixOrdem}`).then(resp => setUsedDenuncias(resp.data))
 
-        switch (true) 
-        {
-            case filtradaPorTipo && filtradaPorStatus && filtradaPorOrdem:
-                break;
-            case filtradaPorTipo && filtradaPorStatus && !filtradaPorOrdem:
-                break;
-            case filtradaPorTipo && !filtradaPorStatus && !filtradaPorOrdem:
-                break;
-            case filtradaPorTipo && !filtradaPorStatus && filtradaPorOrdem:
-                break;
-            case !filtradaPorTipo && filtradaPorStatus && filtradaPorOrdem:
-                break;
-            case !filtradaPorTipo && filtradaPorStatus && !filtradaPorOrdem:
-                break;
-            case !filtradaPorTipo && !filtradaPorStatus && filtradaPorOrdem:
-                break;
-            case !filtradaPorTipo && !filtradaPorStatus &&  !filtradaPorOrdem:
-                break;
-        }
-
-        
-    }, [denuncias, ixStatus, ixTipo, ixOrdem, filtradaPorStatus, filtradaPorTipo, filtradaPorOrdem])
+    }, [denuncias, ixStatus, ixTipo, ixOrdem])
 
     const filtrarPorTipo = (tipo?: SetStateAction<boolean>, ixTipo?: Number) => {
         setFiltradaPorTipo(tipo ? tipo : false)
