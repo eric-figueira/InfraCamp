@@ -7,11 +7,11 @@ const CriarDenuncia: React.FC = () => {
       <h1>Criar Denuncia</h1>
       <div className="card">
         <div className="left">
-          <Map id="mapa" alt="MapaDeCampinas"/>
+          <Map hasSearchBar={true}/>
         </div>
         <div className="right">
           <p>Tipo</p>
-          <select className="combo">
+          <select title="tipo" className="combo">
             <option value="Selecionar">Selecionar Tipo...</option>
             <option value="buraco">Buraco</option>
             <option value="asfalto">Asfalto danificado</option>
@@ -21,7 +21,7 @@ const CriarDenuncia: React.FC = () => {
           </select>
 
           <p>Descrição (Conte-nos com detalhes sobre seu problema): </p>
-          <textarea id="texto" cols={32} rows={4} style={{ resize: 'none' }}></textarea>
+          <textarea title="descricao" id="texto" cols={32} rows={4} style={{ resize: 'none' }}></textarea>
 
           <p>Imagem (Opcional)</p>
           <div className="image-upload">
