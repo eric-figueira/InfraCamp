@@ -1,0 +1,108 @@
+*{
+    font-family: circular;
+    margin: 0;
+    padding: 0; 
+}
+
+body{
+    background-color: #efefef;
+}
+
+h1{
+    padding: 15px;
+    font-size: 40px;
+    color: #333;
+}
+
+p{
+    padding: 10px;
+}
+
+#mapa{
+    height: 475px;
+    border-radius: 10px;
+}
+
+card{
+    padding: 10px;
+    margin: 40px;
+    width: 80%;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    border-radius: 35px;
+    background-color: #1F2026;
+    box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.7), 0 32px 64px 0 rgba(0, 0, 0, 0.19);
+}
+
+card .left{
+    justify-content: center;
+    text-align: center;
+    padding-top: 10px;
+}
+
+card .right{
+    padding: 20px;
+    color:#efefef;
+}
+
+card .right select{
+    width: 150px;
+    height: 30px;
+    border-radius: 10px;
+    border: none !important;
+    display: flex !important;
+    justify-content: center;
+    position: relative;
+    background: #16171b;
+    color: #efefef;
+}
+
+card #texto{
+    width: 200px;
+    border: none;
+    border-radius: 5px;
+    background-color: #16171b;
+    color: #efefef;
+}
+
+card #imagem{
+    
+    height: 200px;
+}
+
+#cancel{
+    width: 120px;
+    height: 30px;
+    border: none;
+    border-radius: 8px;
+    background-color: #941D1D;
+    color: #efefef;
+}
+
+#cancel:hover{
+    background-color: #661717;
+}
+
+#create{
+    width: 120px;
+    height: 30px;
+    border: none;
+    border-radius: 8px;
+    background-color: #47B560;
+    color: #efefef;
+}
+
+#create:hover{
+    background-color: #37904c;
+}
+
+card .buttons{
+    padding-top: 30px;
+}
+
+
+
+
+
+
