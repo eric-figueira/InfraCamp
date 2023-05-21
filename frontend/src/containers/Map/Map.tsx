@@ -17,8 +17,8 @@ import Complaint from '../../components/Complaint/Complaint';
 
 interface MapProps {
     hasSearchBar?: boolean;
-    hasFilter?: boolean;
     hasCard?: boolean;
+    idDiv: string;
 }
 
 const Map: React.FC<MapProps> = (props) => {
@@ -42,7 +42,7 @@ const Map: React.FC<MapProps> = (props) => {
 
         if (map.current) return;
         map.current = new maplibre.Map({
-            container: "map",
+            container: props.idDiv,
             style: `https://api.maptiler.com/maps/streets-v2/style.json?key=61IAJkR9OhCFaMNRNeOn`,
             center: coords,
             zoom: 11,
@@ -93,7 +93,7 @@ const Map: React.FC<MapProps> = (props) => {
     }, [mapController])
 
     return (
-        <div id="map">
+        <div id={props.idDiv}>
             {props.hasSearchBar &&
                 <div className="searchBar">
                     <GeocodingControl

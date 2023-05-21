@@ -11,7 +11,7 @@ const Mapa : React.FC = () => {
     return (
         <Fragment>
             <Navbar/>
-            <Map hasSearchBar={true} hasFilter={true} hasCard={true}/>
+            <Map idDiv={"map"} hasSearchBar={true} hasCard={true}/>
         </Fragment>
     )
 }

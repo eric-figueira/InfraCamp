@@ -18,6 +18,7 @@ import { api } from "../../services/api";
 import Usuario from "../../types/Usuario";
 import { MaskedRange } from "imask";
 import ConfirmBox from "../../components/ConfirmBox/ConfirmBox";
+import { Link } from "react-router-dom";
 
 export interface ComplaintData {
     idDenuncia?: number;
@@ -196,6 +197,9 @@ export const User: React.FC = () => {
                                         }
                                     })
                             }
+                            <Link to="/create">
+                                Criar Denúncias
+                            </Link>
                         </div>
                 }
                 {showComplaint && <Complaint isVisible={showComplaint} setVisible={setShowComplaint} cpf={complaint?.cpf} idDenunia={complaint?.idDenuncia} date={complaint?.date} idTipo={complaint?.idTipo} address={complaint?.address} description={complaint?.description} idStatus={complaint?.idStatus} imgUrl={complaint?.imgUrl} />}

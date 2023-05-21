@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import CriarDenuncia from "../../containers/CriarDenuncia/CriarDenuncia";
 
-const Postagens : React.FC = () => {
+const CriarDenuncias : React.FC = () => {
     return (
         <Fragment>
             <Navbar/>
@@ -11,4 +11,4 @@ const Postagens : React.FC = () => {
     )
 }
 
-export default Postagens;
+export default CriarDenuncias;

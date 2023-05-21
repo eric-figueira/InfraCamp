@@ -1,29 +1,29 @@
-*{
+* {
     font-family: circular;
     margin: 0;
-    padding: 0; 
+    padding: 0;
 }
 
-body{
+body {
     background-color: #efefef;
 }
 
-h1{
+h1 {
     padding: 15px;
     font-size: 40px;
     color: #333;
 }
 
-p{
+p {
     padding: 10px;
 }
 
-#mapa{
+#mapa {
     height: 475px;
     border-radius: 10px;
 }
 
-card{
+card {
     padding: 10px;
     margin: 40px;
     width: 80%;
@@ -35,18 +35,18 @@ card{
     box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.7), 0 32px 64px 0 rgba(0, 0, 0, 0.19);
 }
 
-card .left{
+card .left {
     justify-content: center;
     text-align: center;
     padding-top: 10px;
 }
 
-card .right{
+card .right {
     padding: 20px;
-    color:#efefef;
+    color: #efefef;
 }
 
-card .right select{
+card .right select {
     width: 150px;
     height: 30px;
     border-radius: 10px;
@@ -58,7 +58,7 @@ card .right select{
     color: #efefef;
 }
 
-card #texto{
+card #texto {
     width: 200px;
     border: none;
     border-radius: 5px;
@@ -66,12 +66,12 @@ card #texto{
     color: #efefef;
 }
 
-card #imagem{
-    
+card #imagem {
+
     height: 200px;
 }
 
-#cancel{
+#cancel {
     width: 120px;
     height: 30px;
     border: none;
@@ -80,11 +80,11 @@ card #imagem{
     color: #efefef;
 }
 
-#cancel:hover{
+#cancel:hover {
     background-color: #661717;
 }
 
-#create{
+#create {
     width: 120px;
     height: 30px;
     border: none;
@@ -93,16 +93,10 @@ card #imagem{
     color: #efefef;
 }
 
-#create:hover{
+#create:hover {
     background-color: #37904c;
 }
 
-card .buttons{
+card .buttons {
     padding-top: 30px;
 }
-
-
-
-
-
-

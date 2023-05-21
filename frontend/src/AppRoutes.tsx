@@ -9,6 +9,7 @@ import Mapa from "./pages/Mapa/Mapa";
 import Postagens from "./pages/Postagens/Postagens";
 import Usuario from "./pages/Usuario/Usuario";
 import SobreNos from "./pages/SobreNos/SobreNos";
+import CriarDenuncias from "./pages/CriarDenuncia/CriarDenuncia";
 
 
 const AppRoutes: React.FC = () => {
@@ -22,6 +23,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/map" element={<Mapa />} />
       <Route path="/posts" element={<Postagens />} />
       <Route path="/user" element={<Usuario />} />
+      <Route path="/create" element={<CriarDenuncias />} />
       <Route path="/about" element={<SobreNos />} />
     </Routes>
   );

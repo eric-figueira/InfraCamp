@@ -7,7 +7,7 @@ const CriarDenuncia: React.FC = () => {
       <h1>Criar Denuncia</h1>
       <div className="card">
         <div className="left">
-          <Map hasSearchBar={true}/>
+          <Map idDiv="mapa" hasSearchBar={true}/>
         </div>
         <div className="right">
           <p>Tipo</p>
@@ -26,7 +26,7 @@ const CriarDenuncia: React.FC = () => {
           <p>Imagem (Opcional)</p>
           <div className="image-upload">
             <label htmlFor="file-input">
-              <img src="./img/imageDefault.png" alt="Imagem padrão" id="imagem" />
+              <img src="../../assets/imgs/imageDefault.png" alt="Imagem padrão" id="imagem" />
             </label>
             <input id="file-input" type="file" style={{ display: 'none' }} />
           </div>
