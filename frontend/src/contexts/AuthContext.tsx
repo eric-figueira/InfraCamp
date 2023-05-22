@@ -67,8 +67,6 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
       api.post(`api/auth/validateToken&returnData?token=${token}`).then((resp) => {
           setIsAuthenticated(resp.data.isTokenValid)
 
-          if (resp.data.isTokenValid && window.location.pathname !== '/map') window.location.href = '/map'
-
           // Seta o user para o que recebeu
           setUser(resp.data.user)
       })

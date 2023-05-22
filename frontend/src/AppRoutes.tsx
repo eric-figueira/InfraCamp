@@ -27,7 +27,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/create" element={<CriarDenuncias />} />
       <Route path="/about" element={<SobreNos />} />
 
-      <Route path='*' element={<NotFound />} />
+      <Route path='*' element={<NotFound text="A página que você procura não existe." />} />
     </Routes>
   );
 }

@@ -7,7 +7,11 @@ import { colorPallete } from '../../styles/colors';
 
 import { ReactComponent as ImagemNotFound } from '../../assets/imgs/notfound.svg'
 
-const NotFound: React.FC = () => {
+interface INotFound {
+  text: string;
+}
+
+const NotFound: React.FC<INotFound> = (props) => {
 
   function handleClick() { window.history.back() }
 
@@ -18,7 +22,7 @@ const NotFound: React.FC = () => {
       </div>
       <div className='notfound-right'>
         <h1>Oops!</h1>
-        <h3>A página que você procura não existe</h3>
+        <h3>{props.text}</h3>
         <Button 
           backgroundColor={colorPallete.bgBlack} 
           fontColor={colorPallete.fontWhite} 

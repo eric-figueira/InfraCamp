@@ -7,11 +7,17 @@ import { CaretCircleLeft, CaretCircleRight } from 'phosphor-react'
 
 import Navbar from "../../components/Navbar/Navbar"
 
+import { AuthContext } from '../../contexts/AuthContext';
+import NotFound from '../NotFound/NotFound';
+
 const SobreNos: React.FC = () => {
+
+  const { user } = useContext(AuthContext);
 
   const [imgIndex, setImgIndex] = useState<number>(0)
 
   return (
+    user?
     <div className='sobrenos-container'>
       <Navbar />
       <div className="carousel">
@@ -25,6 +31,8 @@ const SobreNos: React.FC = () => {
         </div>
       </div>
     </div>
+    :
+    <NotFound text="Você não está autenticado." />
   );
 }
 
