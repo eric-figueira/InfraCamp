@@ -1,52 +1,48 @@
-* {
-    font-family: circular;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background-color: #efefef;
-}
-
-h1 {
-    padding: 15px;
+.title {
+    margin-left: 78px;
+    padding: 1rem;
     font-size: 40px;
-    color: #333;
+    font-weight: bold;
+    color: rgb(31, 31, 31);
 }
 
-p {
+.card p {
     padding: 10px;
 }
 
-#mapa {
-    height: 475px;
+.card #mapa {
+    height: 95%;
     border-radius: 10px;
 }
 
-card {
-    padding: 10px;
-    margin: 40px;
+.card {
+    padding: 1rem;
+    margin: 8rem;
+    margin-top: 3rem;
+    margin-left: 10rem;
     width: 80%;
-    height: 500px;
+    height: 34rem;
     display: flex;
     justify-content: center;
-    border-radius: 35px;
+    border-radius: 15px;
     background-color: #1F2026;
+    color: #efefef;
     box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.7), 0 32px 64px 0 rgba(0, 0, 0, 0.19);
 }
 
-card .left {
+.card .left {
     justify-content: center;
     text-align: center;
     padding-top: 10px;
+    background-color: #1F2026;
 }
 
-card .right {
+.card .right {
     padding: 20px;
-    color: #efefef;
+    background-color: #1F2026;
 }
 
-card .right select {
+.card .right select {
     width: 150px;
     height: 30px;
     border-radius: 10px;
@@ -58,7 +54,7 @@ card .right select {
     color: #efefef;
 }
 
-card #texto {
+.card #texto {
     width: 200px;
     border: none;
     border-radius: 5px;
@@ -66,9 +62,9 @@ card #texto {
     color: #efefef;
 }
 
-card #imagem {
-
-    height: 200px;
+.card #imagem {
+    width: 20rem;
+    height: 12rem;
 }
 
 #cancel {
@@ -87,6 +83,7 @@ card #imagem {
 #create {
     width: 120px;
     height: 30px;
+    margin-left: 4rem;
     border: none;
     border-radius: 8px;
     background-color: #47B560;
@@ -95,8 +92,4 @@ card #imagem {
 
 #create:hover {
     background-color: #37904c;
-}
-
-card .buttons {
-    padding-top: 30px;
 }

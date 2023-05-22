@@ -170,7 +170,10 @@ export const User: React.FC = () => {
                             <h1>Reclamações</h1>
                             <h4>Você ainda não realizou denúncias.</h4>
                             <img src={robot} alt="Not found" />
-                            <Button text="Denunciar" backgroundColor="#222533" fontColor="#FFFFFF" eventHandler={handlePublicar} />
+                            <Link to="/create" >
+                                Criar Denúncias
+                            </Link>
+                            
                         </div>
                         :
                         <div className="right">
@@ -197,9 +200,7 @@ export const User: React.FC = () => {
                                         }
                                     })
                             }
-                            <Link to="/create">
-                                Criar Denúncias
-                            </Link>
+                           
                         </div>
                 }
                 {showComplaint && <Complaint isVisible={showComplaint} setVisible={setShowComplaint} cpf={complaint?.cpf} idDenunia={complaint?.idDenuncia} date={complaint?.date} idTipo={complaint?.idTipo} address={complaint?.address} description={complaint?.description} idStatus={complaint?.idStatus} imgUrl={complaint?.imgUrl} />}

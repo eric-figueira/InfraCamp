@@ -1,13 +1,42 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, ChangeEventHandler } from 'react';
 import Map from '../Map/Map';
+import "./CriarDenuncia.css"
+import Imagem from "../../assets/imgs/imageDefault.png";
+import plusIcon from "../../assets/imgs/plus-icon.png";
 
 const CriarDenuncia: React.FC = () => {
+
+  const [img1, setImg1] = useState<string>(Imagem);
+
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    const reader = new FileReader();
+    reader.onload = e => {
+        setImg1(e?.target?.result as string);
+    }
+
+    const file = (e.target.files?.item(0));
+    if (file !== null && file !== undefined)
+        reader.readAsDataURL(file);
+}
+
+  const setPlusVisible = (isVisible: boolean) => {
+    const img2 = (document.querySelector("#imagem") as HTMLImageElement)
+    if (isVisible) {
+      img2.src = plusIcon;
+      img2.setAttribute("style", "filter: invert() ");
+    }
+    else {
+      img2.src = Imagem
+      img2.setAttribute("style", "filter: none");
+    }
+  }
+
   return (
     <div>
-      <h1>Criar Denuncia</h1>
+      <h1 className="title">Criar Denúncia</h1>
       <div className="card">
         <div className="left">
-          <Map idDiv="mapa" hasSearchBar={true}/>
+          <Map idDiv="mapa" hasSearchBar={true} />
         </div>
         <div className="right">
           <p>Tipo</p>
@@ -26,9 +55,10 @@ const CriarDenuncia: React.FC = () => {
           <p>Imagem (Opcional)</p>
           <div className="image-upload">
             <label htmlFor="file-input">
-              <img src="../../assets/imgs/imageDefault.png" alt="Imagem padrão" id="imagem" />
-            </label>
-            <input id="file-input" type="file" style={{ display: 'none' }} />
+              <input id="pickImg" title="Browse" type="file" accept="image/jpeg, image/png, image/jpg, image/jfif, image/webp" onChange={handleChange} />
+              <img id="imagem" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} src={img1} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)}/> 
+              </label>
+              <input id="file-input" type="file" style={{ display: 'none' }} />
           </div>
 
           <div className="buttons">
