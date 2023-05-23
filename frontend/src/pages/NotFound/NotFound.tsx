@@ -6,7 +6,6 @@ import Button from '../../components/Button/Button';
 import { colorPallete } from '../../styles/colors';
 
 import ImagemNotFound  from '../../assets/imgs/notfound.png'
-import { imagens } from '../SobreNos/imagens';
 
 interface INotFound {
   text: string;
@@ -19,7 +18,7 @@ const NotFound: React.FC<INotFound> = (props) => {
   return (
     <div className='notfound-wrapper'>
       <div className='notfound-left'>
-        <img src={ImagemNotFound}/>
+        <img draggable={false} src={ImagemNotFound}/>
       </div>
       <div className='notfound-right'>
         <h1>Oops!</h1>

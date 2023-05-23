@@ -103,14 +103,15 @@ label {
 .user .right {
     overflow-y: scroll;
     width: 65%;
-    height: 36rem;
+    height: 40rem;
     color: #efefef;
     padding: 1rem;
     background: #09080f;
     border-radius: 25px;
     display: grid;
-    grid-row: 1.5rem;
+    grid-row: 1rem;
     grid-template-columns: 50% 50%;
+    grid-template-rows: calc(100%/3) calc(100%/3);
 }
 
 .user .right .link {

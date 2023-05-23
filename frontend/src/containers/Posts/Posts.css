@@ -4,10 +4,11 @@
     background-color: #e5e5e5;
 }
 
-.header h1 {
+#postagens h1 {
     padding-top: 2rem;
     padding-left: 12rem;
-    font-size: 50px;
+    font-size: 4rem; 
+    font-weight: bold;
     color: #0a0844;
 }
 

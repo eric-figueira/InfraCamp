@@ -24,8 +24,7 @@ const Posts: React.FC = () => {
     const [ixTipo, setIxTipo] = useState<Number>(0);
     const [ixOrdem, setIxOrdem] = useState<Number>(0);
 
-    useEffect(() => 
-    {
+    useEffect(() => {
         api.get(`api/denuncias/filtrar/${ixTipo}/${ixStatus}/${ixOrdem}`).then(resp => setUsedDenuncias(resp.data))
 
     }, [denuncias, ixStatus, ixTipo, ixOrdem])
@@ -65,34 +64,34 @@ const Posts: React.FC = () => {
             <div className="posts">
                 {
                     usedDenuncias?.length !== 0 &&
-                    !user?.funcionario ?
-                    usedDenuncias?.filter(denuncia => denuncia.idStatus != 3).map((denuncia) =>
-                        <Post
-                            key={denuncia.idDenuncia}
-                            idDenuncia={denuncia.idDenuncia}
-                            cpf={denuncia.cpf}
-                            date={denuncia.dataDenuncia}
-                            idTipo={denuncia.idTipo}
-                            address={denuncia.endereco}
-                            description={denuncia.descricao}
-                            idStatus={denuncia.idStatus}
-                            imgUrl={denuncia.urlImagem}
-                        />
-                    )
-                    :
-                    usedDenuncias?.map((denuncia) =>
-                        <Post
-                            key={denuncia.idDenuncia}
-                            idDenuncia={denuncia.idDenuncia}
-                            cpf={denuncia.cpf}
-                            date={denuncia.dataDenuncia}
-                            idTipo={denuncia.idTipo}
-                            address={denuncia.endereco}
-                            description={denuncia.descricao}
-                            idStatus={denuncia.idStatus}
-                            imgUrl={denuncia.urlImagem}
-                        />
-                    )
+                        !user?.funcionario ?
+                        usedDenuncias?.filter(denuncia => denuncia.idStatus != 3).map((denuncia) =>
+                            <Post
+                                key={denuncia.idDenuncia}
+                                idDenuncia={denuncia.idDenuncia}
+                                cpf={denuncia.cpf}
+                                date={denuncia.dataDenuncia}
+                                idTipo={denuncia.idTipo}
+                                address={denuncia.endereco}
+                                description={denuncia.descricao}
+                                idStatus={denuncia.idStatus}
+                                imgUrl={denuncia.urlImagem}
+                            />
+                        )
+                        :
+                        usedDenuncias?.map((denuncia) =>
+                            <Post
+                                key={denuncia.idDenuncia}
+                                idDenuncia={denuncia.idDenuncia}
+                                cpf={denuncia.cpf}
+                                date={denuncia.dataDenuncia}
+                                idTipo={denuncia.idTipo}
+                                address={denuncia.endereco}
+                                description={denuncia.descricao}
+                                idStatus={denuncia.idStatus}
+                                imgUrl={denuncia.urlImagem}
+                            />
+                        )
                 }
                 {
                     usedDenuncias?.length === 0 &&

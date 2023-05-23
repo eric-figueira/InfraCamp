@@ -19,6 +19,7 @@ import Usuario from "../../types/Usuario";
 import { MaskedRange } from "imask";
 import ConfirmBox from "../../components/ConfirmBox/ConfirmBox";
 import { Link } from "react-router-dom";
+import { Plus } from "phosphor-react";
 
 export interface ComplaintData {
     idDenuncia?: number;
@@ -113,9 +114,9 @@ export const User: React.FC = () => {
                                 <>
                                     <input id="pickImg" title="Browse" type="file" accept="image/jpeg, image/png, image/jpg" onChange={handleChange} />
 
-                                    <img id="img-picking" style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? {} : { filter: "invert()" }} src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)} />
+                                    <img draggable={false} id="img-picking" style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? {} : { filter: "invert()" }} src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)} />
                                 </> :
-                                <img id="img" style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? {} : { filter: "invert()" }} src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" />}
+                                <img draggable={false} id="img" style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? {} : { filter: "invert()" }} src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} alt="user" />}
                     </div>
                     {
                         isEditing ?
@@ -177,10 +178,12 @@ export const User: React.FC = () => {
                         </div>
                         :
                         <>
-                            <Link className="link" to="/create" >
-                                Criar Denúncias
-                            </Link>
                             <div className="right">
+                                <div className="info" onClick={() => window.location.href = "/create"}  style={{textAlign: "center", padding: "2.2rem", cursor: "pointer"}}>
+                                    <Plus size={80} />
+                                    <h3>Criar denúncia</h3>
+                                </div>
+
                                 {
                                     denuncias?.map(
                                         // eslint-disable-next-line array-callback-return
