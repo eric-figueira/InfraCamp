@@ -6,8 +6,8 @@ export const colorPallete = {
   bgGreen  : '#5EBB33',
   bgYellow : '#DDE035',
   bgBlue   : '#2f97f7',
-  
-  fontBlack : '#1F2026',
-  fontWhite : '#FFFFFF',
-  fontGray  : '#C1C2BD', 
+  bgNotFound:'#243352',
+  fontBlack :'#1F2026',
+  fontWhite :'#FFFFFF',
+  fontGray  :'#C1C2BD', 
 }

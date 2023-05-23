@@ -6,7 +6,6 @@
   min-height: 100vh;
 }
 
-
 .notfound-left {
   display: flex;
   justify-content: center;
@@ -15,10 +14,16 @@
   padding-inline: 2rem;
 }
 
+.notfound-left img{
+  height: 100%;
+  width: 45rem;
+}
+
 
 .notfound-right {
   width: 40%;
   text-align: center;
+  color: rgb(36, 52, 82); 
 }
 
 .notfound-right h1 {

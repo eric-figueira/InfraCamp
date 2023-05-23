@@ -5,7 +5,8 @@ import './NotFound.css'
 import Button from '../../components/Button/Button';
 import { colorPallete } from '../../styles/colors';
 
-import { ReactComponent as ImagemNotFound } from '../../assets/imgs/notfound.svg'
+import ImagemNotFound  from '../../assets/imgs/notfound.png'
+import { imagens } from '../SobreNos/imagens';
 
 interface INotFound {
   text: string;
@@ -18,13 +19,13 @@ const NotFound: React.FC<INotFound> = (props) => {
   return (
     <div className='notfound-wrapper'>
       <div className='notfound-left'>
-        <ImagemNotFound />
+        <img src={ImagemNotFound}/>
       </div>
       <div className='notfound-right'>
         <h1>Oops!</h1>
         <h3>{props.text}</h3>
         <Button 
-          backgroundColor={colorPallete.bgBlack} 
+          backgroundColor={colorPallete.bgNotFound} 
           fontColor={colorPallete.fontWhite} 
           eventHandler={handleClick}
           text='Voltar'
