@@ -173,35 +173,39 @@ export const User: React.FC = () => {
                             <Link to="/create" >
                                 Criar Denúncias
                             </Link>
-                            
+
                         </div>
                         :
-                        <div className="right">
-                            {
-                                denuncias?.map(
-                                    // eslint-disable-next-line array-callback-return
-                                    function (denuncia) {
-                                        if (denuncia.cpf === user?.cpf) {
-                                            return (
-                                                <Card
-                                                    key={denuncia.idDenuncia}
-                                                    idDenuncia={denuncia.idDenuncia}
-                                                    cpf={denuncia.cpf}
-                                                    date={denuncia.dataDenuncia}
-                                                    idTipo={denuncia.idTipo}
-                                                    address={denuncia.endereco}
-                                                    description={denuncia.descricao}
-                                                    idStatus={denuncia.idStatus}
-                                                    imgUrl={denuncia.urlImagem}
-                                                    handleToggleComplaint={toggleComplaint}
-                                                    setComplaint={setComplaintData}
-                                                ></Card>
-                                            )
-                                        }
-                                    })
-                            }
-                           
-                        </div>
+                        <>
+                            <Link className="link" to="/create" >
+                                Criar Denúncias
+                            </Link>
+                            <div className="right">
+                                {
+                                    denuncias?.map(
+                                        // eslint-disable-next-line array-callback-return
+                                        function (denuncia) {
+                                            if (denuncia.cpf === user?.cpf) {
+                                                return (
+                                                    <Card
+                                                        key={denuncia.idDenuncia}
+                                                        idDenuncia={denuncia.idDenuncia}
+                                                        cpf={denuncia.cpf}
+                                                        date={denuncia.dataDenuncia}
+                                                        idTipo={denuncia.idTipo}
+                                                        address={denuncia.endereco}
+                                                        description={denuncia.descricao}
+                                                        idStatus={denuncia.idStatus}
+                                                        imgUrl={denuncia.urlImagem}
+                                                        handleToggleComplaint={toggleComplaint}
+                                                        setComplaint={setComplaintData}
+                                                    ></Card>
+                                                )
+                                            }
+                                        })
+                                }
+                            </div>
+                        </>
                 }
                 {showComplaint && <Complaint isVisible={showComplaint} setVisible={setShowComplaint} cpf={complaint?.cpf} idDenunia={complaint?.idDenuncia} date={complaint?.date} idTipo={complaint?.idTipo} address={complaint?.address} description={complaint?.description} idStatus={complaint?.idStatus} imgUrl={complaint?.imgUrl} />}
             </div >

@@ -113,6 +113,12 @@ label {
     grid-template-columns: 50% 50%;
 }
 
+.user .right .link {
+    display: relative;
+    height: 10rem;
+    padding: 1rem;
+}
+
 .user .button {
     display: box;
     margin-top: 0.2rem;

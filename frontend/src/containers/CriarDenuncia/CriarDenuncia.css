@@ -6,16 +6,16 @@
     color: rgb(31, 31, 31);
 }
 
-.card p {
+.create p {
     padding: 10px;
 }
 
-.card #mapa {
+.create #mapa {
     height: 95%;
     border-radius: 10px;
 }
 
-.card {
+.create {
     padding: 1rem;
     margin: 8rem;
     margin-top: 3rem;
@@ -30,19 +30,19 @@
     box-shadow: 0 32px 64px 0 rgba(0, 0, 0, 0.7), 0 32px 64px 0 rgba(0, 0, 0, 0.19);
 }
 
-.card .left {
+.create .left {
     justify-content: center;
     text-align: center;
     padding-top: 10px;
     background-color: #1F2026;
 }
 
-.card .right {
+.create .right {
     padding: 20px;
     background-color: #1F2026;
 }
 
-.card .right select {
+.create .right select {
     width: 150px;
     height: 30px;
     border-radius: 10px;
@@ -54,7 +54,7 @@
     color: #efefef;
 }
 
-.card #texto {
+.create #texto {
     width: 200px;
     border: none;
     border-radius: 5px;
@@ -62,7 +62,7 @@
     color: #efefef;
 }
 
-.card #imagem {
+.create #imagem {
     width: 20rem;
     height: 12rem;
 }
