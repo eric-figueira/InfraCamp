@@ -1,4 +1,5 @@
 .user .right .info {
+    cursor: pointer;
     background-color: #0d0c16;
     padding: 0.5rem;
     height: 95%;

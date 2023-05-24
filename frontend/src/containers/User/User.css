@@ -103,7 +103,7 @@ label {
 .user .right {
     overflow-y: scroll;
     width: 65%;
-    height: 40rem;
+    height: 90vh;
     color: #efefef;
     padding: 1rem;
     background: #09080f;

@@ -61,15 +61,14 @@ const Card: React.FC<CardProps> = (props) => {
     }, [])
 
     return (
-        <div className="info">
+        <div className="info" onClick={() => { props.handleToggleComplaint(); props.setComplaint({idDenuncia: props.idDenuncia, cpf: props.cpf, date: props.date, idTipo: props.idTipo, address: props.address, description: props.description, idStatus: props.idStatus, imgUrl: props.imgUrl}) }}>
             <h3>{formatDate(props.date + "")}</h3>
             <h4>Tipo: {tipo?.tipo}</h4>
             <h4 style={{color: color}}>Status: {status?.status}</h4>
-
-            <button onClick={() => { props.handleToggleComplaint(); props.setComplaint({idDenuncia: props.idDenuncia, cpf: props.cpf, date: props.date, idTipo: props.idTipo, address: props.address, description: props.description, idStatus: props.idStatus, imgUrl: props.imgUrl}) }}>
+            <h4 style={{textAlign: "center"}}>
                 Mais informações
                 <ArrowRight size={15} weight="bold" className="aa" />
-            </button>
+            </h4>
         </div>
     )
 }

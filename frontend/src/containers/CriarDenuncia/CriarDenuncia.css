@@ -1,27 +1,23 @@
 .title {
-    margin-left: 78px;
-    padding: 1rem;
+    margin-left: 10rem;
+    padding-top: 1rem;
     font-size: 40px;
     font-weight: bold;
     color: rgb(31, 31, 31);
 }
 
 .create p {
-    padding: 10px;
-}
-
-.create #mapa {
-    height: 95%;
-    border-radius: 10px;
+    padding: 0.5rem;
+    font-size: large;
 }
 
 .create {
     padding: 1rem;
     margin: 8rem;
-    margin-top: 3rem;
+    margin-top: 1rem;
     margin-left: 10rem;
     width: 80%;
-    height: 34rem;
+    height: calc(100vh - 6rem);
     display: flex;
     justify-content: center;
     border-radius: 15px;
@@ -31,20 +27,27 @@
 }
 
 .create .left {
+    padding-inline: 0.5rem;
     justify-content: center;
-    text-align: center;
-    padding-top: 10px;
     background-color: #1F2026;
+    width: 50%;
+}
+
+.create #mapa {
+    height: calc(95% - 1rem);
+    border-radius: 10px;
+    width: 100%;
 }
 
 .create .right {
-    padding: 20px;
+    padding-inline: 0.5rem;
     background-color: #1F2026;
+    width: 50%;
 }
 
 .create .right select {
-    width: 150px;
-    height: 30px;
+    width: 50%;
+    height: 2rem;
     border-radius: 10px;
     border: none !important;
     display: flex !important;
@@ -52,12 +55,28 @@
     position: relative;
     background: #16171b;
     color: #efefef;
+    font-size: 16px;
+    padding: 0.2rem;
+}
+
+.buttons {
+    display: inline;
+    width: 100%;
+}
+
+.buttons .button {
+    position: relative;
+    float: left;
+    margin: 1rem;
+    width: 40%;
 }
 
 .create #texto {
-    width: 200px;
+    width: 100%;
     border: none;
     border-radius: 5px;
+    outline-style: none;
+    padding: 1rem;
     background-color: #16171b;
     color: #efefef;
 }
@@ -65,31 +84,6 @@
 .create #imagem {
     width: 20rem;
     height: 12rem;
-}
-
-#cancel {
-    width: 120px;
-    height: 30px;
-    border: none;
-    border-radius: 8px;
-    background-color: #941D1D;
-    color: #efefef;
-}
-
-#cancel:hover {
-    background-color: #661717;
-}
-
-#create {
-    width: 120px;
-    height: 30px;
-    margin-left: 4rem;
-    border: none;
-    border-radius: 8px;
-    background-color: #47B560;
-    color: #efefef;
-}
-
-#create:hover {
-    background-color: #37904c;
+    cursor: pointer;
+    border-radius: 10px;
 }
