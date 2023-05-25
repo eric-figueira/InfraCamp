@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useEffect, useState, useContext, ChangeEventHandler } from 'react';
+import React, { useState, useContext, ChangeEventHandler } from 'react';
 import Map from '../Map/Map';
 import "./CriarDenuncia.css"
 import Imagem from "../../assets/imgs/imageDefault.png";
@@ -51,7 +51,7 @@ const CriarDenuncia: React.FC = () => {
 
     api.post("api/denuncias", denuncia)
       .then(() => {
-        window.location.href = "http://localhost/user";
+        window.location.href = "http://localhost:3000/user";
       })
       .catch((error) => {
         console.log(error);
@@ -68,7 +68,7 @@ const CriarDenuncia: React.FC = () => {
       <div className="create">
         <div className="left">
           <p>Endereço:</p>
-          <Map idDiv="mapa" hasSearchBar={true} />
+          <Map denuncia={denuncia} setDenuncia={setDenuncia} idDiv="mapa" hasSearchBar={true} />
         </div>
         <div className="right">
           <p>Tipo:</p>

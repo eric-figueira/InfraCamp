@@ -19,6 +19,8 @@ interface MapProps {
     hasSearchBar?: boolean;
     hasCard?: boolean;
     idDiv: string;
+    denuncia?: Denuncia;
+    setDenuncia?: React.Dispatch<React.SetStateAction<Denuncia>>;
 }
 
 const Map: React.FC<MapProps> = (props) => {
@@ -90,6 +92,12 @@ const Map: React.FC<MapProps> = (props) => {
         let button: HTMLButtonElement | null = document.getElementsByClassName('maplibregl-ctrl-geolocate').item(0) as HTMLButtonElement;
         if (button != null)
             button.click();
+
+        let input = document.getElementsByTagName('input').item(1) as HTMLInputElement;
+        if (input != null)
+            input.addEventListener("change", () => {
+
+            });
     }, [mapController])
 
     return (
@@ -97,6 +105,14 @@ const Map: React.FC<MapProps> = (props) => {
             {props.hasSearchBar &&
                 <div className="searchBar">
                     <GeocodingControl
+                        onQueryChange={(endereco) => { 
+                            props.setDenuncia !== undefined ? props.setDenuncia({ ...props.denuncia, endereco: endereco } as Denuncia) : console.log("") 
+                        }}
+
+                        onPick={({bbox}) => {
+                            props.setDenuncia !== undefined ? props.setDenuncia({ ...props.denuncia, longitude: ((bbox[0] + bbox[2]) / 2) as number, latitude: ((bbox[1] + bbox[3] / 2)) as number} as Denuncia) : console.log("");
+                        }}
+
                         language='pt'
                         country='br'
                         showResultsWhileTyping={true}
