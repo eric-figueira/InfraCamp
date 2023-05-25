@@ -27,7 +27,7 @@ const Map: React.FC<MapProps> = (props) => {
     const [showComplaint, setShowComplaint] = useState<boolean>(false);
     const [denuncia, setDenuncia] = useState<Denuncia>();
 
-    const { data: denuncias } = useGet<Denuncia[]>('http://localhost:5164/api/denuncias');
+    const { data: denuncias } = useGet<Denuncia[]>('api/denuncias');
 
     const map = useRef<maplibre.Map | undefined>();
     const [mapController, setMapController] = useState<MapController>();
@@ -105,12 +105,17 @@ const Map: React.FC<MapProps> = (props) => {
             {props.hasSearchBar &&
                 <div className="searchBar">
                     <GeocodingControl
-                        onQueryChange={(endereco) => { 
-                            props.setDenuncia !== undefined ? props.setDenuncia({ ...props.denuncia, endereco: endereco } as Denuncia) : console.log("") 
+                        onQueryChange={(endereco) => {
+                            props.setDenuncia !== undefined ? props.setDenuncia({ ...props.denuncia, endereco: endereco } as Denuncia) : console.log("")
                         }}
 
-                        onPick={({bbox}) => {
-                            props.setDenuncia !== undefined ? props.setDenuncia({ ...props.denuncia, longitude: ((bbox[0] + bbox[2]) / 2) as number, latitude: ((bbox[1] + bbox[3] / 2)) as number} as Denuncia) : console.log("");
+                        onPick={({ bbox }) => {
+                            try {
+                                props.setDenuncia !== undefined ? props.setDenuncia({ ...props.denuncia, longitude: (bbox[0] + bbox[2]) / 2, latitude: (bbox[1] + bbox[3] / 2) } as Denuncia) : console.log("");
+                            }
+                            catch (err) {
+                                console.log(err);
+                            }
                         }}
 
                         language='pt'

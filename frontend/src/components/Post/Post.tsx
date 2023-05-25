@@ -113,7 +113,7 @@ const Post: React.FC<PostProps> = (props) => {
                     <div className="img">
                         <img src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? {} : { filter: "invert()" }} alt="img"></img>
                     </div>
-                    <h4 className="title">
+                    <h4 id="title">
                         <b>{usuario === undefined ? "" : usuario.nome} </b> Postado em {formatDate(props.date + "")}
                     </h4>
                 </div>

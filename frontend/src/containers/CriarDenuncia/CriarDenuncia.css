@@ -81,9 +81,14 @@
     color: #efefef;
 }
 
-.create #imagem {
-    width: 20rem;
-    height: 12rem;
+.create .image-upload {
+    width: 100%;
+    height: 50%;
     cursor: pointer;
     border-radius: 10px;
+}
+
+.create .image-upload img {
+    height: 100%;
+    border-radius: 20px;
 }

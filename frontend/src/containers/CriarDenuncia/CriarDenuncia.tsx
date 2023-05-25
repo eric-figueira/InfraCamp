@@ -19,7 +19,7 @@ const CriarDenuncia: React.FC = () => {
 
   const { data: tipos } = useGet<Tipo[]>("api/tiposDenuncia")
 
-  const [denuncia, setDenuncia] = useState<Denuncia>({ cpf: "", dataDenuncia: new Date(), descricao: "", endereco: "", idDenuncia: 0, idStatus: 0, idTipo: 0, latitude: 0, longitude: 0, urlImagem: Imagem });
+  const [denuncia, setDenuncia] = useState<Denuncia>({ cpf: "", dataDenuncia: new Date(), descricao: "", endereco: "", idDenuncia: 0, idStatus: 1, idTipo: 1, latitude: 0, longitude: 0, urlImagem: Imagem });
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const reader = new FileReader();
@@ -47,8 +47,8 @@ const CriarDenuncia: React.FC = () => {
   const handleSalvar = () => {
     denuncia.cpf = user ? user.cpf : "";
     denuncia.dataDenuncia = new Date();
-    denuncia.idStatus = 1
 
+    console.log(JSON.stringify(denuncia))
     api.post("api/denuncias", denuncia)
       .then(() => {
         window.location.href = "http://localhost:3000/user";
