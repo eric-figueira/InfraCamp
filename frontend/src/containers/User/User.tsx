@@ -165,7 +165,8 @@ export const User: React.FC = () => {
                 </div>
 
                 {
-                    denuncias?.filter(denuncia => denuncia.cpf === user?.cpf).length === 0
+                    !user?.funcionario && 
+                        denuncias?.filter(denuncia => denuncia.cpf === user?.cpf).length === 0
                         ?
                         <div className="not-found">
                             <h1>Reclamações</h1>
@@ -179,7 +180,7 @@ export const User: React.FC = () => {
                         :
                         <>
                             <div className="right">
-                                <div className="info" onClick={() => window.location.href = "/create"}  style={{textAlign: "center", padding: "2.2rem", cursor: "pointer"}}>
+                                <div className="info" onClick={() => window.location.href = "/create"} style={{ textAlign: "center", padding: "2.2rem", cursor: "pointer" }}>
                                     <Plus size={80} />
                                     <h3>Criar denúncia</h3>
                                 </div>

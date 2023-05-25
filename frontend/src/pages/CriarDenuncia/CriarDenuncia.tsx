@@ -4,7 +4,11 @@ import CriarDenuncia from "../../containers/CriarDenuncia/CriarDenuncia";
 import { AuthContext } from "../../contexts/AuthContext";
 import NotFound from "../NotFound/NotFound";
 
-const CriarDenuncias : React.FC = () => {
+interface CriarDenuncia {
+    
+}
+
+const CriarDenuncias : React.FC = (props) => {
     const { user } = useContext(AuthContext);
 
     return (

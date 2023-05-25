@@ -111,7 +111,6 @@ label {
     display: grid;
     grid-row: 1rem;
     grid-template-columns: 50% 50%;
-    grid-template-rows: calc(100%/3) calc(100%/3);
 }
 
 .user .right .link {
