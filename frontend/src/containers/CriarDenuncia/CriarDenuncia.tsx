@@ -13,7 +13,13 @@ import { api } from '../../services/api';
 import Denuncia from '../../types/Denuncia';
 import { AuthContext } from '../../contexts/AuthContext';
 
-const CriarDenuncia: React.FC = () => {
+interface ICriarDenuncia {
+  type: string;
+  idDenuncia?: number;
+}
+
+const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
+  let previousComplaint = useGet<Denuncia>("api/edit/"+props.idDenuncia);
 
   const { user } = useContext(AuthContext);
 
@@ -58,6 +64,10 @@ const CriarDenuncia: React.FC = () => {
       })
   }
 
+  const handleEditar = () => {
+    
+  }
+
   const handleCancelar = () => {
     window.history.back();
   }
@@ -72,8 +82,8 @@ const CriarDenuncia: React.FC = () => {
         </div>
         <div className="right">
           <p>Tipo:</p>
-          <select title="tipo" className="combo" onChange={({target}) => {
-            setDenuncia({...denuncia, idTipo: (target as HTMLSelectElement).selectedIndex + 1} as Denuncia);
+          <select title="tipo" className="combo" onChange={({ target }) => {
+            setDenuncia({ ...denuncia, idTipo: (target as HTMLSelectElement).selectedIndex + 1 } as Denuncia);
           }}>
             {
               tipos?.map(tipo => {
@@ -83,8 +93,8 @@ const CriarDenuncia: React.FC = () => {
           </select>
 
           <p>Descrição (Conte-nos com detalhes sobre seu problema): </p>
-          <textarea title="descricao" id="texto" cols={32} rows={4} style={{ resize: 'none' }} placeholder="Digite seu texto aqui" value={denuncia.descricao} 
-          onChange={({target}) => setDenuncia({...denuncia, descricao: target.value as string} as Denuncia)}></textarea>
+          <textarea title="descricao" id="texto" cols={32} rows={4} style={{ resize: 'none' }} placeholder="Digite seu texto aqui" value={denuncia.descricao}
+            onChange={({ target }) => setDenuncia({ ...denuncia, descricao: target.value as string } as Denuncia)}></textarea>
 
           <p>Imagem (Opcional)</p>
           <div className="image-upload">
@@ -98,7 +108,10 @@ const CriarDenuncia: React.FC = () => {
           <div className="buttons">
             <Button backgroundColor={"#941D1D"} fontColor={colorPallete.bgWhite} text="Cancelar" eventHandler={() => handleCancelar()} />
 
-            <Button backgroundColor={colorPallete.bgGreen} fontColor={colorPallete.bgWhite} text="Salvar" eventHandler={() => handleSalvar()} />
+            {props.type === "create" ?
+              <Button backgroundColor={colorPallete.bgGreen} fontColor={colorPallete.bgWhite} text="Salvar" eventHandler={() => handleSalvar()} /> :
+              <Button backgroundColor={colorPallete.bgGreen} fontColor={colorPallete.bgWhite} text="Editar" eventHandler={() => handleEditar()} />
+            }
           </div>
         </div>
       </div>
