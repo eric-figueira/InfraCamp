@@ -1,25 +1,32 @@
-import React, { useState, useEffect, useContext, ChangeEventHandler } from "react";
-import Button from "../../components/Button/Button";
+import React, { useState, useEffect, useContext, ChangeEventHandler, ReactNode } from "react";
+import { Link } from "react-router-dom";
+
+import './User.css';
+
 import Denuncia from "../../types/Denuncia";
+import Usuario from "../../types/Usuario";
 
 import robot from "../../assets/imgs/robot.png";
 import userIcon from "../../assets/imgs/user-icon.png";
 import plusIcon from "../../assets/imgs/plus-icon.png";
 
+import { MaskedRange } from "imask";
 import { IMaskInput } from "react-imask";
 
-import './User.css';
 import { useGet } from "../../hooks/useGet";
-import Card from "../../components/Card/Card";
-import Complaint from "../../components/Complaint/Complaint";
 
 import { AuthContext } from "../../contexts/AuthContext";
+
 import { api } from "../../services/api";
-import Usuario from "../../types/Usuario";
-import { MaskedRange } from "imask";
-import ConfirmBox from "../../components/ConfirmBox/ConfirmBox";
-import { Link } from "react-router-dom";
-import { Plus } from "phosphor-react";
+
+
+import Card from "../../components/Card/Card";
+import Complaint from "../../components/Complaint/Complaint";
+import Button from "../../components/Button/Button";
+import Modal from "../../components/Modal/Modal";
+
+import { Plus, WarningCircle } from "phosphor-react";
+
 
 export interface ComplaintData {
     idDenuncia?: number;
@@ -37,6 +44,9 @@ export const User: React.FC = () => {
 
     const [usuario, setUsuario] = useState<Usuario>();
 
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const [modalContent, setModalContent] = useState<ReactNode>();
+
     const setPlusVisible = (isVisible: boolean) => {
         const img = (document.querySelector("#img-picking") as HTMLImageElement)
         if (isVisible) {
@@ -51,7 +61,7 @@ export const User: React.FC = () => {
 
     const [showComplaint, setShowComplaint] = useState<boolean>(false);
     const [complaint, setComplaint] = useState<ComplaintData>();
-    const [isConfirmVisible, setIsConfirmVisible] = useState<boolean>(false);
+    
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -71,7 +81,20 @@ export const User: React.FC = () => {
     }
 
     const handleClickDeletar = () => {
-        setIsConfirmVisible(true);
+        setIsModalOpen(true);
+        setModalContent(
+            <>
+                <WarningCircle color="#ff4343" weight="bold" size={100} />
+                <h1>Confirmação de deleção</h1>
+                <p>Tem certeza que deseja deletar seu usuário? Todos os seus dados serão <strong>perdidos</strong>. Esta ação é <strong>irreversível</strong>.</p>
+                <p id="p-password">Para deletar, digite sua senha: </p>
+                <input type="password" title="password" value={password} onChange={handleChange} />
+                <div className="button-box">
+                    <Button width="22rem" backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={handleCancel}></Button>
+                    <Button disabled={isDisabled} width="22rem" backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar mesmo assim" eventHandler={handleDelete}></Button>
+                </div>
+            </>
+        )
     }
 
     const handleClickCancelar = () => {
@@ -102,11 +125,11 @@ export const User: React.FC = () => {
 
     return (
         <>
-            {
-                isConfirmVisible &&
-                <ConfirmBox user={usuario as Usuario} setIsVisible={setIsConfirmVisible} />
-            }
-            <div className="user" style={isConfirmVisible ? { filter: "blur(5px)" } : {}}>
+            <Modal isVisible={isModalOpen}>
+                {modalContent}
+            </Modal>
+
+            <div className="user" style={isModalOpen ? { filter: "blur(5px)" } : {}}>
                 <div className="left">
                     <div className="img">
                         {
@@ -159,8 +182,8 @@ export const User: React.FC = () => {
                     }
 
                     <div className="button">
-                        <Button width="200px" backgroundColor={isEditing ? "#44a676" : "#222533"} fontColor="#FFFFFF" text={isEditing ? "Salvar" : "Editar"} eventHandler={isEditing ? handleClickSalvar : handleClickEditar}></Button>
-                        <Button width="200px" backgroundColor={isEditing ? "#222533" : "#941D1D"} fontColor="#FFFFFF" text={isEditing ? "Cancelar" : "Deletar"} eventHandler={isEditing ? handleClickCancelar : handleClickDeletar}></Button>
+                        <Button width="200px" backgroundColor={isEditing ? "#44a676" : "#222533"} fontColor="#FFFFFF" text={isEditing ? "Salvar" : "Editar"} eventHandler={isEditing ? handleClickSalvar : handleClickEditar} />
+                        <Button width="200px" backgroundColor={isEditing ? "#222533" : "#941D1D"} fontColor="#FFFFFF" text={isEditing ? "Cancelar" : "Deletar"} eventHandler={isEditing ? handleClickCancelar : handleClickDeletar} />
                     </div>
                 </div>
 

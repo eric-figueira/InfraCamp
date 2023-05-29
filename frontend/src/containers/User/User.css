@@ -143,3 +143,51 @@ label {
     text-align: center;
     width: 65%;
 }
+
+
+
+
+
+#confirmBox h1 {
+    padding: 1rem;
+    position: relative;
+    color: #ff4343;
+    width: 100%;
+    font-size: 24px;
+    margin: 0;
+    text-align: center;
+}
+
+.modal-box p {
+    font-size: 20px;
+    padding: 1rem;
+}
+
+.modal-box strong {
+    color: #ff4343;
+}
+
+.modal-box #p-password {
+    display: inline;
+}
+
+.modal-box input {
+    display: inline;
+    outline: none;
+    width: 40%;
+    padding: 0.1rem;
+    padding-inline: 0.5rem;
+    font-size: 20px;
+    border: none;
+    border-radius: 2rem;
+}
+
+.modal-box .button-box {
+    display: flex;
+    width: 50%;
+    align-items: center;
+}
+
+.modal-box .button {
+    margin: 1rem;
+}
