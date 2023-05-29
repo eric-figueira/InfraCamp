@@ -109,8 +109,9 @@ label {
     background: #09080f;
     border-radius: 25px;
     display: grid;
-    grid-row: 1rem;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 49% 49%;
+    grid-template-rows: 33% 33%;
+    gap: 2%;
 }
 
 .user .right .link {
