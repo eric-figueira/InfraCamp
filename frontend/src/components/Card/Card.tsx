@@ -63,7 +63,7 @@ const Card: React.FC<CardProps> = (props) => {
     }, [])
 
     const handleDeletar = () => {
-        api.delete("api/delete/"+props.idDenuncia)
+        api.delete("api/denuncias/"+props.idDenuncia)
             .then(res => {
                 console.log(res);
             })
@@ -71,22 +71,21 @@ const Card: React.FC<CardProps> = (props) => {
     }
 
     const handleEditar = () => {
-        window.location.href = "http://localhost:3000/edit";
+        window.location.href = "http://localhost:3000/edit/"+props.idDenuncia;
     }
 
     return (
         <div className="info" onClick={() => { props.handleToggleComplaint(); props.setComplaint({ idDenuncia: props.idDenuncia, cpf: props.cpf, date: props.date, idTipo: props.idTipo, address: props.address, description: props.description, idStatus: props.idStatus, imgUrl: props.imgUrl }) }}>
-            <h3>{formatDate(props.date + "")}</h3>
+            <h3>
+                {formatDate(props.date + "")}
+                <ArrowRight size={15} weight="bold" className="aa" style={{float: "right"}} width={40} height={20} />
+            </h3>
             <h4>Tipo: {tipo?.tipo}</h4>
             <h4 style={{ color: color }}>Status: {status?.status}</h4>
             <div className="buttons">
                 <Button text="Deletar" eventHandler={handleDeletar} backgroundColor="#E6246f" fontColor="white" />
                 <Button text="Editar" eventHandler={handleEditar} backgroundColor="white" fontColor="#0d0c16" />
             </div>
-            <h4 style={{ textAlign: "center" }}>
-                Mais informações
-                <ArrowRight size={15} weight="bold" className="aa" />
-            </h4>
         </div>
     )
 }

@@ -3,6 +3,7 @@ import React, { useState, useContext, ChangeEventHandler } from 'react';
 import Map from '../Map/Map';
 import "./CriarDenuncia.css"
 import Imagem from "../../assets/imgs/imageDefault.png";
+import ImagemDenuncia from "../../assets/imgs/imgDefaultComplaint.png";
 import plusIcon from "../../assets/imgs/plus-icon-large.png";
 
 import { useGet } from '../../hooks/useGet';
@@ -19,7 +20,7 @@ interface ICriarDenuncia {
 }
 
 const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
-  let previousComplaint = useGet<Denuncia>("api/edit/"+props.idDenuncia);
+  let { data: previousComplaint } = useGet<Denuncia>("api/denuncias/"+props.idDenuncia);
 
   const { user } = useContext(AuthContext);
 
@@ -53,6 +54,8 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
   const handleSalvar = () => {
     denuncia.cpf = user ? user.cpf : "";
     denuncia.dataDenuncia = new Date();
+    if (denuncia.urlImagem === Imagem)
+      denuncia.urlImagem = ImagemDenuncia;
 
     console.log(JSON.stringify(denuncia))
     api.post("api/denuncias", denuncia)
@@ -78,7 +81,7 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
       <div className="create">
         <div className="left">
           <p>Endereço:</p>
-          <Map denuncia={denuncia} setDenuncia={setDenuncia} idDiv="mapa" hasSearchBar={true} />
+          <Map denuncia={props.type === 'edit' ? previousComplaint as Denuncia : denuncia} setDenuncia={setDenuncia} idDiv="mapa" hasSearchBar={true} />
         </div>
         <div className="right">
           <p>Tipo:</p>
@@ -87,15 +90,16 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
           }}>
             {
               tipos?.map(tipo => {
-                return <option value={tipo.idTipo as number}>{tipo.tipo}</option>
+                return <option value={tipo.idTipo as number} selected={props.type === 'edit' ? (tipo.idTipo === previousComplaint?.idTipo ? true : false) : false} >{tipo.tipo}</option>
               })
             }
           </select>
 
           <p>Descrição (Conte-nos com detalhes sobre seu problema): </p>
           <textarea title="descricao" id="texto" cols={32} rows={4} style={{ resize: 'none' }} placeholder="Digite seu texto aqui" value={denuncia.descricao}
-            onChange={({ target }) => setDenuncia({ ...denuncia, descricao: target.value as string } as Denuncia)}></textarea>
-
+            onChange={({ target }) => setDenuncia({ ...denuncia, descricao: target.value as string } as Denuncia)}>
+              {props.type === 'edit' ? (denuncia.descricao) : ""}
+          </textarea>
           <p>Imagem (Opcional)</p>
           <div className="image-upload">
 
@@ -110,7 +114,7 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
 
             {props.type === "create" ?
               <Button backgroundColor={colorPallete.bgGreen} fontColor={colorPallete.bgWhite} text="Salvar" eventHandler={() => handleSalvar()} /> :
-              <Button backgroundColor={colorPallete.bgGreen} fontColor={colorPallete.bgWhite} text="Editar" eventHandler={() => handleEditar()} />
+              <Button backgroundColor={colorPallete.bgGreen} fontColor={colorPallete.bgWhite} text="Salvar" eventHandler={() => handleEditar()} />
             }
           </div>
         </div>
