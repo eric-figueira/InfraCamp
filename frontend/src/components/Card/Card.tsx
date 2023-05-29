@@ -80,8 +80,8 @@ const Card: React.FC<CardProps> = (props) => {
             <h4>Tipo: {tipo?.tipo}</h4>
             <h4 style={{ color: color }}>Status: {status?.status}</h4>
             <div className="buttons">
-                <Button text="Deletar" eventHandler={() => { () => { handleDeletar() } }} backgroundColor="#E6246f" fontColor="white" />
-                <Button text="Editar" eventHandler={() => { () => { handleEditar() } }} backgroundColor="white" fontColor="#0d0c16" />
+                <Button text="Deletar" eventHandler={handleDeletar} backgroundColor="#E6246f" fontColor="white" />
+                <Button text="Editar" eventHandler={handleEditar} backgroundColor="white" fontColor="#0d0c16" />
             </div>
             <h4 style={{ textAlign: "center" }}>
                 Mais informações

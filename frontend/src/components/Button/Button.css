@@ -1,12 +1,11 @@
 button {
   border-radius: 30px;
 
+  padding-inline: 32px;
   padding-block: 0.55rem;
 
   cursor: pointer;
   text-align: center;
-
-  min-width: 2rem;
 
   font-size: 1.25rem;
   font-weight: bold;
@@ -16,4 +15,10 @@ button {
   border: none;
 
   margin-top: 15px;
+
+  transition: 0.25s ease;
+}
+
+button:hover {
+  filter: brightness(0.75);
 }
