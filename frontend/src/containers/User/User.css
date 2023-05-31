@@ -126,7 +126,7 @@ label {
 }
 
 .not-found img {
-    height: 60%;
+    height: 55%;
     width: fit-content;
     margin: 1rem;
 }
@@ -138,6 +138,7 @@ label {
 .not-found h1 {
     margin: 0;
     padding: 1rem;
+    font-weight: bold;
 }
 
 .not-found {

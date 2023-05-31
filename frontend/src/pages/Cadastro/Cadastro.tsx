@@ -78,7 +78,7 @@ const Cadastro: React.FC = () => {
     setMessageText(text);
   }
 
-  function SignUp(event: MouseEvent) {
+  async function SignUp(event: MouseEvent) {
     event.preventDefault()
     try {
       if (user.cpf === "" || user.email === "" || user.nome === "" || user.telefone === "" || user.senha === "")
@@ -92,8 +92,11 @@ const Cadastro: React.FC = () => {
         else if (user.cpf.length < 14 || !cpfValido(user.cpf))
           showMessage('CPF inválido!');
         else {
-          setIsMessageVisible(false);
-          Cadastrar({ cpf: user.cpf, email: user.email, nome: user.nome, senha: user.senha, telefone: user.telefone });
+          if (await Cadastrar({ cpf: user.cpf, email: user.email, nome: user.nome, senha: user.senha, telefone: user.telefone }) === false) {
+            showMessage('Já existe um usuário com o CPF especificado!');
+          }
+          else
+            setIsMessageVisible(false);
         }
       }
     }

@@ -190,7 +190,7 @@ export const User: React.FC = () => {
                             <h4>Você ainda não realizou denúncias.</h4>
                             <img src={robot} alt="Not found" />
                             <Link to="/create" >
-                                Criar Denúncias
+                                <Button text="Criar denúncias" fontColor="white" backgroundColor="#11101D" eventHandler={() => {}} />
                             </Link>
 
                         </div>

@@ -1,5 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { Navigate, Link} from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 
 import { api } from "../services/api";
 
@@ -7,7 +7,7 @@ import Cookies from "universal-cookie";
 import { AxiosResponse } from "axios";
 
 interface IProps {
-  children? : ReactNode
+  children?: ReactNode
 }
 
 interface ISignIn {
@@ -40,9 +40,9 @@ export interface IUser {
 interface AuthContextType {
   isAuthenticated: boolean,
   user: IUser | null,
-  Logar: (data: ISignIn) => Promise<void>,
-  Cadastrar: (data: ISignUp) => Promise<void>,
-  RecuperarSenha: (data: IRecoverPassword) => Promise<void>,
+  Logar: (data: ISignIn) => Promise<boolean>,
+  Cadastrar: (data: ISignUp) => Promise<boolean>,
+  RecuperarSenha: (data: IRecoverPassword) => Promise<boolean>,
   LogOut: () => void
 }
 
@@ -62,13 +62,12 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
     let token = cookie.get('_infracamp_auth_token');
 
-    if (token) 
-    {
+    if (token) {
       api.post(`api/auth/validateToken&returnData?token=${token}`).then((resp) => {
-          setIsAuthenticated(resp.data.isTokenValid)
+        setIsAuthenticated(resp.data.isTokenValid)
 
-          // Seta o user para o que recebeu
-          setUser(resp.data.user)
+        // Seta o user para o que recebeu
+        setUser(resp.data.user)
       })
     }
     else if (window.location.pathname !== '/') window.location.href = '/'
@@ -95,45 +94,61 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     window.location.href = '/map'
   }
 
-  async function Cadastrar({ nome, email, telefone, senha, cpf }: ISignUp) 
-  {
-    try 
-    {
+  async function Cadastrar({ nome, email, telefone, senha, cpf }: ISignUp) {
+    try {
       const resp = await api.post(`api/auth/cadastrar&returnTokenData?CPF=${cpf}&Email=${email}&Nome=${nome}&Telefone=${telefone}&Senha=${senha}`, {
         headers: {
-        'Content-Type': 'text/plain',
-        'Access-Control-Allow-Origin' : '*',
-        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
-      }})
-      
+          'Content-Type': 'text/plain',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE'
+        }
+      })
+
       // Se teve uma resposta, pois pode ter passados dados inválidos
-      if (resp) authenticateUser(resp)
+      if (resp) {
+        authenticateUser(resp);
+        return true;
+      }
+      return false;
     }
-    catch (error) { console.log(error); }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 
-  async function Logar({ cpf, senha }: ISignIn) 
-  {
-    try 
-    {
+  async function Logar({ cpf, senha }: ISignIn) {
+    try {
       const resp = await api.post(`api/auth/logar&returnTokenData?CPF=${cpf}&Senha=${senha}`)
-      
+
       // Se teve uma resposta, pois pode ter passados dados inválidos
-      if (resp) authenticateUser(resp)
+      if (resp) {
+        authenticateUser(resp); 
+        return true;
+      }
+      return false;
     }
-    catch (error) { console.log(error); }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 
-  async function RecuperarSenha({ cpf, novaSenha }: IRecoverPassword) 
-  {
-    try 
-    {
+  async function RecuperarSenha({ cpf, novaSenha }: IRecoverPassword) {
+    try {
       const resp = await api.post(`api/auth/recuperarSenha&returnTokenData?CPF=${cpf}&NovaSenha=${novaSenha}`)
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
-      if (resp) authenticateUser(resp)
+      if (resp) {
+        authenticateUser(resp);
+        return true;
+      }
+      return false;
     }
-    catch (error) { console.log(error); }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
   }
 
   async function LogOut() {
@@ -153,14 +168,15 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   // conseguiriamos ter esses values, pois App nao é responsavel por pegar essas informacoes
   // value={{ isAuthenticated: isAuthenticated, user, signIn, signUp, recoverPassword, logOut }}
   return (
-    <AuthContext.Provider 
-      value={{ 
-          isAuthenticated, 
-          user, 
-          Logar, 
-          Cadastrar, 
-          RecuperarSenha, 
-          LogOut }}>
+    <AuthContext.Provider
+      value={{
+        isAuthenticated,
+        user,
+        Logar,
+        Cadastrar,
+        RecuperarSenha,
+        LogOut
+      }}>
       {children}
     </AuthContext.Provider>
   )

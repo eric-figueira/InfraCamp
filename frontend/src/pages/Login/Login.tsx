@@ -40,7 +40,7 @@ const Login: React.FC = () => {
     setMessageText(text)
   }
 
-  function SignIn(event: MouseEvent) {
+  async function SignIn(event: MouseEvent) {
     event.preventDefault()
     try {
       if (user.cpf === "" || user.senha === "")
@@ -49,8 +49,10 @@ const Login: React.FC = () => {
         if (!cpf_regex.test(user.cpf))
           showMessage('Padrão de CPF incorreto!')
         else {
-          setIsMessageVisible(false)
-          Logar({ cpf: user.cpf, senha: user.senha })
+          if (await Logar({ cpf: user.cpf, senha: user.senha }) === false)
+            showMessage('Dados incorretos!');
+          else 
+            setIsMessageVisible(false);
         }
       }
     }
