@@ -1,16 +1,17 @@
-import { createContext } from "react";
+import { ReactNode, createContext, useState } from "react";
 
-interface DenunciaContextType {
-    idDenuncia: number,
-    setIdDenuncia: React.SetStateAction<number>
+export const DenunciaContext = createContext<{ idDenuncia: Number; setIdDenuncia: React.Dispatch<React.SetStateAction<Number>> } | null>(null);
+
+interface IProps {
+    children?: ReactNode
 }
 
-export const DenunciaContext = createContext(null);
+export const DenunciaProvider: React.FC<IProps> = ({children}) => {
+    const [idDenuncia, setIdDenuncia] = useState<Number>(1);
 
-export const DenunciaProvider = () => {
     return (
-        <DenunciaContext.Provider value={}>
-
+        <DenunciaContext.Provider value={{ idDenuncia, setIdDenuncia }}>
+            {children}
         </DenunciaContext.Provider>
     )
 }

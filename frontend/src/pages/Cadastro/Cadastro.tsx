@@ -38,25 +38,62 @@ const Cadastro: React.FC = () => {
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
   const [messageText, setMessageText] = useState<string>("")
 
+  function cpfValido(cpf: string) {
+    let d1 = 0;
+    let contador = 10;
+    for (let c = 0; c < 12; c++) {
+      if (cpf[c] === '.' || cpf[c] === '-')
+        continue;
+      d1 += Number(cpf[c]) * contador;
+      contador--;
+    }
+    d1 = d1 % 11;
+    if (d1 === 0 || d1 === 1)
+      d1 = 0;
+    else
+      d1 = 11 - d1;
+
+    let d2 = 0;
+    contador = 10;
+    for (let c = 1; c < 13; c++) {
+      if (cpf[c] === '.' || cpf[c] === '-')
+        continue;
+      d2 += Number(cpf[c]) * contador;
+      contador--;
+    }
+    d2 = d2 % 11;
+    if (d2 === 0 || d2 === 1)
+      d2 = 0;
+    else
+      d2 = 11 - d2;
+
+    if (Number(cpf[12]) === d1 && Number(cpf[13]) === d2) {
+      return true;
+    }
+    return false;
+  }
+
   function showMessage(text: string) {
-    setIsMessageVisible(true)
-    setMessageText(text)
+    setIsMessageVisible(true);
+    setMessageText(text);
   }
 
   function SignUp(event: MouseEvent) {
     event.preventDefault()
     try {
       if (user.cpf === "" || user.email === "" || user.nome === "" || user.telefone === "" || user.senha === "")
-        showMessage('Todos os dados são necessários!')
+        showMessage('Todos os dados são necessários!');
       else {
         if (!email_regex.test(user.email))
-          showMessage('Padrão de email incorreto!')
+          showMessage('Padrão de email incorreto!');
         else if (user.senha.length < 8)
-          showMessage('Senha precisa ter no mínimo 8 caracteres!')
+          showMessage('Senha precisa ter no mínimo 8 caracteres!');
         // Obs: testar se já não tem no banco de dados!!!
+        else if (user.cpf.length < 14 || !cpfValido(user.cpf))
+          showMessage('CPF inválido!');
         else {
-          setIsMessageVisible(false)
-          Cadastrar({ cpf: user.cpf, email: user.email, nome: user.nome, senha: user.senha, telefone: user.telefone })
+          setIsMessageVisible(false);
+          Cadastrar({ cpf: user.cpf, email: user.email, nome: user.nome, senha: user.senha, telefone: user.telefone });
         }
       }
     }
@@ -129,7 +166,7 @@ const Cadastro: React.FC = () => {
                     maxLength: 1
                   }
                 }}
-                type='tel' placeholder='Digite seu telefone' onChange={(event) => setUser({ ...user, telefone: (event.target as HTMLInputElement).value })}
+                type='tel' placeholder='Digite seu telefone celular' onChange={(event) => setUser({ ...user, telefone: (event.target as HTMLInputElement).value })}
               />
             </Input>
             <Input

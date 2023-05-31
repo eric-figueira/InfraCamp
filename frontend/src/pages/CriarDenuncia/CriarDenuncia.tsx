@@ -3,7 +3,6 @@ import Navbar from "../../components/Navbar/Navbar";
 import CriarDenuncia from "../../containers/CriarDenuncia/CriarDenuncia";
 import { AuthContext } from "../../contexts/AuthContext";
 import NotFound from "../NotFound/NotFound";
-import Denuncia from "../../types/Denuncia";
 
 interface ICriarDenuncia {
     type: string,
@@ -17,7 +16,7 @@ const CriarDenuncias: React.FC<ICriarDenuncia> = (props) => {
         user ?
             <Fragment>
                 <Navbar />
-                <CriarDenuncia idDenuncia={props.idDenuncia} type={props.type} />
+                <CriarDenuncia type={props.type} />
             </Fragment>
             :
             <NotFound text="Você não está autenticado." />

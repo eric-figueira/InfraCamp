@@ -62,7 +62,7 @@ const Filter: React.FC<FilterProps> = ({ filtrarPorTipo, filtrarPorStatus, filtr
                 </select>
             </div>
             <div className="option">
-                <label>Ordenação: </label>
+                <label>Ordem: </label>
                 <select title="ordenacao" name="ordenacao" onChange={handleChange}>
                     <option value="todos">Todos</option>
                     <option value="menosCurtidas">Mais Curtidas</option>

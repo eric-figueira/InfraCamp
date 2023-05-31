@@ -47,7 +47,7 @@ const Card: React.FC<CardProps> = (props) => {
             resp => {
                 setTipo(resp.data)
             })
-    }, [])
+    }, [props.idTipo])
 
     useEffect(() => {
         api.get("http://localhost:5164/api/statusDenuncia/" + props.idStatus).then(
@@ -62,7 +62,7 @@ const Card: React.FC<CardProps> = (props) => {
                 };
             }
         )
-    }, [])
+    }, [props.idStatus])
 
     const handleDeletar = () => {
         api.delete("api/denuncias/"+props.idDenuncia)
@@ -73,7 +73,7 @@ const Card: React.FC<CardProps> = (props) => {
     }
 
     const handleEditar = () => {
-        
+        idDenuncia?.setIdDenuncia(props.idDenuncia);
         window.location.href = "http://localhost:3000/edit/";
     }
 

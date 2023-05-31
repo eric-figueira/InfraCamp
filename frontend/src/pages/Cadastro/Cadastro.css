@@ -40,8 +40,8 @@
 .signup-wrapper .info-container h1 {
   color: #1F2026;
   font-size: 3.5rem;
-  text-align: center;
   font-weight: bold;
+  margin: 0;
 }
 
 .signup-wrapper .info-container .form-wrapper {
@@ -49,7 +49,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 5rem;
+  gap: 2rem;
 }
 
 .signup-wrapper .info-container .form-wrapper form {

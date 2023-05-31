@@ -14,11 +14,10 @@ import { MaskedRange } from "imask";
 import { IMaskInput } from "react-imask";
 
 import { useGet } from "../../hooks/useGet";
-
-import { AuthContext } from "../../contexts/AuthContext";
-
 import { api } from "../../services/api";
 
+import { AuthContext } from "../../contexts/AuthContext";
+import { DenunciaProvider } from "../../contexts/DenunciaContext";
 
 import Card from "../../components/Card/Card";
 import Complaint from "../../components/Complaint/Complaint";
@@ -26,7 +25,6 @@ import Button from "../../components/Button/Button";
 import Modal from "../../components/Modal/Modal";
 
 import { Plus, WarningCircle } from "phosphor-react";
-
 
 export interface ComplaintData {
     idDenuncia?: number;
@@ -61,7 +59,7 @@ export const User: React.FC = () => {
 
     const [showComplaint, setShowComplaint] = useState<boolean>(false);
     const [complaint, setComplaint] = useState<ComplaintData>();
-    
+
 
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
@@ -99,10 +97,6 @@ export const User: React.FC = () => {
 
     const handleClickCancelar = () => {
         setIsEditing(false);
-    }
-
-    const handlePublicar = () => {
-
     }
 
     const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -188,7 +182,7 @@ export const User: React.FC = () => {
                 </div>
 
                 {
-                    !user?.funcionario && 
+                    !user?.funcionario &&
                         denuncias?.filter(denuncia => denuncia.cpf === user?.cpf).length === 0
                         ?
                         <div className="not-found">
@@ -201,7 +195,7 @@ export const User: React.FC = () => {
 
                         </div>
                         :
-                        <>
+                        <DenunciaProvider>
                             <div className="right">
                                 <div className="info" onClick={() => window.location.href = "/create"} style={{ textAlign: "center", padding: "2.2rem", cursor: "pointer" }}>
                                     <Plus size={80} />
@@ -232,7 +226,7 @@ export const User: React.FC = () => {
                                         })
                                 }
                             </div>
-                        </>
+                        </DenunciaProvider>
                 }
                 {showComplaint && <Complaint isVisible={showComplaint} setVisible={setShowComplaint} cpf={complaint?.cpf} idDenunia={complaint?.idDenuncia} date={complaint?.date} idTipo={complaint?.idTipo} address={complaint?.address} description={complaint?.description} idStatus={complaint?.idStatus} imgUrl={complaint?.imgUrl} />}
             </div >
