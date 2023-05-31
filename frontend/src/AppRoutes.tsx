@@ -25,11 +25,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/posts" element={<Postagens />} />
       <Route path="/user" element={<Usuario />} />
       <Route path="/create" element={<CriarDenuncias type="create" />} />
-<<<<<<< Updated upstream
-      <Route path="/edit/:id" element={<CriarDenuncias idDenuncia={1} type="edit" />} />
-=======
       <Route path="/edit/:id" element={<CriarDenuncias type="edit" />} />
->>>>>>> Stashed changes
       <Route path="/about" element={<SobreNos />} />
 
       <Route path='*' element={<NotFound text="A página que você procura não existe." />} />

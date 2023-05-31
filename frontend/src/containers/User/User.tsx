@@ -88,10 +88,10 @@ export const User: React.FC = () => {
                 <h1>Confirmação de deleção</h1>
                 <p>Tem certeza que deseja deletar seu usuário? Todos os seus dados serão <strong>perdidos</strong>. Esta ação é <strong>irreversível</strong>.</p>
                 <p id="p-password">Para deletar, digite sua senha: </p>
-                <input type="password" title="password" value={password} onChange={handleChange} />
+                {/* <input type="password" title="password" value={password} onChange={handleChange} /> */}
                 <div className="button-box">
-                    <Button width="22rem" backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={handleCancel}></Button>
-                    <Button disabled={isDisabled} width="22rem" backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar mesmo assim" eventHandler={handleDelete}></Button>
+                    {/* <Button width="22rem" backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={handleCancel}></Button> */}
+                    {/* <Button disabled={isDisabled} width="22rem" backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar mesmo assim" eventHandler={handleDelete}></Button> */}
                 </div>
             </>
         )

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { api } from '../../services/api';
 import Tipo from "../../types/Tipo";
 import Status from "../../types/Status";
@@ -9,7 +9,7 @@ import "./Card.css";
 import "./Card.css";
 import { ArrowRight } from "phosphor-react";
 import Button from "../Button/Button";
-import { clearScreenDown } from "readline";
+import { DenunciaContext } from "../../contexts/DenunciaContext";
 
 interface CardProps {
     idDenuncia: number;
@@ -39,6 +39,8 @@ const Card: React.FC<CardProps> = (props) => {
     const [tipo, setTipo] = useState<Tipo>();
     const [status, setStatus] = useState<Status>();
     const [color, setColor] = useState<string>("");
+
+    const idDenuncia = useContext(DenunciaContext);
 
     useEffect(() => {
         api.get("http://localhost:5164/api/tiposDenuncia/" + props.idTipo).then(
@@ -71,7 +73,8 @@ const Card: React.FC<CardProps> = (props) => {
     }
 
     const handleEditar = () => {
-        window.location.href = "http://localhost:3000/edit/"+props.idDenuncia;
+        
+        window.location.href = "http://localhost:3000/edit/";
     }
 
     return (

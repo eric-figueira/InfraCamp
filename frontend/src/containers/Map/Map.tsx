@@ -60,7 +60,7 @@ const Map: React.FC<MapProps> = (props) => {
         maptilersdk.config.primaryLanguage = maptilersdk.Language.PORTUGUESE;
 
         setMapController(createMapLibreGlMapController(map.current, maplibregl));
-    }, []);
+    }, [props.idDiv]);
 
 
 
@@ -92,12 +92,6 @@ const Map: React.FC<MapProps> = (props) => {
         let button: HTMLButtonElement | null = document.getElementsByClassName('maplibregl-ctrl-geolocate').item(0) as HTMLButtonElement;
         if (button != null)
             button.click();
-
-        let input = document.getElementsByTagName('input').item(1) as HTMLInputElement;
-        if (input != null)
-            input.addEventListener("change", () => {
-
-            });
     }, [mapController])
 
     return (
