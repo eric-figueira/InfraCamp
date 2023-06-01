@@ -17,7 +17,6 @@ import { useGet } from "../../hooks/useGet";
 import { api } from "../../services/api";
 
 import { AuthContext } from "../../contexts/AuthContext";
-import { DenunciaProvider } from "../../contexts/DenunciaContext";
 
 import Card from "../../components/Card/Card";
 import Complaint from "../../components/Complaint/Complaint";
@@ -190,42 +189,41 @@ export const User: React.FC = () => {
                             <h4>Você ainda não realizou denúncias.</h4>
                             <img src={robot} alt="Not found" />
                             <Link to="/create" >
-                                <Button text="Criar denúncias" fontColor="white" backgroundColor="#11101D" eventHandler={() => {}} />
+                                <Button text="Criar denúncias" fontColor="white" backgroundColor="#11101D" eventHandler={() => { }} />
                             </Link>
                         </div>
                         :
-                        <DenunciaProvider>
-                            <div className="right">
-                                <div className="info" onClick={() => window.location.href = "/create"} style={{ textAlign: "center", padding: "2.2rem", cursor: "pointer" }}>
-                                    <Plus size={80} />
-                                    <h3>Criar denúncia</h3>
-                                </div>
 
-                                {
-                                    denuncias?.map(
-                                        // eslint-disable-next-line array-callback-return
-                                        function (denuncia) {
-                                            if (denuncia.cpf === user?.cpf) {
-                                                return (
-                                                    <Card
-                                                        key={denuncia.idDenuncia}
-                                                        idDenuncia={denuncia.idDenuncia}
-                                                        cpf={denuncia.cpf}
-                                                        date={denuncia.dataDenuncia}
-                                                        idTipo={denuncia.idTipo}
-                                                        address={denuncia.endereco}
-                                                        description={denuncia.descricao}
-                                                        idStatus={denuncia.idStatus}
-                                                        imgUrl={denuncia.urlImagem}
-                                                        handleToggleComplaint={toggleComplaint}
-                                                        setComplaint={setComplaintData}
-                                                    ></Card>
-                                                )
-                                            }
-                                        })
-                                }
+                        <div className="right">
+                            <div className="info" onClick={() => window.location.href = "/create"} style={{ textAlign: "center", padding: "2.2rem", cursor: "pointer" }}>
+                                <Plus size={80} />
+                                <h3>Criar denúncia</h3>
                             </div>
-                        </DenunciaProvider>
+
+                            {
+                                denuncias?.map(
+                                    // eslint-disable-next-line array-callback-return
+                                    function (denuncia) {
+                                        if (denuncia.cpf === user?.cpf) {
+                                            return (
+                                                <Card
+                                                    key={denuncia.idDenuncia}
+                                                    idDenuncia={denuncia.idDenuncia}
+                                                    cpf={denuncia.cpf}
+                                                    date={denuncia.dataDenuncia}
+                                                    idTipo={denuncia.idTipo}
+                                                    address={denuncia.endereco}
+                                                    description={denuncia.descricao}
+                                                    idStatus={denuncia.idStatus}
+                                                    imgUrl={denuncia.urlImagem}
+                                                    handleToggleComplaint={toggleComplaint}
+                                                    setComplaint={setComplaintData}
+                                                ></Card>
+                                            )
+                                        }
+                                    })
+                            }
+                        </div>
                 }
                 {showComplaint && <Complaint isVisible={showComplaint} setVisible={setShowComplaint} cpf={complaint?.cpf} idDenunia={complaint?.idDenuncia} date={complaint?.date} idTipo={complaint?.idTipo} address={complaint?.address} description={complaint?.description} idStatus={complaint?.idStatus} imgUrl={complaint?.imgUrl} />}
             </div >

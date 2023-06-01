@@ -73,8 +73,7 @@ const Card: React.FC<CardProps> = (props) => {
     }
 
     const handleEditar = () => {
-        idDenuncia.updateIdDenuncia(props.idDenuncia);
-        window.location.href = "http://localhost:3000/edit/";
+        window.location.href = "http://localhost:3000/edit?id="+props.idDenuncia;
     }
 
     return (

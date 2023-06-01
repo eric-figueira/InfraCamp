@@ -13,7 +13,7 @@ import { colorPallete } from '../../styles/colors';
 import { api } from '../../services/api';
 import Denuncia from '../../types/Denuncia';
 import { AuthContext } from '../../contexts/AuthContext';
-import { DenunciaContext } from '../../contexts/DenunciaContext';
+import { useLocation } from 'react-router-dom';
 
 interface ICriarDenuncia {
   type: string;
@@ -22,13 +22,18 @@ interface ICriarDenuncia {
 // {"idDenuncia":11,"latitude":-22.942759,"longitude":-47.154498,"endereco":"Rua Lúcio Esteves, Campinas, São Paulo 13059-107, Brasil","idTipo":9,"tipoDenuncia":null,"idStatus":2,"statusDenuncia":null,"urlImagem":"https://imagens.ebc.com.br/N0TMbOV6Qdaa1s5nNt5fQA2OR-Y=/1170x700/smart/https://agenciabrasil.ebc.com.br/sites/default/files/atoms/image/torneira_de_agua.jpg?itok=8Z-UUALl","descricao":"Há 12 dias que a água não chega aqui no bairro, e vocês corruptos em suas mansões de luxo. A como eu odeio minha vida aaaaa","cpf":"547.049.728-36","usuario":null,"dataDenuncia":"2023-05-04T01:23:02.487","opinioes":[]}
 const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
   const { user } = useContext(AuthContext);
-  const idDenuncia = useContext(DenunciaContext);
 
-  let { data: previousComplaint } = useGet<Denuncia>("api/denuncias/" + idDenuncia);
+  const location = useLocation()
+  const queryParameters = new URLSearchParams(location.search)
+
+  let { data: previousComplaint } = useGet<Denuncia>("api/denuncias/" + queryParameters.get("id"));
 
   const { data: tipos } = useGet<Tipo[]>("api/tiposDenuncia")
 
-  const [denuncia, setDenuncia] = useState<Denuncia>(props.type === 'create' ? { cpf: "", dataDenuncia: new Date(), descricao: "", endereco: "", idDenuncia: 0, idStatus: 1, idTipo: 1, latitude: 0, longitude: 0, urlImagem: Imagem } : previousComplaint as Denuncia);
+  const [denuncia, setDenuncia] = useState<Denuncia>(
+    props.type === 'create' ? { cpf: "", dataDenuncia: new Date(), descricao: "", endereco: "", idDenuncia: 0, idStatus: 1, idTipo: 1, latitude: 0, longitude: 0, urlImagem: Imagem }
+      : previousComplaint as Denuncia
+  );
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const reader = new FileReader();
@@ -80,7 +85,7 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
       <h1 className="title">{props.type === 'edit' ? "Editar Denúncia" : "Criar denúncia"}</h1>
       <div className="create">
         <div className="left">
-        <p>Tipo:</p>
+          <p>Tipo:</p>
           <select title="tipo" className="combo" onChange={({ target }) => {
             setDenuncia({ ...denuncia, idTipo: (target as HTMLSelectElement).selectedIndex + 1 } as Denuncia);
           }}>
@@ -94,7 +99,7 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
           <p>Endereço:</p>
           <Map denuncia={denuncia} setDenuncia={setDenuncia} idDiv="mapa" hasSearchBar={true} />
         </div>
-        <div className="right">          
+        <div className="right">
           <p>Descrição (Conte-nos com detalhes sobre seu problema): </p>
           <textarea
             title="descricao"
@@ -106,7 +111,7 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
 
             <input id="pickImg" title="Browse" type="file" accept="image/jpeg, image/png, image/jpg, image/jfif, image/webp" onChange={handleChange} />
 
-            <img id="imagem" alt="imagem" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} src={denuncia?.urlImagem} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)} />
+            <img id="imagem" alt="imagem" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} src={denuncia.urlImagem} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)} />
 
           </div>
 
