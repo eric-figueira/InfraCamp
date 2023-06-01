@@ -28,7 +28,7 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
 
   const { data: tipos } = useGet<Tipo[]>("api/tiposDenuncia")
 
-  const [denuncia, setDenuncia] = useState<Denuncia>({ cpf: "", dataDenuncia: new Date(), descricao: "", endereco: "", idDenuncia: 0, idStatus: 1, idTipo: 1, latitude: 0, longitude: 0, urlImagem: Imagem });
+  const [denuncia, setDenuncia] = useState<Denuncia>(props.type === 'create' ? { cpf: "", dataDenuncia: new Date(), descricao: "", endereco: "", idDenuncia: 0, idStatus: 1, idTipo: 1, latitude: 0, longitude: 0, urlImagem: Imagem } : previousComplaint as Denuncia);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const reader = new FileReader();
@@ -86,19 +86,19 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
           }}>
             {
               tipos?.map(tipo => {
-                return <option value={tipo.idTipo as number} selected={props.type === 'edit' ? (tipo.idTipo === previousComplaint?.idTipo ? true : false) : false} >{tipo.tipo}</option>
+                return <option value={tipo.idTipo as number} selected={tipo.idTipo === previousComplaint?.idTipo ? true : false} >{tipo.tipo}</option>
               })
             }
           </select>
 
           <p>Endereço:</p>
-          <Map denuncia={props.type === 'edit' ? previousComplaint as Denuncia : denuncia} setDenuncia={setDenuncia} idDiv="mapa" hasSearchBar={true} />
+          <Map denuncia={denuncia} setDenuncia={setDenuncia} idDiv="mapa" hasSearchBar={true} />
         </div>
         <div className="right">          
           <p>Descrição (Conte-nos com detalhes sobre seu problema): </p>
           <textarea
             title="descricao"
-            id="texto" cols={32} rows={4} style={{ resize: 'none' }} placeholder="Digite seu texto aqui" value={props.type === 'edit' ? previousComplaint?.descricao : ""}
+            id="texto" cols={32} rows={4} style={{ resize: 'none' }} placeholder="Digite seu texto aqui" value={denuncia.descricao}
             onChange={({ target }) => setDenuncia({ ...denuncia, descricao: target.value as string } as Denuncia)}>
           </textarea>
           <p>Imagem (Opcional)</p>
