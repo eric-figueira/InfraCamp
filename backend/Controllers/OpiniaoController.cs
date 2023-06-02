@@ -92,6 +92,25 @@ namespace backend.Controllers
             }
         }
 
+        [HttpDelete("{cpf}")]
+        public async Task<ActionResult<Opiniao>> Delete(string cpf)
+        {
+            try
+            {
+                var result = this._context.Opiniao.ToList().Where(x => x.Cpf == cpf);
+                foreach (var opiniao in result)
+                {
+                    this._context.Opiniao.Remove(opiniao);
+                    await this._context.SaveChangesAsync();
+                }
+                return NoContent();
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha ao acesso ao banco de dados.");
+            }
+        }
+
         [HttpPut]
         public async Task<ActionResult<Opiniao>> Put(Opiniao opiniao)
         {
