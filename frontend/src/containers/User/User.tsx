@@ -37,7 +37,7 @@ export interface ComplaintData {
 }
 
 export const User: React.FC = () => {
-    const { user } = useContext(AuthContext);
+    const { user, LogOut } = useContext(AuthContext);
 
     const [usuario, setUsuario] = useState<Usuario>();
 
@@ -77,6 +77,28 @@ export const User: React.FC = () => {
         setIsEditing(true);
     }
 
+    const password = useState<string>()[0];
+    const [isDisabled, setIsDisabled] = useState<boolean>(true);
+
+    const handlePasswordChange = () => {
+        let correctPassword = false;
+        api.post("api/verifyPassword", { cpf: user!.cpf, senha: password })
+            .then(resp => correctPassword = resp.data)
+            .catch(error => console.log(error));
+
+        if (correctPassword) {
+            setIsDisabled(false);
+        }
+        else {
+            setIsDisabled(true);
+        }
+    }
+
+    const handleDelete = () => {
+        api.delete('api/usuarios/' + user?.cpf)
+            .then(() => LogOut());
+    }
+
     const handleClickDeletar = () => {
         setIsModalOpen(true);
         setModalContent(
@@ -85,10 +107,10 @@ export const User: React.FC = () => {
                 <h1>Confirmação de deleção</h1>
                 <p>Tem certeza que deseja deletar seu usuário? Todos os seus dados serão <strong>perdidos</strong>. Esta ação é <strong>irreversível</strong>.</p>
                 <p id="p-password">Para deletar, digite sua senha: </p>
-                {/* <input type="password" title="password" value={password} onChange={handleChange} /> */}
+                <input type="password" title="password" value={password} onChange={handlePasswordChange} />
                 <div className="button-box">
-                    {/* <Button width="22rem" backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={handleCancel}></Button> */}
-                    {/* <Button disabled={isDisabled} width="22rem" backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar mesmo assim" eventHandler={handleDelete}></Button> */}
+                    <Button backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={() => setIsModalOpen(false)}></Button>
+                    <Button disabled={isDisabled} backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar" eventHandler={handleDelete}></Button>
                 </div>
             </>
         )
@@ -118,11 +140,13 @@ export const User: React.FC = () => {
 
     return (
         <>
-            <Modal isVisible={isModalOpen}>
-                {modalContent}
-            </Modal>
+            {isModalOpen && 
+                <Modal setModalOpen={setIsModalOpen}>
+                    {modalContent}
+                </Modal>
+            }
 
-            <div className="user" style={isModalOpen ? { filter: "blur(5px)" } : {}}>
+            <div className="user">
                 <div className="left">
                     <div className="img">
                         {

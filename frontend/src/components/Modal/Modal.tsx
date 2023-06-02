@@ -2,18 +2,19 @@ import React, { useState, ReactNode } from 'react';
 
 import './Modal.css'
 
+import { XCircle } from 'phosphor-react'
+
 interface ModalProps {
-  isVisible: boolean,
-  children: ReactNode
+  children: ReactNode,
+  setModalOpen: (open: boolean) => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isVisible, children }) => {
-
-  const [isOpen, setIsOpen] = useState<boolean>(isVisible)
+const Modal: React.FC<ModalProps> = ({ children, setModalOpen }) => {
 
   return (
-    <div className={isOpen ? 'modal-container modal-open' : 'modal-container'}>
+    <div className='modal-container'>
       <div className='modal-box'>
+        <XCircle onClick={() => setModalOpen(false)} size={45} className='modal-x-button' />
         {children}
       </div>
     </div>

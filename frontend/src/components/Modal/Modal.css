@@ -1,7 +1,35 @@
 
+.modal-container {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100vw;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+
 .modal-box {
+  position: relative;
+  background-color: #e5e5e5;
+  width: fit-content;
+  max-width: 700px;
+  height: fit-content;
+  border-radius: 1rem;
+
+  padding: 2rem;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
+}
+
+.modal-x-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
 }

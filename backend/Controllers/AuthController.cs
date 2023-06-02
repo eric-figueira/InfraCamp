@@ -184,7 +184,7 @@ namespace backend.Controllers
 
 
         [HttpPost("verifyPassword")]
-        public ActionResult<string> VerificarSenha(string cpf, string senha)
+        public ActionResult<bool> VerificarSenha(string cpf, string senha)
         {
             UsuarioController uc = new UsuarioController(this._context);
             ActionResult<Usuario> result = uc.GetUsuario(cpf);
@@ -193,10 +193,7 @@ namespace backend.Controllers
 
             Usuario usuario = ((OkObjectResult)result.Result).Value as Usuario;
 
-            if (BC.Verify(senha, usuario?.Senha))
-                return Ok(usuario?.Senha);
-
-            return BadRequest();
+            return BC.Verify(senha, usuario?.Senha);
         }
 
 
