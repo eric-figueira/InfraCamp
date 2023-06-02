@@ -62,6 +62,13 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
   }
 
   const handleSalvar = () => {
+    if (denuncia.descricao === "" || denuncia.endereco === "")
+    {
+      // substituir por modal
+      alert("Preencha todos os campos!");
+      return;
+    }
+
     denuncia.cpf = user ? user.cpf : "";
     denuncia.dataDenuncia = new Date();
     if (denuncia.urlImagem === Imagem)
@@ -78,12 +85,18 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
   }
 
   const handleEditar = () => {
+    if (denuncia.descricao === "" || denuncia.endereco === "")
+    {
+      // substituir por modal
+      alert("Preencha todos os campos!");
+      return;
+    }
+
     denuncia.cpf = user ? user.cpf : "";
     denuncia.dataDenuncia = new Date();
     if (denuncia.urlImagem === Imagem)
       denuncia.urlImagem = ImagemDenuncia;
 
-    alert(JSON.stringify(denuncia))
     api.put("api/denuncias", denuncia)
       .then(() => {
         window.location.href = "http://localhost:3000/user";
@@ -123,6 +136,7 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
             id="texto" cols={32} rows={4} style={{ resize: 'none' }} placeholder="Digite seu texto aqui" value={denuncia.descricao}
             onChange={({ target }) => setDenuncia({ ...denuncia, descricao: target.value as string } as Denuncia)}>
           </textarea>
+          
           <p>Imagem (Opcional)</p>
           <div className="image-upload">
 

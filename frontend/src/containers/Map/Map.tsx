@@ -1,18 +1,21 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './Map.css'
-
+import "@maptiler/sdk/dist/maptiler-sdk.css";
 
 import * as maptilersdk from '@maptiler/sdk';
-import "@maptiler/sdk/dist/maptiler-sdk.css";
+
 import { MapController } from '@maptiler/geocoding-control/types';
+import { Feature } from '@maptiler/geocoding-control/types';
+import Denuncia from '../../types/Denuncia';
+
 import { createMapLibreGlMapController } from "@maptiler/geocoding-control/maplibregl-controller";
 import maplibregl from 'maplibre-gl';
 import * as maplibre from "maplibre-gl/dist/maplibre-gl";
-import { GeocodingControl } from '@maptiler/geocoding-control/react';
-import { Feature } from '@maptiler/geocoding-control/types';
 import { renderToStaticMarkup } from "react-dom/server"
+
 import { useGet } from '../../hooks/useGet';
-import Denuncia from '../../types/Denuncia';
+
+import { GeocodingControl } from '@maptiler/geocoding-control/react';
 import Complaint from '../../components/Complaint/Complaint';
 
 interface MapProps {
@@ -25,7 +28,7 @@ interface MapProps {
 
 const Map: React.FC<MapProps> = (props) => {
     const [showComplaint, setShowComplaint] = useState<boolean>(false);
-    const [denuncia, setDenuncia] = useState<Denuncia>();
+    const [denuncia, setDenuncia] = useState<Denuncia>(props.denuncia != null ? props.denuncia : {} as Denuncia);
 
     const { data: denuncias } = useGet<Denuncia[]>('api/denuncias');
 
@@ -33,7 +36,7 @@ const Map: React.FC<MapProps> = (props) => {
     const [mapController, setMapController] = useState<MapController>();
 
     useEffect(() => {
-        const coords: maptilersdk.LngLatLike = [-47.0616, -22.9064]
+        const coords: maptilersdk.LngLatLike = props.denuncia == null || props.denuncia.latitude === 0 ? [-47.0616, -22.9064] : [denuncia.latitude as number, denuncia.longitude as number];
 
         //seta a latitude e longitude da localização do usuário para o state
         const getPosition = (position: GeolocationPosition) => {
@@ -60,8 +63,7 @@ const Map: React.FC<MapProps> = (props) => {
         maptilersdk.config.primaryLanguage = maptilersdk.Language.PORTUGUESE;
 
         setMapController(createMapLibreGlMapController(map.current, maplibregl));
-    }, [props.idDiv]);
-
+    }, []);
 
 
     useEffect(() => {
@@ -84,52 +86,56 @@ const Map: React.FC<MapProps> = (props) => {
 
             if (map.current !== undefined)
                 marker.addTo(map.current);
-            //}
         })
     })
 
     useEffect(() => {
-        let button: HTMLButtonElement | null = document.getElementsByClassName('maplibregl-ctrl-geolocate').item(0) as HTMLButtonElement;
-        if (button != null)
-            button.click();
+        if (props.denuncia == null) {
+            let button: HTMLButtonElement | null = document.getElementsByClassName('maplibregl-ctrl-geolocate').item(0) as HTMLButtonElement;
+            if (button != null)
+                button.click();
+        }
+    }, [mapController, props.denuncia]);
 
-        
-    }, [mapController])
+    useEffect(() => {
+        let input = document.getElementsByClassName("svelte-p509gh").item(3) as HTMLInputElement
+        if (input != null) {
+            input.value = props.denuncia == null ? "" : props.denuncia?.endereco + "";
+        }
+    }, [props.denuncia])
 
     return (
         <div id={props.idDiv}>
             {props.hasSearchBar &&
                 <div className="searchBar">
                     <GeocodingControl
-                        onQueryChange={(endereco) => {
-                            props.setDenuncia !== undefined ? props.setDenuncia({ ...props.denuncia, endereco: endereco } as Denuncia) : console.log("")
+                        onPick={({ bbox, place_name }) => {
+                            props.setDenuncia !== undefined ? props.setDenuncia({ ...props.denuncia, longitude: ((bbox[0] + bbox[2]) / 2), latitude: ((bbox[1] + bbox[3]) / 2) } as Denuncia) : console.log("");
+
+                            props.setDenuncia !== undefined ? props.setDenuncia({ ...props.denuncia, endereco: place_name } as Denuncia) : console.log("")
                         }}
 
-                        onPick={({ bbox }) => {
-                            try {
-                                props.setDenuncia !== undefined ? props.setDenuncia({ ...props.denuncia, longitude: (bbox[0] + bbox[2]) / 2, latitude: (bbox[1] + bbox[3] / 2) } as Denuncia) : console.log("");
-                            }
-                            catch (err) {
-                                console.log(err);
-                            }
-                        }}
-
-                        language='pt'
-                        country='br'
-                        showResultsWhileTyping={true}
-                        placeholder='Digite o nome da rua onde se encontra o problema' apiKey={'61IAJkR9OhCFaMNRNeOn'}
-                        mapController={mapController}
                         onResponse={(e => {
                             let arrayFeatures = e.featureCollection.features.filter((item: Feature) => item.place_name.includes("Campinas, São Paulo"))
                             e.featureCollection.features = arrayFeatures;
                         })}
+
+                        showFullGeometry={true}
+                        trackProximity={true}
+
+                        language='pt'
+                        country='br'
+                        showResultsWhileTyping={true}
+                        placeholder='Digite o nome da rua onde se encontra o problema'
+                        apiKey={'61IAJkR9OhCFaMNRNeOn'}
+                        mapController={mapController}
+
                         errorMessage={"Falha ao buscar dados"}
                         noResultsMessage="Sem resultados para a busca"
-                        clearButtonTitle="Limpar"
-                        enableReverse={true} />
+                        clearButtonTitle="Limpar" />
                 </div>
             }
-            {/* {props.hasFilter && <Filter filterMap={filtrarDenuncias} />} */}
+
             {props.hasCard && <Complaint isVisible={showComplaint} setVisible={setShowComplaint} cpf={denuncia?.cpf} idDenunia={denuncia?.idDenuncia} date={denuncia?.dataDenuncia} idTipo={denuncia?.idTipo} address={denuncia?.endereco} description={denuncia?.descricao} idStatus={denuncia?.idStatus} imgUrl={denuncia?.urlImagem} />}
         </div>
     )
