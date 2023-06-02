@@ -18,18 +18,7 @@
 }
 
 button.svelte-p509gh {
-    --a: 30px;
-
-    width: var(--a);
-    height: var(--a);
-    border: 2px solid #e2dddd;
-    border-radius: --a;
-    margin: 5px;
-    margin-top: 10px;
-    margin-left: 10px;
-    padding: 5px;
-    position: relative;
-    float: left;
+    display: none;
 }
 
 button.svelte-p509gh:hover {
@@ -40,7 +29,7 @@ input.svelte-p509gh {
     --a: 30px;
 
     height: var(--a);
-    width: 60%;
+    width: 25rem;
     padding: 10px;
     border-radius: var(--a);
     outline-style: none;
@@ -54,17 +43,16 @@ input.svelte-p509gh {
 }
 
 li.svelte-p509gh, div.no-results.svelte-p509gh  {
-    width: 75%;
+    width: 25rem;
     padding: 5px;
     font-size: 14px;
     color: rgb(26, 26, 26);
     background-color: ivory;
-    border-radius: 10px;
 }
 
 ul.svelte-p509gh, div.no-results.svelte-p509gh {
-    margin-left: 55px;
-    width: 80%;
+    margin-left: 10px;
+    width: 100%;
 }
 
 li.svelte-p509gh:hover {

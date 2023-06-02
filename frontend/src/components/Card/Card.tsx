@@ -62,12 +62,15 @@ const Card: React.FC<CardProps> = (props) => {
     }, [props.idStatus])
 
     const handleDeletar = () => {
-        api.delete("api/denuncias/" + props.idDenuncia)
-            .then(res => {
-                console.log(res);
-            })
-            .catch(error => console.log(error));
-        window.location.reload();
+        // substituir por modal
+        if (window.confirm("Você tem certeza que deseja deletar?")) {
+            api.delete("api/denuncias/" + props.idDenuncia)
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(error => console.log(error));
+            window.location.reload();
+        }
     }
 
     const handleEditar = () => {
@@ -75,13 +78,17 @@ const Card: React.FC<CardProps> = (props) => {
     }
 
     return (
-        <div className="info" onClick={() => { props.handleToggleComplaint(); props.setComplaint({ idDenuncia: props.idDenuncia, cpf: props.cpf, date: props.date, idTipo: props.idTipo, address: props.address, description: props.description, idStatus: props.idStatus, imgUrl: props.imgUrl }) }}>
-            <h3>
-                {formatDate(props.date + "")}
-                <ArrowRight size={15} weight="bold" className="aa" style={{ float: "right" }} width={40} height={20} />
-            </h3>
-            <h4>Tipo: {tipo?.tipo}</h4>
-            <h4 style={{ color: color }}>Status: {status?.status}</h4>
+        <div className="info">
+            <div className="info-content"
+                onClick={() => { props.handleToggleComplaint(); props.setComplaint({ idDenuncia: props.idDenuncia, cpf: props.cpf, date: props.date, idTipo: props.idTipo, address: props.address, description: props.description, idStatus: props.idStatus, imgUrl: props.imgUrl }) }}>
+                <h3>
+                    {formatDate(props.date + "")}
+                    <ArrowRight size={15} weight="bold" className="aa" style={{ float: "right" }} width={40} height={20} />
+                </h3>
+                <h4>Tipo: {tipo?.tipo}</h4>
+                <h4 style={{ color: color }}>Status: {status?.status}</h4>
+            </div>
+
             <div className="buttons">
                 <Button text="Deletar" eventHandler={handleDeletar} backgroundColor="#E6246f" fontColor="white" />
                 <Button text="Editar" eventHandler={handleEditar} backgroundColor="white" fontColor="#0d0c16" />
