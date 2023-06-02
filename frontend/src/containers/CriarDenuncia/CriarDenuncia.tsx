@@ -1,17 +1,21 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState, useContext, ChangeEventHandler } from 'react';
-import Map from '../Map/Map';
+import React, { useState, useContext, ChangeEventHandler, useEffect } from 'react';
+
 import "./CriarDenuncia.css"
+import { colorPallete } from '../../styles/colors';
 import Imagem from "../../assets/imgs/imageDefault.png";
 import ImagemDenuncia from "../../assets/imgs/imgDefaultComplaint.png";
 import plusIcon from "../../assets/imgs/plus-icon.png";
 
 import { useGet } from '../../hooks/useGet';
+
 import Tipo from '../../types/Tipo';
-import Button from '../../components/Button/Button';
-import { colorPallete } from '../../styles/colors';
-import { api } from '../../services/api';
 import Denuncia from '../../types/Denuncia';
+
+import Button from '../../components/Button/Button';
+import Map from '../Map/Map';
+
+import { api } from '../../services/api';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useLocation } from 'react-router-dom';
 
@@ -19,21 +23,22 @@ interface ICriarDenuncia {
   type: string;
 }
 
-// {"idDenuncia":11,"latitude":-22.942759,"longitude":-47.154498,"endereco":"Rua Lúcio Esteves, Campinas, São Paulo 13059-107, Brasil","idTipo":9,"tipoDenuncia":null,"idStatus":2,"statusDenuncia":null,"urlImagem":"https://imagens.ebc.com.br/N0TMbOV6Qdaa1s5nNt5fQA2OR-Y=/1170x700/smart/https://agenciabrasil.ebc.com.br/sites/default/files/atoms/image/torneira_de_agua.jpg?itok=8Z-UUALl","descricao":"Há 12 dias que a água não chega aqui no bairro, e vocês corruptos em suas mansões de luxo. A como eu odeio minha vida aaaaa","cpf":"547.049.728-36","usuario":null,"dataDenuncia":"2023-05-04T01:23:02.487","opinioes":[]}
 const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
   const { user } = useContext(AuthContext);
 
   const location = useLocation()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const queryParameters = new URLSearchParams(location.search)
-
-  let { data: previousComplaint } = useGet<Denuncia>("api/denuncias/" + queryParameters.get("id"));
 
   const { data: tipos } = useGet<Tipo[]>("api/tiposDenuncia")
 
-  const [denuncia, setDenuncia] = useState<Denuncia>(
-    props.type === 'create' ? { cpf: "", dataDenuncia: new Date(), descricao: "", endereco: "", idDenuncia: 0, idStatus: 1, idTipo: 1, latitude: 0, longitude: 0, urlImagem: Imagem }
-      : previousComplaint as Denuncia
-  );
+  const [denuncia, setDenuncia] = useState<Denuncia>({ cpf: "", dataDenuncia: new Date(), descricao: "", endereco: "", idDenuncia: 0, idStatus: 1, idTipo: 1, latitude: 0, longitude: 0, urlImagem: Imagem } as Denuncia);
+
+  useEffect(() => {
+    api.get("api/denuncias/" + queryParameters.get("id"))
+      .then(({ data }) => setDenuncia(data))
+      .catch(error => console.log(error));
+  }, [])
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     const reader = new FileReader();
@@ -73,7 +78,19 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
   }
 
   const handleEditar = () => {
+    denuncia.cpf = user ? user.cpf : "";
+    denuncia.dataDenuncia = new Date();
+    if (denuncia.urlImagem === Imagem)
+      denuncia.urlImagem = ImagemDenuncia;
 
+    alert(JSON.stringify(denuncia))
+    api.put("api/denuncias", denuncia)
+      .then(() => {
+        window.location.href = "http://localhost:3000/user";
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }
 
   const handleCancelar = () => {
@@ -87,11 +104,11 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
         <div className="left">
           <p>Tipo:</p>
           <select title="tipo" className="combo" onChange={({ target }) => {
-            setDenuncia({ ...denuncia, idTipo: (target as HTMLSelectElement).selectedIndex + 1 } as Denuncia);
+            setDenuncia({ ...denuncia, idTipo: Number((target as HTMLSelectElement).value) } as Denuncia);
           }}>
             {
               tipos?.map(tipo => {
-                return <option value={tipo.idTipo as number} selected={tipo.idTipo === previousComplaint?.idTipo ? true : false} >{tipo.tipo}</option>
+                return <option value={tipo.idTipo as number} selected={tipo.idTipo === denuncia?.idTipo ? true : false} >{tipo.tipo}</option>
               })
             }
           </select>

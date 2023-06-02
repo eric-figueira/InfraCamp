@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { api } from '../../services/api';
 import Tipo from "../../types/Tipo";
 import Status from "../../types/Status";
@@ -9,7 +9,6 @@ import "./Card.css";
 import "./Card.css";
 import { ArrowRight } from "phosphor-react";
 import Button from "../Button/Button";
-import { DenunciaContext } from "../../contexts/DenunciaContext";
 
 interface CardProps {
     idDenuncia: number;
@@ -40,8 +39,6 @@ const Card: React.FC<CardProps> = (props) => {
     const [status, setStatus] = useState<Status>();
     const [color, setColor] = useState<string>("");
 
-    const idDenuncia = useContext(DenunciaContext);
-
     useEffect(() => {
         api.get("http://localhost:5164/api/tiposDenuncia/" + props.idTipo).then(
             resp => {
@@ -65,22 +62,23 @@ const Card: React.FC<CardProps> = (props) => {
     }, [props.idStatus])
 
     const handleDeletar = () => {
-        api.delete("api/denuncias/"+props.idDenuncia)
+        api.delete("api/denuncias/" + props.idDenuncia)
             .then(res => {
                 console.log(res);
             })
             .catch(error => console.log(error));
+        window.location.reload();
     }
 
     const handleEditar = () => {
-        window.location.href = "http://localhost:3000/edit?id="+props.idDenuncia;
+        window.location.href = "http://localhost:3000/edit?id=" + props.idDenuncia;
     }
 
     return (
         <div className="info" onClick={() => { props.handleToggleComplaint(); props.setComplaint({ idDenuncia: props.idDenuncia, cpf: props.cpf, date: props.date, idTipo: props.idTipo, address: props.address, description: props.description, idStatus: props.idStatus, imgUrl: props.imgUrl }) }}>
             <h3>
                 {formatDate(props.date + "")}
-                <ArrowRight size={15} weight="bold" className="aa" style={{float: "right"}} width={40} height={20} />
+                <ArrowRight size={15} weight="bold" className="aa" style={{ float: "right" }} width={40} height={20} />
             </h3>
             <h4>Tipo: {tipo?.tipo}</h4>
             <h4 style={{ color: color }}>Status: {status?.status}</h4>
