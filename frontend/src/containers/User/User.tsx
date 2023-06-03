@@ -77,26 +77,25 @@ export const User: React.FC = () => {
         setIsEditing(true);
     }
 
-    const password = useState<string>()[0];
-    const [isDisabled, setIsDisabled] = useState<boolean>(true);
-
-    const handlePasswordChange = () => {
-        let correctPassword = false;
-        api.post("api/verifyPassword", { cpf: user!.cpf, senha: password })
-            .then(resp => correctPassword = resp.data)
-            .catch(error => console.log(error));
-
-        if (correctPassword) {
-            setIsDisabled(false);
-        }
-        else {
-            setIsDisabled(true);
-        }
-    }
+    const [password, setPassword] = useState<string>();
 
     const handleDelete = () => {
-        api.delete('api/usuarios/' + user?.cpf)
-            .then(() => LogOut());
+        let result = false
+
+        alert(JSON.stringify({ cpf: user?.cpf, password: password }))
+
+        api.post('api/verifyPassword', { cpf: user?.cpf, password: password })
+            .then(({ data }) => result = data)
+            .catch(error => console.log(error));
+
+        if (result) {
+            api.delete('api/denunciasUsuario/' + user?.cpf)
+                .then(() =>
+                    api.delete('api/opinioes/' + user?.cpf)
+                        .then(() => api.delete('api/usuarios/' + user?.cpf)
+                            .then(() => LogOut())))
+                .catch(error => console.log(error))
+        }
     }
 
     const handleClickDeletar = () => {
@@ -106,11 +105,13 @@ export const User: React.FC = () => {
                 <WarningCircle color="#ff4343" weight="bold" size={100} />
                 <h1>Confirmação de deleção</h1>
                 <p>Tem certeza que deseja deletar seu usuário? Todos os seus dados serão <strong>perdidos</strong>. Esta ação é <strong>irreversível</strong>.</p>
+
                 <p id="p-password">Para deletar, digite sua senha: </p>
-                <input type="password" title="password" value={password} onChange={handlePasswordChange} />
+                <input type="password" title="password" onChange={({ target }) => { setPassword(target.value) }} />
+
                 <div className="button-box">
                     <Button backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={() => setIsModalOpen(false)}></Button>
-                    <Button disabled={isDisabled} backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar" eventHandler={handleDelete}></Button>
+                    <Button backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar" eventHandler={handleDelete}></Button>
                 </div>
             </>
         )
@@ -140,7 +141,7 @@ export const User: React.FC = () => {
 
     return (
         <>
-            {isModalOpen && 
+            {isModalOpen &&
                 <Modal setModalOpen={setIsModalOpen}>
                     {modalContent}
                 </Modal>
@@ -242,6 +243,8 @@ export const User: React.FC = () => {
                                                     imgUrl={denuncia.urlImagem}
                                                     handleToggleComplaint={toggleComplaint}
                                                     setComplaint={setComplaintData}
+                                                    setIsModalOpen={setIsModalOpen}
+                                                    setModalContent={setModalContent}
                                                 ></Card>
                                             )
                                         }

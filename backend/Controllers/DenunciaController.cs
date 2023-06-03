@@ -188,7 +188,7 @@ namespace backend.Controllers
             }
         }
 
-        [HttpDelete("{cpf}")]
+        [HttpDelete("denunciasUsuario/{cpf}")]
         public async Task<ActionResult<Denuncia>> Delete(string cpf)
         {
             try

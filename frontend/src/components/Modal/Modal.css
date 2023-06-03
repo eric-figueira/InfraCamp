@@ -13,8 +13,9 @@
 }
 
 .modal-box {
+  color: white;
   position: relative;
-  background-color: #e5e5e5;
+  background-color: #1a1c2e;
   width: fit-content;
   max-width: 700px;
   height: fit-content;

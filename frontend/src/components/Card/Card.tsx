@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { api } from '../../services/api';
 import Tipo from "../../types/Tipo";
 import Status from "../../types/Status";
@@ -7,7 +7,7 @@ import { ComplaintData } from "../../containers/User/User";
 import "./Card.css";
 
 import "./Card.css";
-import { ArrowRight } from "phosphor-react";
+import { ArrowRight, WarningCircle } from "phosphor-react";
 import Button from "../Button/Button";
 
 interface CardProps {
@@ -20,7 +20,10 @@ interface CardProps {
     idStatus: number,
     imgUrl: string,
     handleToggleComplaint: () => void,
-    setComplaint: (props: ComplaintData) => void
+    setComplaint: (props: ComplaintData) => void,
+
+    setIsModalOpen: (open: boolean) => void,
+    setModalContent: (content: ReactNode) => void
 }
 
 const formatDate = (date: string): string => {
@@ -61,16 +64,28 @@ const Card: React.FC<CardProps> = (props) => {
         )
     }, [props.idStatus])
 
-    const handleDeletar = () => {
-        // substituir por modal
-        if (window.confirm("Você tem certeza que deseja deletar?")) {
-            api.delete("api/denuncias/" + props.idDenuncia)
-                .then(res => {
-                    console.log(res);
-                })
-                .catch(error => console.log(error));
-            window.location.reload();
-        }
+    const handleDelete = () => {
+        api.delete("api/denuncias/" + props.idDenuncia)
+            .then(() => {
+                window.location.reload();
+            })
+            .catch(error => console.log(error));
+    }
+
+    const handleClickDeletar = () => {
+        props.setIsModalOpen(true);
+        props.setModalContent(
+            <>
+                <WarningCircle color="#ff4343" weight="bold" size={100} />
+                <h1>Confirmação de deleção</h1>
+                <p>Tem certeza que deseja deletar sua denúncia? Esta ação é <strong>irreversível</strong>.</p>
+
+                <div className="button-box">
+                    <Button backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={() => props.setIsModalOpen(false)}></Button>
+                    <Button backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar" eventHandler={handleDelete}></Button>
+                </div>
+            </>
+        )
     }
 
     const handleEditar = () => {
@@ -90,7 +105,7 @@ const Card: React.FC<CardProps> = (props) => {
             </div>
 
             <div className="buttons">
-                <Button text="Deletar" eventHandler={handleDeletar} backgroundColor="#E6246f" fontColor="white" />
+                <Button text="Deletar" eventHandler={handleClickDeletar} backgroundColor="#E6246f" fontColor="white" />
                 <Button text="Editar" eventHandler={handleEditar} backgroundColor="white" fontColor="#0d0c16" />
             </div>
         </div>
