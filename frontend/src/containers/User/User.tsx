@@ -80,7 +80,7 @@ export const User: React.FC = () => {
     const [password, setPassword] = useState<string>("");
     const [canDelete, setCanDelete] = useState<boolean>(false);
 
-    useEffect(() => {
+    const verifyPassword = async () => {
         console.log(password)
         if (password) {
             api.post(`api/auth/verifyPassword?cpf=${user?.cpf}&senha=${password}`)
@@ -90,11 +90,13 @@ export const User: React.FC = () => {
                 })
                 .catch(error => console.log(error));
         }
-    }, [password]);
+    }
 
     const handleDelete = async () => {
+        alert(password)
 
-        alert(canDelete)
+        await verifyPassword();
+
         if (canDelete) {
             api.delete('api/denuncias/denunciasUsuario/' + user?.cpf)
                 .then(() =>
@@ -114,11 +116,13 @@ export const User: React.FC = () => {
                 <p>Tem certeza que deseja deletar seu usuário? Todos os seus dados serão <strong>perdidos</strong>. Esta ação é <strong>irreversível</strong>.</p>
 
                 <p id="p-password">Para deletar, digite sua senha: </p>
-                <input type="password" title="password" onChange={(event) => setPassword(event.target.value)} />
+                <input type="password" title="password" onChange={({ target }) => setPassword(target.value)} />
 
                 <div className="button-box">
-                    <Button backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={() => {setIsModalOpen(false); setPassword("")}}></Button>
-                    <Button backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar" eventHandler={handleDelete}></Button>
+                    <Button backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={
+                        () => { setIsModalOpen(false); setPassword("") }
+                    } />
+                    <Button backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar" eventHandler={handleDelete} />
                 </div>
             </>
         )

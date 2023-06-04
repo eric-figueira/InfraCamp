@@ -144,11 +144,8 @@ label {
 .not-found {
     text-align: center;
     width: 65%;
+    height: 90vh;
 }
-
-
-
-
 
 #confirmBox h1 {
     padding: 1rem;
