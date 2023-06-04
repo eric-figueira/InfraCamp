@@ -166,7 +166,8 @@ namespace backend.Controllers
                     usuario.Telefone = Telefone;
                     // Usando BCrypt para encriptação
                     usuario.Senha = BC.HashPassword(Senha);
-                    usuario.UrlImagem = "";
+                    // Using identicon for a more fun avatar
+                    usuario.UrlImagem = $"https://api.dicebear.com/6.x/bottts-neutral/svg?seed={usuario.Nome}";
                     usuario.IsFunc = false;
                     await uc.Post(usuario);
 
@@ -191,6 +192,7 @@ namespace backend.Controllers
 
             if (result == null) return Unauthorized();
 
+           
             Usuario usuario = ((OkObjectResult)result.Result).Value as Usuario;
 
             return BC.Verify(senha, usuario?.Senha);

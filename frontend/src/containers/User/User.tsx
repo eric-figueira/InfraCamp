@@ -77,19 +77,26 @@ export const User: React.FC = () => {
         setIsEditing(true);
     }
 
-    const [password, setPassword] = useState<string>();
+    const [password, setPassword] = useState<string>("");
+    const [canDelete, setCanDelete] = useState<boolean>(false);
 
-    const handleDelete = () => {
-        let result = false
+    useEffect(() => {
+        console.log(password)
+        if (password) {
+            api.post(`api/auth/verifyPassword?cpf=${user?.cpf}&senha=${password}`)
+                .then(({ data }) => {
+                    setCanDelete(data)
+                    console.log(data)
+                })
+                .catch(error => console.log(error));
+        }
+    }, [password]);
 
-        alert(JSON.stringify({ cpf: user?.cpf, password: password }))
+    const handleDelete = async () => {
 
-        api.post('api/verifyPassword', { cpf: user?.cpf, password: password })
-            .then(({ data }) => result = data)
-            .catch(error => console.log(error));
-
-        if (result) {
-            api.delete('api/denunciasUsuario/' + user?.cpf)
+        alert(canDelete)
+        if (canDelete) {
+            api.delete('api/denuncias/denunciasUsuario/' + user?.cpf)
                 .then(() =>
                     api.delete('api/opinioes/' + user?.cpf)
                         .then(() => api.delete('api/usuarios/' + user?.cpf)
@@ -107,10 +114,10 @@ export const User: React.FC = () => {
                 <p>Tem certeza que deseja deletar seu usuário? Todos os seus dados serão <strong>perdidos</strong>. Esta ação é <strong>irreversível</strong>.</p>
 
                 <p id="p-password">Para deletar, digite sua senha: </p>
-                <input type="password" title="password" onChange={({ target }) => { setPassword(target.value) }} />
+                <input type="password" title="password" onChange={(event) => setPassword(event.target.value)} />
 
                 <div className="button-box">
-                    <Button backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={() => setIsModalOpen(false)}></Button>
+                    <Button backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={() => {setIsModalOpen(false); setPassword("")}}></Button>
                     <Button backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar" eventHandler={handleDelete}></Button>
                 </div>
             </>
