@@ -32,7 +32,7 @@ namespace backend.Controllers
         [HttpGet]
         public ActionResult<List<TipoDenuncia>> GetAll()
         {
-            return this._context.TipoDenuncia.OrderBy(tipo => tipo.Tipo).ToList();
+            return this._context.TipoDenuncia.ToList();
         }
 
         [HttpGet("{idTipo}")]

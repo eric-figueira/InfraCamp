@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = (props) => {
           width: props.width
         }}
         disabled={props.disabled}
-        onClick={props.eventHandler}
+        onClick={props.disabled ? void(0) : props.eventHandler}
       >{props.text}</button>
     </div>
   );

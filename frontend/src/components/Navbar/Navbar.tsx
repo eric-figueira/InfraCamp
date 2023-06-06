@@ -33,13 +33,18 @@ const Navbar: React.FC = () => {
                 </Link>
                 <span className="tooltip">Mapa</span>
             </li>
-            <li>
-                <Link to="/user">
-                    <Icon><User /></Icon>
-                    <span className="links_name">Usuário</span>
-                </Link>
-                <span className="tooltip">Usuário</span>
-            </li>
+            {
+                !user?.funcionario ? 
+                (
+                    <li>
+                        <Link to="/user">
+                            <Icon><User /></Icon>
+                            <span className="links_name">Usuário</span>
+                        </Link>
+                        <span className="tooltip">Usuário</span>
+                    </li>
+                ) : <></>
+            }
             <li>
                 <Link to="/posts">
                     <Icon><ChartBar /></Icon>

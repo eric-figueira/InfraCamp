@@ -78,31 +78,30 @@ export const User: React.FC = () => {
     }
 
     const [password, setPassword] = useState<string>("");
-    const [canDelete, setCanDelete] = useState<boolean>(false);
+    const [isDeleteDisabled, setIsDeleteDisabled] = useState<boolean>(true);
 
     useEffect(() => {
-        console.log(password)
         if (password) {
             api.post(`api/auth/verifyPassword?cpf=${user?.cpf}&senha=${password}`)
                 .then(({ data }) => {
-                    setCanDelete(data)
-                    console.log(data)
+                    setIsDeleteDisabled(!data)
+                    console.log(isDeleteDisabled)
+                    setModalContent(modalContent)
+                    console.log(modalContent)
                 })
                 .catch(error => console.log(error));
         }
     }, [password]);
 
-    const handleDelete = async () => {
 
-        alert(canDelete)
-        if (canDelete) {
-            api.delete('api/denuncias/denunciasUsuario/' + user?.cpf)
-                .then(() =>
-                    api.delete('api/opinioes/' + user?.cpf)
-                        .then(() => api.delete('api/usuarios/' + user?.cpf)
-                            .then(() => LogOut())))
-                .catch(error => console.log(error))
-        }
+    const handleDelete = async () => {
+        console.log('sdasdasd')
+        // api.delete('api/denuncias/denunciasUsuario/' + user?.cpf)
+        //     .then(() =>
+        //         api.delete('api/opinioes/' + user?.cpf)
+        //             .then(() => api.delete('api/usuarios/' + user?.cpf)
+        //                 .then(() => LogOut())))
+        //     .catch(error => console.log(error))
     }
 
     const handleClickDeletar = () => {
@@ -117,8 +116,8 @@ export const User: React.FC = () => {
                 <input type="password" title="password" onChange={(event) => setPassword(event.target.value)} />
 
                 <div className="button-box">
-                    <Button backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={() => {setIsModalOpen(false); setPassword("")}}></Button>
-                    <Button backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar" eventHandler={handleDelete}></Button>
+                    <Button backgroundColor="#44a676" fontColor="#FFFFFF" text="Cancelar" eventHandler={() => { setIsModalOpen(false); setPassword("") }}></Button>
+                    <Button backgroundColor="#941D1D" fontColor="#FFFFFF" text="Deletar" eventHandler={handleDelete} disabled={isDeleteDisabled}></Button>
                 </div>
             </>
         )
@@ -211,10 +210,8 @@ export const User: React.FC = () => {
                         <Button width="200px" backgroundColor={isEditing ? "#222533" : "#941D1D"} fontColor="#FFFFFF" text={isEditing ? "Cancelar" : "Deletar"} eventHandler={isEditing ? handleClickCancelar : handleClickDeletar} />
                     </div>
                 </div>
-
                 {
-                    !user?.funcionario &&
-                        denuncias?.filter(denuncia => denuncia.cpf === user?.cpf).length === 0
+                    denuncias?.filter(denuncia => denuncia.cpf === user?.cpf).length === 0
                         ?
                         <div className="not-found">
                             <h1>Reclamações</h1>
@@ -225,39 +222,41 @@ export const User: React.FC = () => {
                             </Link>
                         </div>
                         :
+                        (
+                            <div className="right">
+                                <div className="info" onClick={() => window.location.href = "/create"} style={{ textAlign: "center", padding: "2.2rem", cursor: "pointer" }}>
+                                    <Plus size={80} />
+                                    <h3>Criar denúncia</h3>
+                                </div>
 
-                        <div className="right">
-                            <div className="info" onClick={() => window.location.href = "/create"} style={{ textAlign: "center", padding: "2.2rem", cursor: "pointer" }}>
-                                <Plus size={80} />
-                                <h3>Criar denúncia</h3>
+                                {
+                                    denuncias?.map(
+                                        // eslint-disable-next-line array-callback-return
+                                        function (denuncia) {
+                                            if (denuncia.cpf === user?.cpf) {
+                                                return (
+                                                    <Card
+                                                        key={denuncia.idDenuncia}
+                                                        idDenuncia={denuncia.idDenuncia}
+                                                        cpf={denuncia.cpf}
+                                                        date={denuncia.dataDenuncia}
+                                                        idTipo={denuncia.idTipo}
+                                                        address={denuncia.endereco}
+                                                        description={denuncia.descricao}
+                                                        idStatus={denuncia.idStatus}
+                                                        imgUrl={denuncia.urlImagem}
+                                                        handleToggleComplaint={toggleComplaint}
+                                                        setComplaint={setComplaintData}
+                                                        setIsModalOpen={setIsModalOpen}
+                                                        setModalContent={setModalContent}
+                                                    ></Card>
+                                                )
+                                            }
+                                        })
+                                }
                             </div>
+                        )
 
-                            {
-                                denuncias?.map(
-                                    // eslint-disable-next-line array-callback-return
-                                    function (denuncia) {
-                                        if (denuncia.cpf === user?.cpf) {
-                                            return (
-                                                <Card
-                                                    key={denuncia.idDenuncia}
-                                                    idDenuncia={denuncia.idDenuncia}
-                                                    cpf={denuncia.cpf}
-                                                    date={denuncia.dataDenuncia}
-                                                    idTipo={denuncia.idTipo}
-                                                    address={denuncia.endereco}
-                                                    description={denuncia.descricao}
-                                                    idStatus={denuncia.idStatus}
-                                                    imgUrl={denuncia.urlImagem}
-                                                    handleToggleComplaint={toggleComplaint}
-                                                    setComplaint={setComplaintData}
-                                                    setIsModalOpen={setIsModalOpen}
-                                                    setModalContent={setModalContent}
-                                                ></Card>
-                                            )
-                                        }
-                                    })
-                            }
-                        </div>
                 }
                 {showComplaint && <Complaint isVisible={showComplaint} setVisible={setShowComplaint} cpf={complaint?.cpf} idDenunia={complaint?.idDenuncia} date={complaint?.date} idTipo={complaint?.idTipo} address={complaint?.address} description={complaint?.description} idStatus={complaint?.idStatus} imgUrl={complaint?.imgUrl} />}
             </div >
