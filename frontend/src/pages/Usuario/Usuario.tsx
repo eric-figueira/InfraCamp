@@ -1,5 +1,5 @@
 import {User} from "../../containers/User/User";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 
 import { AuthContext } from "../../contexts/AuthContext";
@@ -10,6 +10,14 @@ import NotFound from "../NotFound/NotFound";
 const Usuario : React.FC = () => {
 
     const { user } = useContext(AuthContext);
+
+    useEffect(() => {
+        alert(user.funcionario)
+        if (user?.funcionario) {
+            alert("asdsd")
+            window.location.href = '/posts'
+        }
+    }, [])
 
     return (
         user ?
