@@ -1,4 +1,4 @@
-import React, { useContext, useState, MouseEvent } from 'react';
+import React, { useContext, useState, MouseEvent, useEffect } from 'react';
 
 import "./RecuperacaoSenha.css"
 
@@ -14,6 +14,7 @@ import { Message, ETypes } from '../../components/Message/Message';
 import { AuthContext } from '../../contexts/AuthContext';
 import { IMaskInput } from 'react-imask';
 import { MaskedRange } from 'imask';
+import { useLocation } from 'react-router-dom';
 
 
 const cpf_regex: RegExp = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/
@@ -27,13 +28,22 @@ interface IUser {
 
 const RecuperacaoSenha: React.FC = () => {
 
-  const { RecuperarSenha } = useContext(AuthContext)
+  const { RecuperarSenha, token } = useContext(AuthContext)
 
   const [user, setUser] = useState<IUser>({ cpf: "", novaSenha: "", confSenha: "" })
 
-
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
   const [messageText, setMessageText] = useState<string>("")
+
+  const location = useLocation();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const queryParameters = new URLSearchParams(location.search);
+
+  useEffect(() => {
+    if (token !== queryParameters.get("token")) {
+      window.location.href="/";
+    }
+  }, [queryParameters, token])
 
   function showMessage(text: string) {
     setMessageText(text)
@@ -44,11 +54,11 @@ const RecuperacaoSenha: React.FC = () => {
     event.preventDefault()
     try 
     {
-      if (user.cpf == "" || user.novaSenha == "" || user.confSenha == "") 
+      if (user.cpf === "" || user.novaSenha === "" || user.confSenha === "") 
         showMessage('Todos os dados são necessários!')
       else 
       {
-        if (user.novaSenha != user.confSenha) 
+        if (user.novaSenha !== user.confSenha) 
           showMessage('As senhas não são compatíveis!')
         else if (!cpf_regex.test(user.cpf)) 
           showMessage('Padrão de CPF incorreto!')

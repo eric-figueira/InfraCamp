@@ -129,16 +129,19 @@ const Post: React.FC<PostProps> = (props) => {
                 <h4 className="message" style={{ color: color }}>
                     <StatusDenuncia idDenuncia={props.idDenuncia} idStatus={props.idStatus} />
                 </h4>
-                <h4 className="message">
-                    <b>Likes</b> {opinioes?.filter(opiniao => opiniao.isCurtida === true).length}
-                    <b>Dislikes</b> {opinioes?.filter(opiniao => opiniao.isCurtida === false).length}
-                </h4>
+                {
+                    user?.funcionario &&
+                    <h4 className="message">
+                        <b>Likes</b> {opinioes?.filter(opiniao => opiniao.isCurtida === true).length}
+                        <b>Dislikes</b> {opinioes?.filter(opiniao => opiniao.isCurtida === false).length}
+                    </h4>
+                }
             </div>
             <div className="mid">
                 <img src={props.imgUrl} className="cover" alt="Imagem do problema" />
             </div>
             {
-                !user?.funcionario ? 
+                !user?.funcionario && 
                 (
                     <div className="right">
                         <h4 className="likes">{opinioes?.filter(opiniao => opiniao.isCurtida === true).length}</h4>
@@ -151,7 +154,7 @@ const Post: React.FC<PostProps> = (props) => {
                             </button>
                         </div>
                     </div>
-                ) : <></>
+                )
             }
         </div>
     )

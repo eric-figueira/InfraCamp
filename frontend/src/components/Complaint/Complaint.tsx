@@ -79,7 +79,7 @@ const Complaint: React.FC<ComplaintProps> = (props) => {
                     <button className="close_button" title="close" onClick={handleClick}><X weight="bold" color="#FFFFFF"/></button>
                 </div>
                 <div className="img">
-                    <img src={props.imgUrl} alt="Imagem do problema" />
+                    <img src={props.imgUrl} draggable={false} alt="Imagem do problema" />
                 </div>
                 <div className="bottom_box">
                     <h2 className="date">{formatDate(props.date + "")}</h2>

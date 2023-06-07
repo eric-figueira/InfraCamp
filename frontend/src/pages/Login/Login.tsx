@@ -110,7 +110,7 @@ const Login: React.FC = () => {
               </div>
               <input type='password' placeholder='Digite sua senha' onChange={(event) => setUser({ ...user, senha: event.target.value })} />
             </Input>
-            <Link to="/recover-password" className='login-link'>Esqueceu sua senha? Clique aqui!</Link>
+            <Link to="/email" className='login-link'>Esqueceu sua senha? Clique aqui!</Link>
             <Button text='Entrar' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={18} eventHandler={SignIn} />
           </form>
         </div>

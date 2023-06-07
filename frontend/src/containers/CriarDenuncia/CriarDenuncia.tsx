@@ -26,7 +26,7 @@ interface ICriarDenuncia {
 const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
   const { user } = useContext(AuthContext);
 
-  const location = useLocation()
+  const location = useLocation();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const queryParameters = new URLSearchParams(location.search)
 

@@ -12,7 +12,6 @@ const Usuario : React.FC = () => {
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
-        alert(user.funcionario)
         if (user?.funcionario) {
             alert("asdsd")
             window.location.href = '/posts'

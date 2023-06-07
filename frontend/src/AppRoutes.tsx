@@ -11,6 +11,7 @@ import Usuario from "./pages/Usuario/Usuario";
 import SobreNos from "./pages/SobreNos/SobreNos";
 import CriarDenuncias from "./pages/CriarDenuncia/CriarDenuncia";
 import NotFound from "./pages/NotFound/NotFound";
+import Email from "./pages/Email/Email";
 
 
 const AppRoutes: React.FC = () => {
@@ -18,6 +19,7 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Cadastro />} />
+      <Route path="/email" element={<Email />} />
       <Route path="/recover-password" element={<RecuperacaoSenha />} />
 
       {/* Private Routes - only accessible when the user is logged */}

@@ -80,6 +80,22 @@ namespace backend.Controllers
             }
         }
 
+        [HttpPost("validateToken")]
+        public ActionResult<Object> ValidadeToken(string Token)
+        {
+            try
+            {
+                // Testar se o token não expirou / se é válido
+                if (IsJWTEXpired(Token)) return false;
+
+                return true;
+            }
+            catch {
+                // Mudar o codigo
+                return this.StatusCode(StatusCodes.Status400BadRequest, "Token inválido!");
+            }
+        }
+
         [NonAction]
         public bool IsJWTEXpired(string token)
         {
@@ -139,6 +155,29 @@ namespace backend.Controllers
                     funcionario = u!.IsFunc,
                     cpf = u!.Cpf
                 }
+            };
+
+            string jsonData = JsonConvert.SerializeObject(response);
+
+            return jsonData;
+        }
+
+        [NonAction]
+        public Object gerarTokenReset(Usuario u)
+        {
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+            var token = new JwtSecurityToken(
+              expires: DateTime.Now.AddDays(1),
+              issuer: _configuration["JWT:ValidIssuer"],
+              audience: _configuration["JWT:ValidAudience"],
+              signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+            );
+
+            var response = new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                user = u
             };
 
             string jsonData = JsonConvert.SerializeObject(response);
@@ -245,6 +284,27 @@ namespace backend.Controllers
 
                 // Gerar token com os dados de usuário
                 return gerarTokenData(usuario);
+            }
+            catch
+            {
+                // Mudar o codigo
+                return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
+            }
+        }
+
+        [HttpPost("setResetPasswordToken")]
+        public async Task<ActionResult<Object>> GerarTokenPassword(string email)
+        {
+            try
+            {
+                var result = _context.Usuario.Where(u => u.Email == email);
+
+                if (result == null) return Unauthorized();
+
+                Usuario usuario = result.FirstOrDefault();
+
+                // Gerar token com os dados de usuário
+                return gerarTokenReset(usuario);
             }
             catch
             {

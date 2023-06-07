@@ -39,9 +39,11 @@ export interface IUser {
 interface AuthContextType {
   isAuthenticated: boolean,
   user: IUser | null,
+  token: string | null,
   Logar: (data: ISignIn) => Promise<boolean>,
   Cadastrar: (data: ISignUp) => Promise<boolean>,
   RecuperarSenha: (data: IRecoverPassword) => Promise<boolean>,
+  GerarTokenPassword: (email: string) => Promise<boolean>,
   LogOut: () => void
 }
 
@@ -50,10 +52,12 @@ export const AuthContext = createContext({} as AuthContextType)
 
 export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const cookie = new Cookies();
 
   const [user, setUser] = useState<IUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [token, setToken] = useState<string | null>(null);
 
 
   // Quando for carregado, verificará se já existe cookies salvos
@@ -70,20 +74,28 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
       })
     }
     else if (window.location.pathname !== '/') window.location.href = '/'
-  }, [])
 
-  function setCookie(token: string) {
+    let t = cookie.get('_infracamp_reset_token');
+
+    if (t) {
+      api.post(`api/auth/validateToken?token=`+t).then(({data}) => {
+        data ? setToken(t) : setToken(null);
+      });
+    }
+  }, [cookie])
+
+  function setCookie(token: string, title: string) {
     const proxMes = new Date();
     proxMes.setMonth(new Date().getMonth() + 1);
 
-    cookie.set('_infracamp_auth_token', token, { expires: proxMes })
+    cookie.set(title, token, { expires: proxMes })
   }
 
   function authenticateUser(resp: AxiosResponse) {
     console.log(resp.data)
 
     // Seta o token como cookie
-    setCookie(resp.data.token)
+    setCookie(resp.data.token, '_infracamp_auth_token')
 
     const user: IUser = resp.data.user
 
@@ -150,6 +162,23 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     }
   }
 
+  async function GerarTokenPassword(email: string) {
+    try {
+      const resp = await api.post('api/auth/setResetPasswordToken?email='+email);
+
+      if (resp.data.token) {
+        setCookie(resp.data.token, '_infracamp_reset_token');
+        setToken(resp.data.token);
+        return true;
+      }
+      return false;
+    }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
   async function LogOut() {
     // Precisamos limpar os cookies
     cookie.remove('_infracamp_auth_token')
@@ -171,9 +200,11 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
       value={{
         isAuthenticated,
         user,
+        token,
         Logar,
         Cadastrar,
         RecuperarSenha,
+        GerarTokenPassword,
         LogOut
       }}>
       {children}
