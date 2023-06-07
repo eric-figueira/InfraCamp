@@ -23,6 +23,7 @@ const Filter: React.FC<FilterProps> = ({ filtrarPorTipo, filtrarPorStatus, filtr
 
         switch (filtro) {
             case "tipo":
+                console.log(index)
                 filtrarPorTipo(index);
                 break;
             case "status":

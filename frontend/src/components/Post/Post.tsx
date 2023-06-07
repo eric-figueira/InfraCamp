@@ -129,21 +129,30 @@ const Post: React.FC<PostProps> = (props) => {
                 <h4 className="message" style={{ color: color }}>
                     <StatusDenuncia idDenuncia={props.idDenuncia} idStatus={props.idStatus} />
                 </h4>
+                <h4 className="message">
+                    <b>Likes</b> {opinioes?.filter(opiniao => opiniao.isCurtida === true).length}
+                    <b>Dislikes</b> {opinioes?.filter(opiniao => opiniao.isCurtida === false).length}
+                </h4>
             </div>
             <div className="mid">
                 <img src={props.imgUrl} className="cover" alt="Imagem do problema" />
             </div>
-            <div className="right">
-                <h4 className="likes">{opinioes?.filter(opiniao => opiniao.isCurtida === true).length}</h4>
-                <div className="actionBtns">
-                    <button type="button" title="Curtir" onClick={() => handleClick(true)}>
-                        <Heart size='25' color="#ca3a3a" weight={opiniao !== undefined ? (opiniao.isCurtida ? "fill" : "regular") : "regular"} />
-                    </button>
-                    <button type="button" title="Denunciar" onClick={() => handleClick(false)}>
-                        <WarningCircle size='25' color="#cf9516" weight={opiniao !== undefined ? (opiniao.isCurtida ? "regular" : "fill") : "regular"} />
-                    </button>
-                </div>
-            </div>
+            {
+                !user?.funcionario ? 
+                (
+                    <div className="right">
+                        <h4 className="likes">{opinioes?.filter(opiniao => opiniao.isCurtida === true).length}</h4>
+                        <div className="actionBtns">
+                            <button type="button" title="Curtir" onClick={() => handleClick(true)}>
+                                <Heart size='25' color="#ca3a3a" weight={opiniao !== undefined ? (opiniao.isCurtida ? "fill" : "regular") : "regular"} />
+                            </button>
+                            <button type="button" title="Denunciar" onClick={() => handleClick(false)}>
+                                <WarningCircle size='25' color="#cf9516" weight={opiniao !== undefined ? (opiniao.isCurtida ? "regular" : "fill") : "regular"} />
+                            </button>
+                        </div>
+                    </div>
+                ) : <></>
+            }
         </div>
     )
 }
