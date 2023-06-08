@@ -40,6 +40,7 @@ interface AuthContextType {
   isAuthenticated: boolean,
   user: IUser | null,
   token: string | null,
+  email: string | null,
   Logar: (data: ISignIn) => Promise<boolean>,
   Cadastrar: (data: ISignUp) => Promise<boolean>,
   RecuperarSenha: (data: IRecoverPassword) => Promise<boolean>,
@@ -58,6 +59,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | null>(null);
 
 
   // Quando for carregado, verificará se já existe cookies salvos
@@ -78,8 +80,11 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     let t = cookie.get('_infracamp_reset_token');
 
     if (t) {
-      api.post(`api/auth/validateToken?token=`+t).then(({data}) => {
-        data ? setToken(t) : setToken(null);
+      api.post(`api/auth/validateToken&returnData?token=` + t).then(({ data }) => {
+        if (data.isTokenValid) {
+          setEmail(data.user.email);
+          setToken(t);
+        }
       });
     }
   }, [cookie])
@@ -134,7 +139,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) {
-        authenticateUser(resp); 
+        authenticateUser(resp);
         return true;
       }
       return false;
@@ -164,7 +169,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   async function GerarTokenPassword(email: string) {
     try {
-      const resp = await api.post('api/auth/setResetPasswordToken?email='+email);
+      const resp = await api.post('api/auth/setResetPasswordToken?email=' + email);
 
       if (resp.data.token) {
         setCookie(resp.data.token, '_infracamp_reset_token');
@@ -201,6 +206,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
         isAuthenticated,
         user,
         token,
+        email,
         Logar,
         Cadastrar,
         RecuperarSenha,

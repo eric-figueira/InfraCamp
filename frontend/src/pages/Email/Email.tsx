@@ -18,9 +18,9 @@ const Email: React.FC = () => {
 
     const email_regex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
-    const { GerarTokenPassword, token } = useContext(AuthContext)
+    const { GerarTokenPassword, token, email } = useContext(AuthContext)
 
-    const [email, setEmail] = useState<string>("");
+    const [emailS, setEmail] = useState<string>("");
 
     const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
     const [messageText, setMessageText] = useState<string>("")
@@ -33,23 +33,30 @@ const Email: React.FC = () => {
     useEffect(() => {
         if (token != null)
             showMessage("Enviamos uma mensagem de confirmação no email especificado. Verifique sua caixa de entrada.");
+
+        if (email != null) {
+            setEmail(email);
+        }
     }, [])
 
     async function SendEmail(event: MouseEvent) {
         event.preventDefault();
 
-        if (!email_regex.test(email))
+        if (!email_regex.test(emailS))
             showMessage('Padrão de email incorreto!');
 
         try {
             if (email === "")
                 showMessage('Insira um email!')
             else {
-                if (await GerarTokenPassword(email) === false) {
+                if (await GerarTokenPassword(emailS) === false) {
                     showMessage('Email inválido!');
                 }
                 else {
-                    emailjs.send('service_9hn2m24', 'template_0062ef8', { link: 'http://localhost:3000/recover-password?token=' + token }, 'R8PqZdHwdz4VXKwKo')
+                    emailjs.send("service_9hn2m24", "template_0062ef8", {
+                        link: "http://localhost:3000/recover-password?token="+token,
+                        email: email,
+                    })
                         .then((result) => {
                             console.log(result.text);
                             showMessage("Enviamos uma mensagem de confirmação no email especificado. Verifique sua caixa de entrada.");
