@@ -1,6 +1,3 @@
-import Logar from "../../assets/imgs/entrar.png";
-import Cadastrar from "../../assets/imgs/cadastrar.png";
-import Recuperar from "../../assets/imgs/recuperar.png";
 import crimg1 from "../../assets/imgs//CarrosselPhotos/CarrosselImage1.png"; 
 import crimg2 from "../../assets/imgs//CarrosselPhotos/CarrosselImage2.png"; 
 import crimg3 from "../../assets/imgs//CarrosselPhotos/CarrosselImage3.png"; 
