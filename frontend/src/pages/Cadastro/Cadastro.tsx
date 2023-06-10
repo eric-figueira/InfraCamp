@@ -10,6 +10,7 @@ import { EnvelopeSimple, Key, IdentificationBadge, User, Phone } from 'phosphor-
 import { ReactComponent as ImagemCadastro } from "../../assets/imgs/imgCadastro.svg"
 
 import Button from '../../components/Button/Button';
+import Loader from '../../components/Loader/Loader';
 import { Message, ETypes } from "../../components/Message/Message"
 
 import { AuthContext } from '../../contexts/AuthContext';
@@ -37,6 +38,8 @@ const Cadastro: React.FC = () => {
 
   const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
   const [messageText, setMessageText] = useState<string>("")
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   function cpfValido(cpf: string) {
     let d1 = 0;
@@ -92,11 +95,15 @@ const Cadastro: React.FC = () => {
         else if (user.cpf.length < 14 || !cpfValido(user.cpf))
           showMessage('CPF inválido!');
         else {
+          setIsLoading(true);
           if (await Cadastrar({ cpf: user.cpf, email: user.email, nome: user.nome, senha: user.senha, telefone: user.telefone }) === false) {
+            setIsLoading(false);
             showMessage('Já existe um usuário com o CPF especificado!');
           }
-          else
+          else {
             setIsMessageVisible(false);
+            setIsLoading(false);
+          }
         }
       }
     }
@@ -105,6 +112,8 @@ const Cadastro: React.FC = () => {
 
   return (
     <div className="signup-wrapper">
+      <Loader isActive={isLoading} setIsActive={setIsLoading} />
+
       <div className="info-container">
         <div className="form-wrapper">
           <h1 className="title">Cadastrar-se</h1>

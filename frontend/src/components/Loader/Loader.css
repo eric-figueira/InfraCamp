@@ -1,0 +1,18 @@
+.loader {
+    animation: is-rotating 1s infinite;
+    border: 15px solid #26b9e6;
+    border-radius: 75px;
+    border-top-color: transparent;
+    height: 75px;
+    width: 75px;
+    position: fixed;
+    z-index: 9999;
+    margin-inline: 45%;
+    margin-top: 20%;
+  }
+  
+  @keyframes is-rotating {
+    to {
+      transform: rotate(1turn);
+    }
+  }

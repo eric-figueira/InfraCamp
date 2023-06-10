@@ -13,6 +13,7 @@ import { ReactComponent as ImagemLogin } from "../../assets/imgs/imgLogin.svg"
 import { IdentificationCard, Key } from 'phosphor-react'
 
 import Button from '../../components/Button/Button';
+import Loader from '../../components/Loader/Loader';
 import { Message, ETypes } from "../../components/Message/Message"
 
 import { AuthContext } from '../../contexts/AuthContext';
@@ -28,12 +29,14 @@ interface IUser {
 
 const Login: React.FC = () => {
 
-  const { Logar } = useContext(AuthContext)
+  const { Logar } = useContext(AuthContext);
 
-  const [user, setUser] = useState<IUser>({ cpf: "", senha: "" })
+  const [user, setUser] = useState<IUser>({ cpf: "", senha: "" });
 
-  const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false)
-  const [messageText, setMessageText] = useState<string>("")
+  const [isMessageVisible, setIsMessageVisible] = useState<boolean>(false);
+  const [messageText, setMessageText] = useState<string>("");
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   function showMessage(text: string) {
     setIsMessageVisible(true)
@@ -49,10 +52,15 @@ const Login: React.FC = () => {
         if (!cpf_regex.test(user.cpf))
           showMessage('Padrão de CPF incorreto!')
         else {
-          if (await Logar({ cpf: user.cpf, senha: user.senha }) === false)
+          setIsLoading(true);
+          if (await Logar({ cpf: user.cpf, senha: user.senha }) === false) {
+            setIsLoading(false);
             showMessage('Dados incorretos!');
-          else 
+          }
+          else {
+            setIsLoading(false);
             setIsMessageVisible(false);
+          }
         }
       }
     }
@@ -62,6 +70,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-wrapper">
+      <Loader isActive={isLoading} setIsActive={setIsLoading} />
       <div className="img-container">
         <div className="content">
           <h3>Novo por aqui?</h3>
