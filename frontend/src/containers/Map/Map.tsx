@@ -87,7 +87,7 @@ const Map: React.FC<MapProps> = (props) => {
             if (map.current !== undefined)
                 marker.addTo(map.current);
         })
-    })
+    }, [denuncias]);
 
     useEffect(() => {
         if (props.denuncia == null) {
@@ -110,9 +110,12 @@ const Map: React.FC<MapProps> = (props) => {
                 <div className="searchBar">
                     <GeocodingControl
                         onPick={({ bbox, place_name }) => {
-                            props.setDenuncia !== undefined ? props.setDenuncia({ ...props.denuncia, longitude: ((bbox[0] + bbox[2]) / 2), latitude: ((bbox[1] + bbox[3]) / 2) } as Denuncia) : console.log("");
-
-                            props.setDenuncia !== undefined ? props.setDenuncia({ ...props.denuncia, endereco: place_name } as Denuncia) : console.log("")
+                            props.setDenuncia !== undefined ? props.setDenuncia({
+                                ...props.denuncia,
+                                latitude: ((Number(bbox[1]) + Number(bbox[3])) / 2),
+                                longitude: ((Number(bbox[0]) + Number(bbox[2])) / 2),
+                                endereco: place_name
+                            } as Denuncia) : console.log("");
                         }}
 
                         onResponse={(e => {

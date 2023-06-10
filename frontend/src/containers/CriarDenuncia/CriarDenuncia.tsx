@@ -18,12 +18,16 @@ import Map from '../Map/Map';
 import { api } from '../../services/api';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useLocation } from 'react-router-dom';
+import Modal from '../../components/Modal/Modal';
+import { WarningCircle } from 'phosphor-react';
 
 interface ICriarDenuncia {
   type: string;
 }
 
 const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const { user } = useContext(AuthContext);
 
   const location = useLocation();
@@ -33,6 +37,10 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
   const { data: tipos } = useGet<Tipo[]>("api/tiposDenuncia")
 
   const [denuncia, setDenuncia] = useState<Denuncia>({ cpf: "", dataDenuncia: new Date(), descricao: "", endereco: "", idDenuncia: 0, idStatus: 1, idTipo: 1, latitude: 0, longitude: 0, urlImagem: Imagem } as Denuncia);
+
+  useEffect(() => {
+    console.log(JSON.stringify(denuncia));
+  }, [denuncia]);
 
   useEffect(() => {
     api.get("api/denuncias/" + queryParameters.get("id"))
@@ -62,10 +70,8 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
   }
 
   const handleSalvar = () => {
-    if (denuncia.descricao === "" || denuncia.endereco === "")
-    {
-      // substituir por modal
-      alert("Preencha todos os campos!");
+    if (denuncia.descricao === "" || denuncia.endereco === "") {
+      setIsModalOpen(true);
       return;
     }
 
@@ -74,7 +80,8 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
     if (denuncia.urlImagem === Imagem)
       denuncia.urlImagem = ImagemDenuncia;
 
-    console.log(JSON.stringify(denuncia))
+    console.log(JSON.stringify(denuncia));
+
     api.post("api/denuncias", denuncia)
       .then(() => {
         window.location.href = "http://localhost:3000/user";
@@ -85,10 +92,8 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
   }
 
   const handleEditar = () => {
-    if (denuncia.descricao === "" || denuncia.endereco === "")
-    {
-      // substituir por modal
-      alert("Preencha todos os campos!");
+    if (denuncia.descricao === "" || denuncia.endereco === "") {
+      setIsModalOpen(true);
       return;
     }
 
@@ -111,52 +116,61 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
   }
 
   return (
-    <div>
-      <h1 className="title">{props.type === 'edit' ? "Editar Denúncia" : "Criar denúncia"}</h1>
-      <div className="create">
-        <div className="left">
-          <p>Tipo:</p>
-          <select title="tipo" className="combo" onChange={({ target }) => {
-            setDenuncia({ ...denuncia, idTipo: Number((target as HTMLSelectElement).value) } as Denuncia);
-          }}>
-            {
-              tipos?.map(tipo => {
-                return <option value={tipo.idTipo as number} selected={tipo.idTipo === denuncia?.idTipo ? true : false} >{tipo.tipo}</option>
-              })
-            }
-          </select>
+    <>
+      <div>
+        <h1 className="title">{props.type === 'edit' ? "Editar Denúncia" : "Criar denúncia"}</h1>
+        <div className="create">
+          <div className="left">
+            <p>Tipo:</p>
+            <select title="tipo" className="combo" onChange={({ target }) => {
+              setDenuncia({ ...denuncia, idTipo: Number((target as HTMLSelectElement).value) } as Denuncia);
+            }}>
+              {
+                tipos?.map(tipo => {
+                  return <option value={tipo.idTipo as number} selected={tipo.idTipo === denuncia?.idTipo ? true : false} >{tipo.tipo}</option>
+                })
+              }
+            </select>
 
-          <p>Endereço:</p>
-          <Map denuncia={denuncia} setDenuncia={setDenuncia} idDiv="mapa" hasSearchBar={true} />
-        </div>
-        <div className="right">
-          <p>Descrição (Conte-nos com detalhes sobre seu problema): </p>
-          <textarea
-            title="descricao"
-            id="texto" cols={32} rows={4} style={{ resize: 'none' }} placeholder="Digite seu texto aqui" value={denuncia.descricao}
-            onChange={({ target }) => setDenuncia({ ...denuncia, descricao: target.value as string } as Denuncia)}>
-          </textarea>
-          
-          <p>Imagem (Opcional)</p>
-          <div className="image-upload">
-
-            <input id="pickImg" title="Browse" type="file" accept="image/jpeg, image/png, image/jpg, image/jfif, image/webp" onChange={handleChange} />
-
-            <img id="imagem" alt="imagem" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} src={denuncia.urlImagem} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)} />
-
+            <p>Endereço:</p>
+            <Map denuncia={denuncia} setDenuncia={setDenuncia} idDiv="mapa" hasSearchBar={true} />
           </div>
+          <div className="right">
+            <p>Descrição (Conte-nos com detalhes sobre seu problema): </p>
+            <textarea
+              title="descricao"
+              id="texto" cols={32} rows={4} style={{ resize: 'none' }} placeholder="Digite seu texto aqui" value={denuncia.descricao}
+              onChange={({ target }) => setDenuncia({ ...denuncia, descricao: target.value as string } as Denuncia)}>
+            </textarea>
 
-          <div className="buttons">
-            <Button backgroundColor={"#941D1D"} fontColor={colorPallete.bgWhite} text="Cancelar" eventHandler={() => handleCancelar()} />
+            <p>Imagem (Opcional)</p>
+            <div className="image-upload">
 
-            {props.type === "create" ?
-              <Button backgroundColor={colorPallete.bgGreen} fontColor={colorPallete.bgWhite} text="Salvar" eventHandler={() => handleSalvar()} /> :
-              <Button backgroundColor={colorPallete.bgGreen} fontColor={colorPallete.bgWhite} text="Salvar" eventHandler={() => handleEditar()} />
-            }
+              <input id="pickImg" title="Browse" type="file" accept="image/jpeg, image/png, image/jpg, image/jfif, image/webp" onChange={handleChange} />
+
+              <img id="imagem" alt="imagem" onClick={() => { (document.querySelector('#pickImg') as HTMLInputElement).click() }} src={denuncia.urlImagem} onMouseOver={() => setPlusVisible(true)} onMouseLeave={() => setPlusVisible(false)} />
+
+            </div>
+
+            <div className="buttons">
+              <Button backgroundColor={"#941D1D"} fontColor={colorPallete.bgWhite} text="Cancelar" eventHandler={() => handleCancelar()} />
+
+              {props.type === "create" ?
+                <Button backgroundColor={colorPallete.bgGreen} fontColor={colorPallete.bgWhite} text="Criar" eventHandler={() => handleSalvar()} /> :
+                <Button backgroundColor={colorPallete.bgGreen} fontColor={colorPallete.bgWhite} text="Salvar" eventHandler={() => handleEditar()} />
+              }
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      {
+        isModalOpen &&
+        <Modal setModalOpen={setIsModalOpen}>
+          <WarningCircle color="#ff4343" weight="bold" size={100} />
+          <p>Preencha todos os campos antes de criar a denúncia!</p>
+        </ Modal>
+      }
+    </>
   );
 };
 
