@@ -102,11 +102,9 @@ const Cadastro: React.FC = () => {
         // Obs: testar se já não tem no banco de dados!!!
         else if (user.cpf.length < 14 || !cpfValido(user.cpf))
           showMessage('CPF inválido!');
-        else if (signupEmail == null) 
-          showMessage('Email inválido!');
         else {
           setIsLoading(true);
-          if (await Cadastrar({ cpf: user.cpf, email: signupEmail ? signupEmail : "", nome: user.nome, senha: user.senha, telefone: user.telefone }) === false) {
+          if (await Cadastrar({ cpf: user.cpf, email: user.email, nome: user.nome, senha: user.senha, telefone: user.telefone }) === false) {
             setIsLoading(false);
             showMessage('Já existe um usuário com o CPF especificado!');
           }

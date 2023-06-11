@@ -68,7 +68,8 @@ const Email: React.FC<IEmail> = (props) => {
                     showMessage("Ocorreu um erro quando processávamos sua solicitação. Tente novamente mais tarde!");
                 });
         }
-    }, [resetToken, resetEmail, signupEmail, signupToken, props.type])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [resetToken, signupToken, props.type])
 
     async function SendEmail(event: MouseEvent) {
         event.preventDefault();

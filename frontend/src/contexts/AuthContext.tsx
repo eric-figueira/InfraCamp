@@ -57,7 +57,9 @@ export const AuthContext = createContext({} as AuthContextType)
 export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const cookie = new Cookies();
+  const authCookie = new Cookies();
+  const resetCookie = new Cookies();
+  const signupCookie = new Cookies();
 
   const [user, setUser] = useState<IUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -71,30 +73,36 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   // Quando for carregado, verificará se já existe cookies salvos
   useEffect(() => {
+    let authToken = authCookie.get('_infracamp_auth_token');
+    alert("auth" + authToken);
 
-    let token = cookie.get('_infracamp_auth_token');
-
-    if (token) {
-      api.post(`api/auth/validateToken&returnData?token=${token}`).then((resp) => {
+    if (authToken) {
+      api.post(`api/auth/validateToken&returnData?token=${authToken}`).then((resp) => {
         setIsAuthenticated(resp.data.isTokenValid)
 
         // Seta o user para o que recebeu
         setUser(resp.data.user)
       })
     }
+  }, [])
 
-    let resetToken = cookie.get('_infracamp_reset_token')
+  useEffect(() => {
+    let resetToken = resetCookie.get('_infracamp_reset_token')
+    alert("reset" + resetToken)
 
     if (resetToken) {
       api.post(`api/auth/validateTokenEmail&returnData?token=${resetToken}`).then((resp) => {
         if (resp.data.isTokenValid) {
-          setResetEmail(resp.data.token);
+          setResetToken(resp.data.token);
           setResetEmail(resp.data.email);
         }
       })
     }
+  }, [])
 
-    let signupToken = cookie.get('_infracamp_signup_token')
+  useEffect(() => {
+    let signupToken = signupCookie.get('_infracamp_signup_token')
+    alert("signup" + signupToken)
 
     if (signupToken) {
       api.post(`api/auth/validateTokenEmail&returnData?token=${signupToken}`).then((resp) => {
@@ -104,9 +112,9 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
         }
       })
     }
-  }, [cookie])
+  }, [])
 
-  function setCookie(token: string, title: string, time: Date) {
+  function setCookie(cookie: Cookies, token: string, title: string, time: Date) {
     cookie.set(title, token, { expires: time })
   }
 
@@ -116,7 +124,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     const proxMes = new Date();
     proxMes.setMonth(new Date().getMonth() + 1);
     // Seta o token como cookie
-    setCookie(resp.data.token, '_infracamp_auth_token', proxMes)
+    setCookie(authCookie, resp.data.token, '_infracamp_auth_token', proxMes)
 
     const user: IUser = resp.data.user
 
@@ -138,7 +146,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) {
-        cookie.remove("_infracamp_signup_token");
+        signupCookie.remove("_infracamp_signup_token");
         setSignupToken(null);
         setSignupEmail(null);
         authenticateUser(resp);
@@ -158,7 +166,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) {
-        cookie.remove("_infracamp_reset_token");
+        resetCookie.remove("_infracamp_reset_token");
         setResetToken(null);
         setResetEmail(null);
         authenticateUser(resp);
@@ -178,7 +186,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp.data.user && resp.data.token) {
-        cookie.remove("_infracamp_reset_token");
+        resetCookie.remove("_infracamp_reset_token");
         setResetToken(null);
         setResetEmail(null);
 
@@ -199,9 +207,9 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
       if (resp.data.token && resp.data.email) {
         const amanha = new Date();
-        amanha.setDate(new Date().getDay() + 1);   
+        amanha.setDate(new Date().getDay() + 1);
 
-        setCookie(resp.data.token, '_infracamp_reset_token', amanha);
+        setCookie(resetCookie, resp.data.token, '_infracamp_reset_token', amanha);
         setResetToken(resp.data.token);
         setResetEmail(resp.data.email);
 
@@ -217,13 +225,13 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   async function GerarTokenSignup(email: string) {
     try {
-      const resp = await api.post(`api/auth/gerarTokenSignup?email=${email}`);
+      const resp = await api.post(`api/auth/gerarTokenSignup?email=${email}`)
 
       if (resp.data.token && resp.data.email) {
         const amanha = new Date();
-        amanha.setDate(new Date().getDay() + 1);   
+        amanha.setDate(new Date().getDay() + 1);
 
-        setCookie(resp.data.token, '_infracamp_signup_token', amanha);
+        setCookie(signupCookie, resp.data.token, '_infracamp_signup_token', amanha);
         setSignupToken(resp.data.token);
         setSignupEmail(resp.data.email);
         return true;
@@ -238,7 +246,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   async function LogOut() {
     // Precisamos limpar os cookies
-    cookie.remove('_infracamp_auth_token')
+    authCookie.remove('_infracamp_auth_token')
 
     // Com esse set, fazemos com que os componentes recarreguem e o usuário, caso esteja em uma
     // rota privada, será redirecionado para login

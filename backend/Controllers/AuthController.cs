@@ -95,13 +95,6 @@ namespace backend.Controllers
                 var claim = jwtToken.Claims.FirstOrDefault(c => c.Type == "Email");
                 var email = claim.Value;
 
-                // Getar usuário
-                ActionResult<Usuario> result;
-
-                UsuarioController uc = new UsuarioController(this._context);
-                result = uc.GetUsuarioEmail(email);
-                Usuario u = (Usuario)((OkObjectResult)result.Result).Value;
-
                 var response = new
                 {
                     isTokenValid = true,
@@ -196,7 +189,7 @@ namespace backend.Controllers
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
             var token = new JwtSecurityToken(
-              expires: DateTime.Now.AddHours(1),
+              expires: DateTime.Now.AddDays(1),
               issuer: _configuration["JWT:ValidIssuer"],
               audience: _configuration["JWT:ValidAudience"],
               claims: authClaims,
@@ -331,7 +324,7 @@ namespace backend.Controllers
         {
             try
             {
-                // Verificar se dados existem
+                // Verificar se email existe
                 UsuarioController uc = new UsuarioController(this._context);
                 ActionResult<Usuario> result = uc.GetUsuarioEmail(email);
 
@@ -348,7 +341,7 @@ namespace backend.Controllers
         }
 
         [HttpPost("gerarTokenSignup")]
-         public async Task<ActionResult<Object>> GerarToken(string email)
+        public async Task<ActionResult<Object>> GerarTokenSignup(string email)
         {
             try
             {
