@@ -114,8 +114,13 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     }
   }, [])
 
-  function setCookie(cookie: Cookies, token: string, title: string, time: Date) {
-    cookie.set(title, token, { expires: time })
+  function setCookie(cookie: string, token: string, title: string, time: Date) {
+    if (cookie === 'auth')
+      authCookie.set(title, token, { expires: time })
+    else if (cookie === 'reset')
+      resetCookie.set(title, token, { expires: time })
+    else if (cookie === 'signup')
+      signupCookie.set(title, token, { expires: time })
   }
 
   function authenticateUser(resp: AxiosResponse) {
@@ -124,7 +129,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     const proxMes = new Date();
     proxMes.setMonth(new Date().getMonth() + 1);
     // Seta o token como cookie
-    setCookie(authCookie, resp.data.token, '_infracamp_auth_token', proxMes)
+    setCookie('auth', resp.data.token, '_infracamp_auth_token', proxMes)
 
     const user: IUser = resp.data.user
 
@@ -209,7 +214,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
         const amanha = new Date();
         amanha.setDate(new Date().getDay() + 1);
 
-        setCookie(resetCookie, resp.data.token, '_infracamp_reset_token', amanha);
+        setCookie('reset', resp.data.token, '_infracamp_reset_token', amanha);
         setResetToken(resp.data.token);
         setResetEmail(resp.data.email);
 
@@ -231,7 +236,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
         const amanha = new Date();
         amanha.setDate(new Date().getDay() + 1);
 
-        setCookie(signupCookie, resp.data.token, '_infracamp_signup_token', amanha);
+        setCookie('signup', resp.data.token, '_infracamp_signup_token', amanha);
         setSignupToken(resp.data.token);
         setSignupEmail(resp.data.email);
         return true;
