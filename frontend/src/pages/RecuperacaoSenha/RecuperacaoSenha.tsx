@@ -17,7 +17,7 @@ import { MaskedRange } from 'imask';
 import { useLocation } from 'react-router-dom';
 
 
-const cpf_regex: RegExp = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/
+const cpf_regex: RegExp = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/
 
 interface IUser {
   cpf: string,

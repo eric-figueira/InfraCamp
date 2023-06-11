@@ -1,12 +1,12 @@
-import React, { useState, useContext, MouseEvent } from 'react';
-import { Link } from "react-router-dom"
+import React, { useState, useContext, MouseEvent, useEffect } from 'react';
+import { Link, useLocation } from "react-router-dom"
 
 import "./Cadastro.css"
 
 import { colorPallete } from '../../styles/colors';
 import { Input } from '../../styles/styled-components';
 
-import { EnvelopeSimple, Key, IdentificationBadge, User, Phone } from 'phosphor-react'
+import { Key, IdentificationBadge, User, Phone } from 'phosphor-react'
 import { ReactComponent as ImagemCadastro } from "../../assets/imgs/imgCadastro.svg"
 
 import Button from '../../components/Button/Button';
@@ -19,8 +19,6 @@ import { IMaskInput } from 'react-imask';
 import { MaskedRange } from "imask";
 
 
-const email_regex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-
 interface IUser {
   cpf: string,
   email: string,
@@ -32,7 +30,7 @@ interface IUser {
 
 const Cadastro: React.FC = () => {
 
-  const { Cadastrar } = useContext(AuthContext)
+  const { Cadastrar, token, email } = useContext(AuthContext)
 
   const [user, setUser] = useState<IUser>({ cpf: "", email: "", nome: "", telefone: "", senha: "" });
 
@@ -40,6 +38,20 @@ const Cadastro: React.FC = () => {
   const [messageText, setMessageText] = useState<string>("")
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const location = useLocation();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const queryParameters = new URLSearchParams(location.search);
+
+  useEffect(() => {
+    if (token != null) {
+      if (token !== queryParameters.get("token"))
+        window.location.href="/";
+    }
+
+    if (email != null)
+      setUser({...user, email: email})
+  }, [queryParameters, token, email, user])
 
   function cpfValido(cpf: string) {
     let d1 = 0;
@@ -82,14 +94,13 @@ const Cadastro: React.FC = () => {
   }
 
   async function SignUp(event: MouseEvent) {
-    event.preventDefault()
+    event.preventDefault();
+    user.email = email ? email : "";
     try {
-      if (user.cpf === "" || user.email === "" || user.nome === "" || user.telefone === "" || user.senha === "")
+      if (user.cpf === "" || user.nome === "" || user.telefone === "" || user.senha === "")
         showMessage('Todos os dados são necessários!');
       else {
-        if (!email_regex.test(user.email))
-          showMessage('Padrão de email incorreto!');
-        else if (user.senha.length < 8)
+        if (user.senha.length < 8)
           showMessage('Senha precisa ter no mínimo 8 caracteres!');
         // Obs: testar se já não tem no banco de dados!!!
         else if (user.cpf.length < 14 || !cpfValido(user.cpf))
@@ -139,16 +150,6 @@ const Cadastro: React.FC = () => {
                 }}
                 type='text' placeholder='Digite seu CPF' onChange={(event) => setUser({ ...user, cpf: (event.target as HTMLInputElement).value })}
               />
-            </Input>
-            <Input
-              backgroundColor='#FFF'
-              placeholderColor={colorPallete.fontGray}
-              fontColor={colorPallete.fontBlack}
-            >
-              <div className='icon-container'>
-                <EnvelopeSimple />
-              </div>
-              <input type='email' placeholder='Digite seu email' onChange={(event) => setUser({ ...user, email: event.target.value })} />
             </Input>
             <Input
               backgroundColor='#FFF'

@@ -6,7 +6,8 @@ import "./Email.css";
 import { colorPallete } from "../../styles/colors"
 import { Input } from "../../styles/styled-components"
 
-import { ReactComponent as ImagemRecuperacaoSenha } from "../../assets/imgs/imgRecSenha.svg"
+import { ReactComponent as ImagemRecuperacaoSenha } from "../../assets/imgs/imgRecSenha.svg";
+import { ReactComponent as ImagemCadastro } from '../../assets/imgs/imgCadastro.svg';
 import { EnvelopeSimple } from 'phosphor-react'
 
 import Button from '../../components/Button/Button';
@@ -14,11 +15,15 @@ import { Message, ETypes } from '../../components/Message/Message';
 
 import { AuthContext } from '../../contexts/AuthContext';
 
-const Email: React.FC = () => {
+interface IEmail {
+    type: "recover" | "create";
+}
+
+const Email: React.FC<IEmail> = (props) => {
 
     const email_regex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
-    const { GerarTokenPassword, token, email } = useContext(AuthContext)
+    const { GerarTokenEmail, token, email } = useContext(AuthContext)
 
     const [emailS, setEmail] = useState<string>("");
 
@@ -32,19 +37,34 @@ const Email: React.FC = () => {
 
     useEffect(() => {
         if (email != null && token != null) {
-            emailjs.send("service_9hn2m24", "template_0062ef8", {
-                link: "http://localhost:3000/recover-password?token=" + token,
-                email: email,
-            }, "R8PqZdHwdz4VXKwKo")
-                .then((result) => {
-                    console.log(result.text);
-                    showMessage("Enviamos uma mensagem de confirmação no email especificado. Verifique sua caixa de entrada.");
-                }, (error) => {
-                    console.log(error.text);
-                    showMessage("Ocorreu um erro quando processávamos sua solicitação. Tente novamente mais tarde!");
-                });
+            if (props.type === "recover") {
+                emailjs.send("service_9hn2m24", "template_0062ef8", {
+                    link: "http://localhost:3000/recover-password/recover?token=" + token,
+                    email: email,
+                }, "R8PqZdHwdz4VXKwKo")
+                    .then((result) => {
+                        console.log(result.text);
+                        showMessage("Enviamos uma mensagem de confirmação no email especificado. Verifique sua caixa de entrada.");
+                    }, (error) => {
+                        console.log(error.text);
+                        showMessage("Ocorreu um erro quando processávamos sua solicitação. Tente novamente mais tarde!");
+                    });
+            }
+            else if (props.type === "create") {
+                emailjs.send("service_9hn2m24", "template_8uu6gsr", {
+                    link: "http://localhost:3000/signup/signup?token=" + token,
+                    email: email,
+                }, "R8PqZdHwdz4VXKwKo")
+                    .then((result) => {
+                        console.log(result.text);
+                        showMessage("Enviamos uma mensagem de confirmação no email especificado. Verifique sua caixa de entrada.");
+                    }, (error) => {
+                        console.log(error.text);
+                        showMessage("Ocorreu um erro quando processávamos sua solicitação. Tente novamente mais tarde!");
+                    });
+            }
         }
-    }, [token, email])
+    }, [token, email, props.type])
 
     async function SendEmail(event: MouseEvent) {
         event.preventDefault();
@@ -56,7 +76,7 @@ const Email: React.FC = () => {
             if (emailS === "")
                 showMessage('Insira um email!')
             else {
-                if (await GerarTokenPassword(emailS) === false) {
+                if (await GerarTokenEmail(emailS) === false) {
                     showMessage('Email inválido!');
                 }
             }
@@ -67,11 +87,14 @@ const Email: React.FC = () => {
     return (
         <div className='recover-password-wrapper'>
             <div className="img-container">
-                <ImagemRecuperacaoSenha className='senha-img' />
+                {props.type === 'create' ?
+                    <ImagemCadastro className='senha-img' /> :
+                    <ImagemRecuperacaoSenha className='senha-img' />
+                }
             </div>
             <div className="info-container">
                 <div className="form-wrapper">
-                    <h1>Recupere sua senha</h1>
+                    <h1>{props.type === 'create' ? 'Cadastre-se' : 'Recupere sua senha'}</h1>
 
                     {
                         token != null ?

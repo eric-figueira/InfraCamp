@@ -18,9 +18,10 @@ const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/signup" element={<Cadastro />} />
-      <Route path="/email" element={<Email />} />
-      <Route path="/recover-password" element={<RecuperacaoSenha />} />
+      <Route path="/signup/verify-email" element={<Email type="create" />} />
+      <Route path="/signup/signup" element={<Cadastro />} />
+      <Route path="/recover-password/verify-email" element={<Email type="recover" />} />
+      <Route path="/recover-password/recover" element={<RecuperacaoSenha />} />
 
       {/* Private Routes - only accessible when the user is logged */}
       <Route path="/map" element={<Mapa />} />

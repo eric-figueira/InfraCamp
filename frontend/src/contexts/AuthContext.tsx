@@ -44,7 +44,7 @@ interface AuthContextType {
   Logar: (data: ISignIn) => Promise<boolean>,
   Cadastrar: (data: ISignUp) => Promise<boolean>,
   RecuperarSenha: (data: IRecoverPassword) => Promise<boolean>,
-  GerarTokenPassword: (email: string) => Promise<boolean>,
+  GerarTokenEmail: (email: string) => Promise<boolean>,
   LogOut: () => void
 }
 
@@ -76,7 +76,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
       })
     }
 
-    let t = cookie.get('_infracamp_reset_token');
+    let t = cookie.get('_infracamp_confirm_token');
 
     if (t) {
       api.post(`api/auth/validateToken&returnData?token=` + t).then(({ data }) => {
@@ -138,7 +138,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) {
-        cookie.remove("_infracamp_reset_token");
+        cookie.remove("_infracamp_confirm_token");
         setToken(null);
         setEmail(null);
         authenticateUser(resp);
@@ -158,7 +158,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) {
-        cookie.remove("_infracamp_reset_token");
+        cookie.remove("_infracamp_confirm_token");
         setToken(null);
         setEmail(null);
         authenticateUser(resp);
@@ -172,12 +172,12 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     }
   }
 
-  async function GerarTokenPassword(email: string) {
+  async function GerarTokenEmail(email: string) {
     try {
-      const resp = await api.post(`api/auth/setResetPasswordToken?email=${email}`);
+      const resp = await api.post(`api/auth/gerarTokenEmail?email=${email}`);
 
       if (resp.data.token && resp.data.user.email) {
-        setCookie(resp.data.token, '_infracamp_reset_token');
+        setCookie(resp.data.token, '_infracamp_confirm_token');
         setToken(resp.data.token);
         setEmail(resp.data.user.email);
         return true;
@@ -193,7 +193,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   async function LogOut() {
     // Precisamos limpar os cookies
     cookie.remove('_infracamp_auth_token')
-    cookie.remove('_infracamp_reset_token')
+    cookie.remove('_infracamp_confirm_token')
     setToken(null);
     setEmail(null);
 
@@ -219,7 +219,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
         Logar,
         Cadastrar,
         RecuperarSenha,
-        GerarTokenPassword,
+        GerarTokenEmail,
         LogOut
       }}>
       {children}

@@ -258,8 +258,8 @@ namespace backend.Controllers
             }
         }
 
-        [HttpPost("setResetPasswordToken")]
-        public async Task<ActionResult<Object>> GerarTokenPassword(string email)
+        [HttpPost("gerarTokenEmail")]
+        public async Task<ActionResult<Object>> GerarTokenEmail(string email)
         {
             try
             {
