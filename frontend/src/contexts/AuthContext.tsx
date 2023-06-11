@@ -75,7 +75,6 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
         setUser(resp.data.user)
       })
     }
-    else if (window.location.pathname !== '/') window.location.href = '/'
 
     let t = cookie.get('_infracamp_reset_token');
 
@@ -139,6 +138,9 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) {
+        cookie.remove("_infracamp_reset_token");
+        setToken(null);
+        setEmail(null);
         authenticateUser(resp);
         return true;
       }
@@ -156,6 +158,9 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) {
+        cookie.remove("_infracamp_reset_token");
+        setToken(null);
+        setEmail(null);
         authenticateUser(resp);
         return true;
       }
@@ -169,11 +174,12 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   async function GerarTokenPassword(email: string) {
     try {
-      const resp = await api.post('api/auth/setResetPasswordToken?email=' + email);
+      const resp = await api.post(`api/auth/setResetPasswordToken?email=${email}`);
 
-      if (resp.data.token) {
+      if (resp.data.token && resp.data.user.email) {
         setCookie(resp.data.token, '_infracamp_reset_token');
         setToken(resp.data.token);
+        setEmail(resp.data.user.email);
         return true;
       }
       return false;
@@ -187,6 +193,9 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   async function LogOut() {
     // Precisamos limpar os cookies
     cookie.remove('_infracamp_auth_token')
+    cookie.remove('_infracamp_reset_token')
+    setToken(null);
+    setEmail(null);
 
     // Com esse set, fazemos com que os componentes recarreguem e o usuário, caso esteja em uma
     // rota privada, será redirecionado para login

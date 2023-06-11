@@ -19,7 +19,7 @@ import { Message, ETypes } from "../../components/Message/Message"
 import { AuthContext } from '../../contexts/AuthContext';
 
 
-const cpf_regex: RegExp = /^\d{3}\.\d{3}\.\d{3}\-\d{2}$/
+const cpf_regex: RegExp = /^\d{3}\.\d{3}\.\d{3}-\d{2}$/
 
 
 interface IUser {

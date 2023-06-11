@@ -31,13 +31,20 @@ const Email: React.FC = () => {
     }
 
     useEffect(() => {
-        if (token != null)
-            showMessage("Enviamos uma mensagem de confirmação no email especificado. Verifique sua caixa de entrada.");
-
-        if (email != null) {
-            setEmail(email);
+        if (email != null && token != null) {
+            emailjs.send("service_9hn2m24", "template_0062ef8", {
+                link: "http://localhost:3000/recover-password?token=" + token,
+                email: email,
+            }, "R8PqZdHwdz4VXKwKo")
+                .then((result) => {
+                    console.log(result.text);
+                    showMessage("Enviamos uma mensagem de confirmação no email especificado. Verifique sua caixa de entrada.");
+                }, (error) => {
+                    console.log(error.text);
+                    showMessage("Ocorreu um erro quando processávamos sua solicitação. Tente novamente mais tarde!");
+                });
         }
-    }, [])
+    }, [token, email])
 
     async function SendEmail(event: MouseEvent) {
         event.preventDefault();
@@ -46,24 +53,11 @@ const Email: React.FC = () => {
             showMessage('Padrão de email incorreto!');
 
         try {
-            if (email === "")
+            if (emailS === "")
                 showMessage('Insira um email!')
             else {
                 if (await GerarTokenPassword(emailS) === false) {
                     showMessage('Email inválido!');
-                }
-                else {
-                    emailjs.send("service_9hn2m24", "template_0062ef8", {
-                        link: "http://localhost:3000/recover-password?token="+token,
-                        email: email,
-                    })
-                        .then((result) => {
-                            console.log(result.text);
-                            showMessage("Enviamos uma mensagem de confirmação no email especificado. Verifique sua caixa de entrada.");
-                        }, (error) => {
-                            console.log(error.text);
-                            showMessage("Ocorreu um erro quando processávamos sua solicitação. Tente novamente mais tarde!");
-                        });
                 }
             }
         }

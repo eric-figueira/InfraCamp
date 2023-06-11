@@ -7,6 +7,17 @@ import Imagem from "../../assets/imgs/imageDefault.png";
 import ImagemDenuncia from "../../assets/imgs/imgDefaultComplaint.png";
 import plusIcon from "../../assets/imgs/plus-icon.png";
 
+import lixo from "../../assets/imgs/ComplaintsPhotos/Lixo.png";
+import arvore from "../../assets/imgs/ComplaintsPhotos/arvoreCaida.png";
+import bueiro from "../../assets/imgs/ComplaintsPhotos/bueiro.png";
+import buraco from "../../assets/imgs/ComplaintsPhotos/buraco.png";
+import cano from "../../assets/imgs/ComplaintsPhotos/canoQuebrado.png";
+import agua from "../../assets/imgs/ComplaintsPhotos/faltaDeAgua.png";
+import energia from "../../assets/imgs/ComplaintsPhotos/faltaDeEnergia.png";
+import grama from "../../assets/imgs/ComplaintsPhotos/grama.png";
+import infra from "../../assets/imgs/ComplaintsPhotos/infraestruturaPrecaria.png";
+import poste from "../../assets/imgs/ComplaintsPhotos/posteCaido.png";
+
 import { useGet } from '../../hooks/useGet';
 
 import Tipo from '../../types/Tipo';
@@ -14,6 +25,7 @@ import Denuncia from '../../types/Denuncia';
 
 import Button from '../../components/Button/Button';
 import Map from '../Map/Map';
+import Loader from '../../components/Loader/Loader';
 
 import { api } from '../../services/api';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -26,6 +38,7 @@ interface ICriarDenuncia {
 }
 
 const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   const { user } = useContext(AuthContext);
@@ -46,6 +59,7 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
     api.get("api/denuncias/" + queryParameters.get("id"))
       .then(({ data }) => setDenuncia(data))
       .catch(error => console.log(error));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
@@ -77,13 +91,19 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
 
     denuncia.cpf = user ? user.cpf : "";
     denuncia.dataDenuncia = new Date();
-    if (denuncia.urlImagem === Imagem)
-      denuncia.urlImagem = ImagemDenuncia;
+    if (denuncia.urlImagem === Imagem) 
+    {
+      let array = [buraco, poste, grama, lixo, poste, arvore, infra, energia, agua, infra, bueiro, cano, ImagemDenuncia];
+
+      denuncia.urlImagem = array[denuncia.idTipo-1];
+    }
 
     console.log(JSON.stringify(denuncia));
 
+    setIsLoading(true);
     api.post("api/denuncias", denuncia)
       .then(() => {
+        setIsLoading(false);
         window.location.href = "http://localhost:3000/user";
       })
       .catch((error) => {
@@ -99,11 +119,17 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
 
     denuncia.cpf = user ? user.cpf : "";
     denuncia.dataDenuncia = new Date();
-    if (denuncia.urlImagem === Imagem)
-      denuncia.urlImagem = ImagemDenuncia;
+    if (denuncia.urlImagem === Imagem) 
+    {
+      let array = [buraco, poste, grama, lixo, poste, arvore, infra, energia, agua, infra, bueiro, cano, ImagemDenuncia];
 
+      denuncia.urlImagem = array[denuncia.idTipo-1];
+    }
+
+    setIsLoading(true);
     api.put("api/denuncias", denuncia)
       .then(() => {
+        setIsLoading(false);
         window.location.href = "http://localhost:3000/user";
       })
       .catch((error) => {
@@ -118,6 +144,7 @@ const CriarDenuncia: React.FC<ICriarDenuncia> = (props) => {
   return (
     <>
       <div>
+        <Loader isActive={isLoading} setIsActive={setIsLoading} />
         <h1 className="title">{props.type === 'edit' ? "Editar Denúncia" : "Criar denúncia"}</h1>
         <div className="create">
           <div className="left">

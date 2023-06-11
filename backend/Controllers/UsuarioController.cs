@@ -43,6 +43,22 @@ namespace backend.Controllers
             }
         }
 
+        [HttpGet("/getUsuarioEmail/{email}")]
+        public ActionResult<Usuario> GetUsuarioEmail(string email)
+        {
+            try
+            {
+                var resultado = this._context.Usuario.Where(u => u.Email == email);
+                if (resultado == null)
+                    return NotFound();
+                return Ok(resultado.FirstOrDefault());
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha ao acesso no banco de dados.");
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult<Usuario>> Post(Usuario usuario)
         {

@@ -159,20 +159,25 @@ namespace backend.Controllers
                 // significa que já existe esse CPF cadastrado
                 if (result.Result is NotFoundResult)
                 {
-                    Usuario usuario = new Usuario();
-                    usuario.Cpf = CPF;
-                    usuario.Nome = Nome;
-                    usuario.Email = Email;
-                    usuario.Telefone = Telefone;
-                    // Usando BCrypt para encriptação
-                    usuario.Senha = BC.HashPassword(Senha);
-                    // Using identicon for a more fun avatar
-                    usuario.UrlImagem = $"https://api.dicebear.com/6.x/bottts-neutral/svg?seed={usuario.Nome}";
-                    usuario.IsFunc = false;
-                    await uc.Post(usuario);
+                    result = uc.GetUsuario(Email);
+                    if (result.Result is NotFoundResult)
+                    {
+                        Usuario usuario = new Usuario();
+                        usuario.Cpf = CPF;
+                        usuario.Nome = Nome;
+                        usuario.Email = Email;
+                        usuario.Telefone = Telefone;
+                        // Usando BCrypt para encriptação
+                        usuario.Senha = BC.HashPassword(Senha);
+                        // Using identicon for a more fun avatar
+                        usuario.UrlImagem = $"https://api.dicebear.com/6.x/bottts-neutral/svg?seed={usuario.Nome}";
+                        usuario.IsFunc = false;
+                        await uc.Post(usuario);
 
-                    // Gerar token com os dados de usuário
-                    return gerarTokenData(usuario);
+                        // Gerar token com os dados de usuário
+                        return gerarTokenData(usuario);
+                    }
+                    else return BadRequest();
                 }
                 else return BadRequest();
             }
@@ -258,11 +263,13 @@ namespace backend.Controllers
         {
             try
             {
-                var result = _context.Usuario.Where(u => u.Email == email);
+                // Verificar se dados (email + novaSenha em obj) existem
+                UsuarioController uc = new UsuarioController(this._context);
+                ActionResult<Usuario> result = uc.GetUsuarioEmail(email);
 
                 if (result == null) return Unauthorized();
 
-                Usuario usuario = result.FirstOrDefault();
+                Usuario usuario = ((OkObjectResult)result.Result).Value as Usuario;
 
                 // Gerar token com os dados de usuário
                 return gerarTokenData(usuario);

@@ -1,7 +1,7 @@
 .card {
     display: flex;
     width: 75%;
-    height: auto;
+    height: 25rem;
     background: #e5e5e5;
     margin: 2.5rem;
     margin-left: 12rem;
@@ -75,6 +75,7 @@
 }
 
 .card .mid .cover {
+    background-color: #adadad;
     position: relative;
     margin-top: 2%;
     border-radius: 0.5rem;

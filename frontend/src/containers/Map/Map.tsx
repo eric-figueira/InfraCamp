@@ -63,30 +63,33 @@ const Map: React.FC<MapProps> = (props) => {
         maptilersdk.config.primaryLanguage = maptilersdk.Language.PORTUGUESE;
 
         setMapController(createMapLibreGlMapController(map.current, maplibregl));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
 
     useEffect(() => {
         // eslint-disable-next-line array-callback-return
-        denuncias?.map(denuncia => {
-            // create a DOM element for the marker
-            var el = document.createElement('div');
-            el.className = 'marker';
-            var a = <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="#4758d7" viewBox="0 0 256 256"><path d="M128,16a88.1,88.1,0,0,0-88,88c0,75.3,80,132.17,83.41,134.55a8,8,0,0,0,9.18,0C136,236.17,216,179.3,216,104A88.1,88.1,0,0,0,128,16Zm0,56a32,32,0,1,1-32,32A32,32,0,0,1,128,72Z"></path></svg>
-            var b = renderToStaticMarkup(a);
-            el.innerHTML = b;
-            el.addEventListener('click', function () {
-                setDenuncia(denuncia);
-                setShowComplaint(true);
-            });
+        denuncias?.filter(denuncia => denuncia.idStatus !== 3)
+            // eslint-disable-next-line array-callback-return
+            .map(denuncia => {
+                // create a DOM element for the marker
+                var el = document.createElement('div');
+                el.className = 'marker';
+                var a = <svg xmlns="http://www.w3.org/2000/svg" width="44" height="44" fill="#4758d7" viewBox="0 0 256 256"><path d="M128,16a88.1,88.1,0,0,0-88,88c0,75.3,80,132.17,83.41,134.55a8,8,0,0,0,9.18,0C136,236.17,216,179.3,216,104A88.1,88.1,0,0,0,128,16Zm0,56a32,32,0,1,1-32,32A32,32,0,0,1,128,72Z"></path></svg>
+                var b = renderToStaticMarkup(a);
+                el.innerHTML = b;
+                el.addEventListener('click', function () {
+                    setDenuncia(denuncia);
+                    setShowComplaint(true);
+                });
 
-            // add marker to map
-            var marker = new maplibregl.Marker(el)
-                .setLngLat([denuncia.longitude, denuncia.latitude]);
+                // add marker to map
+                var marker = new maplibregl.Marker(el)
+                    .setLngLat([denuncia.longitude, denuncia.latitude]);
 
-            if (map.current !== undefined)
-                marker.addTo(map.current);
-        })
+                if (map.current !== undefined)
+                    marker.addTo(map.current);
+            })
     }, [denuncias]);
 
     useEffect(() => {

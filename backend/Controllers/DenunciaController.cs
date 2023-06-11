@@ -46,9 +46,9 @@ namespace backend.Controllers
             switch (ordem)
             {
                 case 1:
-                    return this._context.Denuncia.OrderByDescending(d => d.Opinioes.Count()).ToList();
+                    return this._context.Denuncia.OrderByDescending(d => d.Opinioes.Where(x => x.IsCurtida == true).Count()).ToList();
                 case 2:
-                    return this._context.Denuncia.OrderBy(d => d.Opinioes.Count()).ToList();
+                    return this._context.Denuncia.OrderByDescending(d => d.Opinioes.Where(x => x.IsCurtida == false).Count()).ToList();
                 case 3:
                     return this._context.Denuncia.OrderByDescending(d => d.DataDenuncia).ToList();
                 default:

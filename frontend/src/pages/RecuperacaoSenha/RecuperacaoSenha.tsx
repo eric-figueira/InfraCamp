@@ -40,8 +40,9 @@ const RecuperacaoSenha: React.FC = () => {
   const queryParameters = new URLSearchParams(location.search);
 
   useEffect(() => {
-    if (token !== queryParameters.get("token")) {
-      window.location.href="/";
+    if (token != null) {
+      if (token !== queryParameters.get("token"))
+        window.location.href="/";
     }
   }, [queryParameters, token])
 
