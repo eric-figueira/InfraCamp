@@ -28,7 +28,7 @@ interface IUser {
 
 const RecuperacaoSenha: React.FC = () => {
 
-  const { RecuperarSenha, token } = useContext(AuthContext)
+  const { RecuperarSenha, resetToken } = useContext(AuthContext)
 
   const [user, setUser] = useState<IUser>({ cpf: "", novaSenha: "", confSenha: "" })
 
@@ -40,11 +40,12 @@ const RecuperacaoSenha: React.FC = () => {
   const queryParameters = new URLSearchParams(location.search);
 
   useEffect(() => {
-    if (token != null) {
-      if (token !== queryParameters.get("token"))
+    if (resetToken != null) {
+      if (resetToken !== queryParameters.get("token"))
         window.location.href="/";
     }
-  }, [queryParameters, token])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resetToken])
 
   function showMessage(text: string) {
     setMessageText(text)

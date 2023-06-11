@@ -80,6 +80,45 @@ namespace backend.Controllers
             }
         }
 
+        [HttpPost("validateTokenEmail&returnData")]
+        public ActionResult<Object> ValidadeTokenEmailAndReturnData(string Token)
+        {
+            try
+            {
+                // Testar se o token não expirou / se é válido
+                if (IsJWTEXpired(Token)) return false;
+
+                // Caso seja, ainda precisamos pegar as informacoes do usuario
+                // para isso, vamos pegar o CPF dentro do Token
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jwtToken = tokenHandler.ReadJwtToken(Token);
+                var claim = jwtToken.Claims.FirstOrDefault(c => c.Type == "Email");
+                var email = claim.Value;
+
+                // Getar usuário
+                ActionResult<Usuario> result;
+
+                UsuarioController uc = new UsuarioController(this._context);
+                result = uc.GetUsuarioEmail(email);
+                Usuario u = (Usuario)((OkObjectResult)result.Result).Value;
+
+                var response = new
+                {
+                    isTokenValid = true,
+                    email = email
+                };
+
+                string jsonData = JsonConvert.SerializeObject(response);
+
+                return jsonData;
+            }
+            catch
+            {
+                // Mudar o codigo
+                return this.StatusCode(StatusCodes.Status400BadRequest, "Token inválido!");
+            }
+        }
+
         [NonAction]
         public bool IsJWTEXpired(string token)
         {
@@ -146,6 +185,35 @@ namespace backend.Controllers
             return jsonData;
         }
 
+        [NonAction]
+        public Object gerarTokenEmail(string e)
+        {
+            var authClaims = new List<Claim> {
+                new Claim(ClaimTypes.Email, e),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+            };
+
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+
+            var token = new JwtSecurityToken(
+              expires: DateTime.Now.AddHours(1),
+              issuer: _configuration["JWT:ValidIssuer"],
+              audience: _configuration["JWT:ValidAudience"],
+              claims: authClaims,
+              signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+            );
+
+            var response = new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                email = e
+            };
+
+            string jsonData = JsonConvert.SerializeObject(response);
+
+            return jsonData;
+        }
+
         [HttpPost("cadastrar&returnTokenData")]
         public async Task<ActionResult<Object>> Cadastrar(string CPF, string Email, string Nome, string Telefone, string Senha)
         {
@@ -159,7 +227,7 @@ namespace backend.Controllers
                 // significa que já existe esse CPF cadastrado
                 if (result.Result is NotFoundResult)
                 {
-                    result = uc.GetUsuario(Email);
+                    result = uc.GetUsuarioEmail(Email);
                     if (result.Result is NotFoundResult)
                     {
                         Usuario usuario = new Usuario();
@@ -258,21 +326,34 @@ namespace backend.Controllers
             }
         }
 
-        [HttpPost("gerarTokenEmail")]
-        public async Task<ActionResult<Object>> GerarTokenEmail(string email)
+        [HttpPost("gerarTokenResetPassword")]
+        public async Task<ActionResult<Object>> GerarTokenResetPassword(string email)
         {
             try
             {
-                // Verificar se dados (email + novaSenha em obj) existem
+                // Verificar se dados existem
                 UsuarioController uc = new UsuarioController(this._context);
                 ActionResult<Usuario> result = uc.GetUsuarioEmail(email);
 
                 if (result == null) return Unauthorized();
 
-                Usuario usuario = ((OkObjectResult)result.Result).Value as Usuario;
+                // Gerar token com o email passado
+                return gerarTokenEmail(email);
+            }
+            catch
+            {
+                // Mudar o codigo
+                return this.StatusCode(StatusCodes.Status400BadRequest, "Dados inválidos!");
+            }
+        }
 
-                // Gerar token com os dados de usuário
-                return gerarTokenData(usuario);
+        [HttpPost("gerarTokenSignup")]
+         public async Task<ActionResult<Object>> GerarToken(string email)
+        {
+            try
+            {
+                // Gerar token com o email passado
+                return gerarTokenEmail(email);
             }
             catch
             {

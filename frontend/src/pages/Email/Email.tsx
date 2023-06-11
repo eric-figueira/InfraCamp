@@ -23,7 +23,7 @@ const Email: React.FC<IEmail> = (props) => {
 
     const email_regex: RegExp = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 
-    const { GerarTokenEmail, token, email } = useContext(AuthContext)
+    const { GerarTokenResetPassword, GerarTokenSignup, signupEmail, signupToken, resetEmail, resetToken } = useContext(AuthContext)
 
     const [emailS, setEmail] = useState<string>("");
 
@@ -36,35 +36,39 @@ const Email: React.FC<IEmail> = (props) => {
     }
 
     useEffect(() => {
-        if (email != null && token != null) {
-            if (props.type === "recover") {
-                emailjs.send("service_9hn2m24", "template_0062ef8", {
-                    link: "http://localhost:3000/recover-password/recover?token=" + token,
-                    email: email,
-                }, "R8PqZdHwdz4VXKwKo")
-                    .then((result) => {
-                        console.log(result.text);
-                        showMessage("Enviamos uma mensagem de confirmação no email especificado. Verifique sua caixa de entrada.");
-                    }, (error) => {
-                        console.log(error.text);
-                        showMessage("Ocorreu um erro quando processávamos sua solicitação. Tente novamente mais tarde!");
-                    });
-            }
-            else if (props.type === "create") {
-                emailjs.send("service_9hn2m24", "template_8uu6gsr", {
-                    link: "http://localhost:3000/signup/signup?token=" + token,
-                    email: email,
-                }, "R8PqZdHwdz4VXKwKo")
-                    .then((result) => {
-                        console.log(result.text);
-                        showMessage("Enviamos uma mensagem de confirmação no email especificado. Verifique sua caixa de entrada.");
-                    }, (error) => {
-                        console.log(error.text);
-                        showMessage("Ocorreu um erro quando processávamos sua solicitação. Tente novamente mais tarde!");
-                    });
-            }
+        if (signupEmail != null && signupToken != null && props.type === 'create') {
+            let template = "template_8uu6gsr";
+            let link = "http://localhost:3000/signup/signup?token=" + signupToken;
+
+            emailjs.send("service_9hn2m24", template, {
+                link: link,
+                email: signupEmail,
+            }, "R8PqZdHwdz4VXKwKo")
+                .then((result) => {
+                    console.log(result.text);
+                    showMessage("Enviamos uma mensagem de confirmação no email especificado. Verifique sua caixa de entrada.");
+                }, (error) => {
+                    console.log(error.text);
+                    showMessage("Ocorreu um erro quando processávamos sua solicitação. Tente novamente mais tarde!");
+                });
         }
-    }, [token, email, props.type])
+        else if (resetEmail != null && resetToken != null && props.type === 'recover') {
+            let template = "template_0062ef8";
+            let link = "http://localhost:3000/recover-password/recover?token=" + resetToken;
+
+            emailjs.send("service_9hn2m24", template, {
+                link: link,
+                email: resetEmail,
+            }, "R8PqZdHwdz4VXKwKo")
+                .then((result) => {
+                    console.log(result.text);
+                    showMessage("Enviamos uma mensagem de confirmação no email especificado. Verifique sua caixa de entrada.");
+                }, (error) => {
+                    console.log(error.text);
+                    showMessage("Ocorreu um erro quando processávamos sua solicitação. Tente novamente mais tarde!");
+                });
+        }
+    }, [resetToken, resetEmail, signupEmail, signupToken, props.type])
 
     async function SendEmail(event: MouseEvent) {
         event.preventDefault();
@@ -76,8 +80,15 @@ const Email: React.FC<IEmail> = (props) => {
             if (emailS === "")
                 showMessage('Insira um email!')
             else {
-                if (await GerarTokenEmail(emailS) === false) {
-                    showMessage('Email inválido!');
+                if (props.type === 'recover') {
+                    if (await GerarTokenResetPassword(emailS) === false) {
+                        showMessage('Email inválido!');
+                    }
+                }
+                else if (props.type === 'create') {
+                    if (await GerarTokenSignup(emailS) === false) {
+                        showMessage('Email inválido!');
+                    }
                 }
             }
         }
@@ -97,7 +108,7 @@ const Email: React.FC<IEmail> = (props) => {
                     <h1>{props.type === 'create' ? 'Cadastre-se' : 'Recupere sua senha'}</h1>
 
                     {
-                        token != null ?
+                        resetEmail != null || signupEmail != null ?
                             <>
                                 <Message isVisible={isMessageVisible} text={messageText} type={ETypes.Info} />
                                 <Button text='Reenviar email' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={25} eventHandler={SendEmail} />

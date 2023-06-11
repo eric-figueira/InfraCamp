@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect } from "react";
+import React, { Fragment, useContext } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import Map from "../../containers/Map/Map";
 
