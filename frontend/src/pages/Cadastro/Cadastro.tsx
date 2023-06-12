@@ -45,10 +45,17 @@ const Cadastro: React.FC = () => {
 
   useEffect(() => {
     if (signupToken != null) {
-      if (signupToken !== queryParameters.get("token"))
+      if (signupToken !== queryParameters.get("token") || signupToken == "error")
         window.location.href="/";
     }
   }, [queryParameters, user, signupToken])
+
+  useEffect(() => {
+    if (signupEmail != null && signupEmail != "error") {
+      user.email = signupEmail
+      alert(signupEmail)
+    }
+  }, [signupEmail])
 
   function cpfValido(cpf: string) {
     let d1 = 0;

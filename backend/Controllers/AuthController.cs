@@ -66,7 +66,7 @@ namespace backend.Controllers
                         telefone = u!.Telefone,
                         funcionario = u!.IsFunc,
                         cpf = u!.Cpf,
-                        banido = u!.Banido
+                        banido = u!.IsBanido
                     }
                 };
 

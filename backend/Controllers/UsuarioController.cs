@@ -69,7 +69,7 @@ namespace backend.Controllers
                     return NotFound();
                 resultado.IsBanido = isBanido; 
                 await this._context.SaveChangesAsync();
-                return Created("api/usuarios/" + usuario.Cpf, usuario);
+                return Created("api/usuarios/" + resultado.Cpf, resultado);
             }
             catch
             {

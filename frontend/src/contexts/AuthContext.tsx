@@ -74,7 +74,6 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   // Quando for carregado, verificará se já existe cookies salvos
   useEffect(() => {
     let authToken = Cookies.get('_infracamp_auth_token');
-    alert("auth" + authToken);
 
     if (authToken) {
       api.post(`api/auth/validateToken&returnData?token=${authToken}`).then((resp) => {
@@ -88,7 +87,6 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   useEffect(() => {
     let resetToken = Cookies.get('_infracamp_reset_token')
-    alert("reset" + resetToken)
 
     if (resetToken) {
       api.post(`api/auth/validateTokenEmail&returnData?token=${resetToken}`).then((resp) => {
@@ -102,7 +100,6 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   useEffect(() => {
     let signupToken = Cookies.get('_infracamp_signup_token')
-    alert("signup" + signupToken)
 
     if (signupToken) {
       api.post(`api/auth/validateTokenEmail&returnData?token=${signupToken}`).then((resp) => {
@@ -118,9 +115,9 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     if (cookie === 'auth')
       Cookies.set(title, token, { expires: 30 })
     else if (cookie === 'reset')
-      Cookies.set(title, token, { expires: 30 })
+      Cookies.set(title, token, { expires: 1 })
     else if (cookie === 'signup')
-      Cookies.set(title, token, { expires: 30 })
+      Cookies.set(title, token, { expires: 1 })
   }
 
   function authenticateUser(resp: AxiosResponse) {
@@ -218,14 +215,16 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
         setResetToken(resp.data.token);
         setResetEmail(resp.data.email);
 
-        alert(Cookies.get('_infracamp_reset_token'))
-
         return true;
       }
       return false;
     }
     catch (error) {
       console.log(error);
+
+      setResetToken("error")
+      setResetEmail("error")
+
       return false;
     }
   }
@@ -241,12 +240,17 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
         setCookie('signup', resp.data.token, '_infracamp_signup_token', amanha);
         setSignupToken(resp.data.token);
         setSignupEmail(resp.data.email);
+
         return true;
       }
       return false;
     }
     catch (error) {
       console.log(error);
+    
+      setSignupEmail("error")
+      setSignupToken("error")
+
       return false;
     }
   }
