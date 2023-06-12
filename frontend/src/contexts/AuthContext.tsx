@@ -2,7 +2,8 @@ import { createContext, ReactNode, useEffect, useState } from "react";
 
 import { api } from "../services/api";
 
-import Cookies from "universal-cookie";
+import Cookies from 'js-cookie'
+
 import { AxiosResponse } from "axios";
 
 interface IProps {
@@ -59,9 +60,6 @@ export const AuthContext = createContext({} as AuthContextType)
 export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const authCookie = new Cookies();
-  const resetCookie = new Cookies();
-  const signupCookie = new Cookies();
 
   const [user, setUser] = useState<IUser | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -75,7 +73,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   // Quando for carregado, verificará se já existe cookies salvos
   useEffect(() => {
-    let authToken = authCookie.get('_infracamp_auth_token');
+    let authToken = Cookies.get('_infracamp_auth_token');
     alert("auth" + authToken);
 
     if (authToken) {
@@ -89,7 +87,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    let resetToken = resetCookie.get('_infracamp_reset_token')
+    let resetToken = Cookies.get('_infracamp_reset_token')
     alert("reset" + resetToken)
 
     if (resetToken) {
@@ -103,7 +101,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    let signupToken = signupCookie.get('_infracamp_signup_token')
+    let signupToken = Cookies.get('_infracamp_signup_token')
     alert("signup" + signupToken)
 
     if (signupToken) {
@@ -118,11 +116,11 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   function setCookie(cookie: string, token: string, title: string, time: Date) {
     if (cookie === 'auth')
-      authCookie.set(title, token, { expires: time })
+      Cookies.set(title, token, { expires: 30 })
     else if (cookie === 'reset')
-      resetCookie.set(title, token, { expires: time })
+      Cookies.set(title, token, { expires: 30 })
     else if (cookie === 'signup')
-      signupCookie.set(title, token, { expires: time })
+      Cookies.set(title, token, { expires: 30 })
   }
 
   function authenticateUser(resp: AxiosResponse) {
@@ -153,7 +151,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) {
-        signupCookie.remove("_infracamp_signup_token");
+        Cookies.remove("_infracamp_signup_token");
         setSignupToken(null);
         setSignupEmail(null);
         authenticateUser(resp);
@@ -173,7 +171,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp) {
-        resetCookie.remove("_infracamp_reset_token");
+        Cookies.remove("_infracamp_reset_token");
         setResetToken(null);
         setResetEmail(null);
         authenticateUser(resp);
@@ -193,7 +191,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
       // Se teve uma resposta, pois pode ter passados dados inválidos
       if (resp.data.user && resp.data.token) {
-        resetCookie.remove("_infracamp_reset_token");
+        Cookies.remove("_infracamp_reset_token");
         setResetToken(null);
         setResetEmail(null);
 
@@ -219,6 +217,8 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
         setCookie('reset', resp.data.token, '_infracamp_reset_token', amanha);
         setResetToken(resp.data.token);
         setResetEmail(resp.data.email);
+
+        alert(Cookies.get('_infracamp_reset_token'))
 
         return true;
       }
@@ -266,7 +266,7 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
 
   async function LogOut() {
     // Precisamos limpar os cookies
-    authCookie.remove('_infracamp_auth_token')
+    Cookies.remove('_infracamp_auth_token')
 
     // Com esse set, fazemos com que os componentes recarreguem e o usuário, caso esteja em uma
     // rota privada, será redirecionado para login
