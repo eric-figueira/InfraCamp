@@ -68,7 +68,7 @@ const Email: React.FC<IEmail> = (props) => {
                     showMessage("Ocorreu um erro quando processávamos sua solicitação. Tente novamente mais tarde!");
                 });
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [resetToken, signupToken, props.type])
 
     async function SendEmail(event: MouseEvent) {
@@ -112,7 +112,21 @@ const Email: React.FC<IEmail> = (props) => {
                         resetEmail != null || signupEmail != null ?
                             <>
                                 <Message isVisible={isMessageVisible} text={messageText} type={ETypes.Info} />
-                                <Button text='Reenviar email' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={25} eventHandler={SendEmail} />
+
+                                <form>
+                                    <Input
+                                        backgroundColor='#FFF'
+                                        placeholderColor={colorPallete.fontGray}
+                                        fontColor={colorPallete.fontBlack}
+                                    >
+                                        <div className='icon-container'>
+                                            <EnvelopeSimple />
+                                        </div>
+                                        <input type='email' placeholder='Digite seu email' onChange={({ target }) => setEmail(target.value)} />
+                                    </Input>
+                                    <Button text='Reenviar email' backgroundColor={colorPallete.bgBlack} fontColor={colorPallete.fontWhite} fontSize={25} eventHandler={SendEmail} />
+                                </form>
+
                             </>
                             :
                             <>

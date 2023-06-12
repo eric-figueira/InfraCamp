@@ -87,14 +87,14 @@ namespace backend.Controllers
             try
             {
                 // Testar se o token não expirou / se é válido
-                if (IsJWTEXpired(Token)) return false;
+                if (IsJWTEXpired(Token)) return Ok(false);
 
                 // Caso seja, ainda precisamos pegar as informacoes do usuario
                 // para isso, vamos pegar o CPF dentro do Token
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var jwtToken = tokenHandler.ReadJwtToken(Token);
-                var claim = jwtToken.Claims.FirstOrDefault(c => c.Type == "Email");
-                var email = claim.Value;
+                var claim = jwtToken.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email);
+                var email = claim.Value; 
 
                 var response = new
                 {

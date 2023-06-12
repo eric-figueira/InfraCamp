@@ -101,8 +101,11 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
   useEffect(() => {
     let signupToken = Cookies.get('_infracamp_signup_token')
 
+    console.log(signupToken)
+
     if (signupToken) {
-      api.post(`api/auth/validateTokenEmail&returnData?token=${signupToken}`).then((resp) => {
+      api.post(`api/auth/validateTokenEmail&returnData?Token=${signupToken}`).then((resp) => {
+        console.log('a')
         if (resp.data.isTokenValid) {
           setSignupToken(resp.data.token);
           setSignupEmail(resp.data.email);
