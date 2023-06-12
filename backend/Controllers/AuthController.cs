@@ -65,7 +65,8 @@ namespace backend.Controllers
                         avatar_url = u!.UrlImagem,
                         telefone = u!.Telefone,
                         funcionario = u!.IsFunc,
-                        cpf = u!.Cpf
+                        cpf = u!.Cpf,
+                        banido = u!.Banido
                     }
                 };
 
@@ -146,6 +147,7 @@ namespace backend.Controllers
                 new Claim(ClaimTypes.Email, u.Email),
                 new Claim("CPF", u.Cpf),
                 new Claim("isFuncionario", u.IsFunc.ToString()),
+                new Claim("isBanido", u.IsBanido.ToString()),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             };
 
@@ -169,7 +171,8 @@ namespace backend.Controllers
                     avatar_url = u!.UrlImagem,
                     telefone = u!.Telefone,
                     funcionario = u!.IsFunc,
-                    cpf = u!.Cpf
+                    cpf = u!.Cpf,
+                    banido = u!.IsBanido
                 }
             };
 
@@ -233,6 +236,7 @@ namespace backend.Controllers
                         // Using identicon for a more fun avatar
                         usuario.UrlImagem = $"https://api.dicebear.com/6.x/bottts-neutral/svg?seed={usuario.Nome}";
                         usuario.IsFunc = false;
+                        usuario.IsBanido = false;
                         await uc.Post(usuario);
 
                         // Gerar token com os dados de usuário

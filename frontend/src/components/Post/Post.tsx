@@ -10,7 +10,8 @@ import userIcon from "../../assets/imgs/user-icon.png";
 import { StatusDenuncia } from "../StatusDenuncia/StatusDenuncia";
 
 import "./Post.css";
-import { Heart, WarningCircle } from "phosphor-react";
+import { Heart, WarningCircle, Warning } from "phosphor-react";
+import Button from "../Button/Button";
 
 interface PostProps {
     idDenuncia: number;
@@ -42,7 +43,7 @@ const Post: React.FC<PostProps> = (props) => {
     const [status, setStatus] = useState<Status>();
     const [usuario, setUsuario] = useState<Usuario>();
 
-    const { user } = useContext(AuthContext);
+    const { user, Banir } = useContext(AuthContext);
     const [color, setColor] = useState<string>("");
 
     const handleClick = (isLike: boolean) => {
@@ -116,6 +117,8 @@ const Post: React.FC<PostProps> = (props) => {
                     <h4 id="title">
                         <b>{usuario === undefined ? "" : usuario.nome} </b> Postado em {formatDate(props.date + "")}
                     </h4>
+                    {user?.funcionario && <button className="buttonBanned" onClick={() => {Banir(user?.cpf as string, !usuario?.isBanido )}}> <Warning style={ !usuario?.isBanido ? {color: "#333"} : {color: "#941D1D"}}></Warning></button>}
+                    
                 </div>
                 <h4 className="message">
                     <b>Problema</b> {tipo === undefined ? "" : tipo.tipo}

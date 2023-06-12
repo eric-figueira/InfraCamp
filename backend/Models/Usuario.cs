@@ -36,6 +36,9 @@ namespace backend.Models
         public string? UrlImagem { get; set; }
         public bool IsFunc { get; set; }
 
+        [Required]
+        public bool IsBanido { get; set; }
+
         // Coleções contendo dependentes (foreign key)
         public virtual ICollection<Opiniao> Opinioes { get; } = new List<Opiniao>(); 
 

@@ -33,7 +33,8 @@ export interface IUser {
   avatar_url: string,
   telefone: string,
   funcionario: boolean,
-  cpf: string
+  cpf: string,
+  banido: boolean
 }
 
 interface AuthContextType {
@@ -48,7 +49,8 @@ interface AuthContextType {
   RecuperarSenha: (data: IRecoverPassword) => Promise<boolean>,
   GerarTokenSignup: (email: string) => Promise<boolean>,
   GerarTokenResetPassword: (email: string) => Promise<boolean>,
-  LogOut: () => void
+  LogOut: () => void,
+  Banir: (cpf: string, isBanido: boolean) => Promise<boolean>
 }
 
 export const AuthContext = createContext({} as AuthContextType)
@@ -249,6 +251,19 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
     }
   }
 
+  async function Banir(cpf: string, isBanido: boolean){
+    try {
+      const resp = await api.put(`api/usuarios/ban?cpf=${cpf}&isBanido=${isBanido}`)
+
+      if (resp.data.user) { return true; }
+      return false;
+    }
+    catch (error) {
+      console.log(error);
+      return false;
+    }
+  }
+
   async function LogOut() {
     // Precisamos limpar os cookies
     authCookie.remove('_infracamp_auth_token')
@@ -279,7 +294,8 @@ export const AuthProvider: React.FC<IProps> = ({ children }) => {
         RecuperarSenha,
         GerarTokenSignup,
         GerarTokenResetPassword,
-        LogOut
+        LogOut,
+        Banir
       }}>
       {children}
     </AuthContext.Provider>

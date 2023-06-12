@@ -3,7 +3,7 @@ import Post from '../../components/Post/Post';
 import { useGet } from '../../hooks/useGet';
 import Filter from '../../components/Filter/Filter';
 import Denuncia from '../../types/Denuncia';
-
+import { Warning } from 'phosphor-react';
 import "./Posts.css";
 import { ETypes, Message } from '../../components/Message/Message';
 

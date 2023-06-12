@@ -59,6 +59,24 @@ namespace backend.Controllers
             }
         }
 
+        [HttpPut("ban")]
+        public async Task<ActionResult<Usuario>> Banir(string cpf, bool isBanido)
+        {
+            try
+            {
+                var resultado = this._context.Usuario.Find(cpf);
+                if (resultado == null)
+                    return NotFound();
+                resultado.IsBanido = isBanido; 
+                await this._context.SaveChangesAsync();
+                return Created("api/usuarios/" + usuario.Cpf, usuario);
+            }
+            catch
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, "Falha ao acesso no banco de dados.");
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult<Usuario>> Post(Usuario usuario)
         {
@@ -108,9 +126,10 @@ namespace backend.Controllers
                 resultado.Senha = usuario.Senha;
                 resultado.UrlImagem = usuario.UrlImagem;
                 resultado.IsFunc = usuario.IsFunc;
+                resultado.IsBanido = usuario.IsBanido;
 
                 await this._context.SaveChangesAsync();
-                return Created("api/alunos/" + usuario.Cpf, usuario);
+                return Created("api/usuarios/" + usuario.Cpf, usuario);
             }
             catch 
             {
