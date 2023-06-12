@@ -12,10 +12,13 @@ const Postagens : React.FC = () => {
 
     return (
         user ?
-        <Fragment>
-            <Navbar/>
-            <Posts/>
-        </Fragment>
+            !user?.banido ?
+                <Fragment>
+                    <Navbar/>
+                    <Posts/>
+                </Fragment>
+            :
+            <NotFound text="Vimos que você esteve aprontando... sua conta foi suspensa."/>
         : 
         <NotFound text="Você não está autenticado." />
     )

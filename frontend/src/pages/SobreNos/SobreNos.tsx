@@ -18,19 +18,22 @@ const SobreNos: React.FC = () => {
 
   return (
     user?
-    <div className='sobrenos-container'>
-      <Navbar />
-      <div className="carousel">
-        <div className="carouselInner" style={{ backgroundImage: `url(${imagens[imgIndex].image})` }}>
-          <div className="carousel-left-arrow" onClick={() => imgIndex > 0 ? setImgIndex(imgIndex - 1) : setImgIndex(imagens.length - 1)}>
-            <CaretCircleLeft color='#FFF' size={32}/>
-          </div>
-          <div className="carousel-right-arrow" onClick={() => imgIndex < imagens.length - 1 ? setImgIndex(imgIndex + 1) : setImgIndex(0)}>
-            <CaretCircleRight color='#FFF' size={32}/>
+      !user?.banido ?
+        <div className='sobrenos-container'>
+          <Navbar />
+          <div className="carousel">
+            <div className="carouselInner" style={{ backgroundImage: `url(${imagens[imgIndex].image})` }}>
+              <div className="carousel-left-arrow" onClick={() => imgIndex > 0 ? setImgIndex(imgIndex - 1) : setImgIndex(imagens.length - 1)}>
+                <CaretCircleLeft color='#FFF' size={32}/>
+              </div>
+              <div className="carousel-right-arrow" onClick={() => imgIndex < imagens.length - 1 ? setImgIndex(imgIndex + 1) : setImgIndex(0)}>
+                <CaretCircleRight color='#FFF' size={32}/>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+        :
+        <NotFound text="Vimos que você esteve aprontando... sua conta foi suspensa."/>
     :
     <NotFound text="Você não está autenticado." />
   );

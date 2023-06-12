@@ -11,10 +11,13 @@ const Mapa : React.FC = () => {
 
     return (
         user ?
-        <Fragment>
-            <Navbar/>
-            <Map idDiv={"map"} hasSearchBar={true} hasCard={true}/>
-        </Fragment>
+            !user?.banido ? 
+                <Fragment>
+                    <Navbar/>
+                    <Map idDiv={"map"} hasSearchBar={true} hasCard={true}/>
+                </Fragment>
+            :
+            <NotFound text="Vimos que você esteve aprontando... sua conta foi suspensa."/>
         :
         <NotFound text="Você não está autenticado." />
     )

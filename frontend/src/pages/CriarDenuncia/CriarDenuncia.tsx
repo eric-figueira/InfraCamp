@@ -13,13 +13,16 @@ const CriarDenuncias: React.FC<ICriarDenuncia> = (props) => {
     const { user } = useContext(AuthContext);
 
     return (
-        user ?
-            <Fragment>
-                <Navbar />
-                <CriarDenuncia type={props.type} />
-            </Fragment>
-            :
-            <NotFound text="Você não está autenticado." />
+        user?
+            !user?.banido ?  
+                <Fragment>
+                    <Navbar />
+                    <CriarDenuncia type={props.type} />
+                </Fragment>
+            : 
+                <NotFound text="Vimos que você esteve aprontando... sua conta foi suspensa."/>
+        :
+        <NotFound text="Você não está autenticado." />
     )
 }
 

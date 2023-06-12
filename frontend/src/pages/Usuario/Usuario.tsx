@@ -20,10 +20,13 @@ const Usuario : React.FC = () => {
 
     return (
         user ?
-        <>
-            <Navbar />
-            <User />
-        </>
+            !user?.banido ?
+                <>
+                    <Navbar />
+                    <User />
+                </>
+            :
+            <NotFound text="Vimos que você esteve aprontando... sua conta foi suspensa."/>
         :
         <NotFound text="Você não está autenticado." />
     )
