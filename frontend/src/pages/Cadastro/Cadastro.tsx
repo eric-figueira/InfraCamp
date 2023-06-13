@@ -53,7 +53,7 @@ const Cadastro: React.FC = () => {
   useEffect(() => {
     if (signupEmail != null && signupEmail !== "error") {
       user.email = signupEmail
-      alert(signupEmail)
+      console.log(signupEmail)
     }
   }, [signupEmail, user])
 

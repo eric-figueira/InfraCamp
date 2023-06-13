@@ -48,10 +48,10 @@ namespace backend.Controllers
         {
             try
             {
-                var resultado = this._context.Usuario.Where(u => u.Email == email);
+                var resultado = this._context.Usuario.Find(email);
                 if (resultado == null)
                     return NotFound();
-                return Ok(resultado.FirstOrDefault());
+                return Ok(resultado);
             }
             catch
             {
