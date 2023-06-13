@@ -3,7 +3,7 @@ import Post from '../../components/Post/Post';
 import { useGet } from '../../hooks/useGet';
 import Filter from '../../components/Filter/Filter';
 import Denuncia from '../../types/Denuncia';
-import { Warning } from 'phosphor-react';
+
 import "./Posts.css";
 import { ETypes, Message } from '../../components/Message/Message';
 
@@ -41,6 +41,12 @@ const Posts: React.FC = () => {
         setIxOrdem(ixOrdem ? ixOrdem : 0);
     }
 
+    const isBanido = (cpf : string) => {
+        let resultado = false;
+        api.get('api/usuarios/'+cpf).then(resp => resultado = resp.data.isBanido);
+        return resultado;
+    }
+
     return (
         <div id="postagens">
             <h1>Postagens</h1>
@@ -65,7 +71,7 @@ const Posts: React.FC = () => {
                 {
                     usedDenuncias?.length !== 0 &&
                         !user?.funcionario ?
-                        usedDenuncias?.filter(denuncia => denuncia.idStatus != 3).map((denuncia) =>
+                        usedDenuncias?.filter(denuncia => denuncia.idStatus !== 3 && !isBanido(denuncia.cpf)).map((denuncia) =>
                             <Post
                                 key={denuncia.idDenuncia}
                                 idDenuncia={denuncia.idDenuncia}

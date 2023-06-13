@@ -41,7 +41,7 @@ const RecuperacaoSenha: React.FC = () => {
 
   useEffect(() => {
     if (resetToken != null) {
-      if (resetToken !== queryParameters.get("token") || resetToken == "error")
+      if (resetToken !== queryParameters.get("token") || resetToken === "error")
         window.location.href="/";
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

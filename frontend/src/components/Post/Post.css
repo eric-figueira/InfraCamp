@@ -1,7 +1,6 @@
 .card {
     display: flex;
     width: 75%;
-    height: 25rem;
     background: #e5e5e5;
     margin: 2.5rem;
     margin-left: 12rem;
@@ -11,7 +10,7 @@
 }
 
 .card .left {
-    width: 50%;
+    width: 60%;
     padding-left: 1%;
     padding-top: 0.5rem;
     background-color: #e5e5e5;
@@ -38,9 +37,20 @@
 .card .left .top #title {
     background-color: #e5e5e5;
     font-size: 16px;
+
+    white-space: nowrap;
+    width: 60%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+
     color: #262626;
     padding: 0.4rem;
     padding-bottom: 1.25rem;
+    float: left;
+}
+
+.card .left .top button {
+    float: left;
 }
 
 .card .left .top #title b {
@@ -80,6 +90,7 @@
     margin-top: 2%;
     border-radius: 0.5rem;
     height: 95%;
+    max-height: 27.5rem;
 }
 
 .card .right {

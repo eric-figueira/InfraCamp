@@ -11,7 +11,6 @@ import { StatusDenuncia } from "../StatusDenuncia/StatusDenuncia";
 
 import "./Post.css";
 import { Heart, WarningCircle, Warning } from "phosphor-react";
-import Button from "../Button/Button";
 
 interface PostProps {
     idDenuncia: number;
@@ -46,6 +45,8 @@ const Post: React.FC<PostProps> = (props) => {
     const { user, Banir } = useContext(AuthContext);
     const [color, setColor] = useState<string>("");
 
+    const [banido, setBanido] = useState<boolean>(false);
+
     const handleClick = (isLike: boolean) => {
 
         if (opiniao === undefined) {
@@ -71,20 +72,20 @@ const Post: React.FC<PostProps> = (props) => {
         api.get(`api/opinioes/${props.idDenuncia}`).then(resp => {
             setOpinioes(resp.data);
         })
-    }, [opiniao])
+    }, [opiniao, props.idDenuncia])
 
     useEffect(() => {
         api.get(`api/opinioes/${props.idDenuncia}/${user?.cpf}`).then(resp => {
             setOpiniao(resp.data);
         })
-    }, [])
+    }, [props.idDenuncia, user?.cpf])
 
     useEffect(() => {
         api.get("api/tiposDenuncia/" + props.idTipo).then(
             resp => {
                 setTipo(resp.data)
             })
-    }, [])
+    }, [props.idTipo])
 
     useEffect(() => {
         api.get("api/statusDenuncia/" + props.idStatus).then(
@@ -99,26 +100,36 @@ const Post: React.FC<PostProps> = (props) => {
                 }
             }
         )
-    }, [])
+    }, [props.idStatus])
 
     useEffect(() => {
-        api.get("http://localhost:5164/api/usuarios/" + props.cpf).then(
-            resp => { setUsuario(resp.data) }
+        api.get("api/usuarios/" + props.cpf).then(
+            resp => { setUsuario(resp.data); setBanido(resp.data.isBanido) }
         )
-    }, [])
+    }, [props.cpf])
 
     return (
         <div className="card">
             <div className="left">
                 <div className="top">
                     <div className="img">
-                        <img src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? {} : { filter: "invert()" }} alt="img"></img>
+                        <img draggable={false} src={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? usuario?.urlImagem : userIcon} style={(usuario?.urlImagem !== "" && usuario?.urlImagem !== null) ? {} : { filter: "invert()" }} alt="img"></img>
                     </div>
                     <h4 id="title">
                         <b>{usuario === undefined ? "" : usuario.nome} </b> Postado em {formatDate(props.date + "")}
                     </h4>
-                    {user?.funcionario && <button className="buttonBanned" onClick={() => {Banir(user?.cpf as string, !usuario?.isBanido )}}> <Warning style={ !usuario?.isBanido ? {color: "#333"} : {color: "#941D1D"}}></Warning></button>}
-                    
+                    {
+                        user?.funcionario &&
+                        <button title="Banir" style={{ backgroundColor: "transparent" }} className="buttonBanned"
+                            onClick={() => {
+                                setBanido(!banido);
+                                Banir(usuario?.cpf as string, !banido);
+                            }}
+                        >
+                            <Warning size={25} color={!banido ? "#333" : "#941D1D"} weight={!banido ? "regular" : "fill"}></Warning>
+                        </button>
+                    }
+
                 </div>
                 <h4 className="message">
                     <b>Problema</b> {tipo === undefined ? "" : tipo.tipo}
@@ -135,16 +146,16 @@ const Post: React.FC<PostProps> = (props) => {
                 {
                     user?.funcionario &&
                     <h4 className="message">
-                        <b>Likes</b> {opinioes?.filter(opiniao => opiniao.isCurtida === true).length}
-                        <b>Dislikes</b> {opinioes?.filter(opiniao => opiniao.isCurtida === false).length}
+                        <b>Curtidas: {opinioes?.filter(opiniao => opiniao.isCurtida === true).length}</b>
+                        <b>Reclamações: {opinioes?.filter(opiniao => opiniao.isCurtida === false).length}</b>
                     </h4>
                 }
             </div>
             <div className="mid">
-                <img src={props.imgUrl} className="cover" alt="Imagem do problema" />
+                <img src={props.imgUrl} draggable={false} className="cover" alt="Imagem do problema" />
             </div>
             {
-                !user?.funcionario && 
+                !user?.funcionario &&
                 (
                     <div className="right">
                         <h4 className="likes">{opinioes?.filter(opiniao => opiniao.isCurtida === true).length}</h4>
