@@ -39,7 +39,7 @@
     padding: 0;
     padding-top: 0.35rem;
     background-color: transparent;
-    color: #FFFFFF;
+    color: #b8b8b8;
 }
 
 .img {
@@ -47,7 +47,7 @@
     width: 90%;
     margin-left: calc((100% - 90%) / 2);
     margin-right: calc((100% - 90%) / 2);
-    background-color: #292A35;
+    background-color: #d4d4d4;
     border-radius: 10px;
 }
 

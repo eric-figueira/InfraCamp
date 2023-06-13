@@ -80,8 +80,7 @@ export const User: React.FC = () => {
     const [password, setPassword] = useState<string>("");
     const [canDelete, setCanDelete] = useState<boolean>(false);
 
-    const verifyPassword = async () => {
-        console.log(password)
+    const verifyPassword = (password: string) => {
         if (password) {
             api.post(`api/auth/verifyPassword?cpf=${user?.cpf}&senha=${password}`)
                 .then(({ data }) => {
@@ -92,12 +91,15 @@ export const User: React.FC = () => {
         }
     }
 
-    const handleDelete = async () => {
-        alert(password)
+    useEffect(() => {
+        if (password !== "" && password != null) {
+            verifyPassword(password);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [password])
 
-        await verifyPassword();
-
-        if (canDelete) {
+    useEffect(() => {
+        if (canDelete && !isModalOpen) {
             api.delete('api/denuncias/denunciasUsuario/' + user?.cpf)
                 .then(() =>
                     api.delete('api/opinioes/' + user?.cpf)
@@ -105,6 +107,13 @@ export const User: React.FC = () => {
                             .then(() => LogOut())))
                 .catch(error => console.log(error))
         }
+        else
+            console.log('senha incorreta')
+    }, [LogOut, canDelete, isModalOpen, user?.cpf])
+
+    const handleDelete = () => {
+        setIsModalOpen(false); 
+        setPassword("")
     }
 
     const handleClickDeletar = () => {
